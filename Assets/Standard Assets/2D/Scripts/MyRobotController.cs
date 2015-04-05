@@ -1,24 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
-public class MyRobotController : MonoBehaviour {
+public class MyRobotController : MonoBehaviour, ITriggerable2D, ILedgeGrabber {
 
 	private bool _grounded = false;
 	private float _groundRadius = 0.2f;
 
 	private Animator _animator;
 	private Rigidbody2D _ridgidBody;
+    private float _gravityScale;
 
 	public float maxSpeed = 6.0f;
 	public Transform groundCheck;
+    public GameObject ledgeWallCheckTrigger;
+    public GameObject emptyGrabSpace;
 	public LayerMask whatIsGround;
     public float jumpForce = 700.0f;
+    public float ledgeTopThreshold = 0.5f;
 
 	// Use this for initialization
 	void Start ()
     {
 		_animator = GetComponent<Animator>();
 		_ridgidBody = GetComponent<Rigidbody2D>();
+        _gravityScale = _ridgidBody.gravityScale;
 	}
 
 	void FixedUpdate ()
@@ -53,6 +59,31 @@ public class MyRobotController : MonoBehaviour {
             _animator.SetBool("Grounded", false);
             _ridgidBody.AddForce(new Vector2(0, jumpForce));
         }
+    }
+
+    public void Triggered2D (GameObject trigger, Collider2D other)
+    {
+
+        /*if (ledgeWallCheckTrigger == trigger)
+        {
+            _ridgidBody.gravityScale = 0;
+            _ridgidBody.velocity = Vector2.zero;
+        }
+        if (ledgeWallCheckTrigger == trigger)
+        {
+            _ridgidBody.gravityScale = 0;
+            _ridgidBody.velocity = Vector2.zero;
+        }*/
+    }
+
+    public void CanGrabLedge(bool canGrab, Collider2D ledgeCollider)
+    {
+        if (!canGrab)
+        {
+            return;
+        }
+        _ridgidBody.gravityScale = 0;
+        _ridgidBody.velocity = Vector2.zero;
     }
 
 	private void Flip(bool right)
