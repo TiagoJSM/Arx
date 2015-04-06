@@ -7,7 +7,7 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
 	private bool _grounded = false;
     private bool _grabbingLedge = false;
 	private float _groundRadius = 0.2f;
-    private bool _movingRight;
+    private bool _facingRight;
 
 	private Animator _animator;
 	private Rigidbody2D _ridgidBody;
@@ -37,12 +37,15 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
         _animator.SetBool("Grounded", _grounded);
         _animator.SetFloat("VerticalSpeed", _ridgidBody.velocity.y);
 
-        /*if (!_grounded)
+        if (_grabbingLedge)
         {
+            ProcessMovementWhenGrabbingLedge();
             return;
-        }*/
+        }
 
 		var move = Input.GetAxis("Horizontal");
+
+        _facingRight = DirectionOfMovement(move) ?? _facingRight;
 
 		_animator.SetFloat("Speed", Mathf.Abs(move));
 
@@ -75,9 +78,8 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
     {
         if (!canGrab)
         {
-            _grabbingLedge = false;
+            DropLedge();
             _lastLedge = null;
-            _ridgidBody.gravityScale = _gravityScale;
             return;
         }
         if (_lastLedge == ledgeCollider)
@@ -90,14 +92,50 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
         _ridgidBody.velocity = Vector2.zero;
     }
 
+    private void ProcessMovementWhenGrabbingLedge()
+    {
+        var drop = Input.GetAxis("Vertical") < 0;
+        if (drop)
+        {
+            DropLedge();
+            return;
+        }
+    }
+
+    private void DropLedge()
+    {
+        _grabbingLedge = false;
+        _ridgidBody.gravityScale = _gravityScale;
+    }
+
+    private void WallJump()
+    {
+        var horizontalJumpForce = _facingRight ? -10 : 10;
+        _ridgidBody.AddForce(new Vector2(horizontalJumpForce, jumpForce/3));
+    }
+
 	private void Flip(bool right)
     {
 		var scale = transform.localScale;
-		if ((right && scale.x > 0) || (!right && scale.x < 0)) {
+		if ((right && scale.x > 0) || (!right && scale.x < 0)) 
+        {
 			return;
 		}
 		scale.x *= -1;
 		transform.localScale = scale;
 	}
    
+    private bool? DirectionOfMovement(float horizontal)
+    {
+        if (horizontal > 0)
+        {
+            return true;
+        } 
+        else if (horizontal < 0)
+        {
+            return false;
+        }
+        return null;
+    }
+
 }
