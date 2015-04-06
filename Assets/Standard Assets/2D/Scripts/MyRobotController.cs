@@ -2,16 +2,20 @@
 using System.Collections;
 using System.Linq;
 
-public class MyRobotController : MonoBehaviour, ITriggerable2D, ILedgeGrabber {
+public class MyRobotController : MonoBehaviour, ILedgeGrabber {
 
 	private bool _grounded = false;
+    private bool _grabbingLedge = false;
 	private float _groundRadius = 0.2f;
+    private bool _movingRight;
 
 	private Animator _animator;
 	private Rigidbody2D _ridgidBody;
     private float _gravityScale;
+    private Collider2D _lastLedge;
 
 	public float maxSpeed = 6.0f;
+    public float airMaxSpeed = 2.0f;
 	public Transform groundCheck;
     public GameObject ledgeWallCheckTrigger;
     public GameObject emptyGrabSpace;
@@ -33,16 +37,16 @@ public class MyRobotController : MonoBehaviour, ITriggerable2D, ILedgeGrabber {
         _animator.SetBool("Grounded", _grounded);
         _animator.SetFloat("VerticalSpeed", _ridgidBody.velocity.y);
 
-        if (!_grounded)
+        /*if (!_grounded)
         {
             return;
-        }
+        }*/
 
 		var move = Input.GetAxis("Horizontal");
 
 		_animator.SetFloat("Speed", Mathf.Abs(move));
 
-		_ridgidBody.velocity = new Vector2(move * maxSpeed, _ridgidBody.velocity.y);
+        _ridgidBody.velocity = new Vector2(move * maxSpeed, _ridgidBody.velocity.y);
 
 		if (move > 0) {
 			Flip(true);
@@ -59,29 +63,29 @@ public class MyRobotController : MonoBehaviour, ITriggerable2D, ILedgeGrabber {
             _animator.SetBool("Grounded", false);
             _ridgidBody.AddForce(new Vector2(0, jumpForce));
         }
-    }
-
-    public void Triggered2D (GameObject trigger, Collider2D other)
-    {
-
-        /*if (ledgeWallCheckTrigger == trigger)
+        else if (_grabbingLedge && Input.GetButtonDown("Jump"))
         {
-            _ridgidBody.gravityScale = 0;
-            _ridgidBody.velocity = Vector2.zero;
+            var move = Input.GetAxis("Horizontal");
+            _animator.SetBool("Grounded", false);
+            _ridgidBody.AddForce(new Vector2(0, jumpForce));
         }
-        if (ledgeWallCheckTrigger == trigger)
-        {
-            _ridgidBody.gravityScale = 0;
-            _ridgidBody.velocity = Vector2.zero;
-        }*/
     }
 
     public void CanGrabLedge(bool canGrab, Collider2D ledgeCollider)
     {
         if (!canGrab)
         {
+            _grabbingLedge = false;
+            _lastLedge = null;
+            _ridgidBody.gravityScale = _gravityScale;
             return;
         }
+        if (_lastLedge == ledgeCollider)
+        {
+            return ;
+        }
+        _grabbingLedge = true;
+        _lastLedge = ledgeCollider;
         _ridgidBody.gravityScale = 0;
         _ridgidBody.velocity = Vector2.zero;
     }
