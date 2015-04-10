@@ -58,6 +58,8 @@
      <Compile Include="Assets\Standard Assets\2D\Scripts\PlatformerCharacter2D.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Restarter.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\TriggerDetector.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Waypoint.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\WaypointPath.cs" />
      <Compile Include="Assets\Standard Assets\Cameras\Scripts\AbstractTargetFollower.cs" />
      <Compile Include="Assets\Standard Assets\Cameras\Scripts\AutoCam.cs" />
      <Compile Include="Assets\Standard Assets\Cameras\Scripts\FreeLookCam.cs" />
@@ -86,6 +88,7 @@
      <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\TiltInput.cs" />
      <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\TouchPad.cs" />
      <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\VirtualInput.cs" />
+     <Compile Include="Assets\Standard Assets\DataStructures\Tuple.cs" />
      <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Antialiasing.cs" />
      <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Bloom.cs" />
      <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\BloomAndFlares.cs" />
@@ -133,6 +136,7 @@
      <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\Water.cs" />
      <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterBase.cs" />
      <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterTile.cs" />
+     <Compile Include="Assets\Standard Assets\Extensions\IEnumerableExtensions.cs" />
      <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\AfterburnerPhysicsForce.cs" />
      <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\ExplosionFireAndDebris.cs" />
      <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\ExplosionPhysicsForce.cs" />
