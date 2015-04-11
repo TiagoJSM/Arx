@@ -14,6 +14,13 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
     private float _gravityScale;
     private Collider2D _lastLedge;
 
+    private Collider2D activePlatformCollider; 
+    private Transform activePlatform; 
+    private Vector3 activePlatformPosition;
+    //private Vector3 activeLocalPlatformPoint; 
+    //private Vector3 activeGlobalPlatformPoint; 
+    //private Vector3 lastPlatformVelocity;
+
 	public float maxSpeed = 6.0f;
     public float airMaxSpeed = 2.0f;
 	public Transform groundCheck;
@@ -71,6 +78,23 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
             var move = Input.GetAxis("Horizontal");
             _animator.SetBool("Grounded", false);
             _ridgidBody.AddForce(new Vector2(0, jumpForce));
+        }
+
+        // Moving platform support
+        if (activePlatform != null) {
+            var newPlatformPosition = activePlatform.transform.position;
+            var moveDistance = (newPlatformPosition - activePlatformPosition);
+
+            /*Debug.Log(newPlatformPosition.ToString("F4"));
+            Debug.Log(moveDistance.ToString("F4"));
+            Debug.Log(_ridgidBody.position.ToString("F4"));
+            Debug.Log((moveDistance.ToVector2() + transform.position.ToVector2()).ToString("F4"));
+            Debug.Log("");*/
+            /*if (moveDistance != Vector3.zero)
+            {*/
+            _ridgidBody.position = moveDistance.ToVector2() + _ridgidBody.position;
+            //}
+            activePlatformPosition = newPlatformPosition;
         }
     }
 
@@ -136,6 +160,32 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
             return false;
         }
         return null;
+    }
+
+    void OnCollisionEnter2D(Collision2D other) 
+    {
+        if (activePlatformCollider != null)
+        {
+            return;
+        }
+        foreach (var contact in other.contacts)
+        {
+            if (/*contact.moveDirection.y < -0.9 &&*/ contact.normal.y > 0.5 || _grabbingLedge) 
+            { 
+                activePlatformCollider = contact.collider;
+                activePlatform = activePlatformCollider.transform; 
+                //activeGlobalPlatformPoint = activePlatform.TransformPoint(activeLocalPlatformPoint);
+                activePlatformPosition = activePlatform.transform.position;
+            } 
+        }
+    }
+    
+    void OnCollisionExit2D(Collision2D other) 
+    {
+        if (other.collider == activePlatformCollider)
+        {
+            activePlatformCollider = null;
+        }
     }
 
 }

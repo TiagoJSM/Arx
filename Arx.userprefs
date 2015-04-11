@@ -1,16 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\DataStructures\Tuple.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\2D\Scripts\MyRobotController.cs">
     <Files>
-      <File FileName="Assets\Standard Assets\2D\Scripts\Waypoint.cs" Line="15" Column="5" />
-      <File FileName="Assets\Standard Assets\2D\Scripts\WaypointPath.cs" Line="2" Column="26" />
-      <File FileName="Assets\Standard Assets\DataStructures\Tuple.cs" Line="16" Column="6" />
+      <File FileName="Assets\Standard Assets\2D\Scripts\MyRobotController.cs" Line="96" Column="1" />
+      <File FileName="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" Line="4" Column="52" />
+      <File FileName="Assets\Standard Assets\2D\Scripts\Waypoint.cs" Line="1" Column="1" />
+      <File FileName="Assets\Standard Assets\2D\Scripts\WaypointPath.cs" Line="1" Column="1" />
+      <File FileName="Assets\Standard Assets\Extensions\Vector2Extensions.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Users\Public\Documents\Unity Projects\Arx\Assets\Standard Assets\2D\Scripts\TriggerDetector.cs" line="9" />
       <Breakpoint file="C:\Users\Public\Documents\Unity Projects\Arx\Assets\Standard Assets\2D\Scripts\CameraFollow.cs" line="22" />
+      <Breakpoint file="C:\Users\Public\Documents\Unity Projects\Arx\Assets\Standard Assets\2D\Scripts\MyRobotController.cs" line="97" />
+      <Breakpoint file="C:\Users\Public\Documents\Unity Projects\Arx\Assets\Standard Assets\2D\Scripts\MyRobotController.cs" line="88" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
