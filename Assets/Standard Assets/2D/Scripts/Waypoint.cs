@@ -25,6 +25,6 @@ public class Waypoint : MonoBehaviour {
 
     private void DrawIcon()
     {
-        Gizmos.DrawIcon (transform.position, "Waypoint.bmp");
+        Gizmos.DrawIcon (transform.position, "waypoint.png");
     }
 }

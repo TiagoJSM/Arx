@@ -5,24 +5,25 @@ public class WaypointPathController : MonoBehaviour {
 
     private int _pathIdx;
     private Rigidbody2D _rigidbody;
-    private GameObject _instantiatedPlatform;
+    private Transform _platformTransform;
 
     public float waypointThreasholdRadius = 0.2f;
     public WaypointPath path;
     public GameObject platform;
+    public float velocity = 1;
 
 	// Use this for initialization
 	void Start () {
-        var instatiatePosition = GetWaypoint().gameObject.transform.position;
-        _instantiatedPlatform = Instantiate(platform, instatiatePosition, Quaternion.identity) as GameObject;
-        _rigidbody = _instantiatedPlatform.GetComponent<Rigidbody2D>();
+        _rigidbody = platform.GetComponent<Rigidbody2D>();
+        _platformTransform = platform.transform;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         UpdateWaypointIndex();
-        var normalized = (GetWaypoint().gameObject.transform.position - _instantiatedPlatform.transform.position).normalized;
-        _rigidbody.velocity = normalized.ToVector2();
+        var normalized = (GetWaypoint().gameObject.transform.position.ToVector2() - _rigidbody.position).normalized;
+        var position = _rigidbody.position + normalized * velocity * Time.deltaTime;
+        _rigidbody.MovePosition(position);
 	}
 
     private Waypoint GetWaypoint()
@@ -36,7 +37,7 @@ public class WaypointPathController : MonoBehaviour {
         var distance = 
             Vector3
                 .Distance(
-                    _instantiatedPlatform.transform.position, 
+                    _platformTransform.position, 
                     waypoint.gameObject.transform.position);
 
         if (distance <= waypointThreasholdRadius)
