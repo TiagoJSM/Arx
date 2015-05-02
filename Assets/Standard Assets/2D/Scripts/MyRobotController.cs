@@ -15,8 +15,6 @@ public class MyRobotController : BasePlatformerController, ILedgeGrabber {
     private Collider2D _lastLedge;
     private bool _ledgeDetected;
 
-    private Collider2D activePlatformCollider; 
-
 	public float maxSpeed = 6.0f;
     public float airMaxSpeed = 2.0f;
 	public Transform groundCheck;
