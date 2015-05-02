@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Linq;
 
-public class MyRobotController : MonoBehaviour, ILedgeGrabber {
+public class MyRobotController : BasePlatformerController, ILedgeGrabber {
 
 	private bool _grounded = false;
     private bool _grabbingLedge = false;
@@ -157,33 +157,4 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
         }
         return null;
     }
-
-    void OnCollisionEnter2D(Collision2D other) 
-    {
-        /*contact.moveDirection.y < -0.9 &&*/ 
-        if (activePlatformCollider != null)
-        {
-            return;
-        }
-        foreach (var contact in other.contacts)
-        {
-            if (contact.normal.y > 0.5) 
-            { 
-                transform.parent = other.transform;
-                activePlatformCollider = contact.collider;
-                break;
-            }
-        }
-        activePlatformCollider = null;
-    }
-    
-    void OnCollisionExit2D(Collision2D other) 
-    {
-        if (other.collider == activePlatformCollider)
-        {
-            transform.parent = null;
-            activePlatformCollider = null;
-        }
-    }
-
 }

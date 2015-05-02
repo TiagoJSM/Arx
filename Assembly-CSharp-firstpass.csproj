@@ -49,6 +49,7 @@
      <Compile Include="Assets\Standard Assets\2D\Cameras\Scripts\Camera2DAhead.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Camera2DFollow.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ILedgeGrabber.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ITriggerable2D.cs" />
