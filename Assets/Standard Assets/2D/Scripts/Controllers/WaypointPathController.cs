@@ -7,7 +7,7 @@ public class WaypointPathController : MonoBehaviour {
     private Rigidbody2D _rigidbody;
     private Transform _platformTransform;
 
-    public float waypointThreasholdRadius = 0.2f;
+    public float waypointThreasholdRadius = 1.2f;
     public WaypointPath path;
     public GameObject platform;
     public float velocity = 1;
@@ -23,7 +23,10 @@ public class WaypointPathController : MonoBehaviour {
         UpdateWaypointIndex();
         var normalized = (GetWaypoint().gameObject.transform.position.ToVector2() - _rigidbody.position).normalized;
         var position = _rigidbody.position + normalized * velocity * Time.deltaTime;
-        _rigidbody.MovePosition(position);
+        //_rigidbody.MovePosition(position);
+        //transform.position = _rigidbody.position + normalized * velocity * Time.deltaTime;
+        //_rigidbody.position = _rigidbody.position + normalized * velocity * Time.deltaTime;
+        _platformTransform.position = _rigidbody.position + normalized * velocity * Time.deltaTime;
 	}
 
     private Waypoint GetWaypoint()

@@ -3,7 +3,7 @@ using System;
 
 public interface ILedgeGrabber
 {
-    void CanGrabLedge(bool canGrab, Collider2D ledgeCollider);
+    void LedgeDetected(bool detected, Collider2D ledgeCollider);
 }
 
 

@@ -14,7 +14,7 @@ public class LedgeCheck : MonoBehaviour {
             return;
         }
 
-        var canGrabLedge = ledgeWallDetector.InContact && !emptySpaceDetector.InContact;
-        lGrabber.CanGrabLedge(canGrabLedge, ledgeWallDetector.LastContactCollider);
+        var ledgeDetected = ledgeWallDetector.InContact && !emptySpaceDetector.InContact;
+        lGrabber.LedgeDetected(ledgeDetected, ledgeWallDetector.LastContactCollider);
 	}
 }

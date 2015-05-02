@@ -13,14 +13,9 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
 	private Rigidbody2D _rigidBody;
     private float _gravityScale;
     private Collider2D _lastLedge;
+    private bool _ledgeDetected;
 
-    private Rigidbody2D activePlatformBody;
     private Collider2D activePlatformCollider; 
-    private Transform activePlatform; 
-    private Vector2 activePlatformPosition;
-    //private Vector3 activeLocalPlatformPoint; 
-    //private Vector3 activeGlobalPlatformPoint; 
-    //private Vector3 lastPlatformVelocity;
 
 	public float maxSpeed = 6.0f;
     public float airMaxSpeed = 2.0f;
@@ -30,6 +25,14 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
 	public LayerMask whatIsGround;
     public float jumpForce = 700.0f;
     public float ledgeTopThreshold = 0.5f;
+
+    public bool CanGrabLedge
+    {
+        get
+        {
+            return _ledgeDetected && !_grounded && _lastLedge != null;
+        }
+    }
 
 	// Use this for initialization
 	void Start ()
@@ -45,6 +48,13 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
         _animator.SetBool("Grounded", _grounded);
         _animator.SetFloat("VerticalSpeed", _rigidBody.velocity.y);
 
+        if (!_grabbingLedge && CanGrabLedge)
+        {
+            transform.parent = _lastLedge.gameObject.transform;
+            _rigidBody.gravityScale = 0;
+            _rigidBody.velocity = Vector2.zero;
+            _grabbingLedge = true;
+        }
         if (_grabbingLedge)
         {
             ProcessMovementWhenGrabbingLedge();
@@ -65,8 +75,6 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
 		else if(move < 0){
 			Flip(false);
 		}
-
-        PlatformMovement();
 	}
 
     void Update()
@@ -84,11 +92,15 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
         }
     }
 
-    public void CanGrabLedge(bool canGrab, Collider2D ledgeCollider)
+    public void LedgeDetected(bool detected, Collider2D ledgeCollider)
     {
-        if (!canGrab)
+        _ledgeDetected = detected;
+        if (!detected)
         {
-            DropLedge();
+            if(_grabbingLedge)
+            {
+                DropLedge();
+            }
             _lastLedge = null;
             return;
         }
@@ -96,10 +108,7 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
         {
             return ;
         }
-        _grabbingLedge = true;
         _lastLedge = ledgeCollider;
-        _rigidBody.gravityScale = 0;
-        _rigidBody.velocity = Vector2.zero;
     }
 
     private void ProcessMovementWhenGrabbingLedge()
@@ -115,6 +124,7 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
     private void DropLedge()
     {
         _grabbingLedge = false;
+        transform.parent = null;
         _rigidBody.gravityScale = _gravityScale;
     }
 
@@ -148,49 +158,30 @@ public class MyRobotController : MonoBehaviour, ILedgeGrabber {
         return null;
     }
 
-
-    private void PlatformMovement()
-    {
-        // Moving platform support
-        if (activePlatformBody != null) {
-            //var newPlatformPosition = activePlatform.transform.position.ToVector2();
-            var newPlatformPosition = activePlatformBody.position;
-            var moveDistance = (newPlatformPosition - activePlatformPosition);
-            if(moveDistance != Vector2.zero)
-            {
-                //ToDo: bug is here
-                _rigidBody.position = moveDistance + _rigidBody.position;
-                var position = moveDistance + transform.position.ToVector2();
-                transform.position = new Vector3(position.x, position.y);
-            }
-            activePlatformPosition = newPlatformPosition;
-        }
-    }
-
     void OnCollisionEnter2D(Collision2D other) 
     {
-        if (activePlatformBody != null)
+        /*contact.moveDirection.y < -0.9 &&*/ 
+        if (activePlatformCollider != null)
         {
             return;
         }
         foreach (var contact in other.contacts)
         {
-            if (/*contact.moveDirection.y < -0.9 &&*/ contact.normal.y > 0.5 || _grabbingLedge) 
+            if (contact.normal.y > 0.5) 
             { 
-                activePlatformBody = contact.collider.gameObject.GetComponent<Rigidbody2D>();
+                transform.parent = other.transform;
                 activePlatformCollider = contact.collider;
-                activePlatform = activePlatformCollider.transform; 
-                activePlatformPosition = activePlatform.transform.position;
                 break;
-            } 
+            }
         }
+        activePlatformCollider = null;
     }
     
     void OnCollisionExit2D(Collision2D other) 
     {
-        if (other.collider == activePlatformCollider /*&& !_grabbingLedge*/)
+        if (other.collider == activePlatformCollider)
         {
-            activePlatformBody = null;
+            transform.parent = null;
             activePlatformCollider = null;
         }
     }
