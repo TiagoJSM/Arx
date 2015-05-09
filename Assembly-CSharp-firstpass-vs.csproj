@@ -50,6 +50,7 @@
      <Compile Include="Assets\Standard Assets\2D\Scripts\Camera2DFollow.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ILedgeGrabber.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ITriggerable2D.cs" />
@@ -60,6 +61,7 @@
      <Compile Include="Assets\Standard Assets\2D\Scripts\PlatformerCharacter2D.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Restarter.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\TriggerDetector.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\UserControls\PlatformerCharacterUserControl.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Waypoint.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\WaypointPath.cs" />
      <Compile Include="Assets\Standard Assets\Cameras\Scripts\AbstractTargetFollower.cs" />

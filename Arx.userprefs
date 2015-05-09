@@ -1,10 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\2D\Scripts\Controllers\MovingPlatformController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs">
     <Files>
-      <File FileName="Assets\Standard Assets\2D\Scripts\Controllers\MovingPlatformController.cs" Line="16" Column="1" />
-      <File FileName="Assets\Standard Assets\2D\Scripts\MyRobotController.cs" Line="187" Column="6" />
-      <File FileName="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Standard Assets\2D\Scripts\UserControls\PlatformerCharacterUserControl.cs" Line="21" Column="49" />
+      <File FileName="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" Line="104" Column="10" />
+      <File FileName="Assets\Standard Assets\2D\Scripts\PlatformerCharacter2D.cs" Line="52" Column="60" />
+      <File FileName="Assets\Standard Assets\2D\Scripts\LedgeDetection\LedgeCheck.cs" Line="4" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

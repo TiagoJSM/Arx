@@ -6,6 +6,22 @@ public class LedgeCheck : MonoBehaviour {
     public ContactDetector ledgeWallDetector;
     public ContactDetector emptySpaceDetector;
     public MonoBehaviour ledgeGrabber;
+
+    public bool LedgeDetected
+    {
+        get
+        {
+            return ledgeWallDetector.InContact && !emptySpaceDetector.InContact;
+        }
+    }
+
+    public Collider2D LastContactCollider 
+    {
+        get
+        {
+            return ledgeWallDetector.LastContactCollider;
+        }
+    }
 	
 	void FixedUpdate () {
         var lGrabber = ledgeGrabber as ILedgeGrabber;
@@ -14,7 +30,6 @@ public class LedgeCheck : MonoBehaviour {
             return;
         }
 
-        var ledgeDetected = ledgeWallDetector.InContact && !emptySpaceDetector.InContact;
-        lGrabber.LedgeDetected(ledgeDetected, ledgeWallDetector.LastContactCollider);
+        lGrabber.LedgeDetected(LedgeDetected, LastContactCollider);
 	}
 }
