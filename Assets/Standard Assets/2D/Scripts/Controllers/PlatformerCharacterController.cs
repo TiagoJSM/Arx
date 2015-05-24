@@ -13,7 +13,6 @@ public class PlatformerCharacterController : BasePlatformerController, ILedgeGra
     private float _gravityScale;
     private Collider2D _lastLedge;
     private bool _ledgeDetected;
-    //private LedgeCheck _ledgeCheck;
     
     public float maxSpeed = 6.0f;
     public float airMaxSpeed = 2.0f;
@@ -38,7 +37,6 @@ public class PlatformerCharacterController : BasePlatformerController, ILedgeGra
         _animator = GetComponent<Animator>();
         _rigidBody = GetComponent<Rigidbody2D>();
         _gravityScale = _rigidBody.gravityScale;
-        //_ledgeCheck = GetComponent<LedgeCheck>();
     }
     
     void FixedUpdate ()
@@ -46,50 +44,11 @@ public class PlatformerCharacterController : BasePlatformerController, ILedgeGra
         _grounded = Physics2D.OverlapCircle(groundCheck.position, _groundRadius, whatIsGround);
         _animator.SetBool("Grounded", _grounded);
         _animator.SetFloat("VerticalSpeed", _rigidBody.velocity.y);
-        
-        /*if (!_grabbingLedge && CanGrabLedge)
-        {
-            Debug.Log("oops");
-            transform.parent = _lastLedge.gameObject.transform;
-            _rigidBody.gravityScale = 0;
-            _rigidBody.velocity = Vector2.zero;
-            _grabbingLedge = true;
-        }*/
-        /*if (_grabbingLedge)
-        {
-            ProcessMovementWhenGrabbingLedge();
-            return;
-        }
-        
-        var move = Input.GetAxis("Horizontal");
-        
-        _facingRight = DirectionOfMovement(move) ?? _facingRight;
-        
-        _animator.SetFloat("Speed", Mathf.Abs(move));
-        
-        _rigidBody.velocity = new Vector2(move * maxSpeed, _rigidBody.velocity.y);
-        
-        if (move > 0) {
-            Flip(true);
-        }
-        else if(move < 0){
-            Flip(false);
-        }*/
     }
     
     void Update()
     {
-        /*if (_grounded && Input.GetButtonDown("Jump"))
-        {
-            _animator.SetBool("Grounded", false);
-            _rigidBody.AddForce(new Vector2(0, jumpForce));
-        }
-        else if (_grabbingLedge && Input.GetButtonDown("Jump"))
-        {
-            var move = Input.GetAxis("Horizontal");
-            _animator.SetBool("Grounded", false);
-            _rigidBody.AddForce(new Vector2(0, jumpForce));
-        }*/
+
     }
 
     public void Move(float move, float vertical, bool jump)
@@ -126,12 +85,6 @@ public class PlatformerCharacterController : BasePlatformerController, ILedgeGra
             _animator.SetBool("Grounded", false);
             _rigidBody.AddForce(new Vector2(0, jumpForce));
         }
-        /*else if (_grabbingLedge && jump)
-        {
-            Debug.Log("here");
-            _animator.SetBool("Grounded", false);
-            _rigidBody.AddForce(new Vector2(0, jumpForce));
-        }*/
     }
     
     public void LedgeDetected(bool detected, Collider2D ledgeCollider)

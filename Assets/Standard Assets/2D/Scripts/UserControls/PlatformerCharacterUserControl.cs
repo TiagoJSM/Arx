@@ -4,13 +4,14 @@ using System.Collections;
 [RequireComponent(typeof (PlatformerCharacterController))]
 public class PlatformerCharacterUserControl : MonoBehaviour
 {
-    private PlatformerCharacterController _controller;
+    private PlatformerCharacterController _characterController;
     private bool _jump;
-    
+
+    public InteractionFinderController interactionController;
     
     private void Awake()
     {
-        _controller = GetComponent<PlatformerCharacterController>();
+        _characterController = GetComponent<PlatformerCharacterController>();
     }
     
     
@@ -19,6 +20,11 @@ public class PlatformerCharacterUserControl : MonoBehaviour
         if (!_jump)
         {
             _jump = Input.GetButtonDown("Jump");
+        }
+
+        if (interactionController.InteractionTriggerController != null && Input.GetButtonDown("Interact"))
+        {
+            interactionController.InteractionTriggerController.Interact(this.gameObject);
         }
     }
     
@@ -30,7 +36,7 @@ public class PlatformerCharacterUserControl : MonoBehaviour
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
         // Pass all parameters to the character control script.
-        _controller.Move(horizontal, vertical, _jump);
+        _characterController.Move(horizontal, vertical, _jump);
         _jump = false;
     }
 }
