@@ -1,6 +1,9 @@
 # Ignore The following directories / file extensions
 Library
 Temp
+*.dll
+*.obj
+*.pdb
 
 # Ignore the following file extensions
 *.exe

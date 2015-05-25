@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using QuestSystem;
 
 [RequireComponent(typeof (PlatformerCharacterController))]
 public class PlatformerCharacterUserControl : MonoBehaviour
