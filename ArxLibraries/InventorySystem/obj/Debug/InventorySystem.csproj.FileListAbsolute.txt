@@ -1,0 +1,8 @@
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\InventorySystem\bin\Debug\InventorySystem.dll
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\InventorySystem\bin\Debug\InventorySystem.pdb
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\InventorySystem\bin\Debug\CommonInterfaces.dll
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\InventorySystem\bin\Debug\UnityEngine.dll
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\InventorySystem\bin\Debug\CommonInterfaces.pdb
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\InventorySystem\obj\Debug\InventorySystem.csprojResolveAssemblyReference.cache
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\InventorySystem\obj\Debug\InventorySystem.dll
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\InventorySystem\obj\Debug\InventorySystem.pdb

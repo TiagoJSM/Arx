@@ -4,7 +4,6 @@ Temp
 *.dll
 *.obj
 *.pdb
-*.suo
 
 # Ignore the following file extensions
 *.exe

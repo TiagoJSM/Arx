@@ -1,0 +1,6 @@
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\QuestSystem\bin\Debug\QuestSystem.dll
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\QuestSystem\bin\Debug\QuestSystem.pdb
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\QuestSystem\bin\Debug\UnityEngine.dll
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.csprojResolveAssemblyReference.cache
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.dll
+C:\Users\Public\Documents\Unity Projects\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.pdb
