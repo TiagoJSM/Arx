@@ -3,10 +3,14 @@ using System.Collections;
 using QuestSystem;
 
 [RequireComponent(typeof (PlatformerCharacterController))]
-public class PlatformerCharacterUserControl : MonoBehaviour
+public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber
 {
     private PlatformerCharacterController _characterController;
     private bool _jump;
+
+    public event OnKill OnKill;
+    public event OnInventoryAdd OnInventoryItemAdd;
+    public event OnInventoryRemove OnInventoryItemRemove;
 
     public InteractionFinderController interactionController;
     

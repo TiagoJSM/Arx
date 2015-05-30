@@ -297,6 +297,12 @@
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
+ <Reference Include="CommonInterfaces">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/CommonInterfaces.dll</HintPath>
+ </Reference>
+ <Reference Include="InventorySystem">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/InventorySystem.dll</HintPath>
+ </Reference>
  <Reference Include="QuestSystem">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/QuestSystem.dll</HintPath>
  </Reference>
