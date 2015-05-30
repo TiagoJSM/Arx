@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,6 +10,7 @@
     <RootNamespace>QuestSystem</RootNamespace>
     <AssemblyName>QuestSystem</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -39,15 +40,19 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Conditions\ICondition.cs" />
-    <Compile Include="Quest\QuestLog.cs" />
+    <Compile Include="QuestStructures\QuestLog.cs" />
     <Compile Include="IQuestSubscriber.cs" />
     <Compile Include="Events.cs" />
-    <Compile Include="Quest\Quest.cs" />
-    <Compile Include="Quest\QuestStatus.cs" />
+    <Compile Include="QuestStructures\Quest.cs" />
+    <Compile Include="QuestStructures\QuestLogComponent.cs" />
+    <Compile Include="QuestStructures\QuestStatus.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Quest\" />
-    <Folder Include="Conditions\" />
+    <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
+      <Project>{70cd1f80-87f4-4a17-b701-de961bbc798c}</Project>
+      <Name>CommonInterfaces</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

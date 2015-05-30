@@ -1,8 +1,9 @@
+using CommonInterfaces.Inventory;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace QuestSystem
+namespace QuestSystem.QuestStructures
 {
 	public class QuestLog
 	{
@@ -15,7 +16,7 @@ namespace QuestSystem
 			_subscriber = subscriber;
 
 			_subscriber.OnKill += OnKillHandler;
-			_subscriber.OnInventoryItemAdd += OnInventoryItemAddHandler;
+            _subscriber.OnInventoryItemAdd += OnInventoryItemAddHandler;
 			_subscriber.OnInventoryItemRemove += OnInventoryItemRemoveHandler;
 		}
 
@@ -27,19 +28,19 @@ namespace QuestSystem
 			}
 		}
 
-		private void OnInventoryItemAddHandler(GameObject obj)
+        private void OnInventoryItemAddHandler(IInventoryItem item)
 		{
 			foreach (var quest in _quests) 
 			{
-				quest.InventoryItemAdded (obj);
+                quest.InventoryItemAdded(item);
 			}
 		}
 
-		private void OnInventoryItemRemoveHandler(GameObject obj)
+        private void OnInventoryItemRemoveHandler(IInventoryItem item)
 		{
 			foreach (var quest in _quests) 
 			{
-				quest.InventoryItemRemoved (obj);
+                quest.InventoryItemRemoved(item);
 			}
 		}
 	}

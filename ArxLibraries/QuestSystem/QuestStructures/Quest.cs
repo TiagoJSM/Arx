@@ -2,8 +2,10 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using CommonInterfaces.Inventory;
+using QuestSystem.Conditions;
 
-namespace QuestSystem
+namespace QuestSystem.QuestStructures
 {
 	public class Quest
 	{
@@ -21,19 +23,19 @@ namespace QuestSystem
 			}
 		}
 
-		public void InventoryItemAdded(GameObject obj)
+		public void InventoryItemAdded(IInventoryItem item)
 		{
 			foreach (var condition in GetIncompleteConditions()) 
 			{
-				condition.InventoryItemAdded (obj);
+				condition.InventoryItemAdded (item);
 			}
 		}
 
-		public void InventoryItemRemoved(GameObject obj)
+        public void InventoryItemRemoved(IInventoryItem item)
 		{
 			foreach (var condition in GetIncompleteConditions()) 
 			{
-				condition.InventoryItemRemoved (obj);
+                condition.InventoryItemRemoved(item);
 			}
 		}
 

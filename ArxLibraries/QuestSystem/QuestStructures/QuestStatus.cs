@@ -1,5 +1,5 @@
 using System;
-namespace QuestSystem
+namespace QuestSystem.QuestStructures
 {
 	public enum QuestStatus
 	{
