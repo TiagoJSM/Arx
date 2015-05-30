@@ -8,5 +8,3 @@ Temp
 
 # Ignore the following file extensions
 *.exe
-*.vcproject
-*.sln
