@@ -12,7 +12,6 @@ namespace QuestSystem.QuestStructures
         
         void Start()
         {
-            //ToDo: might not work, if so extension methods need to be created to sort this out
             var subscriber = this.gameObject.GetComponent<IQuestSubscriber>();
             _questLog = new QuestLog(subscriber);
         }
