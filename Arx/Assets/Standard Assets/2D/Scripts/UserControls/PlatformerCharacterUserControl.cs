@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using QuestSystem;
+using InventorySystem.Controllers;
+using CommonInterfaces.Inventory;
 
-[RequireComponent(typeof (PlatformerCharacterController))]
+[RequireComponent(typeof(PlatformerCharacterController))]
+[RequireComponent(typeof(ItemFinderController))]
 public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber
 {
     private PlatformerCharacterController _characterController;
+    private ItemFinderController _itemFinderController;
     private bool _jump;
 
     public event OnKill OnKill;
@@ -17,6 +21,8 @@ public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber
     private void Awake()
     {
         _characterController = GetComponent<PlatformerCharacterController>();
+        _itemFinderController = GetComponent<ItemFinderController>();
+        _itemFinderController.OnInventoryItemFound += OnInventoryItemFoundHandler;
     }
     
     
@@ -33,7 +39,6 @@ public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber
         }
     }
     
-    
     private void FixedUpdate()
     {
         // Read the inputs.
@@ -43,5 +48,10 @@ public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber
         // Pass all parameters to the character control script.
         _characterController.Move(horizontal, vertical, _jump);
         _jump = false;
+    }
+
+    private void OnInventoryItemFoundHandler(IInventoryItem item)
+    {
+
     }
 }

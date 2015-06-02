@@ -43,7 +43,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ItemFinderController.cs" />
+    <Compile Include="Events.cs" />
     <Compile Include="Inventory.cs" />
+    <Compile Include="InventoryComponent.cs" />
     <Compile Include="InventoryObjects\InventoryItems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
