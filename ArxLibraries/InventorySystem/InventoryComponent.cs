@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonInterfaces.Inventory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,13 @@ namespace InventorySystem
 {
     public class InventoryComponent : MonoBehaviour
     {
+        private IItemOwner _owner;
         public Inventory Inventory { get; private set; }
 
         void Start()
         {
-            Inventory = new Inventory();
+            _owner = this.gameObject.GetComponent<IItemOwner>();
+            Inventory = new Inventory(_owner);
         }
     }
 }

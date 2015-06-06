@@ -55,4 +55,7 @@
       <Name>CommonInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>"$(SolutionDir)..\copydlls.bat" "$(TargetDir)" "$(TargetName)" "Arx\Assets\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

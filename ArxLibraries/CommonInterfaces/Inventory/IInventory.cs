@@ -5,9 +5,9 @@ using System.Text;
 
 namespace CommonInterfaces.Inventory
 {
-    public interface IInventoryItem
+    public interface IInventory
     {
-        string Name { get; }
-        IItemOwner Owner { get; set; }
+        bool AddItem(IInventoryItem item);
+        bool RemoveItem(IInventoryItem item);
     }
 }

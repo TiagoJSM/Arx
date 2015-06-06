@@ -3,13 +3,16 @@ using System.Collections;
 using QuestSystem;
 using InventorySystem.Controllers;
 using CommonInterfaces.Inventory;
+using InventorySystem;
 
 [RequireComponent(typeof(PlatformerCharacterController))]
 [RequireComponent(typeof(ItemFinderController))]
-public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber
+[RequireComponent(typeof(InventoryComponent))]
+public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber, IItemOwner
 {
     private PlatformerCharacterController _characterController;
     private ItemFinderController _itemFinderController;
+    private InventoryComponent _inventoryComponent;
     private bool _jump;
 
     public event OnKill OnKill;
@@ -22,6 +25,7 @@ public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber
     {
         _characterController = GetComponent<PlatformerCharacterController>();
         _itemFinderController = GetComponent<ItemFinderController>();
+        _inventoryComponent = GetComponent<InventoryComponent>();
         _itemFinderController.OnInventoryItemFound += OnInventoryItemFoundHandler;
     }
     
@@ -52,6 +56,10 @@ public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber
 
     private void OnInventoryItemFoundHandler(IInventoryItem item)
     {
-
+        _inventoryComponent.Inventory.AddItem(item);
+        if (OnInventoryItemAdd != null)
+        {
+            OnInventoryItemAdd(item);
+        }
     }
 }

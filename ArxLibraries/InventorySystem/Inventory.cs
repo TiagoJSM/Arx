@@ -7,13 +7,15 @@ using System.Text;
 
 namespace InventorySystem
 {
-    public class Inventory
+    public class Inventory : IInventory
     {
         private Dictionary<Type, InventoryItems> _inventoryItems;
+        private IItemOwner _owner;
 
-        public Inventory()
+        public Inventory(IItemOwner owner)
         {
             _inventoryItems = new Dictionary<Type, InventoryItems>();
+            _owner = owner;
         }
 
         public bool AddItem(IInventoryItem item)
@@ -28,6 +30,7 @@ namespace InventorySystem
             {
                 items = _inventoryItems[item.GetType()];
             }
+            item.Owner = _owner;
             return items.Add(item);
         }
 
@@ -36,6 +39,7 @@ namespace InventorySystem
             InventoryItems items;
             if (_inventoryItems.TryGetValue(item.GetType(), out items))
             {
+                item.Owner = null;
                 return items.Remove(item);
             }
             return false;
