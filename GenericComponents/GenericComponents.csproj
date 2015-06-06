@@ -43,10 +43,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Interaction\IInteractionTriggerController.cs" />
     <Compile Include="Controllers\Interaction\InteractionFinderController.cs" />
     <Compile Include="Controllers\Interaction\InteractionRadiusController.cs" />
     <Compile Include="Controllers\Interaction\InteractionTriggerController.cs" />
     <Compile Include="Controllers\Interaction\InteractionZoneController.cs" />
+    <Compile Include="Events.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

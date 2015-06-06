@@ -6,9 +6,12 @@ using UnityEngine;
 
 namespace GenericComponents.Controllers.Interaction
 {
-    public class InteractionTriggerController : MonoBehaviour
+    public class InteractionTriggerController : MonoBehaviour, IInteractionTriggerController
     {
         private GameObject _interactor;
+
+        public event OnInteract OnInteract;
+        public event OnStopInteraction OnStopInteraction;
 
         public Canvas canvas;
 
@@ -37,11 +40,19 @@ namespace GenericComponents.Controllers.Interaction
         {
             _interactor = interactor;
             canvas.enabled = true;
+            if (OnInteract != null)
+            {
+                OnInteract(interactor);
+            }
         }
 
         public void StopInteraction()
         {
             canvas.enabled = false;
+            if (OnStopInteraction != null)
+            {
+                OnStopInteraction();
+            }
         }
     }
 }

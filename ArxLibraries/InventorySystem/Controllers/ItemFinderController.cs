@@ -14,6 +14,10 @@ namespace InventorySystem.Controllers
         void OnTriggerEnter2D(Collider2D other)
         {
             var item = other.gameObject.GetComponent<IInventoryItem>();
+            if (item == null)
+            {
+                return;
+            }
             if(OnInventoryItemFound != null)
             {
                 OnInventoryItemFound(item);
