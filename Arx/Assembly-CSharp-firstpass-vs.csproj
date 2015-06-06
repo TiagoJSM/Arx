@@ -51,10 +51,6 @@
      <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Constants\Tags.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
-     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Interaction\InteractionFinderController.cs" />
-     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Interaction\InteractionRadiusController.cs" />
-     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Interaction\InteractionTriggerController.cs" />
-     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Interaction\InteractionZoneController.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ILedgeGrabber.cs" />
@@ -305,6 +301,9 @@
  </Reference>
  <Reference Include="QuestSystem">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/QuestSystem.dll</HintPath>
+ </Reference>
+ <Reference Include="GenericComponents">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/GenericComponents.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

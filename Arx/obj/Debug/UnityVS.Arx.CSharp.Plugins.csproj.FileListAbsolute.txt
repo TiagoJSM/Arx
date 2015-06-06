@@ -15,3 +15,5 @@ C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\I
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\CommonInterfaces.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\InventorySystem.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\QuestSystem.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\GenericComponents.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\GenericComponents.pdb

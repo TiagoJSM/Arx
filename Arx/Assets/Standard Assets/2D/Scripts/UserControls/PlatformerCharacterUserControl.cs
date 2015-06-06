@@ -4,6 +4,7 @@ using QuestSystem;
 using InventorySystem.Controllers;
 using CommonInterfaces.Inventory;
 using InventorySystem;
+using GenericComponents.Controllers.Interaction;
 
 [RequireComponent(typeof(PlatformerCharacterController))]
 [RequireComponent(typeof(ItemFinderController))]
@@ -61,5 +62,15 @@ public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber, I
         {
             OnInventoryItemAdd(item);
         }
+    }
+
+    public void AssignQuest(QuestSystem.QuestStructures.Quest quest)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public bool HasQuest(QuestSystem.QuestStructures.Quest quest)
+    {
+        throw new System.NotImplementedException();
     }
 }

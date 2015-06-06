@@ -7,3 +7,4 @@ C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterface
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\bin\Debug\CommonInterfaces.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\obj\Debug\CommonInterfaces.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\obj\Debug\CommonInterfaces.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\obj\Debug\CommonInterfaces.csprojResolveAssemblyReference.cache

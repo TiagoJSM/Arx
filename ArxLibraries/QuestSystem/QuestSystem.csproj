@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Characters\QuestGiver.cs" />
     <Compile Include="Conditions\ICondition.cs" />
     <Compile Include="QuestStructures\QuestLog.cs" />
     <Compile Include="IQuestSubscriber.cs" />

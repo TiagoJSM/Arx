@@ -40,6 +40,9 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GenericComponents">
+      <HintPath>Assets\GenericComponents.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.XML" />
@@ -72,10 +75,6 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Constants\Tags.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Interaction\InteractionFinderController.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Interaction\InteractionRadiusController.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Interaction\InteractionTriggerController.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Interaction\InteractionZoneController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ILedgeGrabber.cs" />
