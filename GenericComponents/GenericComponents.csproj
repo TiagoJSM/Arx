@@ -34,24 +34,30 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\..\..\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\..\..\..\..\Program Files\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Interaction\IInteractionTriggerController.cs" />
     <Compile Include="Controllers\Interaction\InteractionFinderController.cs" />
     <Compile Include="Controllers\Interaction\InteractionRadiusController.cs" />
     <Compile Include="Controllers\Interaction\InteractionTriggerController.cs" />
     <Compile Include="Controllers\Interaction\InteractionZoneController.cs" />
+    <Compile Include="Controllers\Interaction\SpeechController.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ArxLibraries\CommonInterfaces\CommonInterfaces.csproj">
+      <Project>{70cd1f80-87f4-4a17-b701-de961bbc798c}</Project>
+      <Name>CommonInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"$(SolutionDir)..\copydlls.bat" "$(TargetDir)" "$(TargetName)" "Arx\Assets\"</PostBuildEvent>

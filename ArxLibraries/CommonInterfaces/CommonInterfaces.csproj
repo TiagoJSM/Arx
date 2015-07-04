@@ -34,12 +34,15 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\..\..\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Interaction\IInteractionTriggerController.cs" />
+    <Compile Include="Events.cs" />
     <Compile Include="Inventory\IInventory.cs" />
     <Compile Include="Inventory\IInventoryItem.cs" />
     <Compile Include="Inventory\IItemOwner.cs" />

@@ -7,13 +7,29 @@ using QuestSystem.Conditions;
 
 namespace QuestSystem.QuestStructures
 {
-	public class Quest
+	public class Quest : IEquatable<Quest>
 	{
+        public bool Active { get; set; }
+
 		public string name;
 		public string description;
 		public List<ICondition> conditions;
 
-		//public QuestStatus QuestStatus{ get; }
+        public QuestStatus QuestStatus 
+        {
+            get
+            {
+                if (!Active)
+                {
+                    return QuestStatus.Inactive;
+                }
+                if (conditions.All(c => c.Complete))
+                {
+                    return QuestStatus.Complete;
+                }
+                return QuestStatus.Active;
+            }
+        }
 
 		public void Killed(GameObject obj)
 		{
@@ -43,6 +59,21 @@ namespace QuestSystem.QuestStructures
 		{
 			return conditions.Where(c => !c.Complete);
 		}
-	}
+
+        public override bool Equals(object obj)
+        {
+            var quest = obj as Quest;
+            if (quest == null)
+            {
+                return base.Equals(obj);
+            }
+            return Equals(quest);
+        }
+
+        public bool Equals(Quest other)
+        {
+            return this.name.Equals(other.name);
+        }
+    }
 }
 

@@ -5,15 +5,18 @@ using InventorySystem.Controllers;
 using CommonInterfaces.Inventory;
 using InventorySystem;
 using GenericComponents.Controllers.Interaction;
+using QuestSystem.QuestStructures;
 
 [RequireComponent(typeof(PlatformerCharacterController))]
 [RequireComponent(typeof(ItemFinderController))]
 [RequireComponent(typeof(InventoryComponent))]
+[RequireComponent(typeof(QuestLogComponent))]
 public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber, IItemOwner
 {
     private PlatformerCharacterController _characterController;
     private ItemFinderController _itemFinderController;
     private InventoryComponent _inventoryComponent;
+    private QuestLogComponent _questLogComponent;
     private bool _jump;
 
     public event OnKill OnKill;
@@ -27,6 +30,7 @@ public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber, I
         _characterController = GetComponent<PlatformerCharacterController>();
         _itemFinderController = GetComponent<ItemFinderController>();
         _inventoryComponent = GetComponent<InventoryComponent>();
+        _questLogComponent = GetComponent<QuestLogComponent>();
         _itemFinderController.OnInventoryItemFound += OnInventoryItemFoundHandler;
     }
     
@@ -70,6 +74,11 @@ public class PlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber, I
     }
 
     public bool HasQuest(QuestSystem.QuestStructures.Quest quest)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public QuestSystem.QuestStructures.Quest GetQuest(string name)
     {
         throw new System.NotImplementedException();
     }

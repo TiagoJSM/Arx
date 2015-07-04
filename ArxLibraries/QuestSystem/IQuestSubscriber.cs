@@ -12,6 +12,7 @@ namespace QuestSystem
 
         void AssignQuest(Quest quest);
         bool HasQuest(Quest quest);
+        Quest GetQuest(string name);
 	}
 }
 

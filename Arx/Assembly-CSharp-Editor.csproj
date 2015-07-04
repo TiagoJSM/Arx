@@ -162,6 +162,9 @@
  <Reference Include="CommonInterfaces">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/CommonInterfaces.dll</HintPath>
  </Reference>
+ <Reference Include="GenericComponents">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/GenericComponents.dll</HintPath>
+ </Reference>
  <Reference Include="InventorySystem">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/InventorySystem.dll</HintPath>
  </Reference>
@@ -198,8 +201,8 @@
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/macstandalonesupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
  </Reference>
- <Reference Include="GenericComponents">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/GenericComponents.dll</HintPath>
+ <Reference Include="Utils">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Utils.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

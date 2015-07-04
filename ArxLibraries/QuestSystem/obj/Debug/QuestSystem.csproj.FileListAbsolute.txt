@@ -4,11 +4,13 @@ C:\Users\Public\Documents\Unity Projects\ArxLibraries\QuestSystem\bin\Debug\Unit
 C:\Users\Public\Documents\Unity Projects\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.csprojResolveAssemblyReference.cache
 C:\Users\Public\Documents\Unity Projects\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.dll
 C:\Users\Public\Documents\Unity Projects\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.pdb
-C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\QuestSystem.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\QuestSystem.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\CommonInterfaces.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\UnityEngine.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\CommonInterfaces.pdb
-C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.csprojResolveAssemblyReference.cache
+C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\GenericComponents.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\GenericComponents.pdb

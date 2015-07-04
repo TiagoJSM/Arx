@@ -87,14 +87,17 @@
     <Reference Include="CommonInterfaces">
       <HintPath>Assets\CommonInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="GenericComponents">
+      <HintPath>Assets\GenericComponents.dll</HintPath>
+    </Reference>
     <Reference Include="InventorySystem">
       <HintPath>Assets\InventorySystem.dll</HintPath>
     </Reference>
     <Reference Include="QuestSystem">
       <HintPath>Assets\QuestSystem.dll</HintPath>
     </Reference>
-    <Reference Include="GenericComponents">
-      <HintPath>Assets\GenericComponents.dll</HintPath>
+    <Reference Include="Utils">
+      <HintPath>Assets\Utils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

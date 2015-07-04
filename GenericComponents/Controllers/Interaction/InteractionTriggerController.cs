@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommonInterfaces;
+using CommonInterfaces.Controllers.Interaction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,23 +17,10 @@ namespace GenericComponents.Controllers.Interaction
 
         public Canvas canvas;
 
-        // Use this for initialization
-        void Start()
-        {
-            canvas.enabled = false;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public void ColliderExitFromInteractionZone(Collider2D other)
         {
             if (other.gameObject == _interactor)
             {
-                _interactor = null;
                 StopInteraction();
             }
         }
@@ -39,7 +28,6 @@ namespace GenericComponents.Controllers.Interaction
         public void Interact(GameObject interactor)
         {
             _interactor = interactor;
-            canvas.enabled = true;
             if (OnInteract != null)
             {
                 OnInteract(interactor);
@@ -48,7 +36,7 @@ namespace GenericComponents.Controllers.Interaction
 
         public void StopInteraction()
         {
-            canvas.enabled = false;
+            _interactor = null;
             if (OnStopInteraction != null)
             {
                 OnStopInteraction();

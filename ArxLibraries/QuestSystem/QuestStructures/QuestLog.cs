@@ -7,12 +7,12 @@ namespace QuestSystem.QuestStructures
 {
 	public class QuestLog
 	{
-		private List<Quest> _quests;
+		private Dictionary<string, Quest> _quests;
 		private IQuestSubscriber _subscriber;
 
 		public QuestLog (IQuestSubscriber subscriber)
 		{
-			_quests = new List<Quest> ();
+            _quests = new Dictionary<string, Quest>();
 			_subscriber = subscriber;
 
 			_subscriber.OnKill += OnKillHandler;
@@ -20,9 +20,33 @@ namespace QuestSystem.QuestStructures
 			_subscriber.OnInventoryItemRemove += OnInventoryItemRemoveHandler;
 		}
 
+        public void AssignQuest(Quest quest)
+        {
+            if (HasQuest(quest))
+            {
+                return;
+            }
+            _quests.Add(quest.name, quest);
+        }
+
+        public bool HasQuest(Quest quest)
+        {
+            return _quests.ContainsKey(quest.name);
+        }
+
+        public Quest GetQuest(string name)
+        {
+            Quest quest;
+            if (_quests.TryGetValue(name, out quest))
+            {
+                return quest;
+            }
+            return null;
+        }
+
 		private void OnKillHandler(GameObject obj)
 		{
-			foreach (var quest in _quests) 
+			foreach (var quest in _quests.Values) 
 			{
 				quest.Killed (obj);
 			}
@@ -30,7 +54,7 @@ namespace QuestSystem.QuestStructures
 
         private void OnInventoryItemAddHandler(IInventoryItem item)
 		{
-			foreach (var quest in _quests) 
+            foreach (var quest in _quests.Values) 
 			{
                 quest.InventoryItemAdded(item);
 			}
@@ -38,7 +62,7 @@ namespace QuestSystem.QuestStructures
 
         private void OnInventoryItemRemoveHandler(IInventoryItem item)
 		{
-			foreach (var quest in _quests) 
+            foreach (var quest in _quests.Values) 
 			{
                 quest.InventoryItemRemoved(item);
 			}

@@ -7,16 +7,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C0776C32-007A-33CB-3F4D-19D59BC8124B}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.0.0f4</UnityVersion>
@@ -40,9 +38,6 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GenericComponents">
-      <HintPath>Assets\GenericComponents.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.XML" />
@@ -59,14 +54,20 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="QuestSystem">
-      <HintPath>Assets\QuestSystem.dll</HintPath>
-    </Reference>
     <Reference Include="CommonInterfaces">
       <HintPath>Assets\CommonInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="GenericComponents">
+      <HintPath>Assets\GenericComponents.dll</HintPath>
+    </Reference>
     <Reference Include="InventorySystem">
       <HintPath>Assets\InventorySystem.dll</HintPath>
+    </Reference>
+    <Reference Include="QuestSystem">
+      <HintPath>Assets\QuestSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Utils">
+      <HintPath>Assets\Utils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +76,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Constants\Tags.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractibleCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ILedgeGrabber.cs" />

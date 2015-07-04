@@ -31,6 +31,9 @@
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GenericComponents">
+      <HintPath>..\..\Arx\Assets\GenericComponents.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
@@ -39,7 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Characters\QuestGiver.cs" />
+    <Compile Include="Conditions\OnEnemyKilledCondition.cs" />
+    <Compile Include="Controllers\QuestGiverController.cs" />
     <Compile Include="Conditions\ICondition.cs" />
     <Compile Include="QuestStructures\QuestLog.cs" />
     <Compile Include="IQuestSubscriber.cs" />

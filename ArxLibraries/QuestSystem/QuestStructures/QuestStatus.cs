@@ -5,7 +5,7 @@ namespace QuestSystem.QuestStructures
 	{
 		Inactive,
 		Active,
-		Closed
+		Complete
 	}
 }
 
