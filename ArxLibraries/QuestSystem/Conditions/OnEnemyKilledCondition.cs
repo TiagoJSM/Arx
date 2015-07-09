@@ -7,22 +7,21 @@ using UnityEngine;
 
 namespace QuestSystem.Conditions
 {
-    public class OnEnemyKilledCondition : ICondition
+    public class OnEnemyKilledCondition : Condition
     {
-        public string Description { get; private set; }
-        public bool Complete { get; private set; }
+        public int killCount;
 
-        public void Killed(GameObject obj)
+        public override void Killed(GameObject obj)
         {
 
         }
 
-        public void InventoryItemAdded(IInventoryItem item)
+        public override void InventoryItemAdded(IInventoryItem item)
         {
 
         }
 
-        public void InventoryItemRemoved(IInventoryItem item)
+        public override void InventoryItemRemoved(IInventoryItem item)
         {
 
         }

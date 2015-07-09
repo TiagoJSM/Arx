@@ -7,13 +7,14 @@ using QuestSystem.Conditions;
 
 namespace QuestSystem.QuestStructures
 {
-	public class Quest : IEquatable<Quest>
+    [Serializable]
+	public class Quest : ScriptableObject, IEquatable<Quest>
 	{
         public bool Active { get; set; }
 
 		public string name;
 		public string description;
-		public List<ICondition> conditions;
+		public List<Condition> conditions;
 
         public QuestStatus QuestStatus 
         {
@@ -29,6 +30,11 @@ namespace QuestSystem.QuestStructures
                 }
                 return QuestStatus.Active;
             }
+        }
+
+        public Quest()
+        {
+            conditions = new List<Condition>();
         }
 
 		public void Killed(GameObject obj)
@@ -55,7 +61,7 @@ namespace QuestSystem.QuestStructures
 			}
 		}
 
-		private IEnumerable<ICondition> GetIncompleteConditions()
+		private IEnumerable<Condition> GetIncompleteConditions()
 		{
 			return conditions.Where(c => !c.Complete);
 		}

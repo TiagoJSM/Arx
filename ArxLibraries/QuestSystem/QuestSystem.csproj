@@ -44,7 +44,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Conditions\OnEnemyKilledCondition.cs" />
     <Compile Include="Controllers\QuestGiverController.cs" />
-    <Compile Include="Conditions\ICondition.cs" />
+    <Compile Include="Conditions\Condition.cs" />
     <Compile Include="QuestStructures\QuestLog.cs" />
     <Compile Include="IQuestSubscriber.cs" />
     <Compile Include="Events.cs" />

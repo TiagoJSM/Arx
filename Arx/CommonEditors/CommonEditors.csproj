@@ -7,7 +7,7 @@
     <ProjectGuid>{E3A4D66E-8B19-4B41-9861-7BB62C514F18}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CommonEditors</RootNamespace>
+    <RootNamespace>CommonEditors.GuiComponents.GuiComponents</RootNamespace>
     <AssemblyName>CommonEditors</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -44,8 +44,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseWindow.cs" />
+    <Compile Include="GuiComponents\BaseGuiComponent.cs" />
+    <Compile Include="GuiComponents\BaseWindow.cs" />
     <Compile Include="ExtendedEditorWindow.cs" />
+    <Compile Include="GuiComponents\FileIoActionsMenuGuiComponent.cs" />
     <Compile Include="Keyboard.cs" />
     <Compile Include="MouseButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

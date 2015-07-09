@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommonEditors.GuiComponents;
+using CommonEditors.GuiComponents.GuiComponents.GuiComponents;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -100,9 +102,17 @@ namespace CommonEditors
             BeginWindows();
             foreach (var window in windows)
             {
-                window.ClientRect = GUI.Window(idx++, window.ClientRect, window.WindowFunction, window.Title);
+                window.ClientRect = GUILayout.Window(idx++, window.ClientRect, window.WindowFunction, window.Title);
             }
             EndWindows();
+        }
+
+        protected void DrawGuiComponents(IEnumerable<BaseGuiComponent> components)
+        {
+            foreach (var component in components)
+            {
+                component.OnGui();
+            }
         }
 
         protected abstract void DoOnGui();
