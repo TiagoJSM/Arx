@@ -14,6 +14,7 @@ namespace QuestSystemEditors.CustomEditors
             //Sort of a hack, I had to discover the name of the property for script to remove it
             //by iterating the serializedObject properties
             DrawPropertiesExcluding(this.serializedObject, "m_Script");
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }
