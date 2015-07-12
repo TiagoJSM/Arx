@@ -47,10 +47,16 @@
     <Compile Include="Events.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="InventoryComponent.cs" />
+    <Compile Include="InventoryItemUseValidations\InventoryItemUse.cs" />
+    <Compile Include="InventoryItemUseValidations\UseValidation.cs" />
+    <Compile Include="InventoryObjects\ExtendedInventoryItem.cs" />
+    <Compile Include="InventoryObjects\InventoryItem.cs" />
     <Compile Include="InventoryObjects\InventoryItems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="InventoryItemUses\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
       <Project>{70cd1f80-87f4-4a17-b701-de961bbc798c}</Project>

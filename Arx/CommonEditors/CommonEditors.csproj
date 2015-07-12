@@ -44,6 +44,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomEditors\EditorWithoutScript.cs" />
     <Compile Include="GuiComponents\BaseGuiComponent.cs" />
     <Compile Include="GuiComponents\BaseWindow.cs" />
     <Compile Include="ExtendedEditorWindow.cs" />

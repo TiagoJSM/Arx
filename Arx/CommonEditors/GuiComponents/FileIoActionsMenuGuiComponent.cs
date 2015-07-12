@@ -8,7 +8,7 @@ using UnityEngine;
 namespace CommonEditors.GuiComponents.GuiComponents.GuiComponents
 {
     public delegate void OnNew();
-    public delegate void OnOpenQuest(string path);
+    public delegate void OnOpenFile(string path);
 
     public class FileIoActionsMenuGuiComponent : BaseGuiComponent
     {
@@ -21,7 +21,7 @@ namespace CommonEditors.GuiComponents.GuiComponents.GuiComponents
         public UnityEngine.Object Object { get; set; }
 
         public OnNew OnNew;
-        public OnOpenQuest OnOpenQuest;
+        public OnOpenFile OnOpenFile;
 
         public FileIoActionsMenuGuiComponent(
             string saveAsTitle,
@@ -88,9 +88,9 @@ namespace CommonEditors.GuiComponents.GuiComponents.GuiComponents
                 {
                     path = path.Replace(Application.dataPath, "Assets");
                     Path = path;
-                    if (OnOpenQuest != null)
+                    if (OnOpenFile != null)
                     {
-                        OnOpenQuest(path);
+                        OnOpenFile(path);
                     }
                 }
             }

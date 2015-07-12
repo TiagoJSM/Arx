@@ -35,7 +35,7 @@ namespace QuestSystemEditors
         {
             _topButtonMenus = new QuestIoActionsMenuGuiComponent();
             _topButtonMenus.OnNew += OnNewHandler;
-            _topButtonMenus.OnOpenQuest += OnOpenQuestHandler;
+            _topButtonMenus.OnOpenFile += OnOpenQuestHandler;
             OnMouseUp += OnMouseUpHandler;
             NewQuestScreen();
         }
@@ -106,7 +106,5 @@ namespace QuestSystemEditors
                 _components.Add(conditionComponent);
             }
         }
-
-        
     }
 }

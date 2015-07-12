@@ -1,6 +1,6 @@
-﻿using CommonEditors.GuiComponents.GuiComponents.GuiComponents;
+﻿using CommonEditors.GuiComponents.GuiComponents.CustomEditors;
+using CommonEditors.GuiComponents.GuiComponents.GuiComponents;
 using QuestSystem.Conditions;
-using QuestSystemEditors.CustomEditors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace QuestSystemEditors.GuiComponent
 
         public override void OnGui()
         {
-            var editor = Editor.CreateEditor(Condition, typeof(ConditionEditor));
+            var editor = Editor.CreateEditor(Condition, typeof(EditorWithoutScript));
             showQuest = EditorGUILayout.InspectorTitlebar(showQuest, editor.target);
             if (!showQuest)
             {
