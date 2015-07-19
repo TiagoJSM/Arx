@@ -19,3 +19,9 @@ C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\obj\Debug\Assembly-CShar
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\obj\Debug\Assembly-CSharp-firstpass.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Utils.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Utils.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Terrain.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Terrain.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Extensions.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Extensions.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\MathHelper.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\MathHelper.pdb

@@ -87,6 +87,9 @@
     <Reference Include="CommonInterfaces">
       <HintPath>Assets\CommonInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Extensions">
+      <HintPath>Assets\Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="GenericComponents">
       <HintPath>Assets\GenericComponents.dll</HintPath>
     </Reference>
@@ -96,8 +99,14 @@
     <Reference Include="QuestSystem">
       <HintPath>Assets\QuestSystem.dll</HintPath>
     </Reference>
+    <Reference Include="Terrain">
+      <HintPath>Assets\Terrain.dll</HintPath>
+    </Reference>
     <Reference Include="Utils">
       <HintPath>Assets\Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="MathHelper">
+      <HintPath>Assets\MathHelper.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

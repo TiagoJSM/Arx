@@ -162,6 +162,9 @@
  <Reference Include="CommonInterfaces">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/CommonInterfaces.dll</HintPath>
  </Reference>
+ <Reference Include="Extensions">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Extensions.dll</HintPath>
+ </Reference>
  <Reference Include="GenericComponents">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/GenericComponents.dll</HintPath>
  </Reference>
@@ -170,6 +173,9 @@
  </Reference>
  <Reference Include="QuestSystem">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/QuestSystem.dll</HintPath>
+ </Reference>
+ <Reference Include="Terrain">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Terrain.dll</HintPath>
  </Reference>
  <Reference Include="Utils">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Utils.dll</HintPath>
@@ -203,6 +209,9 @@
  </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/macstandalonesupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="MathHelper">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/MathHelper.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
