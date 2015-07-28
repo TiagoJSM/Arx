@@ -8,6 +8,7 @@ using UnityEngine;
 using Extensions;
 using Utils;
 using CommonEditors;
+using Terrain.Builder;
 
 namespace TerrainEditors
 {

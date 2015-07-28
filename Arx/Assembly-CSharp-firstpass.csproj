@@ -206,6 +206,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceAmbientObscurance.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
+     <None Include="Assets\Standard Assets\Environment\2DTerrain\Terrain2DShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\TiltShiftHdrLensBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\VignetteShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldScatter.shader" />
@@ -306,6 +307,9 @@
  <Reference Include="InventorySystem">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/InventorySystem.dll</HintPath>
  </Reference>
+ <Reference Include="MathHelper">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/MathHelper.dll</HintPath>
+ </Reference>
  <Reference Include="QuestSystem">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/QuestSystem.dll</HintPath>
  </Reference>
@@ -314,9 +318,6 @@
  </Reference>
  <Reference Include="Utils">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Utils.dll</HintPath>
- </Reference>
- <Reference Include="MathHelper">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/MathHelper.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -66,6 +66,9 @@
     <Reference Include="InventorySystem">
       <HintPath>Assets\InventorySystem.dll</HintPath>
     </Reference>
+    <Reference Include="MathHelper">
+      <HintPath>Assets\MathHelper.dll</HintPath>
+    </Reference>
     <Reference Include="QuestSystem">
       <HintPath>Assets\QuestSystem.dll</HintPath>
     </Reference>
@@ -74,9 +77,6 @@
     </Reference>
     <Reference Include="Utils">
       <HintPath>Assets\Utils.dll</HintPath>
-    </Reference>
-    <Reference Include="MathHelper">
-      <HintPath>Assets\MathHelper.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -312,6 +312,7 @@
     <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
     <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />
     <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
+    <None Include="Assets\Standard Assets\Environment\2DTerrain\Terrain2DShader.shader" />
     <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
     <None Include="Assets\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
     <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Advanced.shader" />

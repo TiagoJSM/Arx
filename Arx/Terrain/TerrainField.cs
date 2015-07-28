@@ -25,6 +25,13 @@ namespace Terrain
                 return InScenePathNodes.ToPairs().Select(p => new LineSegment2D(p.Item1, p.Item2));
             }
         }
+        public IEnumerable<LineSegment2D> OriginPathSegments
+        {
+            get
+            {
+                return _pathNodes.ToPairs().Select(p => new LineSegment2D(p.Item1, p.Item2));
+            }
+        }
 
         public Vector2 this[int index]
         {

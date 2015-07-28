@@ -24,5 +24,18 @@ namespace MathHelper.DataStructures
             P1 = p1;
             P2 = p2;
         }
+
+        public float? Slope
+        {
+            get
+            {
+                var xDif = P2.x - P1.x;
+                if (xDif == 0)
+                {
+                    return null;
+                }
+                return (P2.y - P1.y) / (xDif);
+            }
+        }
     }
 }
