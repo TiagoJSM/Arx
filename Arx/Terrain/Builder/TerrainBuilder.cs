@@ -32,20 +32,16 @@ namespace Terrain.Builder
             field.mesh.triangles = null;
             field.mesh.vertices = null;
 
+            var terrainSegments = GetTerrainSegmentsFor(field);
             var helper = TerrainBuilderHelper.GetNewBuilder();
-
-            var floorHelper = helper.AddFloorSegmentStart(new LineSegment2D(new Vector2(), new Vector2(1, 1)));
-            floorHelper = floorHelper.AddFloorSegment(new LineSegment2D(new Vector2(1, 1), new Vector2(2, 1)));
-            helper = floorHelper.AddFloorSegmentEnd(new Vector2(2, 1), 0);
-            var slopeHelper = helper.AddSlopeSegmentStart(new LineSegment2D(new Vector2(2, 1), new Vector2(4, -1)));
-            helper = slopeHelper.AddSlopeSegmentEnd(new Vector2(4, -1), -1);
+            helper = AddSlopeSegments(helper, terrainSegments);
+            helper = AddFloorSegments(helper, terrainSegments);
 
             field.mesh.vertices = helper.Vertices;
             field.mesh.triangles = helper.Indices;
             field.mesh.colors = helper.Colors;
             field.mesh.uv = helper.Uvs;
 
-            Print(field.mesh.vertices);
             field.GetComponent<MeshFilter>().mesh = field.mesh;
         }
 
@@ -81,185 +77,6 @@ namespace Terrain.Builder
             return terrainSegments;
         }
 
-        private static Color[] GetColorsFor(IEnumerable<TerrainSegments> segments)
-        {
-            var result = new List<Color>();
-            result.AddRange(GetColorsFor(segments, TerrainType.Slope, new Color(0f, 0f, 0f, 0f)));
-            result.AddRange(GetColorsFor(segments, TerrainType.Floor, new Color(0f, 0f, 0f, 0.5f)));
-            return result.ToArray();
-        }
-
-        private static Color[] GetColorsFor(IEnumerable<TerrainSegments> segments, TerrainType type, Color color)
-        {
-            segments = segments.Where(ts => ts.TerrainType == type);
-            var result = new List<Color>();
-
-            foreach (var segment in segments)
-            {
-                var consecutiveSegment = false;
-                var colors = segment.Segments.SelectMany(seg =>
-                {
-                    if (!consecutiveSegment)
-                    {
-                        consecutiveSegment = true;
-                        return new Color[]
-                        {
-                            color, 
-                            color,
-                            color,
-                            color
-                        };
-                    }
-                    return new Color[]
-                    {
-                        color,
-                        color
-                    };
-                });
-                result.AddRange(colors);
-            }
-
-            return result.ToArray();
-        }
-
-        private static Vector3[] GetVerticesFor(IEnumerable<TerrainSegments> segments)
-        {
-            var result = new List<Vector3>();
-            result.AddRange(GetVerticesFor(segments, TerrainType.Slope));
-            result.AddRange(GetVerticesFor(segments, TerrainType.Floor));
-            return result.ToArray();
-        }
-
-        private static Vector3[] GetVerticesFor(IEnumerable<TerrainSegments> segments, TerrainType type)
-        {
-            segments = segments.Where(ts => ts.TerrainType == type);
-            var result = new List<Vector3>();
-
-            foreach (var segment in segments)
-            {
-                var consecutiveSegment = false;
-                var vectors = segment.Segments.SelectMany(seg =>
-                {
-                    if (!consecutiveSegment)
-                    {
-                        consecutiveSegment = true;
-                        return new Vector3[]
-                        {
-                            seg.P1.ToVector3(), 
-                            seg.P2.ToVector3(),
-                            seg.P1.ToVector3() + new Vector3(0, 0.5f),
-                            seg.P2.ToVector3() + new Vector3(0, 0.5f)
-                        };
-                    }
-                    return new Vector3[]
-                    {
-                        seg.P2.ToVector3(),
-                        seg.P2.ToVector3() + new Vector3(0, 0.5f)
-                    };
-                });
-                result.AddRange(vectors);
-            }
-
-            return result.ToArray();
-        }
-
-        private static int[] GetTrianglesFor(IEnumerable<TerrainSegments> segments)
-        {
-            var result = new List<int>();
-            var slopeIndices = GetTrianglesFor(segments, TerrainType.Slope);
-            var offset = slopeIndices.Any() ? slopeIndices.Last() + 1 : 0;
-            var floorIndices = GetTrianglesFor(segments, TerrainType.Floor, offset);
-            result.AddRange(slopeIndices);
-            result.AddRange(floorIndices);
-            return result.ToArray();
-        }
-
-        private static int[] GetTrianglesFor(IEnumerable<TerrainSegments> segments, TerrainType type, int segmentIndiceOffset = 0)
-        {
-            segments = segments.Where(ts => ts.TerrainType == type);
-            var result = new List<int>();
-
-            foreach (var segment in segments)
-            {
-                var indices = segment.Segments.SelectMany((seg, idx) =>
-                {
-                    if (idx == 0)
-                    {
-                        var segmentIndices = new int[_firstTwoTriangleIndices.Length];
-                        _firstTwoTriangleIndices.CopyTo(segmentIndices, 0);
-                        return segmentIndices;
-                    }
-                    if (idx == 1)
-                    {
-                        var segmentIndices = new int[_secondTwoTriangleIndices.Length];
-                        _secondTwoTriangleIndices.CopyTo(segmentIndices, 0);
-                        return segmentIndices;
-                    }
-                    return new int[]
-                    {
-                        idx * 2, idx * 2 + 3, idx * 2 + 2,
-                        idx * 2, idx * 2 + 1, idx * 2 + 3
-                    };
-                });
-
-                //add offset, this is needed since sometimes the segments can have breaks between due to slopes
-                indices = indices.Select(i => i + segmentIndiceOffset);
-
-                result.AddRange(indices);
-                //by the logic of how the triangles are built the biggest indice is always the last
-                segmentIndiceOffset = indices.Last() + 1;
-            }
-            return result.ToArray();
-        }
-
-        /*private static Vector2[] GetUvFor(Mesh mesh)
-        {
-            return mesh.vertices.Select(v => v.ToVector2() / 2).ToArray();
-        }*/
-
-        private static Vector2[] GetUvFor(IEnumerable<TerrainSegments> segments)
-        {
-            var result = new List<Vector2>();
-            var slopeUvs = GetUvFor(segments, TerrainType.Slope);
-            var floorUvs = GetUvFor(segments, TerrainType.Floor);
-            result.AddRange(slopeUvs);
-            result.AddRange(floorUvs);
-            return result.ToArray();
-        }
-
-        private static Vector2[] GetUvFor(IEnumerable<TerrainSegments> segments, TerrainType type)
-        {
-            segments = segments.Where(ts => ts.TerrainType == type);
-            var result = new List<Vector2>();
-
-            foreach (var segment in segments)
-            {
-                var consecutiveSegment = false;
-                var vectors = segment.Segments.SelectMany((seg, idx) =>
-                {
-                    if (!consecutiveSegment)
-                    {
-                        consecutiveSegment = true;
-                        return new Vector2[]
-                        {
-                            new Vector2(), 
-                            new Vector2(1, 0),
-                            new Vector2(0, 1),
-                            new Vector2(1, 1)
-                        };
-                    }
-                    return new Vector2[]
-                    {
-                        new Vector2(idx + 1, 0),
-                        new Vector2(idx + 1, 1),
-                    };
-                });
-                result.AddRange(vectors);
-            }
-
-            return result.ToArray();
-        }
-
         private static TerrainType GetTerrainTypeFromSegment(LineSegment2D segment)
         {
             if (segment.Slope == null || Math.Abs(segment.Slope.Value) >= 1.0f)
@@ -267,6 +84,52 @@ namespace Terrain.Builder
                 return TerrainType.Slope;
             }
             return TerrainType.Floor;
+        }
+
+        private static ITerrainBuilderHelper AddFloorSegments(ITerrainBuilderHelper helper, IEnumerable<TerrainSegments> terrainSegments)
+        {
+            var floorSegments = terrainSegments.Where(s => s.TerrainType == TerrainType.Floor);
+            foreach(var floorSegment in floorSegments)
+            {
+                IFloorSegmentBuilder floorHelper = null;
+                floorSegment.Segments.ForEach(s => 
+                {
+                    if(floorHelper == null)
+                    {
+                        floorHelper = helper.AddFloorSegmentStart(s);
+                    }
+                    else
+                    {
+                        floorHelper = floorHelper.AddFloorSegment(s);
+                    }
+                });
+                var lastFloorSegment = floorSegment.Segments.Last();
+                helper = floorHelper.AddFloorSegmentEnd(lastFloorSegment.P2, lastFloorSegment.Slope);
+            }
+            return helper;
+        }
+
+        private static ITerrainBuilderHelper AddSlopeSegments(ITerrainBuilderHelper helper, IEnumerable<TerrainSegments> terrainSegments)
+        {
+            var slopeSegments = terrainSegments.Where(s => s.TerrainType == TerrainType.Slope);
+            foreach (var slopeSegment in slopeSegments)
+            {
+                ISlopeSegmentBuilder slopeHelper = null;
+                slopeSegment.Segments.ForEach(s =>
+                {
+                    if (slopeHelper == null)
+                    {
+                        slopeHelper = helper.AddSlopeSegmentStart(s);
+                    }
+                    else
+                    {
+                        slopeHelper = slopeHelper.AddSlopeSegment(s);
+                    }
+                });
+                var lastSlopeSegment = slopeSegment.Segments.Last();
+                helper = slopeHelper.AddSlopeSegmentEnd(lastSlopeSegment.P2, lastSlopeSegment.Slope);
+            }
+            return helper;
         }
 
         private static void Print<T>(IEnumerable<T> data)
