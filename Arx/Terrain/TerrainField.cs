@@ -16,6 +16,8 @@ namespace Terrain
         private List<Vector2> _pathNodes;
 
         public Mesh mesh;
+        public float maxSegmentLenght = 2;
+        public float colliderOffset = 0;
 
         public int VerticeCount { get { return _pathNodes.Count; } }
         public IEnumerable<LineSegment2D> PathSegments
@@ -30,6 +32,13 @@ namespace Terrain
             get
             {
                 return _pathNodes.ToPairs().Select(p => new LineSegment2D(p.Item1, p.Item2));
+            }
+        }
+        public IEnumerable<Vector2> PathNodes
+        {
+            get
+            {
+                return _pathNodes;
             }
         }
 

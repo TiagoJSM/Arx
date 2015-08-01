@@ -9,6 +9,7 @@ using Extensions;
 using Utils;
 using CommonEditors;
 using Terrain.Builder;
+using Terrain.Builder.Helper;
 
 namespace TerrainEditors
 {
@@ -36,10 +37,12 @@ namespace TerrainEditors
 
         private void OnSceneGUI()
         {
+            //GUILayout.Button("something");
             if (_requiresMeshUpdate)
             {
                 _requiresMeshUpdate = false;
                 TerrainBuilder.BuildMeshFor(TerrainField);
+                TerrainColliderBuilder.BuildColliderFor(TerrainField);
             }
             DrawLinesBetweenPathNodes();
             DrawPathNodesHandles();
@@ -73,14 +76,20 @@ namespace TerrainEditors
         private void DrawPathNodeHandle(int idx)
         {
             Handles.DrawSolidArc(TerrainField[idx].ToVector3(), new Vector3(0, 0, -1), Vector3.right, 360, 0.2f);
-            TerrainField[idx] = 
+            var translated =
                 Handles
                     .FreeMoveHandle(
                         TerrainField[idx],
                         Quaternion.identity,
                         0.2f,
                         Vector3.zero,
-                        Handles.RectangleCap);
+                        Handles.RectangleCap)
+                        .ToVector2();
+            if (TerrainField[idx] != translated)
+            {
+                TerrainField[idx] = translated;
+                _requiresMeshUpdate = true;
+            }
         }
 
         private void AddPathNode()

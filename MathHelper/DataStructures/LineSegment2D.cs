@@ -38,6 +38,19 @@ namespace MathHelper.DataStructures
             }
         }
 
+        public float Lenght
+        {
+            get
+            {
+                return Mathf.Abs(Vector2.Distance(P1, P2));
+            }
+        }
+
+        public override string ToString()
+        {
+            return "(" + P1.ToString() + ";" + P2.ToString() + ")";
+        }
+
         public static float CalculateY(float x, float b, float m)
         {
             return x * m + b;

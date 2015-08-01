@@ -32,7 +32,7 @@ namespace Terrain.Builder
             field.mesh.triangles = null;
             field.mesh.vertices = null;
 
-            var terrainSegments = GetTerrainSegmentsFor(field);
+            var terrainSegments = GetTerrainSegmentsFor(field, field.maxSegmentLenght);
             var helper = TerrainBuilderHelper.GetNewBuilder();
             helper = AddSlopeSegments(helper, terrainSegments);
             helper = AddFloorSegments(helper, terrainSegments);
@@ -45,7 +45,7 @@ namespace Terrain.Builder
             field.GetComponent<MeshFilter>().mesh = field.mesh;
         }
 
-        private static IEnumerable<TerrainSegments> GetTerrainSegmentsFor(TerrainField field)
+        private static IEnumerable<TerrainSegments> GetTerrainSegmentsFor(TerrainField field, float maxSegmentLenght)
         {
             var terrainSegments = new List<TerrainSegments>();
             
@@ -66,7 +66,8 @@ namespace Terrain.Builder
                 }
                 
                 segments.TerrainType = segmentTerrainType;
-                segments.Segments.Add(seg);
+                var dividedSegments = DivideSegment(seg, maxSegmentLenght);
+                segments.Segments.AddRange(dividedSegments);
             }
 
             if (segments.Segments.Count > 0)
@@ -130,6 +131,26 @@ namespace Terrain.Builder
                 helper = slopeHelper.AddSlopeSegmentEnd(lastSlopeSegment.P2, lastSlopeSegment.Slope);
             }
             return helper;
+        }
+
+        private static IEnumerable<LineSegment2D> DivideSegment(LineSegment2D seg, float maxSegmentLenght)
+        {   
+            if (seg.Lenght <= maxSegmentLenght)
+            {
+                return new[] { seg };
+            }
+
+            var numberOfDivisions = Mathf.CeilToInt(seg.Lenght / maxSegmentLenght);
+
+            var p1 = seg.P1;
+            var sizeOfEachPart = (seg.P2 - seg.P1) / numberOfDivisions;
+            var result = new LineSegment2D[numberOfDivisions];
+            for (var idx = 0; idx < numberOfDivisions; idx++)
+            {
+                result[idx] = new LineSegment2D(p1, p1 + sizeOfEachPart);
+                p1 = p1 + sizeOfEachPart;
+            }
+            return result;
         }
 
         private static void Print<T>(IEnumerable<T> data)

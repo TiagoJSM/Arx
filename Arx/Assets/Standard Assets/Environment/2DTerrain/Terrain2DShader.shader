@@ -77,9 +77,9 @@
 				{
 					return tex2D(_FloorTexture, input.uv);
 				}
-				if(input.color.a == 0.3f)
+				if(input.color.a == 0.2f)
 				{
-					return tex2D(_FloorEndingTexture, input.uv);
+					return tex2D(_SlopeEndingTexture, input.uv);
 				}
 				return tex2D(_SlopeTexture, input.uv);
 			}
