@@ -5,6 +5,8 @@ using System.Text;
 using UnityEngine;
 using Extensions;
 using MathHelper.DataStructures;
+using Terrain.Builder.Helper;
+using Terrain.Builder.Helper.Interfaces;
 
 namespace Terrain.Builder
 {
@@ -30,13 +32,20 @@ namespace Terrain.Builder
             field.mesh.triangles = null;
             field.mesh.vertices = null;
 
-            var terrainSegments = GetTerrainSegmentsFor(field);
+            var helper = TerrainBuilderHelper.GetNewBuilder();
 
-            field.mesh.vertices = GetVerticesFor(terrainSegments);
-            field.mesh.triangles = GetTrianglesFor(terrainSegments);
-            field.mesh.colors = GetColorsFor(terrainSegments);
-            field.mesh.uv = GetUvFor(terrainSegments);
-            Print(field.mesh.uv);
+            var floorHelper = helper.AddFloorSegmentStart(new LineSegment2D(new Vector2(), new Vector2(1, 1)));
+            floorHelper = floorHelper.AddFloorSegment(new LineSegment2D(new Vector2(1, 1), new Vector2(2, 1)));
+            helper = floorHelper.AddFloorSegmentEnd(new Vector2(2, 1), 0);
+            var slopeHelper = helper.AddSlopeSegmentStart(new LineSegment2D(new Vector2(2, 1), new Vector2(4, -1)));
+            helper = slopeHelper.AddSlopeSegmentEnd(new Vector2(4, -1), -1);
+
+            field.mesh.vertices = helper.Vertices;
+            field.mesh.triangles = helper.Indices;
+            field.mesh.colors = helper.Colors;
+            field.mesh.uv = helper.Uvs;
+
+            Print(field.mesh.vertices);
             field.GetComponent<MeshFilter>().mesh = field.mesh;
         }
 

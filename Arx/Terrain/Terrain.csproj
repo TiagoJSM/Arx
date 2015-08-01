@@ -41,6 +41,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\Helper\Interfaces\IFloorSegmentBuilder.cs" />
+    <Compile Include="Builder\Helper\Interfaces\ISlopeSegmentBuilder.cs" />
+    <Compile Include="Builder\Helper\Interfaces\ITerrainBuilderHelper.cs" />
+    <Compile Include="Builder\Helper\TerrainBuilderHelper.cs" />
     <Compile Include="Builder\TerrainSegments.cs" />
     <Compile Include="Builder\TerrainType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

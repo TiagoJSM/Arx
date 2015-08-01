@@ -37,5 +37,15 @@ namespace MathHelper.DataStructures
                 return (P2.y - P1.y) / (xDif);
             }
         }
+
+        public static float CalculateY(float x, float b, float m)
+        {
+            return x * m + b;
+        }
+
+        public static float CalculateB(float x, float y, float m)
+        {
+            return y - (x * m);
+        }
     }
 }

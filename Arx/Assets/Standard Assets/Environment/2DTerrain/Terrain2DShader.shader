@@ -2,7 +2,9 @@
 {
 	Properties
 	{
+		_FloorEndingTexture ("Floor ending texture", 2D) = "white" {}
 		_FloorTexture ("Floor texture", 2D) = "white" {}
+		_SlopeEndingTexture ("Slope ending texture", 2D) = "black" {}
 		_SlopeTexture ("Slope texture", 2D) = "black" {}
 	}
 
@@ -16,8 +18,12 @@
 
 			#include "UnityCG.cginc"
 
+			uniform sampler2D _FloorEndingTexture;
+			uniform float4 _FloorEndingTexture_ST;
 			uniform sampler2D _FloorTexture;
 			uniform float4 _FloorTexture_ST;
+			uniform sampler2D _SlopeEndingTexture;
+			uniform float4 _SlopeEndingTexture_ST;
 			uniform sampler2D _SlopeTexture;
 			uniform float4 _SlopeTexture_ST;
 
@@ -39,7 +45,24 @@
 			{
 				FragmentInput fragment;
 				fragment.pos = mul(UNITY_MATRIX_MVP, input.vertex);
-				fragment.uv = TRANSFORM_TEX(input.texcoord, _FloorTexture);
+
+				if(input.color.a == 0.0f)
+				{
+					fragment.uv = TRANSFORM_TEX(input.texcoord, _FloorEndingTexture);
+				}
+				else if(input.color.a == 0.1f)
+				{
+					fragment.uv = TRANSFORM_TEX(input.texcoord, _FloorTexture);
+				}
+				else if(input.color.a == 0.2f)
+				{
+					fragment.uv = TRANSFORM_TEX(input.texcoord, _SlopeEndingTexture);
+				}
+				else
+				{
+					fragment.uv = TRANSFORM_TEX(input.texcoord, _SlopeTexture);
+				}
+
 				fragment.color = input.color;
 				return fragment;
 			}
@@ -48,9 +71,17 @@
 			{
 				if(input.color.a == 0.0f)
 				{
-					return tex2D(_SlopeTexture, input.uv);
+					return tex2D(_FloorEndingTexture, input.uv);
 				}
-				return tex2D(_FloorTexture, input.uv);
+				if(input.color.a == 0.1f)
+				{
+					return tex2D(_FloorTexture, input.uv);
+				}
+				if(input.color.a == 0.3f)
+				{
+					return tex2D(_FloorEndingTexture, input.uv);
+				}
+				return tex2D(_SlopeTexture, input.uv);
 			}
 
 			ENDCG
