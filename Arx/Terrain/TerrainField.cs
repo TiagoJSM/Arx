@@ -77,6 +77,16 @@ namespace Terrain
             _pathNodes = new List<Vector2>();
         }
 
+        public void DivideSegment(int segmentIdx)
+        {
+            var segmentStartPoint = _pathNodes[segmentIdx];
+            var segmentEndPoint = _pathNodes[segmentIdx + 1];
+
+            var halfLenght = (segmentEndPoint - segmentStartPoint) / 2;
+            var divisionPoint = segmentStartPoint + halfLenght;
+            _pathNodes.Insert(segmentIdx + 1, divisionPoint);
+        }
+
         public IEnumerator<Vector2> GetEnumerator()
         {
             return InScenePathNodes.GetEnumerator();
