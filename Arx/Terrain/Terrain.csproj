@@ -51,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Builder\TerrainBuilder.cs" />
     <Compile Include="TerrainField.cs" />
+    <Compile Include="Utils\TerrainFillingUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Extensions\Extensions.csproj">
@@ -60,6 +61,10 @@
     <ProjectReference Include="..\..\MathHelper\MathHelper.csproj">
       <Project>{3703e408-e0fa-4d51-94c5-4caec5d609d8}</Project>
       <Name>MathHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utils\Utils.csproj">
+      <Project>{4b1bd451-4f17-42bf-ac8d-5eea64d7cde7}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

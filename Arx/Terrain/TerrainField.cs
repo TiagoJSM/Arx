@@ -18,6 +18,8 @@ namespace Terrain
         public Mesh mesh;
         public float maxSegmentLenght = 2;
         public float colliderOffset = 0;
+        public bool addFilling = true;
+        public float fillingLowPoint = 0;
 
         public int VerticeCount { get { return _pathNodes.Count; } }
         public IEnumerable<LineSegment2D> PathSegments

@@ -1,4 +1,5 @@
-﻿using MathHelper.DataStructures;
+﻿using Extensions;
+using MathHelper.DataStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,6 @@ namespace Terrain.Builder.Helper.Interfaces
 
         IFloorSegmentBuilder AddFloorSegmentStart(LineSegment2D segment);
         ISlopeSegmentBuilder AddSlopeSegmentStart(LineSegment2D segment);
+        ITerrainBuilderHelper AddFilling(IEnumerable<LineSegment2D> segments, float fillingLowPoint);
     }
 }

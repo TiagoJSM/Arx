@@ -11,6 +11,16 @@ namespace MathHelper.DataStructures
         public Vector2 P1;
         public Vector2 P2;
 
+        public float B
+        {
+            get
+            {
+                //y = m.x + b
+                //b = y - m.x
+                return P1.y - (Slope.Value * P1.x);
+            }
+        }
+
         public Vector2 NormalVector
         {
             get
@@ -44,6 +54,13 @@ namespace MathHelper.DataStructures
             {
                 return Mathf.Abs(Vector2.Distance(P1, P2));
             }
+        }
+
+        public float XWhenYIs(float y)
+        {
+            //y = m.x + b
+            //x = (y - b) / m
+            return (y - B) / Slope.Value;
         }
 
         public override string ToString()

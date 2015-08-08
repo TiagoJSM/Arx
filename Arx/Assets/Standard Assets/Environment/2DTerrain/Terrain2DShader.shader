@@ -12,11 +12,14 @@
 	{
 		Pass
 		{
+			Cull Off
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
 
 			#include "UnityCG.cginc"
+
+			
 
 			uniform sampler2D _FloorEndingTexture;
 			uniform float4 _FloorEndingTexture_ST;

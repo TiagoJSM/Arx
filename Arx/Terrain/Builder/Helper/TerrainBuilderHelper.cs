@@ -6,6 +6,8 @@ using System.Text;
 using Terrain.Builder.Helper.Interfaces;
 using UnityEngine;
 using Extensions;
+using MathHelper.Extensions;
+using Terrain.Utils;
 
 namespace Terrain.Builder.Helper
 {
@@ -102,6 +104,20 @@ namespace Terrain.Builder.Helper
             _currentSegmentIndex = 0;
             AddEndingSegmentStart(segment.P1, segment.Slope, SlopeEndingsColor);
             AddFirstSegmentStart(segment, segment.Slope, SlopeColor);
+            return this;
+        }
+
+        public ITerrainBuilderHelper AddFilling(IEnumerable<LineSegment2D> segments, float fillingLowPoint)
+        {
+            var segmentArray = segments.ToArray();
+            var fillingIntervals = TerrainFillingUtils.GetFillingIntervals(segmentArray, fillingLowPoint);
+
+            foreach (var interval in fillingIntervals)
+            {
+                AddFillingForInterval(interval, segments, fillingLowPoint);
+            }
+            
+
             return this;
         }
 
@@ -253,6 +269,11 @@ namespace Terrain.Builder.Helper
             var radians = (Mathf.Atan(slope.Value) + Mathf.Atan(lastProcessedSegment.Slope.Value)) / 2;
             var bottomRight = lastProcessedSegment.P2;
             PreviousTopRightCorner = (bottomRight + new Vector2(0, _height)).RotateAround(bottomRight, radians);
+        }
+
+        private void AddFillingForInterval(Tuple<int?, int?> interval, IEnumerable<LineSegment2D> segments, float fillingLowPoint)
+        {
+            var polygonVertices = segments.GetFillingPolygonVertices(interval, fillingLowPoint);
         }
     }
 }
