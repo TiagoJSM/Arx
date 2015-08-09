@@ -8,6 +8,7 @@ using UnityEngine;
 using Extensions;
 using MathHelper.Extensions;
 using Terrain.Utils;
+using Utils;
 
 namespace Terrain.Builder.Helper
 {
@@ -17,6 +18,7 @@ namespace Terrain.Builder.Helper
         private readonly Color FloorColor = new Color(0, 0, 0, 0.1f);
         private readonly Color SlopeEndingsColor = new Color(0, 0, 0, 0.2f);
         private readonly Color SlopeColor = new Color(0, 0, 0, 0.3f);
+        private readonly Color FillingColor = new Color(0, 0, 0, 0.4f);
 
         private readonly Vector2[] SegmentStartUvs =
             new[]{
@@ -111,13 +113,11 @@ namespace Terrain.Builder.Helper
         {
             var segmentArray = segments.ToArray();
             var fillingIntervals = TerrainFillingUtils.GetFillingIntervals(segmentArray, fillingLowPoint);
-
+            Print(segmentArray);
             foreach (var interval in fillingIntervals)
             {
                 AddFillingForInterval(interval, segments, fillingLowPoint);
             }
-            
-
             return this;
         }
 
@@ -273,7 +273,27 @@ namespace Terrain.Builder.Helper
 
         private void AddFillingForInterval(Tuple<int?, int?> interval, IEnumerable<LineSegment2D> segments, float fillingLowPoint)
         {
-            var polygonVertices = segments.GetFillingPolygonVertices(interval, fillingLowPoint);
+            var polygonVertices = segments.GetFillingPolygonVertices(interval, fillingLowPoint).ToArray();
+            var polygonColors = Enumerable.Range(0, polygonVertices.Length).Select(idx => FillingColor).ToArray();
+            var polygonUvs = polygonVertices.Select(v => v).ToArray();
+            var indices = Triangulator.TriangulatePolygon(polygonVertices.ToArray()).Select(i => i + _currentIndice + 1).ToArray();
+            Print(polygonVertices);
+            Print(indices);
+            _vertices.AddRange(polygonVertices);
+            _indices.AddRange(indices);
+            _colors.AddRange(polygonColors);
+            _uvs.AddRange(polygonUvs);
+            _currentIndice = indices.Max();
+        }
+
+        private static void Print<T>(IEnumerable<T> data)
+        {
+            string result = string.Empty;
+            foreach (var d in data)
+            {
+                result = result + d.ToString() + ", ";
+            }
+            Debug.Log(result);
         }
     }
 }

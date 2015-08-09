@@ -28,5 +28,22 @@ namespace TerrainTests
             Assert.AreEqual(new Tuple<int?, int?>(0, 2), intervals.First());
             Assert.AreEqual(new Tuple<int?, int?>(4, null), intervals.Last());
         }
+
+        [TestMethod]
+        public void TerrainwWith2FillingsAndSlopeInMiddle()
+        {
+            var segments = new[]
+            {
+                new LineSegment2D(new Vector2(0.0f, -0.4f), new Vector2(2.2f, 1.4f)),
+                new LineSegment2D(new Vector2(2.2f, 1.4f), new Vector2(3.7f, 0.0f)),
+                new LineSegment2D(new Vector2(3.7f, 0.0f), new Vector2(4.9f, 1.6f)),
+                new LineSegment2D(new Vector2(4.9f, 1.6f), new Vector2(10.4f, 1.6f))
+            };
+
+            var intervals = TerrainFillingUtils.GetFillingIntervals(segments, 0);
+            Assert.AreEqual(2, intervals.Count());
+            Assert.AreEqual(new Tuple<int?, int?>(0, 1), intervals.First());
+            Assert.AreEqual(new Tuple<int?, int?>(2, null), intervals.Last());
+        }
     }
 }

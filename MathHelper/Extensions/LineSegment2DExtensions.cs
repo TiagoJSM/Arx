@@ -60,7 +60,6 @@ namespace MathHelper.Extensions
             {
                 var x = segments.ElementAt(interval.Item1.Value).XWhenYIs(fillingLowPoint);
                 result.Add(new Vector2(x, fillingLowPoint));
-                startIdx++;
             }
 
             var endIdx = interval.Item2 == null ? segments.Count() - 1 : interval.Item2.Value;

@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrainTests", "TerrainTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathHelperTests", "..\MathHelperTests\MathHelperTests.csproj", "{62F56733-FE6F-4B3F-9DA9-911F899B4FB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilsTests", "..\UtilsTests\UtilsTests.csproj", "{1B21E936-A8AE-44A6-BB8F-37491989932D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{62F56733-FE6F-4B3F-9DA9-911F899B4FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62F56733-FE6F-4B3F-9DA9-911F899B4FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62F56733-FE6F-4B3F-9DA9-911F899B4FB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B21E936-A8AE-44A6-BB8F-37491989932D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B21E936-A8AE-44A6-BB8F-37491989932D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B21E936-A8AE-44A6-BB8F-37491989932D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B21E936-A8AE-44A6-BB8F-37491989932D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
