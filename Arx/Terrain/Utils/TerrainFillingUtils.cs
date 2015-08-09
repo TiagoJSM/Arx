@@ -12,50 +12,70 @@ namespace Terrain.Utils
     {
         public static IEnumerable<Tuple<int?, int?>> GetFillingIntervals(LineSegment2D[] segments, float fillingLowPoint)
         {
-            var segmentWithPositiveSlopeIndex = segments.GetIndexOfPositiveSlope();
-            var segmentWithNegativeSlopeIndex = segments.GetIndexOfNegativeSlope();
+            var startSegmentIndex = GetIndexOfIntersectedSlope(segments, fillingLowPoint);
+            var endSegmentIndex = GetIndexOfIntersectedSlope(segments, fillingLowPoint, 1);
 
-            if (segmentWithPositiveSlopeIndex == null && segmentWithNegativeSlopeIndex == null)
+            /*if (startSegmentIndex == null && endSegmentIndex == null)
             {
                 return new Tuple<int?, int?>[0];
-            }
-            if (segmentWithPositiveSlopeIndex == null || segmentWithNegativeSlopeIndex == null)
+            }*/
+            if (startSegmentIndex == null || endSegmentIndex == null)
             {
-                return new[] { new Tuple<int?, int?>(segmentWithPositiveSlopeIndex, segmentWithNegativeSlopeIndex) };
+                return new[] { new Tuple<int?, int?>(startSegmentIndex, endSegmentIndex) };
             }
 
             var result = new List<Tuple<int?, int?>>();
 
-            if (segmentWithPositiveSlopeIndex.Value > segmentWithNegativeSlopeIndex.Value)
+            if (startSegmentIndex.Value > endSegmentIndex.Value)
             {
-                result.Add(new Tuple<int?, int?>(null, segmentWithNegativeSlopeIndex));
+                result.Add(new Tuple<int?, int?>(null, endSegmentIndex));
             }
             else
             {
-                result.Add(new Tuple<int?, int?>(segmentWithPositiveSlopeIndex, segmentWithNegativeSlopeIndex));
+                result.Add(new Tuple<int?, int?>(startSegmentIndex, endSegmentIndex));
             }
 
-            var idx = segmentWithNegativeSlopeIndex.Value;
+            var idx = endSegmentIndex.Value + 1;
             while (idx < segments.Count())
             {
-                segmentWithPositiveSlopeIndex = GetIndexOfPositiveIntersectedSlope(segments, fillingLowPoint, idx);
-                if (segmentWithPositiveSlopeIndex == null)
+                if (segments[idx].P2.y < fillingLowPoint)
+                {
+                    idx++;
+                    continue;
+                }
+                startSegmentIndex = GetIndexOfIntersectedSlope(segments, fillingLowPoint, idx);
+                if (startSegmentIndex == null)
                 {
                     break;
                 }
-                idx = segmentWithPositiveSlopeIndex.Value;
-                segmentWithNegativeSlopeIndex = GetIndexOfNegativeIntersectedSlope(segments, fillingLowPoint, idx);
-                result.Add(new Tuple<int?, int?>(segmentWithPositiveSlopeIndex, segmentWithNegativeSlopeIndex));
-                if (segmentWithNegativeSlopeIndex == null)
+                idx = startSegmentIndex.Value + 1;
+                endSegmentIndex = GetIndexOfIntersectedSlope(segments, fillingLowPoint, idx);
+                result.Add(new Tuple<int?, int?>(startSegmentIndex, endSegmentIndex));
+                if (endSegmentIndex == null)
                 {
                     break;
                 }
+                idx++;
             }
 
             return result;
         }
 
-        private static int? GetIndexOfPositiveIntersectedSlope(LineSegment2D[] segments, float fillingLowPoint, int start = 0)
+        private static int? GetIndexOfIntersectedSlope(LineSegment2D[] segments, float fillingLowPoint, int start = 0)
+        {
+            while (start < segments.Count())
+            {
+                var segment = segments[start];
+                if (segment.ContainsY(fillingLowPoint))
+                {
+                    return start;
+                }
+                start++;
+            }
+            return null;
+        }
+
+        /*private static int? GetIndexOfPositiveIntersectedSlope(LineSegment2D[] segments, float fillingLowPoint, int start = 0)
         {
             while (start < segments.Count())
             {
@@ -87,6 +107,6 @@ namespace Terrain.Utils
                 start++;
             }
             return null;
-        }
+        }*/
     }
 }

@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataStructures\Edge.cs" />
+    <Compile Include="DataStructures\Polygon2D.cs" />
     <Compile Include="DataStructures\Triangle.cs" />
     <Compile Include="EditorInputHandler.cs" />
     <Compile Include="IntrospectionUtils.cs" />

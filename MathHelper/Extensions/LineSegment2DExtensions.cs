@@ -53,8 +53,8 @@ namespace MathHelper.Extensions
             var result = new List<Vector2>();
             if (interval.Item1 == null)
             {
-                result.Add(new Vector2(segments.First().P1.x, fillingLowPoint));
                 result.Add(segments.First().P1);
+                result.Add(new Vector2(segments.First().P1.x, fillingLowPoint));
             }
             else
             {
@@ -72,8 +72,8 @@ namespace MathHelper.Extensions
 
             if (interval.Item2 == null)
             {
-                result.Add(new Vector2(segments.Last().P2.x, fillingLowPoint));
                 result.Add(segments.Last().P2);
+                result.Add(new Vector2(segments.Last().P2.x, fillingLowPoint));
             }
             else
             {

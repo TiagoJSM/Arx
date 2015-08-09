@@ -62,5 +62,22 @@ namespace MathHelperTests
             var polygon2Vertices = segments.GetFillingPolygonVertices(new Tuple<int?, int?>(2, null), 0);
             Assert.AreEqual(4, polygon2Vertices.Count());
         }
+
+        [TestMethod]
+        public void TwoClosedPolygons()
+        {
+            var segments = new[]
+            {
+                new LineSegment2D(new Vector2(0.0f, -0.4f), new Vector2(2.2f, 1.4f)),
+                new LineSegment2D(new Vector2(2.2f, 1.4f), new Vector2(3.9f, -0.3f)),
+                new LineSegment2D(new Vector2(3.9f, -0.3f), new Vector2(5.4f, 1.1f)),
+                new LineSegment2D(new Vector2(5.4f, 1.1f), new Vector2(9.3f, -1.1f))
+            };
+
+            var polygon1Vertices = segments.GetFillingPolygonVertices(new Tuple<int?, int?>(0, 1), 0);
+            Assert.AreEqual(3, polygon1Vertices.Count());
+            var polygon2Vertices = segments.GetFillingPolygonVertices(new Tuple<int?, int?>(2, 3), 0);
+            Assert.AreEqual(3, polygon2Vertices.Count());
+        }
     }
 }
