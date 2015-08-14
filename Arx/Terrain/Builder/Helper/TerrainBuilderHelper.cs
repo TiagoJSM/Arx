@@ -113,10 +113,6 @@ namespace Terrain.Builder.Helper
         {
             var segmentArray = segments.ToArray();
             var fillingIntervals = TerrainFillingUtils.GetFillingIntervals(segmentArray, fillingLowPoint);
-            Debug.Log("segmentArray");
-            Print(segmentArray);
-            Debug.Log("fillingIntervals");
-            Print(fillingIntervals);
             foreach (var interval in fillingIntervals)
             {
                 AddFillingForInterval(interval, segments, fillingLowPoint);
@@ -280,10 +276,6 @@ namespace Terrain.Builder.Helper
             var polygonColors = Enumerable.Range(0, polygonVertices.Length).Select(idx => FillingColor).ToArray();
             var polygonUvs = polygonVertices.Select(v => v).ToArray();
             var indices = Triangulator.TriangulatePolygon(polygonVertices.ToArray()).Select(i => i + _currentIndice + 1).ToArray();
-            Debug.Log("polygonVertices");
-            Print(polygonVertices);
-            Debug.Log(interval.Item1 + " " + interval.Item2);
-            //Print(indices);
             _vertices.AddRange(polygonVertices);
             _indices.AddRange(indices);
             _colors.AddRange(polygonColors);

@@ -26,7 +26,7 @@ namespace Terrain.Utils
 
             var result = new List<Tuple<int?, int?>>();
 
-            if (startSegmentIndex.Value > endSegmentIndex.Value)
+            if (startSegmentIndex.Value >= endSegmentIndex.Value)
             {
                 result.Add(new Tuple<int?, int?>(null, endSegmentIndex));
             }
