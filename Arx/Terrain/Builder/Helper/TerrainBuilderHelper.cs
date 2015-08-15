@@ -111,6 +111,7 @@ namespace Terrain.Builder.Helper
 
         public ITerrainBuilderHelper AddFilling(IEnumerable<LineSegment2D> segments, float fillingLowPoint)
         {
+            Print(segments);
             var segmentArray = segments.ToArray();
             var fillingIntervals = TerrainFillingUtils.GetFillingIntervals(segmentArray, fillingLowPoint);
             foreach (var interval in fillingIntervals)

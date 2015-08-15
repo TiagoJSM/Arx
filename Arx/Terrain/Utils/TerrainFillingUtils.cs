@@ -15,27 +15,30 @@ namespace Terrain.Utils
             var startSegmentIndex = GetIndexOfIntersectedSlope(segments, fillingLowPoint);
             var endSegmentIndex = GetIndexOfIntersectedSlope(segments, fillingLowPoint, 1);
 
-            /*if (startSegmentIndex == null && endSegmentIndex == null)
-            {
-                return new Tuple<int?, int?>[0];
-            }*/
             if (startSegmentIndex == null || endSegmentIndex == null)
             {
                 return new[] { new Tuple<int?, int?>(startSegmentIndex, endSegmentIndex) };
             }
 
             var result = new List<Tuple<int?, int?>>();
+            var idx = 0;
 
-            if (startSegmentIndex.Value >= endSegmentIndex.Value)
+            /*if (startSegmentIndex.Value >= endSegmentIndex.Value)
             {
                 result.Add(new Tuple<int?, int?>(null, endSegmentIndex));
+            }*/
+            if (segments.First().P1.y > fillingLowPoint)
+            {
+                result.Add(new Tuple<int?, int?>(null, startSegmentIndex));
+                idx = startSegmentIndex.Value + 1;
             }
             else
             {
                 result.Add(new Tuple<int?, int?>(startSegmentIndex, endSegmentIndex));
+                idx = endSegmentIndex.Value + 1;
             }
 
-            var idx = endSegmentIndex.Value + 1;
+            
             while (idx < segments.Count())
             {
                 if (segments[idx].P2.y < fillingLowPoint)

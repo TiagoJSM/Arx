@@ -20,6 +20,7 @@ namespace Terrain
         public float colliderOffset = 0;
         public bool addFilling = true;
         public float fillingLowPoint = 0;
+        public float floorTerrainMaximumSlope = 1.0f;
 
         public int VerticeCount { get { return _pathNodes.Count; } }
         public IEnumerable<LineSegment2D> PathSegments

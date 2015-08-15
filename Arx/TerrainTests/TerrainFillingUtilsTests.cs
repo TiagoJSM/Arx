@@ -93,5 +93,20 @@ namespace TerrainTests
             Assert.AreEqual(new Tuple<int?, int?>(null, 1), intervals.First());
             Assert.AreEqual(new Tuple<int?, int?>(2, null), intervals.Last());
         }
+
+        [TestMethod]
+        public void TerrainWithLeftOpeningAndFirstSegmentGoingDown()
+        {
+            var segments = new[]
+            {
+                new LineSegment2D(new Vector2(0.0f, 0.6f), new Vector2(4.1f, -2.3f)),
+                new LineSegment2D(new Vector2(4.1f, -2.3f), new Vector2(7.1f, 1.2f)),
+                new LineSegment2D(new Vector2(7.1f, 1.2f), new Vector2(12.7f, -1.5f))
+            };
+            var intervals = TerrainFillingUtils.GetFillingIntervals(segments, 0);
+            Assert.AreEqual(2, intervals.Count());
+            Assert.AreEqual(new Tuple<int?, int?>(null, 0), intervals.First());
+            Assert.AreEqual(new Tuple<int?, int?>(1, 2), intervals.Last());
+        }
     }
 }

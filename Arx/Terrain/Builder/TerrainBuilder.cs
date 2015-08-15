@@ -58,7 +58,7 @@ namespace Terrain.Builder
 
             foreach (var seg in field.OriginPathSegments)
             {
-                var segmentTerrainType = GetTerrainTypeFromSegment(seg);
+                var segmentTerrainType = GetTerrainTypeFromSegment(seg, field.floorTerrainMaximumSlope);
                 if (segmentTerrainType != terrainType)
                 {
                     if (segments.Segments.Count > 0)
@@ -82,9 +82,9 @@ namespace Terrain.Builder
             return terrainSegments;
         }
 
-        private static TerrainType GetTerrainTypeFromSegment(LineSegment2D segment)
+        private static TerrainType GetTerrainTypeFromSegment(LineSegment2D segment, float floorTerrainMaximumSlope)
         {
-            if (segment.Slope == null || Math.Abs(segment.Slope.Value) >= 1.0f)
+            if (segment.Slope == null || Math.Abs(segment.Slope.Value) >= floorTerrainMaximumSlope)
             {
                 return TerrainType.Slope;
             }
