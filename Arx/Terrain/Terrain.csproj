@@ -41,6 +41,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\Helper\Interfaces\ICeilingSegmentBuilder.cs" />
     <Compile Include="Builder\Helper\Interfaces\IFloorSegmentBuilder.cs" />
     <Compile Include="Builder\Helper\Interfaces\ISlopeSegmentBuilder.cs" />
     <Compile Include="Builder\Helper\Interfaces\ITerrainBuilderHelper.cs" />

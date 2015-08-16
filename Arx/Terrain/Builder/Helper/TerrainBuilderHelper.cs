@@ -12,13 +12,15 @@ using Utils;
 
 namespace Terrain.Builder.Helper
 {
-    public class TerrainBuilderHelper : ITerrainBuilderHelper, IFloorSegmentBuilder, ISlopeSegmentBuilder
+    public class TerrainBuilderHelper : ITerrainBuilderHelper, IFloorSegmentBuilder, ISlopeSegmentBuilder, ICeilingSegmentBuilder
     {
         private readonly Color FloorEndingsColor = new Color(0, 0, 0, 0.0f);
         private readonly Color FloorColor = new Color(0, 0, 0, 0.1f);
         private readonly Color SlopeEndingsColor = new Color(0, 0, 0, 0.2f);
         private readonly Color SlopeColor = new Color(0, 0, 0, 0.3f);
         private readonly Color FillingColor = new Color(0, 0, 0, 0.4f);
+        private readonly Color CeilingEndingsColor = new Color(0, 0, 0, 0.5f);
+        private readonly Color CeilingColor = new Color(0, 0, 0, 0.6f);
 
         private readonly Vector2[] SegmentStartUvs =
             new[]{
@@ -95,17 +97,19 @@ namespace Terrain.Builder.Helper
 
         public IFloorSegmentBuilder AddFloorSegmentStart(LineSegment2D segment)
         {
-            _currentSegmentIndex = 0;
-            AddEndingSegmentStart(segment.P1, segment.GetOrientationInRadians(), FloorEndingsColor);
-            AddFirstSegmentStart(segment, FloorColor);
+            AddSegmentStart(segment, FloorEndingsColor, FloorColor);
             return this;
         }
 
         public ISlopeSegmentBuilder AddSlopeSegmentStart(LineSegment2D segment)
         {
-            _currentSegmentIndex = 0;
-            AddEndingSegmentStart(segment.P1, segment.GetOrientationInRadians()/*segment.Slope*/, SlopeEndingsColor);
-            AddFirstSegmentStart(segment, SlopeColor);
+            AddSegmentStart(segment, SlopeEndingsColor, SlopeColor);
+            return this;
+        }
+
+        public ICeilingSegmentBuilder AddCeilingSegmentStart(LineSegment2D segment)
+        {
+            AddSegmentStart(segment, CeilingEndingsColor, CeilingColor);
             return this;
         }
 
@@ -123,9 +127,7 @@ namespace Terrain.Builder.Helper
 
         public IFloorSegmentBuilder AddFloorSegment(LineSegment2D segment)
         {
-            _currentSegmentIndex++;
-            ArrangePreviousTopRightCorner(segment.GetOrientationInRadians());
-            AddNextSegment(segment, segment.Slope, FloorColor);
+            AddNextSegment(segment, FloorColor);
             return this;
         }
 
@@ -137,9 +139,7 @@ namespace Terrain.Builder.Helper
 
         public ISlopeSegmentBuilder AddSlopeSegment(LineSegment2D segment)
         {
-            _currentSegmentIndex++;
-            ArrangePreviousTopRightCorner(segment.GetOrientationInRadians());
-            AddNextSegment(segment, segment.Slope, SlopeColor);
+            AddNextSegment(segment, SlopeColor);
             return this;
         }
 
@@ -147,6 +147,32 @@ namespace Terrain.Builder.Helper
         {
             AddEndingSegmentEnd(endPoint, rotationInRadians, SlopeEndingsColor);
             return this;
+        }
+
+        public ICeilingSegmentBuilder AddCeilingSegment(LineSegment2D segment)
+        {
+            AddNextSegment(segment, CeilingColor);
+            return this;
+        }
+
+        public ITerrainBuilderHelper AddCeilingSegmentEnd(Vector2 endPoint, float rotationInRadians)
+        {
+            AddEndingSegmentEnd(endPoint, rotationInRadians, CeilingEndingsColor);
+            return this;
+        }
+
+        private void AddSegmentStart(LineSegment2D segment, Color endingColor, Color segmentColor)
+        {
+            _currentSegmentIndex = 0;
+            AddEndingSegmentStart(segment.P1, segment.GetOrientationInRadians(), endingColor);
+            AddFirstSegmentStart(segment, segmentColor);
+        }
+
+        private void AddNextSegment(LineSegment2D segment, Color segmentColor)
+        {
+            _currentSegmentIndex++;
+            ArrangePreviousTopRightCorner(segment.GetOrientationInRadians());
+            AddNextSegmentData(segment, segmentColor);
         }
 
         private void AddEndingSegmentStart(Vector2 origin, float rotationInRadians, Color color)
@@ -159,7 +185,7 @@ namespace Terrain.Builder.Helper
                     origin + new Vector2(0, _height)
                 };
 
-            AddSegmentStart(color, true, GetRotatedVectors(origin, rotationInRadians, vectors));
+            AddSegmentDataStart(color, true, GetRotatedVectors(origin, rotationInRadians, vectors));
         }
 
         private void AddEndingSegmentEnd(Vector2 endPoint, float rotationInRadians, Color color)
@@ -172,7 +198,7 @@ namespace Terrain.Builder.Helper
                     endPoint + new Vector2(_height, _height)
                 };
 
-            AddSegmentStart(color, false, GetRotatedVectors(endPoint, rotationInRadians, vectors));
+            AddSegmentDataStart(color, false, GetRotatedVectors(endPoint, rotationInRadians, vectors));
         }
 
         private void AddFirstSegmentStart(LineSegment2D segment, Color color)
@@ -183,11 +209,11 @@ namespace Terrain.Builder.Helper
             var topLeft = (segment.P1 + new Vector2(0, _height)).RotateAround(segment.P1, radians);
             var topRight = (segment.P2 + new Vector2(0, _height)).RotateAround(segment.P2, radians);
 
-            AddSegmentStart(color, false, bottomLeft, bottomRight, topLeft, topRight);
+            AddSegmentDataStart(color, false, bottomLeft, bottomRight, topLeft, topRight);
             _processedSegments.Add(segment);
         }
 
-        private void AddSegmentStart(Color color, bool mirrowedUvs, params Vector2[] vertices)
+        private void AddSegmentDataStart(Color color, bool mirrowedUvs, params Vector2[] vertices)
         {
             _vertices.AddRange(vertices);
 
@@ -217,7 +243,7 @@ namespace Terrain.Builder.Helper
                 });
         }
 
-        private void AddNextSegment(LineSegment2D segment, float? slope, Color color)
+        private void AddNextSegmentData(LineSegment2D segment, Color color)
         {
             _processedSegments.Add(segment);
 

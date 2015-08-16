@@ -6,6 +6,9 @@
 		_FloorTexture ("Floor texture", 2D) = "white" {}
 		_SlopeEndingTexture ("Slope ending texture", 2D) = "black" {}
 		_SlopeTexture ("Slope texture", 2D) = "black" {}
+		_CeilingEndingTexture ("Ceiling ending texture", 2D) = "black" {}
+		_CeilingTexture ("Ceiling texture", 2D) = "black" {}
+		_FillingTexture ("Filling texture", 2D) = "black" {}
 	}
 
 	SubShader
@@ -23,12 +26,24 @@
 
 			uniform sampler2D _FloorEndingTexture;
 			uniform float4 _FloorEndingTexture_ST;
+
 			uniform sampler2D _FloorTexture;
 			uniform float4 _FloorTexture_ST;
+
 			uniform sampler2D _SlopeEndingTexture;
 			uniform float4 _SlopeEndingTexture_ST;
+
 			uniform sampler2D _SlopeTexture;
 			uniform float4 _SlopeTexture_ST;
+
+			uniform sampler2D _FillingTexture;
+			uniform float4 _FillingTexture_ST;
+
+			uniform sampler2D _CeilingTexture;
+			uniform float4 _CeilingTexture_ST;
+
+			uniform sampler2D _CeilingEndingTexture;
+			uniform float4 _CeilingEndingTexture_ST;
 
 			struct VertexInput
 			{
@@ -61,9 +76,21 @@
 				{
 					fragment.uv = TRANSFORM_TEX(input.texcoord, _SlopeEndingTexture);
 				}
-				else
+				else if(input.color.a == 0.3f)
 				{
 					fragment.uv = TRANSFORM_TEX(input.texcoord, _SlopeTexture);
+				}
+				else if(input.color.a == 0.4f)
+				{
+					fragment.uv = TRANSFORM_TEX(input.texcoord, _FillingTexture);
+				}
+				else if(input.color.a == 0.5f)
+				{
+					fragment.uv = TRANSFORM_TEX(input.texcoord, _CeilingTexture);
+				}
+				else if(input.color.a == 0.6f)
+				{
+					fragment.uv = TRANSFORM_TEX(input.texcoord, _CeilingEndingTexture);
 				}
 
 				fragment.color = input.color;
@@ -84,7 +111,20 @@
 				{
 					return tex2D(_SlopeEndingTexture, input.uv);
 				}
-				return tex2D(_SlopeTexture, input.uv);
+				if(input.color.a == 0.3f)
+				{
+					return tex2D(_SlopeTexture, input.uv);
+				}
+				if(input.color.a == 0.4f)
+				{
+					return tex2D(_FillingTexture, input.uv);
+				}
+				if(input.color.a == 0.5f)
+				{
+					return tex2D(_CeilingTexture, input.uv);
+				}
+				return tex2D(_CeilingEndingTexture, input.uv);
+				
 			}
 
 			ENDCG

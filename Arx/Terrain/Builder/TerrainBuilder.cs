@@ -41,6 +41,7 @@ namespace Terrain.Builder
             } 
             helper = AddSlopeSegments(helper, terrainSegments);
             helper = AddFloorSegments(helper, terrainSegments);
+            helper = AddCeilingSegments(helper, terrainSegments);
 
             field.mesh.vertices = helper.Vertices;
             field.mesh.triangles = helper.Indices;
@@ -89,51 +90,75 @@ namespace Terrain.Builder
             {
                 return TerrainType.Slope;
             }
+            if (segment.NormalVector.y < 0)
+            {
+                return TerrainType.Ceiling;
+            }
             return TerrainType.Floor;
         }
 
         private static ITerrainBuilderHelper AddFloorSegments(ITerrainBuilderHelper helper, IEnumerable<TerrainSegments> terrainSegments)
         {
-            var floorSegments = terrainSegments.Where(s => s.TerrainType == TerrainType.Floor);
-            foreach(var floorSegment in floorSegments)
-            {
-                IFloorSegmentBuilder floorHelper = null;
-                floorSegment.Segments.ForEach(s => 
-                {
-                    if(floorHelper == null)
-                    {
-                        floorHelper = helper.AddFloorSegmentStart(s);
-                    }
-                    else
-                    {
-                        floorHelper = floorHelper.AddFloorSegment(s);
-                    }
-                });
-                var lastFloorSegment = floorSegment.Segments.Last();
-                helper = floorHelper.AddFloorSegmentEnd(lastFloorSegment.P2, lastFloorSegment.GetOrientationInRadians());
-            }
-            return helper;
+            return
+                AddSegments(
+                    helper,
+                    terrainSegments,
+                    TerrainType.Floor,
+                    helper.AddFloorSegmentStart,
+                    (h, s) => h.AddFloorSegment(s),
+                    (h, v, f) => h.AddFloorSegmentEnd(v, f));
         }
 
         private static ITerrainBuilderHelper AddSlopeSegments(ITerrainBuilderHelper helper, IEnumerable<TerrainSegments> terrainSegments)
         {
-            var slopeSegments = terrainSegments.Where(s => s.TerrainType == TerrainType.Slope);
-            foreach (var slopeSegment in slopeSegments)
+            return
+                AddSegments(
+                    helper,
+                    terrainSegments,
+                    TerrainType.Slope,
+                    helper.AddSlopeSegmentStart,
+                    (h, s) => h.AddSlopeSegment(s),
+                    (h, v, f)=> h.AddSlopeSegmentEnd(v, f));
+        }
+
+        private static ITerrainBuilderHelper AddCeilingSegments(ITerrainBuilderHelper helper, IEnumerable<TerrainSegments> terrainSegments)
+        {
+            return
+                AddSegments(
+                    helper,
+                    terrainSegments,
+                    TerrainType.Ceiling,
+                    helper.AddCeilingSegmentStart,
+                    (h, s) => h.AddCeilingSegment(s),
+                    (h, v, f) => h.AddCeilingSegmentEnd(v, f));
+        }
+
+        private static ITerrainBuilderHelper AddSegments<TBuilder>(
+            ITerrainBuilderHelper helper, 
+            IEnumerable<TerrainSegments> terrainSegments, 
+            TerrainType terrainType,
+            Func<LineSegment2D, TBuilder> addSegmentStart,
+            Func<TBuilder, LineSegment2D, TBuilder> addSegment,
+            Func<TBuilder, Vector2, float, ITerrainBuilderHelper> addSegmentEnd)
+            where TBuilder : class
+        {
+            var typeSegments = terrainSegments.Where(s => s.TerrainType == terrainType);
+            foreach (var typeSegment in typeSegments)
             {
-                ISlopeSegmentBuilder slopeHelper = null;
-                slopeSegment.Segments.ForEach(s =>
+                TBuilder tBuilder = null;
+                typeSegment.Segments.ForEach(s =>
                 {
-                    if (slopeHelper == null)
+                    if (tBuilder == null)
                     {
-                        slopeHelper = helper.AddSlopeSegmentStart(s);
+                        tBuilder = addSegmentStart(s);
                     }
                     else
                     {
-                        slopeHelper = slopeHelper.AddSlopeSegment(s);
+                        tBuilder = addSegment(tBuilder, s);
                     }
                 });
-                var lastSlopeSegment = slopeSegment.Segments.Last();
-                helper = slopeHelper.AddSlopeSegmentEnd(lastSlopeSegment.P2, lastSlopeSegment.GetOrientationInRadians());
+                var lastSlopeSegment = typeSegment.Segments.Last();
+                helper = addSegmentEnd(tBuilder, lastSlopeSegment.P2, lastSlopeSegment.GetOrientationInRadians());
             }
             return helper;
         }

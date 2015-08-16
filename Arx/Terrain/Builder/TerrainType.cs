@@ -8,6 +8,7 @@ namespace Terrain.Builder
     public enum TerrainType
     {
         Floor,
-        Slope
+        Slope,
+        Ceiling
     }
 }
