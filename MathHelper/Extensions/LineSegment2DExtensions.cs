@@ -82,5 +82,20 @@ namespace MathHelper.Extensions
             }
             return result;
         }
+
+        public static float GetOrientationInRadians(this LineSegment2D segment)
+        {
+            if(segment.Slope.HasValue)
+            {
+                var radians = Mathf.Atan(segment.Slope.Value);
+                var offset = segment.NormalVector.y < 0 ? Mathf.PI : 0;
+                return radians + offset;
+            }
+            if (segment.NormalVector.x > 0)
+            {
+                return -(Mathf.PI / 2);
+            }
+            return (Mathf.PI / 2);
+        }
     }
 }

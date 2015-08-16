@@ -10,6 +10,6 @@ namespace Terrain.Builder.Helper.Interfaces
     public interface IFloorSegmentBuilder
     {
         IFloorSegmentBuilder AddFloorSegment(LineSegment2D segment);
-        ITerrainBuilderHelper AddFloorSegmentEnd(Vector2 endPoint, float? slope);
+        ITerrainBuilderHelper AddFloorSegmentEnd(Vector2 endPoint, float rotationInRadians);
     }
 }

@@ -7,6 +7,7 @@ using Extensions;
 using MathHelper.DataStructures;
 using Terrain.Builder.Helper;
 using Terrain.Builder.Helper.Interfaces;
+using MathHelper.Extensions;
 
 namespace Terrain.Builder
 {
@@ -109,7 +110,7 @@ namespace Terrain.Builder
                     }
                 });
                 var lastFloorSegment = floorSegment.Segments.Last();
-                helper = floorHelper.AddFloorSegmentEnd(lastFloorSegment.P2, lastFloorSegment.Slope);
+                helper = floorHelper.AddFloorSegmentEnd(lastFloorSegment.P2, lastFloorSegment.GetOrientationInRadians());
             }
             return helper;
         }
@@ -132,7 +133,7 @@ namespace Terrain.Builder
                     }
                 });
                 var lastSlopeSegment = slopeSegment.Segments.Last();
-                helper = slopeHelper.AddSlopeSegmentEnd(lastSlopeSegment.P2, lastSlopeSegment.Slope);
+                helper = slopeHelper.AddSlopeSegmentEnd(lastSlopeSegment.P2, lastSlopeSegment.GetOrientationInRadians());
             }
             return helper;
         }

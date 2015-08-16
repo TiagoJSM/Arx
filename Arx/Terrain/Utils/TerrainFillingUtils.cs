@@ -77,39 +77,5 @@ namespace Terrain.Utils
             }
             return null;
         }
-
-        /*private static int? GetIndexOfPositiveIntersectedSlope(LineSegment2D[] segments, float fillingLowPoint, int start = 0)
-        {
-            while (start < segments.Count())
-            {
-                var segmentWithPositiveSlopeIndex = segments.GetIndexOfPositiveSlope(start);
-                if (segmentWithPositiveSlopeIndex != null)
-                {
-                    if (segments[segmentWithPositiveSlopeIndex.Value].ContainsY(fillingLowPoint))
-                    {
-                        return segmentWithPositiveSlopeIndex;
-                    }
-                }
-                start++;
-            }
-            return null;
-        }
-
-        private static int? GetIndexOfNegativeIntersectedSlope(LineSegment2D[] segments, float fillingLowPoint, int start = 0)
-        {
-            while (start < segments.Count())
-            {
-                var segmentWithNegativeSlopeIndex = segments.GetIndexOfNegativeSlope(start);
-                if (segmentWithNegativeSlopeIndex != null)
-                {
-                    if (segments[segmentWithNegativeSlopeIndex.Value].ContainsY(fillingLowPoint))
-                    {
-                        return segmentWithNegativeSlopeIndex;
-                    }
-                }
-                start++;
-            }
-            return null;
-        }*/
     }
 }
