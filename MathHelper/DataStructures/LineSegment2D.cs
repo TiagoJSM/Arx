@@ -63,6 +63,22 @@ namespace MathHelper.DataStructures
             return (y - B) / Slope.Value;
         }
 
+        public bool PositiveSlope
+        {
+            get
+            {
+                return P2.y > P1.y;
+            }
+        }
+
+        public bool NegativeSlope
+        {
+            get
+            {
+                return P1.y > P2.y;
+            }
+        }
+
         public override string ToString()
         {
             return "(" + P1.ToString() + ";" + P2.ToString() + ")";

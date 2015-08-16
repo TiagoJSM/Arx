@@ -12,56 +12,61 @@ namespace Terrain.Utils
     {
         public static IEnumerable<Tuple<int?, int?>> GetFillingIntervals(LineSegment2D[] segments, float fillingLowPoint)
         {
-            var startSegmentIndex = GetIndexOfIntersectedSlope(segments, fillingLowPoint);
-            var endSegmentIndex = GetIndexOfIntersectedSlope(segments, fillingLowPoint, 1);
+            var intersectionIndexes = GetIndexOfIntersectedSegments(segments, fillingLowPoint);
 
-            if (startSegmentIndex == null || endSegmentIndex == null)
-            {
-                return new[] { new Tuple<int?, int?>(startSegmentIndex, endSegmentIndex) };
-            }
-
-            var result = new List<Tuple<int?, int?>>();
-            var idx = 0;
-
-            /*if (startSegmentIndex.Value >= endSegmentIndex.Value)
-            {
-                result.Add(new Tuple<int?, int?>(null, endSegmentIndex));
-            }*/
             if (segments.First().P1.y > fillingLowPoint)
             {
-                result.Add(new Tuple<int?, int?>(null, startSegmentIndex));
-                idx = startSegmentIndex.Value + 1;
-            }
-            else
-            {
-                result.Add(new Tuple<int?, int?>(startSegmentIndex, endSegmentIndex));
-                idx = endSegmentIndex.Value + 1;
+                intersectionIndexes.Insert(0, null);
             }
 
-            
-            while (idx < segments.Count())
+            if (segments.Last().P2.y > fillingLowPoint)
             {
-                if (segments[idx].P2.y < fillingLowPoint)
+                intersectionIndexes.Add(null);
+            }
+
+            var start = default(int?);
+            var hasStart = false;
+            for (var idx = 0; idx < intersectionIndexes.Count(); idx++)
+            {
+                var segmentIndex = default(int?);
+                if (!hasStart)
                 {
-                    idx++;
+                    segmentIndex = intersectionIndexes[idx];
+                    if (IsFillingStartIndex(segments, segmentIndex))
+                    {
+                        start = segmentIndex;
+                        hasStart = true;
+                    }
                     continue;
                 }
-                startSegmentIndex = GetIndexOfIntersectedSlope(segments, fillingLowPoint, idx);
-                if (startSegmentIndex == null)
+                
+                segmentIndex = intersectionIndexes[idx];
+                if (!IsFillingEndIndex(segments, segmentIndex))
                 {
-                    break;
+                    continue;
                 }
-                idx = startSegmentIndex.Value + 1;
-                endSegmentIndex = GetIndexOfIntersectedSlope(segments, fillingLowPoint, idx);
-                result.Add(new Tuple<int?, int?>(startSegmentIndex, endSegmentIndex));
-                if (endSegmentIndex == null)
-                {
-                    break;
-                }
-                idx++;
-            }
 
-            return result;
+                hasStart = false;
+                yield return new Tuple<int?, int?>(start, segmentIndex);
+            }
+        }
+
+        private static bool IsFillingStartIndex(LineSegment2D[] segments, int? index)
+        {
+            if (index == null)
+            {
+                return true;
+            }
+            return segments[index.Value].PositiveSlope;
+        }
+
+        private static bool IsFillingEndIndex(LineSegment2D[] segments, int? index)
+        {
+            if (index == null)
+            {
+                return true;
+            }
+            return segments[index.Value].NegativeSlope;
         }
 
         private static int? GetIndexOfIntersectedSlope(LineSegment2D[] segments, float fillingLowPoint, int start = 0)
@@ -76,6 +81,20 @@ namespace Terrain.Utils
                 start++;
             }
             return null;
+        }
+
+        private static List<int?> GetIndexOfIntersectedSegments(LineSegment2D[] segments, float fillingLowPoint)
+        {
+            var result = new List<int?>();
+            for (var idx = 0; idx < segments.Length; idx++)
+            {
+                var segment = segments[idx];
+                if (segment.ContainsY(fillingLowPoint))
+                {
+                    result.Add(idx);
+                }
+            }
+            return result;
         }
     }
 }
