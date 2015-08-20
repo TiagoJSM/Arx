@@ -16,11 +16,16 @@ namespace Terrain
         private List<Vector2> _pathNodes;
 
         public Mesh mesh;
+        [Header("Terrain shape")]
         public float maxSegmentLenght = 2;
-        public float colliderOffset = 0;
-        public bool addFilling = true;
         public float fillingLowPoint = 0;
         public float floorTerrainMaximumSlope = 1.0f;
+        public bool addFilling = true;
+        public float terrainHeight = 0.5f;
+        public float cornerWidth = 0.5f;
+
+        [Header("Terrain collider")]
+        public float colliderOffset = 0;
 
         public int VerticeCount { get { return _pathNodes.Count; } }
         public IEnumerable<LineSegment2D> PathSegments
@@ -76,7 +81,6 @@ namespace Terrain
 
         public TerrainField()
         {
-            mesh = new Mesh();
             _pathNodes = new List<Vector2>();
         }
 

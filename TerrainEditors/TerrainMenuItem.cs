@@ -19,6 +19,7 @@ namespace TerrainEditors
         {
             var terrain = new GameObject(DefaultName);
             var terrainField = terrain.AddComponent<TerrainField>();
+            terrainField.mesh = new Mesh();
             terrain.AddComponent<MeshFilter>();
             terrain.AddComponent<MeshRenderer>();
             terrainField.AddPathNode(DefaultFirstVector);

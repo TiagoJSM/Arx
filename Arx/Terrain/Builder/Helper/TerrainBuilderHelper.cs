@@ -39,6 +39,7 @@ namespace Terrain.Builder.Helper
             };
 
         private float _height;
+        private float _cornerWidth;
 
         private int _currentIndice;
         private int _currentSegmentIndex;
@@ -70,9 +71,9 @@ namespace Terrain.Builder.Helper
             get { return _colors.ToArray(); }
         }
 
-        public static ITerrainBuilderHelper GetNewBuilder()
+        public static ITerrainBuilderHelper GetNewBuilder(float height = 0.5f, float cornerWidth = 0.5f)
         {
-            return new TerrainBuilderHelper();
+            return new TerrainBuilderHelper(height, cornerWidth);
         }
 
         private Vector2 PreviousTopRightCorner
@@ -83,7 +84,7 @@ namespace Terrain.Builder.Helper
             }
         }
 
-        private TerrainBuilderHelper()
+        private TerrainBuilderHelper(float height, float cornerWidth)
         {
             _currentIndice = -1;
             _processedSegments = new List<LineSegment2D>();
@@ -91,8 +92,8 @@ namespace Terrain.Builder.Helper
             _indices = new List<int>();
             _uvs = new List<Vector2>();
             _colors = new List<Color>();
-
-            _height = 0.5f;
+            _height = height;
+            _cornerWidth = cornerWidth;
         }
 
         public IFloorSegmentBuilder AddFloorSegmentStart(LineSegment2D segment)
@@ -133,7 +134,7 @@ namespace Terrain.Builder.Helper
 
         public ITerrainBuilderHelper AddFloorSegmentEnd(Vector2 endPoint, float rotationInRadians)
         {
-            AddEndingSegmentEnd(endPoint, rotationInRadians, FloorEndingsColor);
+            AddSegmentCornerEnd(endPoint, rotationInRadians, FloorEndingsColor);
             return this;
         }
 
@@ -145,7 +146,7 @@ namespace Terrain.Builder.Helper
 
         public ITerrainBuilderHelper AddSlopeSegmentEnd(Vector2 endPoint, float rotationInRadians)
         {
-            AddEndingSegmentEnd(endPoint, rotationInRadians, SlopeEndingsColor);
+            AddSegmentCornerEnd(endPoint, rotationInRadians, SlopeEndingsColor);
             return this;
         }
 
@@ -157,14 +158,14 @@ namespace Terrain.Builder.Helper
 
         public ITerrainBuilderHelper AddCeilingSegmentEnd(Vector2 endPoint, float rotationInRadians)
         {
-            AddEndingSegmentEnd(endPoint, rotationInRadians, CeilingEndingsColor);
+            AddSegmentCornerEnd(endPoint, rotationInRadians, CeilingEndingsColor);
             return this;
         }
 
         private void AddSegmentStart(LineSegment2D segment, Color endingColor, Color segmentColor)
         {
             _currentSegmentIndex = 0;
-            AddEndingSegmentStart(segment.P1, segment.GetOrientationInRadians(), endingColor);
+            AddSegmentCornerStart(segment.P1, segment.GetOrientationInRadians(), endingColor);
             AddFirstSegmentStart(segment, segmentColor);
         }
 
@@ -175,27 +176,27 @@ namespace Terrain.Builder.Helper
             AddNextSegmentData(segment, segmentColor);
         }
 
-        private void AddEndingSegmentStart(Vector2 origin, float rotationInRadians, Color color)
+        private void AddSegmentCornerStart(Vector2 origin, float rotationInRadians, Color color)
         {
             var vectors = 
                 new[] {
-                    origin + new Vector2(-_height, 0),
+                    origin + new Vector2(-_cornerWidth, 0),
                     origin,
-                    origin + new Vector2(-_height, _height),
+                    origin + new Vector2(-_cornerWidth, _height),
                     origin + new Vector2(0, _height)
                 };
 
             AddSegmentDataStart(color, true, GetRotatedVectors(origin, rotationInRadians, vectors));
         }
 
-        private void AddEndingSegmentEnd(Vector2 endPoint, float rotationInRadians, Color color)
+        private void AddSegmentCornerEnd(Vector2 endPoint, float rotationInRadians, Color color)
         {
             var vectors =
                 new[] {
                     endPoint,
-                    endPoint + new Vector2(_height, 0),
+                    endPoint + new Vector2(_cornerWidth, 0),
                     endPoint + new Vector2(0, _height),
-                    endPoint + new Vector2(_height, _height)
+                    endPoint + new Vector2(_cornerWidth, _height)
                 };
 
             AddSegmentDataStart(color, false, GetRotatedVectors(endPoint, rotationInRadians, vectors));
