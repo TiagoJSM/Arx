@@ -47,9 +47,10 @@ namespace TerrainEditors
                 TerrainBuilder.BuildMeshFor(TerrainField);
                 TerrainColliderBuilder.BuildColliderFor(TerrainField);
             }
-            DrawLinesBetweenPathNodes();
             DrawPathNodesMoveHandles();
             DrawPathNodesDividerHandles();
+            DrawLinesBetweenPathNodes();
+            DrawCollider();
             HandleInput();
             
             if (GUI.changed)
@@ -58,6 +59,7 @@ namespace TerrainEditors
 
         private void DrawLinesBetweenPathNodes()
         {
+            Handles.color = Color.blue;
             foreach (var segment in TerrainField.PathSegments)
             {
                 Handles.DrawLine(segment.P1.ToVector3(), segment.P2.ToVector3());
@@ -172,6 +174,25 @@ namespace TerrainEditors
                 },
                 Color.white,
                 Color.white);
+        }
+
+        private void DrawCollider()
+        {
+            var collider = TerrainField.GetComponent<EdgeCollider2D>();
+            if (collider == null)
+            {
+                return;
+            }
+            var terrainPosition = TerrainField.transform.position;
+
+            var points =
+                collider
+                    .points
+                    .Select(p => p.ToVector3() + terrainPosition)
+                    .ToArray();
+
+            Handles.color = Color.green;
+            Handles.DrawAAPolyLine(3f, points);
         }
     }
 }

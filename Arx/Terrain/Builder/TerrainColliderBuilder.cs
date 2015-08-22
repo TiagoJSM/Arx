@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Extensions;
+using MathHelper.Extensions;
 
 namespace Terrain.Builder
 {
@@ -23,15 +24,19 @@ namespace Terrain.Builder
             var previous = default(LineSegment2D?);
             foreach (var pathSegment in field.OriginPathSegments)
             {
-                float radians;
+                float radians = 0;
                 if (previous.HasValue)
                 {
-                    radians = (Mathf.Atan(pathSegment.Slope.Value) + Mathf.Atan(previous.Value.Slope.Value)) / 2;
+                    var currentRad = pathSegment.GetOrientationInRadians();
+                    var previousRad = (previous.Value.GetOrientationInRadians());
+                    radians = (currentRad + previousRad) / 2;
+
+                    if ((currentRad + previousRad) > Mathf.PI)
+                    {
+                        radians -= Mathf.PI;
+                    }
                 }
-                else
-                {
-                    radians = Mathf.Atan(pathSegment.Slope.Value);
-                }
+
                 colliderPoints[idx] = 
                     (colliderPoints[idx] + new Vector2(0, field.colliderOffset))
                         .RotateAround(colliderPoints[idx], radians);
@@ -41,10 +46,9 @@ namespace Terrain.Builder
 
             if (previous.HasValue)
             {
-                var radians = Mathf.Atan(previous.Value.Slope.Value);
-                colliderPoints[idx] =
-                    (colliderPoints[idx] + new Vector2(0, field.colliderOffset))
-                        .RotateAround(colliderPoints[idx], radians);
+                var radians = previous.Value.GetOrientationInRadians();
+
+                colliderPoints[idx] = (colliderPoints[idx] + new Vector2(0, field.colliderOffset));
             }
 
             collider.points = colliderPoints;
