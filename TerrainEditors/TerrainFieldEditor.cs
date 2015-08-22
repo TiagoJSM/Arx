@@ -38,9 +38,19 @@ namespace TerrainEditors
                     new InputCombination(AddPathNode, MouseButton.Right, EventModifiers.Control));
         }
 
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            if (GUI.changed)
+            {
+                _requiresMeshUpdate = true;
+            }
+        }
+
         private void OnSceneGUI()
         {
             //GUILayout.Button("something");
+            
             if (_requiresMeshUpdate)
             {
                 _requiresMeshUpdate = false;
@@ -194,5 +204,11 @@ namespace TerrainEditors
             Handles.color = Color.green;
             Handles.DrawAAPolyLine(3f, points);
         }
+
+        private void OnValidate()
+        {
+            Debug.Log("OnValidate");
+        }
+
     }
 }
