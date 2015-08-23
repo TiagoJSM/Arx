@@ -13,6 +13,8 @@
 
 	SubShader
 	{
+		Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
+		Blend SrcAlpha OneMinusSrcAlpha
 		Pass
 		{
 			Cull Off
@@ -21,8 +23,6 @@
 			#pragma fragment frag
 
 			#include "UnityCG.cginc"
-
-			
 
 			uniform sampler2D _FloorEndingTexture;
 			uniform float4 _FloorEndingTexture_ST;
@@ -86,23 +86,23 @@
 				}
 				else if(input.color.a == 0.5f)
 				{
-					fragment.uv = TRANSFORM_TEX(input.texcoord, _CeilingTexture);
+					fragment.uv = TRANSFORM_TEX(input.texcoord, _CeilingEndingTexture);
 				}
 				else if(input.color.a == 0.6f)
 				{
-					fragment.uv = TRANSFORM_TEX(input.texcoord, _CeilingEndingTexture);
+					fragment.uv = TRANSFORM_TEX(input.texcoord, _CeilingTexture);
 				}
 
 				fragment.color = input.color;
 				return fragment;
 			}
 
-			half4 frag(FragmentInput input) : COLOR
+			float4 frag(FragmentInput input) : COLOR
 			{
 				if(input.color.a == 0.0f)
 				{
 					return tex2D(_FloorEndingTexture, input.uv);
-				}
+				} 
 				if(input.color.a == 0.1f)
 				{
 					return tex2D(_FloorTexture, input.uv);
@@ -121,10 +121,9 @@
 				}
 				if(input.color.a == 0.5f)
 				{
-					return tex2D(_CeilingTexture, input.uv);
+					return tex2D(_CeilingEndingTexture, input.uv);
 				}
-				return tex2D(_CeilingEndingTexture, input.uv);
-				
+				return tex2D(_CeilingTexture, input.uv);
 			}
 
 			ENDCG
