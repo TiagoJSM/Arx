@@ -319,6 +319,9 @@
  <Reference Include="Utils">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Utils.dll</HintPath>
  </Reference>
+ <Reference Include="Parallax">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Parallax.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

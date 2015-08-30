@@ -108,6 +108,9 @@
     <Reference Include="Utils">
       <HintPath>Assets\Utils.dll</HintPath>
     </Reference>
+    <Reference Include="Parallax">
+      <HintPath>Assets\Parallax.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityVS.Arx.CSharp.Plugins.csproj">
