@@ -295,6 +295,9 @@
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
+ <Reference Include="2DDynamicCamera">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/2DDynamicCamera.dll</HintPath>
+ </Reference>
  <Reference Include="CommonInterfaces">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/CommonInterfaces.dll</HintPath>
  </Reference>
@@ -310,6 +313,9 @@
  <Reference Include="MathHelper">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/MathHelper.dll</HintPath>
  </Reference>
+ <Reference Include="Parallax">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Parallax.dll</HintPath>
+ </Reference>
  <Reference Include="QuestSystem">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/QuestSystem.dll</HintPath>
  </Reference>
@@ -318,9 +324,6 @@
  </Reference>
  <Reference Include="Utils">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Utils.dll</HintPath>
- </Reference>
- <Reference Include="Parallax">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Parallax.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

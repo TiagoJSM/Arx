@@ -69,6 +69,9 @@
     <Reference Include="MathHelper">
       <HintPath>Assets\MathHelper.dll</HintPath>
     </Reference>
+    <Reference Include="Parallax">
+      <HintPath>Assets\Parallax.dll</HintPath>
+    </Reference>
     <Reference Include="QuestSystem">
       <HintPath>Assets\QuestSystem.dll</HintPath>
     </Reference>
@@ -78,8 +81,8 @@
     <Reference Include="Utils">
       <HintPath>Assets\Utils.dll</HintPath>
     </Reference>
-    <Reference Include="Parallax">
-      <HintPath>Assets\Parallax.dll</HintPath>
+    <Reference Include="2DDynamicCamera">
+      <HintPath>Assets\2DDynamicCamera.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
