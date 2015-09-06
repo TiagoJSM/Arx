@@ -29,3 +29,5 @@ C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\P
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Parallax.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\2DDynamicCamera.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\2DDynamicCamera.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\DevelopmentUtils.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\DevelopmentUtils.pdb

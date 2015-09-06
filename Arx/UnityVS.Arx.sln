@@ -39,6 +39,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parallax", "..\Parallax\Par
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2DDynamicCamera", "..\2DDynamicCamera\2DDynamicCamera.csproj", "{032238DD-361C-4BB7-B95D-F563B768F294}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevelopmentUtils", "..\DevelopmentUtils\DevelopmentUtils.csproj", "{F39665AF-3030-43A8-8C67-D071C4803EEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2DDynamicCameraEditors", "2DDynamicCameraEditors\2DDynamicCameraEditors.csproj", "{FBE1C732-2EB8-42D5-B523-70AEE5924C34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +125,14 @@ Global
 		{032238DD-361C-4BB7-B95D-F563B768F294}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{032238DD-361C-4BB7-B95D-F563B768F294}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{032238DD-361C-4BB7-B95D-F563B768F294}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F39665AF-3030-43A8-8C67-D071C4803EEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F39665AF-3030-43A8-8C67-D071C4803EEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F39665AF-3030-43A8-8C67-D071C4803EEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F39665AF-3030-43A8-8C67-D071C4803EEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBE1C732-2EB8-42D5-B523-70AEE5924C34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBE1C732-2EB8-42D5-B523-70AEE5924C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBE1C732-2EB8-42D5-B523-70AEE5924C34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBE1C732-2EB8-42D5-B523-70AEE5924C34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

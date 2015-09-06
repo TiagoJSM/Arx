@@ -84,6 +84,9 @@
     <Reference Include="UnityEditor.OSXStandalone.Extensions">
       <HintPath>Library\UnityAssemblies\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="2DDynamicCamera">
+      <HintPath>Assets\2DDynamicCamera.dll</HintPath>
+    </Reference>
     <Reference Include="CommonInterfaces">
       <HintPath>Assets\CommonInterfaces.dll</HintPath>
     </Reference>
@@ -111,8 +114,8 @@
     <Reference Include="Utils">
       <HintPath>Assets\Utils.dll</HintPath>
     </Reference>
-    <Reference Include="2DDynamicCamera">
-      <HintPath>Assets\2DDynamicCamera.dll</HintPath>
+    <Reference Include="DevelopmentUtils">
+      <HintPath>Assets\DevelopmentUtils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

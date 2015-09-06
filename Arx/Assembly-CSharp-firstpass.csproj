@@ -301,6 +301,9 @@
  <Reference Include="CommonInterfaces">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/CommonInterfaces.dll</HintPath>
  </Reference>
+ <Reference Include="DevelopmentUtils">
+ <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/DevelopmentUtils.dll</HintPath>
+ </Reference>
  <Reference Include="Extensions">
  <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Extensions.dll</HintPath>
  </Reference>

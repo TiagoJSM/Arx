@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Extensions;
+using _2DDynamicCamera.Interfaces;
 
 namespace _2DDynamicCamera
 {
     public class DynamicCamera : MonoBehaviour
     {
-        public Transform target;
+        public Transform owner;
         [Range(0, float.MaxValue)]
         public float xDamping = 0.1f;
         [Range(0, float.MaxValue)]
@@ -20,30 +21,99 @@ namespace _2DDynamicCamera
         public float xBounds;
         [Range(0, float.MaxValue)]
         public float yBounds;
-        [Range(0, float.MaxValue)]
-        public float zoom = 3.3f;
+        public Vector2 offset;
+
+        [Range(0, 100)]
+        [SerializeField]
+        private float _defaultZoom = 3.3f;
+        private float _zoomThreshold = 0.03f;
 
         private float _currentXVelocity;
         private float _currentYVelocity;
         private float _offsetZ;
+        private bool _isZooming;
+        private float _zoomTarget;
+        private float _currentZoom;
+        private float _zoomDamping;
+        private List<ICameraTarget> _targets;
+
+        private Vector3 TargetPosition
+        {
+            get
+            {
+                Vector3 targetPosition;
+                if (_targets.Any())
+                {
+                    targetPosition = _targets.Last().Position;
+                }
+                else
+                {
+                    targetPosition = owner.position;
+                }
+                return targetPosition + offset.ToVector3();
+            }
+        }
+
+        public static DynamicCamera Main
+        {
+            get
+            {
+                return Camera.main.GetComponent<DynamicCamera>();
+            }
+        }
+
+        public void AddTarget(ICameraTarget target)
+        {
+            _targets.Add(target);
+        }
+
+        public void RemoveTarget(ICameraTarget target)
+        {
+            _targets.Remove(target);
+        }
+
+        public void SetDefaultZoom(float zoom)
+        {
+            _defaultZoom = zoom;
+        }
+
+        public void Zoom(float zoom)
+        {
+            _currentZoom = zoom;
+            _zoomTarget = zoom;
+        }
+
+        public void Zoom(float zoom, float damping)
+        {
+            _isZooming = true;
+            _zoomTarget = zoom;
+            _zoomDamping = damping;
+        }
+
+        public void ZoomToDefault()
+        {
+            _isZooming = false;
+            _zoomTarget = _defaultZoom;
+        }
 
         // Use this for initialization
         private void Start()
         {
-            _offsetZ = (transform.position - target.position).z;
+            _offsetZ = (transform.position - owner.position).z;
+            _currentZoom = _defaultZoom;
             if (startOnTarget)
             {
-                var position = target.position;
+                var position = owner.position;
                 position.z = _offsetZ;
                 transform.position = position;
             }
-            //transform.parent = null;
+            _targets = new List<ICameraTarget>();
         }
 
         // Update is called once per frame
         private void Update()
         {
-            Vector3 targetPosition = target.position;
+            Vector3 targetPosition = TargetPosition;
             var cameraPositionRelative = transform.position - targetPosition;
             bool updateNeeded = Vector3.Distance(Vector3.zero, cameraPositionRelative) > targetDistanceThreshold;
 
@@ -67,7 +137,17 @@ namespace _2DDynamicCamera
 
             transform.position = cameraPosition;
 
-            Camera.main.orthographicSize = zoom;
+            HandleZoom();
+        }
+
+        private void HandleZoom()
+        {
+            if (_isZooming)
+            {
+                float currentVelocity = 0;
+                _currentZoom = Mathf.SmoothDamp(_currentZoom, _zoomTarget, ref currentVelocity, _zoomDamping);
+            }
+            Camera.main.orthographicSize = _currentZoom; ;
         }
 
         void OnDrawGizmos()
