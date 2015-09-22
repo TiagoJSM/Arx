@@ -14,6 +14,7 @@ namespace CombatSystem.DataStructures
         public List<IActionConfiguraton> Actions { get; set; }
         public AttackConfiguration NextAttack { get; set; }
         public string AnimationName { get; set; }
+        public bool CancelIfAttacked { get; set; }
 
         public AttackConfiguration()
         {

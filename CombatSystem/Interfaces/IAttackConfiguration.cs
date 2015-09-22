@@ -11,6 +11,7 @@ namespace CombatSystem.Interfaces
     public interface IAttackConfiguration
     {
         IAttackConfiguration If(AttackPreCondition preCondition);
+        IAttackConfiguration CancelIfAttacked(bool cancel);
         IAttackConfiguration WithDuration(int milliseconds);
         IAttackActionConfiguration At(int milliseconds);
         IAttackActionConfiguration At(float percentage);

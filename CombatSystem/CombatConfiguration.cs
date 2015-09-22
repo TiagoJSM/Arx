@@ -30,6 +30,12 @@ namespace CombatSystem
             return this;
         }
 
+        public IAttackConfiguration CancelIfAttacked(bool cancel)
+        {
+            _currentAttackConfiguration.CancelIfAttacked = cancel;
+            return this;
+        }
+
         public IAttackConfiguration If(AttackPreCondition preCondition)
         {
             _currentAttackConfiguration.PreCondition = preCondition;
