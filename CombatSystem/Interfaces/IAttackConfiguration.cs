@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 namespace CombatSystem.Interfaces
 {
     public delegate bool AttackPreCondition();
+    public delegate void OnStart();
+    public delegate void OnEnd();
+    public delegate void OnCancelled();
 
     public interface IAttackConfiguration
     {
@@ -17,6 +20,9 @@ namespace CombatSystem.Interfaces
         IAttackActionConfiguration At(float percentage);
         IAttackConfiguration Play(string animationName);
         IAttackConfiguration NextAttack();
+        IAttackConfiguration OnStart(OnStart callback);
+        IAttackConfiguration OnEnd(OnEnd callback);
+        IAttackConfiguration OnCancelled(OnCancelled callback);
         ICombatSystem EndCombo();
     }
 }

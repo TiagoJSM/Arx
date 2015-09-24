@@ -73,6 +73,24 @@ namespace CombatSystem
             return this;
         }
 
+        public IAttackConfiguration OnStart(OnStart callback)
+        {
+            _currentAttackConfiguration.OnStart = callback;
+            return this;
+        }
+
+        public IAttackConfiguration OnEnd(OnEnd callback)
+        {
+            _currentAttackConfiguration.OnEnd = callback;
+            return this;
+        }
+
+        public IAttackConfiguration OnCancelled(OnCancelled callback)
+        {
+            _currentAttackConfiguration.OnCancelled = callback;
+            return this;
+        }
+
         public ICombatSystem EndCombo()
         {
             return this;
