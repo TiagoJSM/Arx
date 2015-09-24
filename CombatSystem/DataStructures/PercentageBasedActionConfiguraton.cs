@@ -12,9 +12,9 @@ namespace CombatSystem.DataStructures
         private AttackConfiguration _attackConfig;
         private float _percentage;
 
-        public int PerformTime
+        public float PerformTime
         {
-            get { return (int)(_attackConfig.Duration * (_percentage / 100.0f)); }
+            get { return (_attackConfig.DurationMilliseconds * (_percentage / 100.0f)); }
         }
 
         public AttackAction Action { get; set; }

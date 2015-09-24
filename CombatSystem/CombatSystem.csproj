@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CombatController.cs" />
     <Compile Include="DataStructures\PercentageBasedActionConfiguraton.cs" />
     <Compile Include="DataStructures\TimeBasedActionConfiguraton.cs" />
     <Compile Include="DataStructures\AttackConfiguration.cs" />

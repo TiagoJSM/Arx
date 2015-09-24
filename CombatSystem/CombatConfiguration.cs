@@ -13,6 +13,8 @@ namespace CombatSystem
         private Dictionary<string, AttackConfiguration> _attackConfigurations;
         private AttackConfiguration _currentAttackConfiguration;
 
+        public Dictionary<string, AttackConfiguration> CombatAttacksConfiguration { get { return _attackConfigurations; } }
+
         public static ICombatSystem Configure()
         {
             return new CombatConfiguration();
@@ -44,7 +46,7 @@ namespace CombatSystem
 
         public IAttackConfiguration WithDuration(int milliseconds)
         {
-            _currentAttackConfiguration.Duration = milliseconds;
+            _currentAttackConfiguration.DurationMilliseconds = milliseconds;
             return this;
         }
 
@@ -66,8 +68,9 @@ namespace CombatSystem
             return this;
         }
 
-        public IAttackConfiguration NextAttack()
+        public IAttackConfiguration NextAttack(float triggeredBefore = 0.5f)
         {
+            _currentAttackConfiguration.NextComboTriggeredBefore = triggeredBefore;
             _currentAttackConfiguration.NextAttack = new AttackConfiguration();
             _currentAttackConfiguration = _currentAttackConfiguration.NextAttack;
             return this;

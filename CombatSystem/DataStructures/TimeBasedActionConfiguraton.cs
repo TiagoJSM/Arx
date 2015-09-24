@@ -9,11 +9,11 @@ namespace CombatSystem.DataStructures
 {
     public class TimeBasedActionConfiguraton : IActionConfiguraton
     {
-        public int PerformTime { get; private set; }
+        public float PerformTime { get; private set; }
 
         public AttackAction Action { get; set; }
 
-        public TimeBasedActionConfiguraton(int performTime)
+        public TimeBasedActionConfiguraton(float performTime)
         {
             PerformTime = performTime;
         }

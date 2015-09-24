@@ -8,7 +8,7 @@ namespace CombatSystem.Interfaces
 {
     public interface IActionConfiguraton
     {
-        int PerformTime { get; }
+        float PerformTime { get; }
         AttackAction Action { get; set; }
     }
 }
