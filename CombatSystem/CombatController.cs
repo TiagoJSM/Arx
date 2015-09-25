@@ -14,6 +14,7 @@ namespace CombatSystem
         private string _performingAttack;
         private AttackConfiguration _currentAttackConfiguration;
         private float _elapsedTimeInCombo;
+        private bool _gotInputForNextCombo;
 
         public CombatController(ICombatSystem combatSystem)
         {
@@ -22,7 +23,7 @@ namespace CombatSystem
 
         public void Elapse(float elapsedTimeInMillis)
         {
-            //ToDo: play animation, check if can perform next attack
+            //ToDo: play animation
             if (_currentAttackConfiguration == null)
             {
                 return;
@@ -38,7 +39,8 @@ namespace CombatSystem
             _currentAttackConfiguration = _currentAttackConfiguration.NextAttack;
             _elapsedTimeInCombo = 0.0f;
 
-            if (_currentAttackConfiguration != null && !_currentAttackConfiguration.PreCondition())
+            if (!_gotInputForNextCombo || 
+                (_currentAttackConfiguration != null && !_currentAttackConfiguration.PreCondition()))
             {
                 _currentAttackConfiguration = null;
             }
@@ -46,8 +48,13 @@ namespace CombatSystem
 
         public void Perform(string attack)
         {
+            if (attack == null)
+            {
+                return;
+            }
             if (_performingAttack == attack)
             {
+                CheckNextComboInputTime();
                 _performingAttack = attack;
                 return;
             }
@@ -64,6 +71,16 @@ namespace CombatSystem
             _currentAttackConfiguration = currentAttackConfiguration;
             _elapsedTimeInCombo = 0.0f;
             _currentAttackConfiguration.OnStart();
+        }
+
+        private void CheckNextComboInputTime()
+        {
+            if (_gotInputForNextCombo)
+            {
+                return;
+            }
+            
+            _gotInputForNextCombo = _currentAttackConfiguration.CanTriggerNextCombo(_elapsedTimeInCombo);
         }
 
         private void PerformActions(IEnumerable<IActionConfiguraton> actionConfigs)

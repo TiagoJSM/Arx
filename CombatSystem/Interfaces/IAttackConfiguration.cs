@@ -18,7 +18,8 @@ namespace CombatSystem.Interfaces
         IAttackConfiguration WithDuration(int milliseconds);
         IAttackActionConfiguration At(int milliseconds);
         IAttackActionConfiguration At(float percentage);
-        IAttackConfiguration Play(string animationName);
+        IAttackConfiguration PlayAnimation(string animationName);
+        IAttackConfiguration PlaySound(string soundName);
         IAttackConfiguration NextAttack(float triggeredBefore = 0.5f);
         IAttackConfiguration OnStart(OnStart callback);
         IAttackConfiguration OnEnd(OnEnd callback);

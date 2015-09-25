@@ -62,9 +62,15 @@ namespace CombatSystem
             return this;
         }
 
-        public IAttackConfiguration Play(string animationName)
+        public IAttackConfiguration PlayAnimation(string animationName)
         {
             _currentAttackConfiguration.AnimationName = animationName;
+            return this;
+        }
+
+        public IAttackConfiguration PlaySound(string soundName)
+        {
+            _currentAttackConfiguration.SoundName = soundName;
             return this;
         }
 

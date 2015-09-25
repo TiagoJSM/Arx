@@ -14,22 +14,37 @@ namespace CombatSystem.DataStructures
         public List<IActionConfiguraton> Actions { get; set; }
         public AttackConfiguration NextAttack { get; set; }
         public string AnimationName { get; set; }
+        public string SoundName { get; set; }
         public bool CancelIfAttacked { get; set; }
         public float NextComboTriggeredBefore { get; set; }
         public OnStart OnStart { get; set; }
         public OnEnd OnEnd { get; set; }
         public OnCancelled OnCancelled { get; set; }
-        public int NextComboTriggeredBeforeTotalTime
+        public float NextComboTriggeredBeforeTotalTime
         {
             get
             {
-                return (int)(DurationMilliseconds * NextComboTriggeredBefore);    
+                return (DurationMilliseconds * NextComboTriggeredBefore);    
             }
         }
 
         public AttackConfiguration()
         {
             Actions = new List<IActionConfiguraton>();
+        }
+
+        public bool CanTriggerNextCombo(float elapsedTimeMilliseconds)
+        {
+            var comboTriggerTime = DurationMilliseconds - NextComboTriggeredBeforeTotalTime;
+            if (elapsedTimeMilliseconds < comboTriggerTime)
+            {
+                return false;
+            }
+            if (elapsedTimeMilliseconds > DurationMilliseconds)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
