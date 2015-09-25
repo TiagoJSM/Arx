@@ -7,12 +7,12 @@ using CombatSystem.Interfaces;
 
 namespace CombatSystem.DataStructures
 {
-    public class AttackConfiguration
+    public class ComboConfiguration
     {
-        public AttackPreCondition PreCondition { get; set; }
+        public ComboPreCondition PreCondition { get; set; }
         public float DurationMilliseconds { get; set; }
         public List<IActionConfiguraton> Actions { get; set; }
-        public AttackConfiguration NextAttack { get; set; }
+        public ComboConfiguration NextCombo { get; set; }
         public string AnimationName { get; set; }
         public string SoundName { get; set; }
         public bool CancelIfAttacked { get; set; }
@@ -28,7 +28,7 @@ namespace CombatSystem.DataStructures
             }
         }
 
-        public AttackConfiguration()
+        public ComboConfiguration()
         {
             Actions = new List<IActionConfiguraton>();
         }

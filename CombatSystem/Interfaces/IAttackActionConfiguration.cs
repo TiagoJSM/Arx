@@ -10,6 +10,6 @@ namespace CombatSystem.Interfaces
 
     public interface IAttackActionConfiguration
     {
-        IAttackConfiguration Perform(AttackAction action);
+        IComboConfiguration Perform(AttackAction action);
     }
 }

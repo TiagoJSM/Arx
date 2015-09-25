@@ -8,12 +8,12 @@ using CombatSystem.Interfaces;
 
 namespace CombatSystem
 {
-    public class CombatConfiguration : ICombatSystem, IAttackConfiguration, IAttackActionConfiguration
+    public class CombatConfiguration : ICombatSystem, IComboConfiguration, IAttackActionConfiguration
     {
-        private Dictionary<string, AttackConfiguration> _attackConfigurations;
-        private AttackConfiguration _currentAttackConfiguration;
+        private Dictionary<string, ComboConfiguration> _attackConfigurations;
+        private ComboConfiguration _currentComboConfiguration;
 
-        public Dictionary<string, AttackConfiguration> CombatAttacksConfiguration { get { return _attackConfigurations; } }
+        public Dictionary<string, ComboConfiguration> CombatAttacksConfiguration { get { return _attackConfigurations; } }
 
         public static ICombatSystem Configure()
         {
@@ -22,81 +22,81 @@ namespace CombatSystem
 
         private CombatConfiguration()
         {
-            _attackConfigurations = new Dictionary<string, AttackConfiguration>();
+            _attackConfigurations = new Dictionary<string, ComboConfiguration>();
         }
 
-        public IAttackConfiguration StartCombo(string comboName)
+        public IComboConfiguration StartCombo(string comboName)
         {
-            _currentAttackConfiguration = new AttackConfiguration();
-            _attackConfigurations.Add(comboName, _currentAttackConfiguration);
+            _currentComboConfiguration = new ComboConfiguration();
+            _attackConfigurations.Add(comboName, _currentComboConfiguration);
             return this;
         }
 
-        public IAttackConfiguration CancelIfAttacked(bool cancel)
+        public IComboConfiguration CancelIfAttacked(bool cancel)
         {
-            _currentAttackConfiguration.CancelIfAttacked = cancel;
+            _currentComboConfiguration.CancelIfAttacked = cancel;
             return this;
         }
 
-        public IAttackConfiguration If(AttackPreCondition preCondition)
+        public IComboConfiguration If(ComboPreCondition preCondition)
         {
-            _currentAttackConfiguration.PreCondition = preCondition;
+            _currentComboConfiguration.PreCondition = preCondition;
             return this;
         }
 
-        public IAttackConfiguration WithDuration(int milliseconds)
+        public IComboConfiguration WithDuration(int milliseconds)
         {
-            _currentAttackConfiguration.DurationMilliseconds = milliseconds;
+            _currentComboConfiguration.DurationMilliseconds = milliseconds;
             return this;
         }
 
         public IAttackActionConfiguration At(int milliseconds)
         {
-            _currentAttackConfiguration.Actions.Add(new TimeBasedActionConfiguraton(milliseconds));
+            _currentComboConfiguration.Actions.Add(new TimeBasedActionConfiguraton(milliseconds));
             return this;
         }
 
         public IAttackActionConfiguration At(float percentage)
         {
-            _currentAttackConfiguration.Actions.Add(new PercentageBasedActionConfiguraton(_currentAttackConfiguration, percentage));
+            _currentComboConfiguration.Actions.Add(new PercentageBasedActionConfiguraton(_currentComboConfiguration, percentage));
             return this;
         }
 
-        public IAttackConfiguration PlayAnimation(string animationName)
+        public IComboConfiguration PlayAnimation(string animationName)
         {
-            _currentAttackConfiguration.AnimationName = animationName;
+            _currentComboConfiguration.AnimationName = animationName;
             return this;
         }
 
-        public IAttackConfiguration PlaySound(string soundName)
+        public IComboConfiguration PlaySound(string soundName)
         {
-            _currentAttackConfiguration.SoundName = soundName;
+            _currentComboConfiguration.SoundName = soundName;
             return this;
         }
 
-        public IAttackConfiguration NextAttack(float triggeredBefore = 0.5f)
+        public IComboConfiguration NextCombo(float triggeredBefore = 0.5f)
         {
-            _currentAttackConfiguration.NextComboTriggeredBefore = triggeredBefore;
-            _currentAttackConfiguration.NextAttack = new AttackConfiguration();
-            _currentAttackConfiguration = _currentAttackConfiguration.NextAttack;
+            _currentComboConfiguration.NextComboTriggeredBefore = triggeredBefore;
+            _currentComboConfiguration.NextCombo = new ComboConfiguration();
+            _currentComboConfiguration = _currentComboConfiguration.NextCombo;
             return this;
         }
 
-        public IAttackConfiguration OnStart(OnStart callback)
+        public IComboConfiguration OnStart(OnStart callback)
         {
-            _currentAttackConfiguration.OnStart = callback;
+            _currentComboConfiguration.OnStart = callback;
             return this;
         }
 
-        public IAttackConfiguration OnEnd(OnEnd callback)
+        public IComboConfiguration OnEnd(OnEnd callback)
         {
-            _currentAttackConfiguration.OnEnd = callback;
+            _currentComboConfiguration.OnEnd = callback;
             return this;
         }
 
-        public IAttackConfiguration OnCancelled(OnCancelled callback)
+        public IComboConfiguration OnCancelled(OnCancelled callback)
         {
-            _currentAttackConfiguration.OnCancelled = callback;
+            _currentComboConfiguration.OnCancelled = callback;
             return this;
         }
 
@@ -105,9 +105,9 @@ namespace CombatSystem
             return this;
         }
 
-        public IAttackConfiguration Perform(AttackAction action)
+        public IComboConfiguration Perform(AttackAction action)
         {
-            _currentAttackConfiguration.Actions.Last().Action = action;
+            _currentComboConfiguration.Actions.Last().Action = action;
             return this;
         }
     }

@@ -42,11 +42,11 @@
     <Compile Include="CombatController.cs" />
     <Compile Include="DataStructures\PercentageBasedActionConfiguraton.cs" />
     <Compile Include="DataStructures\TimeBasedActionConfiguraton.cs" />
-    <Compile Include="DataStructures\AttackConfiguration.cs" />
+    <Compile Include="DataStructures\ComboConfiguration.cs" />
     <Compile Include="CombatConfiguration.cs" />
     <Compile Include="Interfaces\IActionConfiguraton.cs" />
     <Compile Include="Interfaces\IAttackActionConfiguration.cs" />
-    <Compile Include="Interfaces\IAttackConfiguration.cs" />
+    <Compile Include="Interfaces\IComboConfiguration.cs" />
     <Compile Include="Interfaces\ICombatSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

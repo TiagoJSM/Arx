@@ -9,21 +9,21 @@ namespace CombatSystem.DataStructures
 {
     public class PercentageBasedActionConfiguraton : IActionConfiguraton
     {
-        private AttackConfiguration _attackConfig;
+        private ComboConfiguration _comboConfig;
         private float _percentage;
 
         public float PerformTime
         {
-            get { return (_attackConfig.DurationMilliseconds * (_percentage / 100.0f)); }
+            get { return (_comboConfig.DurationMilliseconds * (_percentage / 100.0f)); }
         }
 
         public AttackAction Action { get; set; }
 
         public PercentageBasedActionConfiguraton(
-            AttackConfiguration attackConfig,
+            ComboConfiguration comboConfig,
             float percentage)
         {
-            _attackConfig = attackConfig;
+            _comboConfig = comboConfig;
             _percentage = percentage;
         }
     }

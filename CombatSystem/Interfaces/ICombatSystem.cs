@@ -10,7 +10,7 @@ namespace CombatSystem.Interfaces
 {
     public interface ICombatSystem
     {
-        Dictionary<string, AttackConfiguration> CombatAttacksConfiguration { get; }
-        IAttackConfiguration StartCombo(string comboName);
+        Dictionary<string, ComboConfiguration> CombatAttacksConfiguration { get; }
+        IComboConfiguration StartCombo(string comboName);
     }
 }
