@@ -55,6 +55,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="FloatExtensionsTests.cs" />
+    <Compile Include="FloatUtilsTests.cs" />
     <Compile Include="LineSegment2DExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

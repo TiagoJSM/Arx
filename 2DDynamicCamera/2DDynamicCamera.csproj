@@ -45,6 +45,7 @@
     <Compile Include="Interfaces\ICameraTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Zones\BaseZone.cs" />
+    <Compile Include="Zones\DampingZoomZone.cs" />
     <Compile Include="Zones\NewTargetZone.cs" />
     <Compile Include="Zones\SceneBoundsZone.cs" />
     <Compile Include="Zones\StandardNewTargetZone.cs" />

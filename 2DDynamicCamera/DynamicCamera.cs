@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using Extensions;
 using _2DDynamicCamera.Interfaces;
+using MathHelper;
 
 namespace _2DDynamicCamera
 {
@@ -31,7 +32,6 @@ namespace _2DDynamicCamera
         private float _currentXVelocity;
         private float _currentYVelocity;
         private float _offsetZ;
-        private bool _isZooming;
         private float _zoomTarget;
         private float _currentZoom;
         private float _zoomDamping;
@@ -85,15 +85,20 @@ namespace _2DDynamicCamera
 
         public void Zoom(float zoom, float damping)
         {
-            _isZooming = true;
             _zoomTarget = zoom;
             _zoomDamping = damping;
         }
 
         public void ZoomToDefault()
         {
-            _isZooming = false;
             _zoomTarget = _defaultZoom;
+            _currentZoom = _defaultZoom;
+        }
+
+        public void ZoomToDefault(float damping)
+        {
+            _zoomTarget = _defaultZoom;
+            _zoomDamping = damping;
         }
 
         // Use this for initialization
@@ -101,6 +106,7 @@ namespace _2DDynamicCamera
         {
             _offsetZ = (transform.position - owner.position).z;
             _currentZoom = _defaultZoom;
+            _zoomTarget = _defaultZoom;
             if (startOnTarget)
             {
                 var position = owner.position;
@@ -142,12 +148,15 @@ namespace _2DDynamicCamera
 
         private void HandleZoom()
         {
-            if (_isZooming)
+            if (FloatUtils.IsApproximately(_currentZoom, _zoomTarget, _zoomThreshold))
             {
-                float currentVelocity = 0;
-                _currentZoom = Mathf.SmoothDamp(_currentZoom, _zoomTarget, ref currentVelocity, _zoomDamping);
+                Camera.main.orthographicSize = _currentZoom;
+                return;
             }
-            Camera.main.orthographicSize = _currentZoom; ;
+
+            float currentVelocity = 0;
+            _currentZoom = Mathf.SmoothDamp(_currentZoom, _zoomTarget, ref currentVelocity, _zoomDamping);
+            Camera.main.orthographicSize = _currentZoom;
         }
 
         void OnDrawGizmos()
