@@ -114,14 +114,14 @@ namespace Terrain.Builder.Helper
             return this;
         }
 
-        public ITerrainBuilderHelper AddFilling(IEnumerable<LineSegment2D> segments, float fillingLowPoint)
+        public ITerrainBuilderHelper AddFilling(IEnumerable<LineSegment2D> segments, float fillingLowPoint, float fillingUFactor, float fillingVFactor)
         {
             //Print(segments);
             var segmentArray = segments.ToArray();
             var fillingIntervals = TerrainFillingUtils.GetFillingIntervals(segmentArray, fillingLowPoint);
             foreach (var interval in fillingIntervals)
             {
-                AddFillingForInterval(interval, segments, fillingLowPoint);
+                AddFillingForInterval(interval, segments, fillingLowPoint, fillingUFactor, fillingVFactor);
             }
             return this;
         }
@@ -297,11 +297,18 @@ namespace Terrain.Builder.Helper
             PreviousTopRightCorner = (bottomRight + new Vector2(0, _height)).RotateAround(bottomRight, radians);
         }
 
-        private void AddFillingForInterval(Tuple<int?, int?> interval, IEnumerable<LineSegment2D> segments, float fillingLowPoint)
+        private void AddFillingForInterval(Tuple<int?, int?> interval, IEnumerable<LineSegment2D> segments, float fillingLowPoint, float fillingUFactor, float fillingVFactor)
         {
             var polygonVertices = segments.GetFillingPolygonVertices(interval, fillingLowPoint).ToArray();
             var polygonColors = Enumerable.Range(0, polygonVertices.Length).Select(idx => FillingColor).ToArray();
-            var polygonUvs = polygonVertices.Select(v => v).ToArray();
+            var polygonUvs = 
+                polygonVertices
+                    .Select(v =>
+                    {
+                        v.x *= fillingUFactor;
+                        v.y *= fillingVFactor;
+                        return v;
+                    }).ToArray();
             var indices = Triangulator.TriangulatePolygon(polygonVertices.ToArray()).Select(i => i + _currentIndice + 1).ToArray();
             _vertices.AddRange(polygonVertices);
             _indices.AddRange(indices);

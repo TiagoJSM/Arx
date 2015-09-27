@@ -27,6 +27,10 @@ namespace Terrain
         [Header("Terrain collider")]
         public float colliderOffset = 0;
 
+        [Header("Terrain texturing")]
+        public float fillingUFactor = 1.0f;
+        public float fillingVFactor = 1.0f;
+
         public int VerticeCount { get { return _pathNodes.Count; } }
         public IEnumerable<LineSegment2D> PathSegments
         {

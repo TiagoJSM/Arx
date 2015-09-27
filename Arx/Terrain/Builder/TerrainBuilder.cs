@@ -37,7 +37,7 @@ namespace Terrain.Builder
             var helper = TerrainBuilderHelper.GetNewBuilder(field.terrainHeight, field.cornerWidth);
             if (field.addFilling)
             {
-                helper = AddFilling(helper, field.OriginPathSegments, field.fillingLowPoint, field.transform.position);
+                helper = AddFilling(helper, field.OriginPathSegments, field.fillingLowPoint, field.transform.position, field.fillingUFactor, field.fillingVFactor);
             } 
             helper = AddSlopeSegments(helper, terrainSegments);
             helper = AddFloorSegments(helper, terrainSegments);
@@ -163,9 +163,9 @@ namespace Terrain.Builder
             return helper;
         }
 
-        private static ITerrainBuilderHelper AddFilling(ITerrainBuilderHelper helper, IEnumerable<LineSegment2D> segments, float fillingLowPoint, Vector3 terrainPosition)
+        private static ITerrainBuilderHelper AddFilling(ITerrainBuilderHelper helper, IEnumerable<LineSegment2D> segments, float fillingLowPoint, Vector3 terrainPosition, float fillingUFactor, float fillingVFactor)
         {
-            return helper.AddFilling(segments, fillingLowPoint - terrainPosition.y);
+            return helper.AddFilling(segments, fillingLowPoint - terrainPosition.y, fillingUFactor, fillingVFactor);
         }
 
         private static IEnumerable<LineSegment2D> DivideSegment(LineSegment2D seg, float maxSegmentLenght)
