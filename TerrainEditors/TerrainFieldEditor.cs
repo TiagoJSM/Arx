@@ -205,10 +205,5 @@ namespace TerrainEditors
             Handles.DrawAAPolyLine(3f, points);
         }
 
-        private void OnValidate()
-        {
-            Debug.Log("OnValidate");
-        }
-
     }
 }

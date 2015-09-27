@@ -28,14 +28,15 @@ namespace Terrain.Builder
                 if (previous.HasValue)
                 {
                     var currentRad = pathSegment.GetOrientationInRadians();
-                    var previousRad = (previous.Value.GetOrientationInRadians());
+                    var previousRad = previous.Value.GetOrientationInRadians();
                     radians = (currentRad + previousRad) / 2;
 
-                    if ((currentRad + previousRad) > Mathf.PI)
+                    if ((Mathf.Abs(currentRad - previousRad)).NormalizeRadians() > Mathf.PI)
                     {
                         radians -= Mathf.PI;
                     }
                 }
+
 
                 colliderPoints[idx] = 
                     (colliderPoints[idx] + new Vector2(0, field.colliderOffset))
