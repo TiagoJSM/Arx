@@ -104,6 +104,7 @@ namespace _2DDynamicCamera
         // Use this for initialization
         private void Start()
         {
+            _targets = new List<ICameraTarget>();
             _offsetZ = (transform.position - owner.position).z;
             _currentZoom = _defaultZoom;
             _zoomTarget = _defaultZoom;
@@ -113,11 +114,10 @@ namespace _2DDynamicCamera
                 position.z = _offsetZ;
                 transform.position = position;
             }
-            _targets = new List<ICameraTarget>();
         }
 
         // Update is called once per frame
-        private void Update()
+        private void FixedUpdate()
         {
             Vector3 targetPosition = TargetPosition;
             var cameraPositionRelative = transform.position - targetPosition;

@@ -31,11 +31,11 @@ namespace Parallax
             
             foreach (var layer in parallaxLayers)
             {
-                var layerPosition = layer.layerContainer.transform.position;
+                var layerPosition = layer.layerContent.transform.position;
                 var xPosition = positionDif.x * layer.scrollRate.x;
                 var yPosition = positionDif.y * layer.scrollRate.y;
                 var scroll = new Vector3(xPosition, yPosition, 0);
-                layer.layerContainer.transform.position = scroll + layerPosition;
+                layer.layerContent.transform.position = scroll + layerPosition;
             }
             _previousPosition = cameraPosition;
         }

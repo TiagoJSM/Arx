@@ -10,6 +10,6 @@ namespace Parallax
     public class ParallaxLayer
     {
         public Vector2 scrollRate;
-        public GameObject layerContainer;
+        public GameObject layerContent;
     }
 }
