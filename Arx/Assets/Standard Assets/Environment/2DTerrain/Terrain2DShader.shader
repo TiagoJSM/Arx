@@ -2,6 +2,8 @@
 {
 	Properties
 	{
+		_InterpolationColour ("Interpolation colour", Color) = (1, 1, 1, 1)
+		_InterpolationFactor ("Interpolation factor", float) = 0
 		_FloorEndingTexture ("Floor ending texture", 2D) = "white" {}
 		_FloorTexture ("Floor texture", 2D) = "white" {}
 		_SlopeEndingTexture ("Slope ending texture", 2D) = "black" {}
@@ -23,6 +25,9 @@
 			#pragma fragment frag
 
 			#include "UnityCG.cginc"
+
+			uniform float4 _InterpolationColour;
+			uniform float _InterpolationFactor;
 
 			uniform sampler2D _FloorEndingTexture;
 			uniform float4 _FloorEndingTexture_ST;
@@ -99,31 +104,41 @@
 
 			float4 frag(FragmentInput input) : COLOR
 			{
+				float4 color;
 				if(input.color.a == 0.0f)
 				{
-					return tex2D(_FloorEndingTexture, input.uv);
+					color = tex2D(_FloorEndingTexture, input.uv);
+					//return tex2D(_FloorEndingTexture, input.uv);
 				} 
-				if(input.color.a == 0.1f)
+				else if(input.color.a == 0.1f)
 				{
-					return tex2D(_FloorTexture, input.uv);
+					color = tex2D(_FloorTexture, input.uv);
 				}
-				if(input.color.a == 0.2f)
+				else if(input.color.a == 0.2f)
 				{
-					return tex2D(_SlopeEndingTexture, input.uv);
+					color = tex2D(_SlopeEndingTexture, input.uv);
 				}
-				if(input.color.a == 0.3f)
+				else if(input.color.a == 0.3f)
 				{
-					return tex2D(_SlopeTexture, input.uv);
+					color = tex2D(_SlopeTexture, input.uv);
 				}
-				if(input.color.a == 0.4f)
+				else if(input.color.a == 0.4f)
 				{
-					return tex2D(_FillingTexture, input.uv);
+					color = tex2D(_FillingTexture, input.uv);
 				}
-				if(input.color.a == 0.5f)
+				else if(input.color.a == 0.5f)
 				{
-					return tex2D(_CeilingEndingTexture, input.uv);
+					color = tex2D(_CeilingEndingTexture, input.uv);
 				}
-				return tex2D(_CeilingTexture, input.uv);
+				else
+				{
+					color = tex2D(_CeilingTexture, input.uv);
+				}
+				
+				float alpha = color.a;
+				color = lerp(color, _InterpolationColour, _InterpolationFactor);
+				color.a = alpha;
+				return color;
 			}
 
 			ENDCG
