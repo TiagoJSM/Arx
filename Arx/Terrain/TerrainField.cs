@@ -26,6 +26,7 @@ namespace Terrain
 
         [Header("Terrain collider")]
         public float colliderOffset = 0;
+        public bool generateCollider = true;
 
         [Header("Terrain texturing")]
         public float fillingUFactor = 1.0f;
