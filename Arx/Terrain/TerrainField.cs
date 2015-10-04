@@ -31,6 +31,7 @@ namespace Terrain
         [Header("Terrain texturing")]
         public float fillingUFactor = 1.0f;
         public float fillingVFactor = 1.0f;
+        public Shader shader;
 
         public int VerticeCount { get { return _pathNodes.Count; } }
         public IEnumerable<LineSegment2D> PathSegments

@@ -21,12 +21,22 @@ namespace TerrainEditors
 
         private EditorInputHandler _inputHandler;
         private bool _requiresMeshUpdate;
+        private bool _shaderChanged;
+        private Shader _previousShader;
 
         public TerrainField TerrainField
         {
             get
             {
                 return target as TerrainField;
+            }
+        }
+
+        public MeshRenderer TerrainMeshRenderer
+        {
+            get
+            {
+                return TerrainField.GetComponent<MeshRenderer>(); //meshRenderer.material = new Material(Shader.Find(" Diffuse"));
             }
         }
 
@@ -41,6 +51,16 @@ namespace TerrainEditors
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+            if (_previousShader != TerrainField.shader)
+            {
+                _shaderChanged = true;
+                _previousShader = TerrainField.shader;
+            }
+            else
+            {
+                _shaderChanged = false;
+            }
+            
             if (GUI.changed)
             {
                 _requiresMeshUpdate = true;
@@ -49,13 +69,15 @@ namespace TerrainEditors
 
         private void OnSceneGUI()
         {
-            //GUILayout.Button("something");
-            
             if (_requiresMeshUpdate)
             {
                 _requiresMeshUpdate = false;
                 TerrainBuilder.BuildMeshFor(TerrainField);
                 TerrainColliderBuilder.BuildColliderFor(TerrainField);
+            }
+            if (_shaderChanged && TerrainField.shader != null)
+            {
+                TerrainMeshRenderer.material = new Material(TerrainField.shader);
             }
             DrawPathNodesMoveHandles();
             DrawPathNodesDividerHandles();

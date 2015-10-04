@@ -205,8 +205,8 @@ namespace Terrain.Builder.Helper
         private void AddFirstSegmentStart(LineSegment2D segment, Color color)
         {
             var radians = segment.GetOrientationInRadians();
-            var bottomLeft = /*segment.P1;*/(segment.P1 - new Vector2(0, _height/2)).RotateAround(segment.P1, radians);
-            var bottomRight = /*segment.P2;*/(segment.P2 - new Vector2(0, _height/2)).RotateAround(segment.P2, radians);
+            var bottomLeft = (segment.P1 - new Vector2(0, _height/2)).RotateAround(segment.P1, radians);
+            var bottomRight = (segment.P2 - new Vector2(0, _height/2)).RotateAround(segment.P2, radians);
             var topLeft = (segment.P1 + new Vector2(0, _height/2)).RotateAround(segment.P1, radians);
             var topRight = (segment.P2 + new Vector2(0, _height/2)).RotateAround(segment.P2, radians);
 
