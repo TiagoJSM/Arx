@@ -55,16 +55,7 @@ namespace TerrainEditors
             {
                 _requiresMeshUpdate = false;
                 TerrainBuilder.BuildMeshFor(TerrainField);
-                var collider = TerrainField.gameObject.GetComponent<EdgeCollider2D>();
-
-                if (TerrainField.generateCollider && collider == null)
-                {
-                    TerrainColliderBuilder.BuildColliderFor(TerrainField);
-                }
-                else if (!TerrainField.generateCollider && collider != null)
-                {
-                    DestroyImmediate(collider);
-                }
+                TerrainColliderBuilder.BuildColliderFor(TerrainField);
             }
             DrawPathNodesMoveHandles();
             DrawPathNodesDividerHandles();

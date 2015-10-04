@@ -180,10 +180,10 @@ namespace Terrain.Builder.Helper
         {
             var vectors = 
                 new[] {
-                    origin + new Vector2(-_cornerWidth, 0),
-                    origin,
-                    origin + new Vector2(-_cornerWidth, _height),
-                    origin + new Vector2(0, _height)
+                    origin + new Vector2(-_cornerWidth, -_height/2),
+                    origin + new Vector2(0, -_height/2),
+                    origin + new Vector2(-_cornerWidth, _height/2),
+                    origin + new Vector2(0, _height/2)
                 };
 
             AddSegmentDataStart(color, true, GetRotatedVectors(origin, rotationInRadians, vectors));
@@ -193,10 +193,10 @@ namespace Terrain.Builder.Helper
         {
             var vectors =
                 new[] {
-                    endPoint,
-                    endPoint + new Vector2(_cornerWidth, 0),
-                    endPoint + new Vector2(0, _height),
-                    endPoint + new Vector2(_cornerWidth, _height)
+                    endPoint + new Vector2(0, -_height/2),
+                    endPoint + new Vector2(_cornerWidth, -_height/2),
+                    endPoint + new Vector2(0, _height/2),
+                    endPoint + new Vector2(_cornerWidth, _height/2)
                 };
 
             AddSegmentDataStart(color, false, GetRotatedVectors(endPoint, rotationInRadians, vectors));
@@ -205,10 +205,10 @@ namespace Terrain.Builder.Helper
         private void AddFirstSegmentStart(LineSegment2D segment, Color color)
         {
             var radians = segment.GetOrientationInRadians();
-            var bottomLeft = segment.P1;
-            var bottomRight = segment.P2;
-            var topLeft = (segment.P1 + new Vector2(0, _height)).RotateAround(segment.P1, radians);
-            var topRight = (segment.P2 + new Vector2(0, _height)).RotateAround(segment.P2, radians);
+            var bottomLeft = /*segment.P1;*/(segment.P1 - new Vector2(0, _height/2)).RotateAround(segment.P1, radians);
+            var bottomRight = /*segment.P2;*/(segment.P2 - new Vector2(0, _height/2)).RotateAround(segment.P2, radians);
+            var topLeft = (segment.P1 + new Vector2(0, _height/2)).RotateAround(segment.P1, radians);
+            var topRight = (segment.P2 + new Vector2(0, _height/2)).RotateAround(segment.P2, radians);
 
             AddSegmentDataStart(color, false, bottomLeft, bottomRight, topLeft, topRight);
             _processedSegments.Add(segment);
@@ -250,7 +250,12 @@ namespace Terrain.Builder.Helper
 
             var radians = segment.GetOrientationInRadians();
 
-            _vertices.AddRange(new []{segment.P2, (segment.P2 + new Vector2(0, _height)).RotateAround(segment.P2, radians)});
+            _vertices.AddRange(
+                new []
+                {
+                    (segment.P2 - new Vector2(0, _height/2)).RotateAround(segment.P2, radians), 
+                    (segment.P2 + new Vector2(0, _height/2)).RotateAround(segment.P2, radians)
+                });
 
             if(_currentSegmentIndex == 1)
             {
@@ -294,7 +299,7 @@ namespace Terrain.Builder.Helper
             var lastProcessedSegment = _processedSegments.Last();
             var radians = (rotationInRadians + lastProcessedSegment.GetOrientationInRadians()) / 2;
             var bottomRight = lastProcessedSegment.P2;
-            PreviousTopRightCorner = (bottomRight + new Vector2(0, _height)).RotateAround(bottomRight, radians);
+            PreviousTopRightCorner = (bottomRight + new Vector2(0, _height/2)).RotateAround(bottomRight, radians);
         }
 
         private void AddFillingForInterval(Tuple<int?, int?> interval, IEnumerable<LineSegment2D> segments, float fillingLowPoint, float fillingUFactor, float fillingVFactor)

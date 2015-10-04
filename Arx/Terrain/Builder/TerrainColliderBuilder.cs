@@ -14,6 +14,15 @@ namespace Terrain.Builder
         public static void BuildColliderFor(TerrainField field)
         {
             var collider = field.GetComponent<EdgeCollider2D>();
+            if (!field.generateCollider)
+            {
+                if (collider != null)
+                {
+                    UnityEngine.Object.DestroyImmediate(collider);
+                }
+                return;
+            }
+            
             if (collider == null)
             {
                 collider = field.gameObject.AddComponent<EdgeCollider2D>();
