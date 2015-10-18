@@ -50,12 +50,22 @@
     <Compile Include="Controllers\Interaction\InteractionZoneController.cs" />
     <Compile Include="Controllers\Interaction\SpeechController.cs" />
     <Compile Include="Events.cs" />
+    <Compile Include="Interfaces\IPath.cs" />
+    <Compile Include="NodePath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArxLibraries\CommonInterfaces\CommonInterfaces.csproj">
       <Project>{70cd1f80-87f4-4a17-b701-de961bbc798c}</Project>
       <Name>CommonInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{de006f2e-b5dd-4ad1-8be3-f147e2f6286e}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MathHelper\MathHelper.csproj">
+      <Project>{3703e408-e0fa-4d51-94c5-4caec5d609d8}</Project>
+      <Name>MathHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

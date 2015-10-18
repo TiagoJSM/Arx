@@ -37,7 +37,8 @@ namespace Terrain.Builder
             var helper = TerrainBuilderHelper.GetNewBuilder(field.terrainHeight, field.cornerWidth);
             if (field.addFilling)
             {
-                helper = AddFilling(helper, field.OriginPathSegments, field.fillingLowPoint, field.transform.position, field.fillingUFactor, field.fillingVFactor);
+                //field.OriginControlPathSegments
+                helper = AddFilling(helper, field.OriginControlPathSegments, field.fillingLowPoint, field.transform.position, field.fillingUFactor, field.fillingVFactor);
             } 
             helper = AddSlopeSegments(helper, terrainSegments);
             helper = AddFloorSegments(helper, terrainSegments);
@@ -57,8 +58,8 @@ namespace Terrain.Builder
             
             var segments = new TerrainSegments();
             var terrainType = TerrainType.Floor;
-
-            foreach (var seg in field.OriginPathSegments)
+            //field.OriginControlPathSegments
+            foreach (var seg in field.PathSegments)
             {
                 var segmentTerrainType = GetTerrainTypeFromSegment(seg, field.floorTerrainMaximumSlope);
                 if (segmentTerrainType != terrainType)

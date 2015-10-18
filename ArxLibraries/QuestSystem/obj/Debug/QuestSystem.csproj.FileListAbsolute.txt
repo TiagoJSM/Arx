@@ -14,3 +14,7 @@ C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\obj
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\GenericComponents.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\GenericComponents.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\MathHelper.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\Extensions.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\MathHelper.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\Extensions.pdb

@@ -41,10 +41,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bezier.cs" />
+    <Compile Include="DataStructures\BezierLineSegment2D.cs" />
     <Compile Include="DataStructures\LineSegment2D.cs" />
     <Compile Include="Extensions\FloatExtensions.cs" />
     <Compile Include="Extensions\LineSegment2DExtensions.cs" />
     <Compile Include="FloatUtils.cs" />
+    <Compile Include="LaGrande.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

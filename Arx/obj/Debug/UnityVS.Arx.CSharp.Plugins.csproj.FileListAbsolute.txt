@@ -31,3 +31,5 @@ C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\2
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\2DDynamicCamera.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\DevelopmentUtils.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\DevelopmentUtils.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Decorator.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Decorator.pdb

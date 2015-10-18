@@ -90,6 +90,9 @@
     <Reference Include="CommonInterfaces">
       <HintPath>Assets\CommonInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Decorator">
+      <HintPath>Assets\Decorator.dll</HintPath>
+    </Reference>
     <Reference Include="DevelopmentUtils">
       <HintPath>Assets\DevelopmentUtils.dll</HintPath>
     </Reference>
@@ -141,6 +144,7 @@
     <Compile Include="Assets\Editor\ImageEffects\VignetteAndChromaticAberrationEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Standard Assets\2D\Terrain\Shaders\NodeMesh.shader" />
     <None Include="Assets\Standard Assets\2D\Terrain\Shaders\Terrain2DShader.shader" />
     <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />

@@ -32,5 +32,14 @@ namespace Extensions
                     yield return new Tuple<TSource, TSource>(previous, previous = it.Current);
             }
         }
+
+        public static IEnumerable<Tuple<TSource, TSource>> ToSequencePairs<TSource>(this IEnumerable<TSource> source)
+        {
+            return 
+                source
+                    .Select((value, index) => new { Index = index, Value = value })
+                    .GroupBy(x => x.Index / 2)
+                     .Select(g => new Tuple<TSource, TSource>(g.ElementAt(0).Value, g.ElementAt(1).Value));
+        }
     }
 }

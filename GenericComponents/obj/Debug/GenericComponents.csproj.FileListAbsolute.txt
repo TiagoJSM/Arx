@@ -7,3 +7,7 @@ C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\bin\Debug\
 C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\obj\Debug\GenericComponents.csprojResolveAssemblyReference.cache
 C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\obj\Debug\GenericComponents.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\obj\Debug\GenericComponents.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\bin\Debug\Extensions.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\bin\Debug\MathHelper.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\bin\Debug\Extensions.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\bin\Debug\MathHelper.pdb
