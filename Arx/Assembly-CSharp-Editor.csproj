@@ -132,7 +132,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\VortexEffect.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Adaptation.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
-     <None Include="Assets\Standard Assets\2D\Terrain\Shaders\NodeMesh.shader" />
+     <None Include="Assets\Standard Assets\2D\Decorators\NodeMesh.shader" />
      <None Include="Assets\Standard Assets\Vehicles\Car\CarGuidelines.txt" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\VignettingShader.shader" />

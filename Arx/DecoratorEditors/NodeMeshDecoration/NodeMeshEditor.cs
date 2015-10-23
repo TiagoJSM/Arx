@@ -15,12 +15,21 @@ namespace DecoratorEditors.NodeMeshDecoration
     public class NodeMeshEditor : NodePathEditor
     {
         private bool _requiresMeshUpdate;
+        private bool _shaderChanged;
+        private Shader _previousShader;
 
         public NodeMesh NodeMesh
         {
             get
             {
                 return target as NodeMesh;
+            }
+        }
+        public MeshRenderer NodeMeshRenderer
+        {
+            get
+            {
+                return NodeMesh.GetComponent<MeshRenderer>();
             }
         }
 
@@ -36,6 +45,10 @@ namespace DecoratorEditors.NodeMeshDecoration
                 _requiresMeshUpdate = false;
                 NodeMeshBuilder.BuildMeshFor(NodeMesh);
             }
+            if (_shaderChanged && NodeMesh.shader != null)
+            {
+                NodeMeshRenderer.material = new Material(NodeMesh.shader);
+            }
 
             DrawNodePathEditors();
             HandleInput();
@@ -47,6 +60,16 @@ namespace DecoratorEditors.NodeMeshDecoration
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+
+            if (_previousShader != NodeMesh.shader)
+            {
+                _shaderChanged = true;
+                _previousShader = NodeMesh.shader;
+            }
+            else
+            {
+                _shaderChanged = false;
+            }
 
             if (GUI.changed)
             {

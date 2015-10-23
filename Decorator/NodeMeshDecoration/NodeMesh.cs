@@ -12,6 +12,8 @@ namespace Decorator.NodeMeshDecoration
         public Mesh mesh;
         [Header("Mesh shape")]
         public float meshWidth = 0.5f;
+        [Header("Texturing")]
+        public Shader shader;
 
     }
 }
