@@ -67,7 +67,8 @@ namespace GenericComponents
             get
             {
                 var controlPointPairs =
-                    GetBezierControlPoints()
+                    _bezierControlPointsOffset
+                        .Select((n, i) => n + _pathNodes[GetControlPointIndexForBezierPoint(i)])
                         .ToSequencePairs()
                         .ToArray();
 
@@ -195,10 +196,28 @@ namespace GenericComponents
             {
                 return OriginControlPathSegments;
             }
+
+            return
+                GetBezierPathNodes()
+                    .ToPairs()
+                    .Select(p => new LineSegment2D(p.Item1, p.Item2));
+        }
+
+        private IEnumerable<Vector2> GetNodes()
+        {
+            if (!useBezier || bezierDivisions <= 0)
+            {
+                return ControlPathNodes;
+            }
+            return GetBezierPathNodes();
+        }
+
+        private IEnumerable<Vector2> GetBezierPathNodes()
+        {
+            float tRatio = 1.0f / ((float)(bezierDivisions + 1));
             var bezierOriginSegments = BezierOriginPathSegments;
 
-            float tRatio = 1.0f / ((float)(bezierDivisions + 1));
-            return
+            return 
                 bezierOriginSegments
                     .SelectMany((s, i) =>
                     {
@@ -217,25 +236,7 @@ namespace GenericComponents
                             values.Add(s.LineSegment.P2);
                         }
                         return values;
-                    })
-                    .ToPairs()
-                    .Select(p => new LineSegment2D(p.Item1, p.Item2));
-        }
-
-        private IEnumerable<Vector2> GetNodes()
-        {
-            if (!useBezier || bezierDivisions <= 0)
-            {
-                return ControlPathNodes;
-            }
-            return GetBezierControlPoints();
-        }
-
-        private IEnumerable<Vector2> GetBezierControlPoints()
-        {
-            return
-                _bezierControlPointsOffset
-                    .Select((n, i) => n + _pathNodes[GetControlPointIndexForBezierPoint(i)]);
+                    });
         }
     }
 }

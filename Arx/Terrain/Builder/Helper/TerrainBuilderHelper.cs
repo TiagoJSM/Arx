@@ -22,7 +22,7 @@ namespace Terrain.Builder.Helper
         private readonly Color CeilingEndingsColor = new Color(0, 0, 0, 0.5f);
         private readonly Color CeilingColor = new Color(0, 0, 0, 0.6f);
 
-        private readonly Vector2[] SegmentStartMirroredUvs =
+        private readonly Vector2[] SegmentStartUvs =
             new[]{
                 new Vector2(),
                 new Vector2(1, 0),
@@ -30,7 +30,7 @@ namespace Terrain.Builder.Helper
                 new Vector2(1, 1)
             };
 
-        private readonly Vector2[] SegmentStartUvs =
+        private readonly Vector2[] SegmentStartMirroredUvs =
             new[]{
                 new Vector2(1, 0),
                 new Vector2(),
@@ -186,7 +186,7 @@ namespace Terrain.Builder.Helper
                     origin + new Vector2(0, _height/2)
                 };
 
-            AddSegmentDataStart(color, true, GetRotatedVectors(origin, rotationInRadians, vectors));
+            AddSegmentDataStart(color, false, GetRotatedVectors(origin, rotationInRadians, vectors));
         }
 
         private void AddSegmentCornerEnd(Vector2 endPoint, float rotationInRadians, Color color)
@@ -199,7 +199,7 @@ namespace Terrain.Builder.Helper
                     endPoint + new Vector2(_cornerWidth, _height/2)
                 };
 
-            AddSegmentDataStart(color, false, GetRotatedVectors(endPoint, rotationInRadians, vectors));
+            AddSegmentDataStart(color, true, GetRotatedVectors(endPoint, rotationInRadians, vectors));
         }
 
         private void AddFirstSegmentStart(LineSegment2D segment, Color color)
@@ -278,8 +278,8 @@ namespace Terrain.Builder.Helper
 
             _uvs.AddRange(
                 new[]{
-                    new Vector2(_currentSegmentIndex + 1, 0),
-                    new Vector2(_currentSegmentIndex + 1, 1),
+                    new Vector2(_currentSegmentIndex + 1.0f, 0),
+                    new Vector2(_currentSegmentIndex + 1.0f, 1),
                 });
 
             _colors.AddRange(

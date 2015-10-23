@@ -4,8 +4,8 @@
 	{
 		_InterpolationColour ("Interpolation colour", Color) = (1, 1, 1, 1)
 		_InterpolationFactor ("Interpolation factor", float) = 0
-		_FloorEndingTexture ("Floor ending texture", 2D) = "white" {}
-		_FloorTexture ("Floor texture", 2D) = "white" {}
+		_FloorEndingTexture ("Floor ending texture", 2D) = "black" {}
+		_FloorTexture ("Floor texture", 2D) = "black" {}
 		_SlopeEndingTexture ("Slope ending texture", 2D) = "black" {}
 		_SlopeTexture ("Slope texture", 2D) = "black" {}
 		_CeilingEndingTexture ("Ceiling ending texture", 2D) = "black" {}
@@ -108,7 +108,6 @@
 				if(input.color.a == 0.0f)
 				{
 					color = tex2D(_FloorEndingTexture, input.uv);
-					//return tex2D(_FloorEndingTexture, input.uv);
 				} 
 				else if(input.color.a == 0.1f)
 				{
