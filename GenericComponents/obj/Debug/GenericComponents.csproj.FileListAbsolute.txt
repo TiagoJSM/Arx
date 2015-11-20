@@ -11,3 +11,5 @@ C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\bin\Debug\
 C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\bin\Debug\MathHelper.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\bin\Debug\Extensions.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\bin\Debug\MathHelper.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\bin\Debug\UnityEngine.xml
+C:\Users\Public\Documents\Unity Projects\ArxProject\GenericComponents\bin\Debug\UnityEngine.UI.xml

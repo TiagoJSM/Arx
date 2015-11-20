@@ -4,26 +4,24 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Decorator.NodeMeshDecoration
+namespace Decorator.Effects
 {
-    [RequireComponent(typeof(NodeMesh))]
     public class TextureOffsetMesh : MonoBehaviour
     {
-        private NodeMesh _nodeMesh;
+        private Renderer _renderer;
 
         public Vector2 offsetDirection = new Vector2(1, 0);
         public float scrollSpeed = 0.5f;
 
         void Start()
         {
-            _nodeMesh = GetComponent<NodeMesh>();
+            _renderer = this.gameObject.GetComponent<Renderer>();
         }
 
         void Update()
         {
-            var renderer = _nodeMesh.GetComponent<Renderer>();
             var offset = Time.time * scrollSpeed * offsetDirection;
-            renderer.material.SetTextureOffset("_MainTex", offset);
+            _renderer.material.mainTextureOffset = offset;
         }
     }
 }

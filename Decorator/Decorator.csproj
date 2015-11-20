@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="Builders\NodeMeshBuilder.cs" />
     <Compile Include="NodeMeshDecoration\NodeMesh.cs" />
-    <Compile Include="NodeMeshDecoration\TextureOffsetMesh.cs" />
+    <Compile Include="Effects\TextureOffsetMesh.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -33,3 +33,5 @@ C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\D
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\DevelopmentUtils.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Decorator.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Decorator.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Mono.Cecil.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\Arx\Temp\UnityVS_bin\Debug\Mono.Cecil.xml
