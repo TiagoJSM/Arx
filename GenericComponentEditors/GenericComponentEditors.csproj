@@ -48,19 +48,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Extensions\Extensions.csproj">
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{de006f2e-b5dd-4ad1-8be3-f147e2f6286e}</Project>
       <Name>Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GenericComponents\GenericComponents.csproj">
+    <ProjectReference Include="..\GenericComponents\GenericComponents.csproj">
       <Project>{5ed6d708-beb5-4f23-9f44-f8a491a42f84}</Project>
       <Name>GenericComponents</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MathHelper\MathHelper.csproj">
+    <ProjectReference Include="..\MathHelper\MathHelper.csproj">
       <Project>{3703e408-e0fa-4d51-94c5-4caec5d609d8}</Project>
       <Name>MathHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Utils\Utils.csproj">
+    <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{4b1bd451-4f17-42bf-ac8d-5eea64d7cde7}</Project>
       <Name>Utils</Name>
     </ProjectReference>

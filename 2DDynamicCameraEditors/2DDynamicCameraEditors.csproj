@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{83721513-9241-44CE-8D6F-A03C3B962D04}</ProjectGuid>
+    <ProjectGuid>{FBE1C732-2EB8-42D5-B523-70AEE5924C34}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DecoratorEditors</RootNamespace>
-    <AssemblyName>DecoratorEditors</AssemblyName>
+    <RootNamespace>_2DDynamicCameraEditors</RootNamespace>
+    <AssemblyName>2DDynamicCameraEditors</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
@@ -44,38 +44,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NodeMeshDecoration\NodeMeshMenuItem.cs" />
-    <Compile Include="NodeMeshDecoration\NodeMeshEditor.cs" />
+    <Compile Include="Editors\NewTargetZoneEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Decorator\Decorator.csproj">
-      <Project>{a026cfd6-8498-4e10-8846-a29a7534d465}</Project>
-      <Name>Decorator</Name>
+    <ProjectReference Include="..\2DDynamicCamera\2DDynamicCamera.csproj">
+      <Project>{032238dd-361c-4bb7-b95d-f563b768f294}</Project>
+      <Name>2DDynamicCamera</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Extensions\Extensions.csproj">
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{de006f2e-b5dd-4ad1-8be3-f147e2f6286e}</Project>
       <Name>Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GenericComponents\GenericComponents.csproj">
-      <Project>{5ed6d708-beb5-4f23-9f44-f8a491a42f84}</Project>
-      <Name>GenericComponents</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MathHelper\MathHelper.csproj">
-      <Project>{3703e408-e0fa-4d51-94c5-4caec5d609d8}</Project>
-      <Name>MathHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Utils\Utils.csproj">
+    <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{4b1bd451-4f17-42bf-ac8d-5eea64d7cde7}</Project>
       <Name>Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CommonEditors\CommonEditors.csproj">
-      <Project>{e3a4d66e-8b19-4b41-9861-7bb62c514f18}</Project>
-      <Name>CommonEditors</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GenericComponentEditors\GenericComponentEditors.csproj">
-      <Project>{0ea4b1c7-c7ca-4151-a990-cdcfebde1338}</Project>
-      <Name>GenericComponentEditors</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
