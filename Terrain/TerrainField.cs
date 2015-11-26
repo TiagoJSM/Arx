@@ -15,7 +15,9 @@ namespace Terrain
     {
         public Mesh mesh;
         [Header("Terrain shape")]
-        public float maxSegmentLenght = 2;
+        public float maxFloorSegmentLenght = 2;
+        public float maxSlopeSegmentLenght = 2;
+        public float maxCeilingSegmentLenght = 2;
         public float fillingLowPoint = 0;
         public float floorTerrainMaximumSlope = 1.0f;
         public bool addFilling = true;

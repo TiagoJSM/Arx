@@ -28,12 +28,11 @@ namespace Terrain.Builder
 
         public static void BuildMeshFor(TerrainField field)
         {
-            //mesh.name = "random";
             field.mesh.uv = null;
             field.mesh.triangles = null;
             field.mesh.vertices = null;
 
-            var terrainSegments = GetTerrainSegmentsFor(field, field.maxSegmentLenght);
+            var terrainSegments = GetTerrainSegmentsFor(field);
             var helper = TerrainBuilderHelper.GetNewBuilder(field.terrainFloorHeight, field.terrainSlopeHeight, field.terrainCeilingHeight, field.cornerWidth);
             if (field.addFilling)
             {
@@ -51,16 +50,17 @@ namespace Terrain.Builder
             field.GetComponent<MeshFilter>().mesh = field.mesh;
         }
 
-        private static IEnumerable<TerrainSegments> GetTerrainSegmentsFor(TerrainField field, float maxSegmentLenght)
+        private static IEnumerable<TerrainSegments> GetTerrainSegmentsFor(TerrainField field)
         {
             var terrainSegments = new List<TerrainSegments>();
             
             var segments = new TerrainSegments();
             var terrainType = TerrainType.Floor;
-            //field.OriginControlPathSegments
+            
             foreach (var seg in field.PathSegments)
             {
                 var segmentTerrainType = GetTerrainTypeFromSegment(seg, field.floorTerrainMaximumSlope);
+                var maxSegmentLenght = GetMaxSegmentLenght(field, segmentTerrainType);
                 if (segmentTerrainType != terrainType)
                 {
                     if (segments.Segments.Count > 0)
@@ -186,6 +186,21 @@ namespace Terrain.Builder
                 p1 = p1 + sizeOfEachPart;
             }
             return result;
+        }
+
+        private static float GetMaxSegmentLenght(TerrainField field, TerrainType segmentTerrainType)
+        {
+            switch (segmentTerrainType)
+            {
+                case TerrainType.Ceiling:
+                    return field.maxCeilingSegmentLenght;
+                case TerrainType.Floor:
+                    return field.maxFloorSegmentLenght;
+                case TerrainType.Slope:
+                    return field.maxSlopeSegmentLenght;
+                default:
+                    return field.maxFloorSegmentLenght;
+            }
         }
 
         private static void Print<T>(IEnumerable<T> data)
