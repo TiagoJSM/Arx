@@ -56,7 +56,7 @@
     <Compile Include="Triangulator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Arx\CommonEditors\CommonEditors.csproj">
+    <ProjectReference Include="..\CommonEditors\CommonEditors.csproj">
       <Project>{e3a4d66e-8b19-4b41-9861-7bb62c514f18}</Project>
       <Name>CommonEditors</Name>
     </ProjectReference>

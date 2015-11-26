@@ -19,8 +19,10 @@ namespace Terrain
         public float fillingLowPoint = 0;
         public float floorTerrainMaximumSlope = 1.0f;
         public bool addFilling = true;
-        public float terrainHeight = 0.5f;
         public float cornerWidth = 0.5f;
+        public float terrainFloorHeight = 0.5f;
+        public float terrainSlopeHeight = 0.5f;
+        public float terrainCeilingHeight = 0.5f;
 
         [Header("Terrain collider")]
         public float colliderOffset = 0;

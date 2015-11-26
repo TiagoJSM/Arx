@@ -61,7 +61,7 @@
       <Project>{c1f6d5b7-2f63-4183-94b1-d1fdefef9f4b}</Project>
       <Name>InventorySystem</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Arx\CommonEditors\CommonEditors.csproj">
+    <ProjectReference Include="..\CommonEditors\CommonEditors.csproj">
       <Project>{e3a4d66e-8b19-4b41-9861-7bb62c514f18}</Project>
       <Name>CommonEditors</Name>
     </ProjectReference>

@@ -52,21 +52,17 @@
     <Compile Include="TerrainMenuItem.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Arx\CommonEditors\CommonEditors.csproj">
+    <ProjectReference Include="..\CommonEditors\CommonEditors.csproj">
       <Project>{e3a4d66e-8b19-4b41-9861-7bb62c514f18}</Project>
       <Name>CommonEditors</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Arx\GenericComponentEditors\GenericComponentEditors.csproj">
-      <Project>{0ea4b1c7-c7ca-4151-a990-cdcfebde1338}</Project>
-      <Name>GenericComponentEditors</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Arx\Terrain\Terrain.csproj">
-      <Project>{a25d76b1-6701-407b-b882-afe62feb7d52}</Project>
-      <Name>Terrain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{de006f2e-b5dd-4ad1-8be3-f147e2f6286e}</Project>
       <Name>Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GenericComponentEditors\GenericComponentEditors.csproj">
+      <Project>{0ea4b1c7-c7ca-4151-a990-cdcfebde1338}</Project>
+      <Name>GenericComponentEditors</Name>
     </ProjectReference>
     <ProjectReference Include="..\GenericComponents\GenericComponents.csproj">
       <Project>{5ed6d708-beb5-4f23-9f44-f8a491a42f84}</Project>
@@ -75,6 +71,10 @@
     <ProjectReference Include="..\MathHelper\MathHelper.csproj">
       <Project>{3703e408-e0fa-4d51-94c5-4caec5d609d8}</Project>
       <Name>MathHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Terrain\Terrain.csproj">
+      <Project>{a25d76b1-6701-407b-b882-afe62feb7d52}</Project>
+      <Name>Terrain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{4b1bd451-4f17-42bf-ac8d-5eea64d7cde7}</Project>
