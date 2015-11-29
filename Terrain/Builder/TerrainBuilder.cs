@@ -39,8 +39,8 @@ namespace Terrain.Builder
                 helper = AddFilling(helper, field.PathSegments, field.fillingLowPoint, field.transform.position, field.fillingUFactor, field.fillingVFactor);
             } 
             helper = AddSlopeSegments(helper, terrainSegments);
-            helper = AddFloorSegments(helper, terrainSegments);
             helper = AddCeilingSegments(helper, terrainSegments);
+            helper = AddFloorSegments(helper, terrainSegments);
 
             field.mesh.vertices = helper.Vertices;
             field.mesh.triangles = helper.Indices;
