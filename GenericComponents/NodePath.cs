@@ -115,6 +115,20 @@ namespace GenericComponents
 
         public void RemovePathNodeAt(int index)
         {
+            if (index == 0)
+            {
+                _bezierControlPointsOffset.RemoveRange(0, 2);
+            }
+            else if (index == _pathNodes.Count - 1)
+            {
+                _bezierControlPointsOffset.RemoveRange(_bezierControlPointsOffset.Count - 2, 2);
+            }
+            else
+            {
+                var bezierIdx = GetBezierPointForControlPoint(index - 1, true);
+                _bezierControlPointsOffset.RemoveRange(bezierIdx, 2);
+            }
+
             _pathNodes.RemoveAt(index);
         }
 
