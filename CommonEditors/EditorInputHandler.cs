@@ -1,11 +1,11 @@
-﻿using CommonEditors;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
-namespace Utils
+namespace CommonEditors
 {
     public class InputCombination
     {
@@ -25,7 +25,7 @@ namespace Utils
         public bool CanExecute()
         {
             var keyboard = new Keyboard(Event.current);
-            if(_modifiers != null)
+            if (_modifiers != null)
             {
                 if ((keyboard.Modifiers & _modifiers.Value) != _modifiers.Value)
                 {
@@ -45,11 +45,12 @@ namespace Utils
             {
                 return true;
             }
-            
+
             if (Event.current.type != EventType.mouseUp)
             {
                 return false;
             }
+
             return Event.current.button == (int)_button.Value;
         }
 
@@ -70,7 +71,7 @@ namespace Utils
 
         public void HandleInput()
         {
-            foreach(var combination in _combinations)
+            foreach (var combination in _combinations)
             {
                 if (combination.CanExecute())
                 {

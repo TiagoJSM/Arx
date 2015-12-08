@@ -6,7 +6,6 @@ C:\Users\Public\Documents\Unity Projects\ArxLibraries\CommonInterfaces\obj\Debug
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\bin\Debug\CommonInterfaces.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\bin\Debug\CommonInterfaces.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\bin\Debug\UnityEngine.dll
-C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\obj\Debug\CommonInterfaces.csprojResolveAssemblyReference.cache
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\obj\Debug\CommonInterfaces.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\obj\Debug\CommonInterfaces.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\bin\Debug\UnityEngine.xml

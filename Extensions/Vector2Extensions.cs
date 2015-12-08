@@ -31,5 +31,10 @@ namespace Extensions
             point.y = ynew + center.y;
             return point;
         }
+
+        public static bool IsInRadius(this Vector2 center, Vector2 point, float radius)
+        {
+            return Mathf.Abs(Vector2.Distance(center, point)) < radius;
+        }
     }
 }

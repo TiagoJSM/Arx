@@ -84,7 +84,12 @@ namespace DecoratorEditors.NodeMeshDecoration
 
         protected override void OnNodePathAdded()
         {
-            NodeMeshBuilder.BuildMeshFor(NodeMesh);
+            _requiresMeshUpdate = true;
+        }
+
+        protected override void OnNodePathRemoved()
+        {
+            _requiresMeshUpdate = true;
         }
     }
 }

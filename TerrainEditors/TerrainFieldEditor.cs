@@ -64,10 +64,15 @@ namespace TerrainEditors
 
         protected override void OnNodePathAdded()
         {
-            TerrainBuilder.BuildMeshFor(TerrainField);
+            _requiresMeshUpdate = true;
         }
         
         protected override void NodePathChanged()
+        {
+            _requiresMeshUpdate = true;
+        }
+
+        protected override void OnNodePathRemoved()
         {
             _requiresMeshUpdate = true;
         }

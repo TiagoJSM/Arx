@@ -7,7 +7,7 @@
     <ProjectGuid>{E3A4D66E-8B19-4B41-9861-7BB62C514F18}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CommonEditors.GuiComponents.GuiComponents</RootNamespace>
+    <RootNamespace>CommonEditors</RootNamespace>
     <AssemblyName>CommonEditors</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomEditors\EditorWithoutScript.cs" />
+    <Compile Include="EditorInputHandler.cs" />
     <Compile Include="GuiComponents\BaseGuiComponent.cs" />
     <Compile Include="GuiComponents\BaseWindow.cs" />
     <Compile Include="ExtendedEditorWindow.cs" />

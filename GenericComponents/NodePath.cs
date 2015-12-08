@@ -113,6 +113,11 @@ namespace GenericComponents
             }
         }
 
+        public void RemovePathNodeAt(int index)
+        {
+            _pathNodes.RemoveAt(index);
+        }
+
         private IEnumerable<Vector2> InScenePathNodes
         {
             get

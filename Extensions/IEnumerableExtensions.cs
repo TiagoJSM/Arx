@@ -35,11 +35,64 @@ namespace Extensions
 
         public static IEnumerable<Tuple<TSource, TSource>> ToSequencePairs<TSource>(this IEnumerable<TSource> source)
         {
-            return 
+            return
                 source
                     .Select((value, index) => new { Index = index, Value = value })
                     .GroupBy(x => x.Index / 2)
-                     .Select(g => new Tuple<TSource, TSource>(g.ElementAt(0).Value, g.ElementAt(1).Value));
+                    .Select(g => new Tuple<TSource, TSource>(g.ElementAt(0).Value, g.ElementAt(1).Value));
+        }
+
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
+        {
+            return source.MinBy(selector, Comparer<TKey>.Default);
+        }
+
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer)
+        {
+            using (IEnumerator<TSource> sourceIterator = source.GetEnumerator())
+            {
+                if (!sourceIterator.MoveNext())
+                {
+                    throw new InvalidOperationException("Sequence was empty");
+                }
+                TSource min = sourceIterator.Current;
+                TKey minKey = selector(min);
+                while (sourceIterator.MoveNext())
+                {
+                    TSource candidate = sourceIterator.Current;
+                    TKey candidateProjected = selector(candidate);
+                    if (comparer.Compare(candidateProjected, minKey) < 0)
+                    {
+                        min = candidate;
+                        minKey = candidateProjected;
+                    }
+                }
+                return min;
+            }
+        }
+
+        public static int? IndexOf<T>(this IEnumerable<T> items, Func<T, bool> predicate)
+        {
+            if (items == null) throw new ArgumentNullException("items");
+            if (predicate == null) throw new ArgumentNullException("predicate");
+
+            int retVal = 0;
+            foreach (var item in items)
+            {
+                if (predicate(item)) return retVal;
+                retVal++;
+            }
+            return null;
+        }
+
+        public static int? IndexOfMin<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
+        {
+            if(source.Count() == 0)
+            {
+                return null;
+            }
+            var min = source.MinBy(selector);
+            return source.IndexOf(s => s.Equals(min));
         }
     }
 }

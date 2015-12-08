@@ -15,6 +15,7 @@ namespace GenericComponentEditors
     public abstract class NodePathEditor : Editor
     {
         private const float RectangleWidthRatio = 5;
+        private const float MoveHandleSize = 0.2f;
         private readonly Color EndColor = new Color(1, 1 / 3, 0);
         private readonly Color StartColor = Color.green;
 
@@ -40,7 +41,8 @@ namespace GenericComponentEditors
         {
             _inputHandler =
                 new EditorInputHandler(
-                    new InputCombination(AddPathNode, MouseButton.Right, EventModifiers.Control));
+                    new InputCombination(AddPathNode, MouseButton.Right, EventModifiers.Control),
+                    new InputCombination(RemovePathNode, MouseButton.Right, EventModifiers.Shift));
         }
 
         protected void DrawNodePathEditors()
@@ -62,6 +64,7 @@ namespace GenericComponentEditors
 
         protected abstract void NodePathChanged();
         protected abstract void OnNodePathAdded();
+        protected abstract void OnNodePathRemoved();
 
         private void DrawPathNodesMoveHandles()
         {
@@ -101,17 +104,17 @@ namespace GenericComponentEditors
         private Vector2 DrawPathNodeMoveHandle(Vector2 point, Color color)
         {
             Handles.color = color;
-            Handles.DrawSolidArc(point.ToVector3(), new Vector3(0, 0, -1), Vector3.right, 360, 0.2f);
+            Handles.DrawSolidArc(point.ToVector3(), new Vector3(0, 0, -1), Vector3.right, 360, MoveHandleSize);
             var translated =
                 Handles
                     .FreeMoveHandle(
                         point,
                         Quaternion.identity,
-                        0.2f,
+                        MoveHandleSize,
                         Vector3.zero,
                         Handles.RectangleCap)
                         .ToVector2();
-
+            
             return translated;
         }
 
@@ -178,6 +181,23 @@ namespace GenericComponentEditors
             var point = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin.ToVector2();
             NodePath.AddPathNode(point);
             OnNodePathAdded();
+        }
+
+        private void RemovePathNode()
+        {
+            if(NodePath.VerticeCount <= 2)
+            {
+                return;
+            }
+            var point = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin.ToVector2();
+            var pointInRadius = NodePath.Any(v => v.IsInRadius(point, MoveHandleSize));
+            if (!pointInRadius)
+            {
+                return;
+            }
+            var index = NodePath.IndexOfMin(v => Vector2.Distance(v, point));
+            NodePath.RemovePathNodeAt(index.Value);
+            OnNodePathRemoved();
         }
 
         private void DrawBezierMoveHandles()
