@@ -89,6 +89,10 @@ namespace Terrain.Builder.Helper
             {
                 _vertices[_vertices.Count() - 1] = value;
             }
+            get
+            {
+                return _vertices[_vertices.Count() - 1];
+            }
         }
 
         private TerrainBuilderHelper(
@@ -223,7 +227,9 @@ namespace Terrain.Builder.Helper
             var topLeft = (segment.P1 + new Vector2(0, height / 2)).RotateAround(segment.P1, radians);
             var topRight = (segment.P2 + new Vector2(0, height / 2)).RotateAround(segment.P2, radians);
 
-            AddSegmentDataStart(color, false, bottomLeft, bottomRight, topLeft, topRight);
+            var v = new []{ bottomLeft, bottomRight, topLeft, topRight };
+            //Print(v);
+            AddSegmentDataStart(color, false, v);
             _processedSegments.Add(segment);
         }
 
@@ -231,11 +237,13 @@ namespace Terrain.Builder.Helper
         {
             _vertices.AddRange(vertices);
 
-            _indices.AddRange(
-                new[] { 
+            var i = new[] {
                     _currentIndice + 1, _currentIndice + 4, _currentIndice + 2,
                     _currentIndice + 1, _currentIndice + 3, _currentIndice + 4
-                });
+                };
+
+            _indices.AddRange(i);
+            //Print(i);
 
             _currentIndice += 4;
 
@@ -310,8 +318,15 @@ namespace Terrain.Builder.Helper
         private void ArrangePreviousTopRightCorner(float rotationInRadians, float height)
         {
             var lastProcessedSegment = _processedSegments.Last();
-            var radians = (rotationInRadians + lastProcessedSegment.GetOrientationInRadians()) / 2;
+            var lastSegmentOrientation = lastProcessedSegment.GetOrientationInRadians();
+            var radians = (rotationInRadians + lastSegmentOrientation) / 2;
             var bottomRight = lastProcessedSegment.P2;
+
+            if ((Mathf.Abs(rotationInRadians - lastSegmentOrientation)).NormalizeRadians() > Mathf.PI)
+            {
+                radians -= Mathf.PI;
+            }
+
             PreviousTopRightCorner = (bottomRight + new Vector2(0, height / 2)).RotateAround(bottomRight, radians);
         }
 
