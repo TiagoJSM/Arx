@@ -28,10 +28,10 @@ namespace Terrain.Builder
                 collider = field.gameObject.AddComponent<EdgeCollider2D>();
             }
 
-            var colliderPoints = field.PathNodes.ToArray();
+            var colliderPoints = field.NodePath.PathNodes.ToArray();
             var idx = 0;
             var previous = default(LineSegment2D?);
-            foreach (var pathSegment in field.PathSegments)
+            foreach (var pathSegment in field.NodePath.PathSegments)
             {
                 float radians = 0;
                 if (previous.HasValue)

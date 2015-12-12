@@ -44,6 +44,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviours\NodePathBehaviour.cs" />
     <Compile Include="Controllers\Interaction\InteractionFinderController.cs" />
     <Compile Include="Controllers\Interaction\InteractionRadiusController.cs" />
     <Compile Include="Controllers\Interaction\InteractionTriggerController.cs" />

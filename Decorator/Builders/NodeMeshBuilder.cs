@@ -19,7 +19,7 @@ namespace Decorator.Builders
             var uvs = new List<Vector2>();
             var indices = new List<int>();
 
-            var segments = nodeMesh.PathSegments;
+            var segments = nodeMesh.NodePath.PathSegments;
 
             var idx = 0;
             foreach (var segment in segments)
@@ -43,7 +43,7 @@ namespace Decorator.Builders
                     vertices.AddRange(data);
                 }
                 indices.AddRange(GetIndices(idx));
-                uvs.AddRange(GetUvs(idx, nodeMesh.useBezier ? nodeMesh.bezierDivisions : 0));
+                uvs.AddRange(GetUvs(idx, nodeMesh.NodePath.UseBezier ? nodeMesh.NodePath.BezierDivisions : 0));
                 idx++;
             }
 

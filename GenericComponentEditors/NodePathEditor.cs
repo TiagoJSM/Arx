@@ -9,6 +9,7 @@ using Extensions;
 using MathHelper.DataStructures;
 using Utils;
 using CommonEditors;
+using GenericComponents.Behaviours;
 
 namespace GenericComponentEditors
 {
@@ -21,11 +22,19 @@ namespace GenericComponentEditors
 
         private EditorInputHandler _inputHandler;
 
+        public NodePathBehaviour NodePathBehaviour
+        {
+            get
+            {
+                return target as NodePathBehaviour;
+            }
+        }
+
         public NodePath NodePath
         {
             get
             {
-                return target as NodePath;
+                return NodePathBehaviour.NodePath;
             }
         }
 
@@ -45,12 +54,19 @@ namespace GenericComponentEditors
                     new InputCombination(RemovePathNode, MouseButton.Right, EventModifiers.Shift));
         }
 
+        public override void OnInspectorGUI()
+        {
+            NodePath.UseBezier = EditorGUILayout.Toggle("Use Bezier", NodePath.UseBezier);
+            NodePath.BezierDivisions = EditorGUILayout.IntField("Bezier Divisions", NodePath.BezierDivisions);
+            base.OnInspectorGUI();
+        }
+
         protected void DrawNodePathEditors()
         {
             DrawPathNodesMoveHandles();
             DrawPathNodesDividerHandles();
             DrawLinesBetweenPathNodes();
-            if (NodePath.useBezier)
+            if (NodePath.UseBezier)
             {
                 DrawBezierMoveHandles();
                 DrawBezierConnectionLines();
@@ -70,11 +86,11 @@ namespace GenericComponentEditors
         {
             for (int idx = 0; idx < NodePath.VerticeCount; idx++)
             {
-                var point = NodePath[idx];
+                var point = NodePathBehaviour[idx];
                 var translated = DrawPathNodeMoveHandle(point, Color.white);
                 if (point != translated)
                 {
-                    NodePath[idx] = translated;
+                    NodePathBehaviour[idx] = translated;
                     NodePathChanged();
                 }
             }
@@ -84,7 +100,7 @@ namespace GenericComponentEditors
         {
             var idx = 0;
             var segmentToDivide = default(int?);
-            foreach (var segment in NodePath.ControlPathSegments)
+            foreach (var segment in NodePathBehaviour.ControlPathSegments)
             {
                 var buttonPressedIndex = DrawPathNodeDividerHandle(segment, idx);
                 if (segmentToDivide == null)
@@ -170,7 +186,7 @@ namespace GenericComponentEditors
         private void DrawLinesBetweenPathNodes()
         {
             Handles.color = Color.blue;
-            foreach (var segment in NodePath.ControlPathSegments)
+            foreach (var segment in NodePathBehaviour.ControlPathSegments)
             {
                 Handles.DrawLine(segment.P1.ToVector3(), segment.P2.ToVector3());
             }
@@ -179,7 +195,7 @@ namespace GenericComponentEditors
         private void AddPathNode()
         {
             var point = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin.ToVector2();
-            NodePath.AddPathNode(point);
+            NodePathBehaviour.AddPathNode(point);
             OnNodePathAdded();
         }
 
@@ -190,12 +206,12 @@ namespace GenericComponentEditors
                 return;
             }
             var point = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin.ToVector2();
-            var pointInRadius = NodePath.Any(v => v.IsInRadius(point, MoveHandleSize));
+            var pointInRadius = NodePathBehaviour.Any(v => v.IsInRadius(point, MoveHandleSize));
             if (!pointInRadius)
             {
                 return;
             }
-            var index = NodePath.IndexOfMin(v => Vector2.Distance(v, point));
+            var index = NodePathBehaviour.IndexOfMin(v => Vector2.Distance(v, point));
             NodePath.RemovePathNodeAt(index.Value);
             OnNodePathRemoved();
         }
@@ -209,11 +225,11 @@ namespace GenericComponentEditors
                 {
                     color = Color.green;
                 }
-                var point = NodePath.GetBezierControlPointAt(idx);
+                var point = NodePathBehaviour.GetBezierControlPointAt(idx);
                 var translated = DrawPathNodeMoveHandle(point, color);
                 if (point != translated)
                 {
-                    NodePath.SetBezierControlPointAt(idx, translated);
+                    NodePathBehaviour.SetBezierControlPointAt(idx, translated);
                     NodePathChanged();
                 }
             }
@@ -221,7 +237,7 @@ namespace GenericComponentEditors
 
         private void DrawBezierConnectionLines()
         {
-            foreach (var bezierLineSegment in NodePath.BezierPathSegments)
+            foreach (var bezierLineSegment in NodePathBehaviour.BezierPathSegments)
             {
                 Handles.color = StartColor;
                 Handles.DrawLine(bezierLineSegment.LineSegment.P1.ToVector3(), bezierLineSegment.P1ControlPoint.ToVector3());

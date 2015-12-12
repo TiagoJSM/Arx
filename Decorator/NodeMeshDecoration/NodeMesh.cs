@@ -1,4 +1,5 @@
 ﻿using GenericComponents;
+using GenericComponents.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Decorator.NodeMeshDecoration
 {
-    public class NodeMesh : NodePath
+    public class NodeMesh : NodePathBehaviour
     {
         public Mesh mesh;
         [Header("Mesh shape")]

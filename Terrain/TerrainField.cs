@@ -8,10 +8,11 @@ using System.Collections;
 using MathHelper.DataStructures;
 using Extensions;
 using GenericComponents;
+using GenericComponents.Behaviours;
 
 namespace Terrain
 {
-    public class TerrainField : NodePath
+    public class TerrainField : NodePathBehaviour
     {
         public Mesh mesh;
         [Header("Terrain shape")]

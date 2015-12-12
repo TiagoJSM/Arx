@@ -11,18 +11,29 @@ using MathHelper;
 
 namespace GenericComponents
 {
-    public class NodePath : MonoBehaviour, IEnumerable<Vector2>, IPath
+    [Serializable]
+    public class PathNode : UnityEngine.Object
     {
-        [SerializeField]
+        public Vector2 position;
+        public Vector2 startBezier;
+        public Vector2 endBezier;
+    }
+
+    [Serializable]
+    public class NodePath : IEnumerable<Vector2>, IPath
+    {
+        /*[SerializeField]
         private List<Vector2> _pathNodes;
         [SerializeField]
-        private List<Vector2> _bezierControlPointsOffset;
+        private List<Vector2> _bezierControlPointsOffset;*/
+        [SerializeField]
+        private List<PathNode> _pathNodes;
 
-        public bool useBezier;
-        public int bezierDivisions;
+        public bool UseBezier { get; set; }
+        public int BezierDivisions { get; set; }
 
         public int VerticeCount { get { return _pathNodes.Count; } }
-        public int BezierControlPointsCount { get { return _bezierControlPointsOffset.Count; } }
+        public int BezierControlPointsCount { get { return (_pathNodes.Count - 1) * 2; } }
 
         public IEnumerable<LineSegment2D> PathSegments
         {
@@ -36,47 +47,33 @@ namespace GenericComponents
             } 
         }
 
-        public IEnumerable<LineSegment2D> ControlPathSegments
-        {
-            get
-            {
-                return InScenePathNodes.ToPairs().Select(p => new LineSegment2D(p.Item1, p.Item2));
-            }
-        }
         public IEnumerable<LineSegment2D> OriginControlPathSegments
         {
             get
             {
-                return _pathNodes.ToPairs().Select(p => new LineSegment2D(p.Item1, p.Item2));
+                return _pathNodes.ToPairs().Select(p => new LineSegment2D(p.Item1.position, p.Item2.position));
             }
         }
-        public IEnumerable<BezierLineSegment2D> BezierPathSegments
-        {
-            get
-            {
-                var controlPointPairs = InSceneBiezerControlPoints.ToSequencePairs().ToArray();
-                return ControlPathSegments.Select((s, i) => 
-                    {
-                        var controlPoints = controlPointPairs[i];
-                        return new BezierLineSegment2D(s, controlPoints.Item1, controlPoints.Item2);
-                    });
-            }
-        }
+
         public IEnumerable<BezierLineSegment2D> BezierOriginPathSegments
         {
             get
             {
-                var controlPointPairs =
+                /*var controlPointPairs =
                     _bezierControlPointsOffset
                         .Select((n, i) => n + _pathNodes[GetControlPointIndexForBezierPoint(i)])
                         .ToSequencePairs()
+                        .ToArray();*/
+                var controlPointPairs =
+                    _pathNodes
+                        .ToPairs()
                         .ToArray();
 
                 return 
                     OriginControlPathSegments.Select((s, i) => 
                     {
                         var controlPoints = controlPointPairs[i];
-                        return new BezierLineSegment2D(s, controlPoints.Item1, controlPoints.Item2);
+                        return new BezierLineSegment2D(s, controlPoints.Item1.startBezier, controlPoints.Item2.endBezier);
                     });
             }
         }
@@ -84,7 +81,7 @@ namespace GenericComponents
         {
             get
             {
-                return _pathNodes;
+                return _pathNodes.Select(n => n.position);
             }
         }
 
@@ -92,30 +89,31 @@ namespace GenericComponents
         {
             get
             {
-                var position = this.transform.position.ToVector2();
-                return _pathNodes[index] + position;
+                return _pathNodes[index].position;
             }
             set
             {
-                var position = this.transform.position.ToVector2();
-                _pathNodes[index] = value - position;
+                _pathNodes[index].position = value;
             }
         }
 
         public void AddPathNode(Vector2 vector2)
         {
-            var position = this.transform.position.ToVector2();
-            _pathNodes.Add(vector2 - position);
-            if (_pathNodes.Count > 1)
+            _pathNodes.Add(
+                new PathNode()
+                {
+                    position = vector2
+                });
+            /*if (_pathNodes.Count > 1)
             {
                 _bezierControlPointsOffset.Add(Vector2.zero);
                 _bezierControlPointsOffset.Add(Vector2.zero);
-            }
+            }*/
         }
 
         public void RemovePathNodeAt(int index)
         {
-            if (index == 0)
+            /*if (index == 0)
             {
                 _bezierControlPointsOffset.RemoveRange(0, 2);
             }
@@ -127,31 +125,29 @@ namespace GenericComponents
             {
                 var bezierIdx = GetBezierPointForControlPoint(index - 1, true);
                 _bezierControlPointsOffset.RemoveRange(bezierIdx, 2);
-            }
+            }*/
 
             _pathNodes.RemoveAt(index);
         }
 
-        private IEnumerable<Vector2> InScenePathNodes
+        public IEnumerable<Vector2> BiezerControlPoints
         {
             get
             {
-                var position = this.transform.position.ToVector2();
-                return _pathNodes.Select(n => n + position);
-            }
-        }
-        private IEnumerable<Vector2> InSceneBiezerControlPoints
-        {
-            get
-            {
-                return _bezierControlPointsOffset.Select((n, i) => n + this[GetControlPointIndexForBezierPoint(i)]);
+                var points =
+                    _pathNodes
+                        .SelectMany(n => new[] { n.position + n.endBezier, n.position + n.startBezier })
+                        .ToList();
+                points.RemoveFirst();
+                points.RemoveLast();
+                return points;
             }
         }
 
         public NodePath()
         {
-            _pathNodes = new List<Vector2>();
-            _bezierControlPointsOffset = new List<Vector2>();
+            _pathNodes = new List<PathNode>();
+            //_bezierControlPointsOffset = new List<Vector2>();
         }
 
         public void DivideSegment(int segmentIdx)
@@ -159,29 +155,51 @@ namespace GenericComponents
             var segmentStartPoint = _pathNodes[segmentIdx];
             var segmentEndPoint = _pathNodes[segmentIdx + 1];
 
-            var halfLenght = (segmentEndPoint - segmentStartPoint) / 2;
-            var divisionPoint = segmentStartPoint + halfLenght;
-            _pathNodes.Insert(segmentIdx + 1, divisionPoint);
-            var endOffsetIdx = GetBezierPointForControlPoint(segmentIdx + 1, false);
-            var startOffsetIdx = GetBezierPointForControlPoint(segmentIdx + 1, true);
-            _bezierControlPointsOffset.Insert(endOffsetIdx, Vector2.zero);
-            _bezierControlPointsOffset.Insert(startOffsetIdx, Vector2.zero);
+            var halfLenght = (segmentEndPoint.position - segmentStartPoint.position) / 2;
+            var divisionPoint = segmentStartPoint.position + halfLenght;
+            _pathNodes.Insert(
+                segmentIdx + 1, 
+                new PathNode()
+                {
+                    position = divisionPoint
+                });
+            //var endOffsetIdx = GetBezierPointForControlPoint(segmentIdx + 1, false);
+            //var startOffsetIdx = GetBezierPointForControlPoint(segmentIdx + 1, true);
+            //_bezierControlPointsOffset.Insert(endOffsetIdx, Vector2.zero);
+            //_bezierControlPointsOffset.Insert(startOffsetIdx, Vector2.zero);
         }
 
         public Vector2 GetBezierControlPointAt(int idx)
         {
-            return _bezierControlPointsOffset[idx] + this[GetControlPointIndexForBezierPoint(idx)];
+            var pointIndex = GetControlPointIndexForBezierPoint(idx);
+            if (idx % 2 == 0)
+            {
+                return _pathNodes[pointIndex].startBezier + _pathNodes[pointIndex].position;
+            }
+            else
+            {
+                return _pathNodes[pointIndex].endBezier + _pathNodes[pointIndex].position;
+            }
         }
 
         public void SetBezierControlPointAt(int idx, Vector2 point)
         {
-            var controlPoint = this[GetControlPointIndexForBezierPoint(idx)];
-            _bezierControlPointsOffset[idx] = point - controlPoint;
+            var pointIndex = GetControlPointIndexForBezierPoint(idx);
+            var controlPoint = _pathNodes[GetControlPointIndexForBezierPoint(idx)];
+            var bezierValue = point - controlPoint.position;
+            if (idx % 2 == 0)
+            {
+                _pathNodes[pointIndex].startBezier = bezierValue;
+            }
+            else
+            {
+                _pathNodes[pointIndex].endBezier = bezierValue;
+            }
         }
 
         public IEnumerator<Vector2> GetEnumerator()
         {
-            return InScenePathNodes.GetEnumerator();
+            return _pathNodes.Select(n => n.position).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -211,7 +229,7 @@ namespace GenericComponents
 
         private IEnumerable<LineSegment2D> GetSegments()
         {
-            if (!useBezier || bezierDivisions <= 0)
+            if (!UseBezier || BezierDivisions <= 0)
             {
                 return OriginControlPathSegments;
             }
@@ -224,7 +242,7 @@ namespace GenericComponents
 
         private IEnumerable<Vector2> GetNodes()
         {
-            if (!useBezier || bezierDivisions <= 0)
+            if (!UseBezier || BezierDivisions <= 0)
             {
                 return ControlPathNodes;
             }
@@ -233,10 +251,10 @@ namespace GenericComponents
 
         private IEnumerable<Vector2> GetBezierPathNodes()
         {
-            float tRatio = 1.0f / ((float)(bezierDivisions + 1));
+            float tRatio = 1.0f / ((float)(BezierDivisions + 1));
             var bezierOriginSegments = BezierOriginPathSegments;
 
-            return 
+            var r = 
                 bezierOriginSegments
                     .SelectMany((s, i) =>
                     {
@@ -244,7 +262,7 @@ namespace GenericComponents
                         values.Add(s.LineSegment.P1);
 
                         var currentRatio = tRatio;
-                        for (var count = 0; count < bezierDivisions; count++, currentRatio += tRatio)
+                        for (var count = 0; count < BezierDivisions; count++, currentRatio += tRatio)
                         {
                             var point = Bezier.CalculateBezierPoint(currentRatio, s.LineSegment.P1, s.P1ControlPoint, s.P2ControlPoint, s.LineSegment.P2);
                             values.Add(point);
@@ -254,8 +272,21 @@ namespace GenericComponents
                         {
                             values.Add(s.LineSegment.P2);
                         }
+                        
                         return values;
                     });
+            Print(r);
+            return r;
+        }
+
+        private static void Print<T>(IEnumerable<T> data)
+        {
+            string result = string.Empty;
+            foreach (var d in data)
+            {
+                result = result + d.ToString() + ", ";
+            }
+            Debug.Log(result);
         }
     }
 }
