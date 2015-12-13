@@ -113,6 +113,14 @@ namespace Terrain.Builder.Helper
             _cornerWidth = cornerWidth;
         }
 
+        #region IFloorSegmentBuilder
+
+        #endregion
+
+        #region ISlopeSegmentBuilder
+
+        #endregion
+
         public IFloorSegmentBuilder AddFloorSegmentStart(LineSegment2D segment)
         {
             AddSegmentStart(segment, FloorEndingsColor, FloorColor, _floorHeight);

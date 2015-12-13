@@ -10,19 +10,19 @@ namespace TerrainEditors
     [CustomEditor(typeof(ClosedTerrainField))]
     public class ClosedTerrainFieldEditor : TerrainFieldEditor<ClosedTerrainField>
     {
-        protected override void NodePathChanged()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void OnNodePathAdded()
         {
-            throw new NotImplementedException();
+            RequiresMeshUpdate = true;
+        }
+
+        protected override void NodePathChanged()
+        {
+            RequiresMeshUpdate = true;
         }
 
         protected override void OnNodePathRemoved()
         {
-            throw new NotImplementedException();
+            RequiresMeshUpdate = true;
         }
     }
 }
