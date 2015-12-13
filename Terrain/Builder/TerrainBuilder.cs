@@ -26,7 +26,7 @@ namespace Terrain.Builder
                 1, 3, 5
             };
 
-        public static void BuildMeshFor(TerrainField field)
+        public static void BuildMeshFor(OpenTerrainField field)
         {
             field.mesh.uv = null;
             field.mesh.triangles = null;
@@ -50,7 +50,7 @@ namespace Terrain.Builder
             field.GetComponent<MeshFilter>().mesh = field.mesh;
         }
 
-        private static IEnumerable<TerrainSegments> GetTerrainSegmentsFor(TerrainField field)
+        private static IEnumerable<TerrainSegments> GetTerrainSegmentsFor(OpenTerrainField field)
         {
             var terrainSegments = new List<TerrainSegments>();
             
@@ -188,7 +188,7 @@ namespace Terrain.Builder
             return result;
         }
 
-        private static float GetMaxSegmentLenght(TerrainField field, TerrainType segmentTerrainType)
+        private static float GetMaxSegmentLenght(OpenTerrainField field, TerrainType segmentTerrainType)
         {
             switch (segmentTerrainType)
             {

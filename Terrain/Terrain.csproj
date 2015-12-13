@@ -49,6 +49,8 @@
     <Compile Include="Builder\TerrainColliderBuilder.cs" />
     <Compile Include="Builder\TerrainSegments.cs" />
     <Compile Include="Builder\TerrainType.cs" />
+    <Compile Include="ClosedTerrainField.cs" />
+    <Compile Include="OpenTerrainField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Builder\TerrainBuilder.cs" />
     <Compile Include="TerrainField.cs" />
