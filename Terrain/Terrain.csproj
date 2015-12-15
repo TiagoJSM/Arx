@@ -41,6 +41,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\ClosedTerrainBuilder.cs" />
     <Compile Include="Builder\Helper\BuilderDataContext.cs" />
     <Compile Include="Builder\Helper\ClosedTerrainBuilderHelper.cs" />
     <Compile Include="Builder\Helper\Interfaces\ICeilingSegmentBuilder.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Builder\Helper\SegmentBuilders\FloorSegmentBuilder.cs" />
     <Compile Include="Builder\Helper\SegmentBuilders\SlopeSegmentBuilder.cs" />
     <Compile Include="Builder\Helper\OpenTerrainBuilderHelper.cs" />
+    <Compile Include="Builder\TerrainBuilder.cs" />
     <Compile Include="Builder\TerrainBuilderHelper.cs" />
     <Compile Include="Builder\TerrainColliderBuilder.cs" />
     <Compile Include="Builder\TerrainSegments.cs" />
@@ -60,7 +62,7 @@
     <Compile Include="ClosedTerrainField.cs" />
     <Compile Include="OpenTerrainField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Builder\TerrainBuilder.cs" />
+    <Compile Include="Builder\OpenTerrainBuilder.cs" />
     <Compile Include="TerrainColors.cs" />
     <Compile Include="TerrainField.cs" />
     <Compile Include="Utils\TerrainFillingUtils.cs" />

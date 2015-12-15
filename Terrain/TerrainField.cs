@@ -20,7 +20,6 @@ namespace Terrain
         public float maxCeilingSegmentLenght = 2;
         
         public float floorTerrainMaximumSlope = 1.0f;
-        public bool addFilling = true;
         public float cornerWidth = 0.5f;
         public float terrainFloorHeight = 0.5f;
         public float terrainSlopeHeight = 0.5f;

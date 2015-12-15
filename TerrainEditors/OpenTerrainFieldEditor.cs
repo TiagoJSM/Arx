@@ -18,6 +18,13 @@ namespace TerrainEditors
     [CustomEditor(typeof(OpenTerrainField))]
     public class OpenTerrainFieldEditor : TerrainFieldEditor<OpenTerrainField>
     {
+        private OpenTerrainBuilder _builder;
+
+        public OpenTerrainFieldEditor()
+        {
+            _builder = new OpenTerrainBuilder();
+        }
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
@@ -43,12 +50,13 @@ namespace TerrainEditors
             RequiresMeshUpdate = true;
         }
 
-        private void OnSceneGUI()
+        protected override void OnSceneGUI()
         {
+            base.OnSceneGUI();
             if (RequiresMeshUpdate)
             {
                 RequiresMeshUpdate = false;
-                TerrainBuilder.BuildMeshFor(TerrainField);
+                _builder.BuildMeshFor(TerrainField);
                 TerrainColliderBuilder.BuildColliderFor(TerrainField);
             }
             DrawNodePathEditors();

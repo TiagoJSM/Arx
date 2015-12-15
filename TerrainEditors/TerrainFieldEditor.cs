@@ -12,6 +12,7 @@ namespace TerrainEditors
 {
     public abstract class TerrainFieldEditor<TTerrain> : NodePathEditor where TTerrain : TerrainField
     {
+        private bool _shaderChanged;
         private Shader _previousShader;
 
         public TTerrain TerrainField
@@ -40,7 +41,30 @@ namespace TerrainEditors
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            if (_previousShader != TerrainField.shader && TerrainField.shader != null)
+            /*var materialShader = TerrainMeshRenderer.material != null ? TerrainMeshRenderer.material.shader : null;
+            if (TerrainField.shader != materialShader && TerrainField.shader != null)
+            {
+                
+                TerrainMeshRenderer.material = new Material(TerrainField.shader);
+                //_previousShader = TerrainField.shader;
+            }*/
+            if (_previousShader != TerrainField.shader)
+            {
+                //TerrainMeshRenderer.material = new Material(TerrainField.shader);
+                _shaderChanged = true;
+                _previousShader = TerrainField.shader;
+            }
+            else
+            {
+                _shaderChanged = false;
+            }
+
+            
+        }
+
+        protected virtual void OnSceneGUI()
+        {
+            if (_shaderChanged && TerrainField.shader != null)
             {
                 TerrainMeshRenderer.material = new Material(TerrainField.shader);
             }

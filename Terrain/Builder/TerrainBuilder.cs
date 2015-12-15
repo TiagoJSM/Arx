@@ -1,63 +1,22 @@
-﻿using System;
+﻿using MathHelper.DataStructures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using Extensions;
-using MathHelper.DataStructures;
-using Terrain.Builder.Helper;
-using Terrain.Builder.Helper.Interfaces;
-using MathHelper.Extensions;
 
 namespace Terrain.Builder
 {
-    public static class TerrainBuilder
+    public class TerrainBuilder
     {
-        private static int[] _firstTwoTriangleIndices =
-            new[]
-            {
-                0, 3, 1,
-                0, 2, 3
-            };
-        private static int[] _secondTwoTriangleIndices =
-            new[]
-            {
-                1, 5, 4,
-                1, 3, 5
-            };
-
-        public static void BuildMeshFor(OpenTerrainField field)
-        {
-            field.mesh.uv = null;
-            field.mesh.triangles = null;
-            field.mesh.vertices = null;
-
-            var terrainSegments = GetTerrainSegmentsFor(field);
-            var helper = OpenTerrainBuilderHelper.GetNewBuilder(field.terrainFloorHeight, field.terrainSlopeHeight, field.terrainCeilingHeight, field.cornerWidth);
-            if (field.addFilling)
-            {
-                helper = AddFilling(helper, field.NodePath.PathSegments, field.fillingLowPoint, field.fillingUFactor, field.fillingVFactor);
-            } 
-            helper = AddSlopeSegments(helper, terrainSegments);
-            helper = AddCeilingSegments(helper, terrainSegments);
-            helper = AddFloorSegments(helper, terrainSegments);
-
-            field.mesh.vertices = helper.Vertices;
-            field.mesh.triangles = helper.Indices;
-            field.mesh.colors = helper.Colors;
-            field.mesh.uv = helper.Uvs;
-
-            field.GetComponent<MeshFilter>().mesh = field.mesh;
-        }
-
-        private static IEnumerable<TerrainSegments> GetTerrainSegmentsFor(OpenTerrainField field)
+        protected IEnumerable<TerrainSegments> GetTerrainSegmentsFor(IEnumerable<LineSegment2D> lineSegments, TerrainField field)
         {
             var terrainSegments = new List<TerrainSegments>();
-            
+
             var segments = new TerrainSegments();
             var terrainType = TerrainType.Floor;
-            
-            foreach (var seg in field.NodePath.PathSegments)
+
+            foreach (var seg in lineSegments)
             {
                 var segmentTerrainType = GetTerrainTypeFromSegment(seg, field.floorTerrainMaximumSlope);
                 var maxSegmentLenght = GetMaxSegmentLenght(field, segmentTerrainType);
@@ -70,7 +29,7 @@ namespace Terrain.Builder
                     }
                     terrainType = segmentTerrainType;
                 }
-                
+
                 segments.TerrainType = segmentTerrainType;
                 var dividedSegments = DivideSegment(seg, maxSegmentLenght);
                 segments.Segments.AddRange(dividedSegments);
@@ -84,7 +43,7 @@ namespace Terrain.Builder
             return terrainSegments;
         }
 
-        private static TerrainType GetTerrainTypeFromSegment(LineSegment2D segment, float floorTerrainMaximumSlope)
+        private TerrainType GetTerrainTypeFromSegment(LineSegment2D segment, float floorTerrainMaximumSlope)
         {
             if (segment.Slope == null || Math.Abs(segment.Slope.Value) >= floorTerrainMaximumSlope)
             {
@@ -97,79 +56,23 @@ namespace Terrain.Builder
             return TerrainType.Floor;
         }
 
-        private static ITerrainBuilderHelper AddFloorSegments(ITerrainBuilderHelper helper, IEnumerable<TerrainSegments> terrainSegments)
+        private float GetMaxSegmentLenght(TerrainField field, TerrainType segmentTerrainType)
         {
-            return
-                AddSegments(
-                    helper,
-                    terrainSegments,
-                    TerrainType.Floor,
-                    helper.AddFloorSegmentStart,
-                    (h, s) => h.AddFloorSegment(s),
-                    (h, v, f) => h.AddFloorSegmentEnd(v, f));
-        }
-
-        private static ITerrainBuilderHelper AddSlopeSegments(ITerrainBuilderHelper helper, IEnumerable<TerrainSegments> terrainSegments)
-        {
-            return
-                AddSegments(
-                    helper,
-                    terrainSegments,
-                    TerrainType.Slope,
-                    helper.AddSlopeSegmentStart,
-                    (h, s) => h.AddSlopeSegment(s),
-                    (h, v, f)=> h.AddSlopeSegmentEnd(v, f));
-        }
-
-        private static ITerrainBuilderHelper AddCeilingSegments(ITerrainBuilderHelper helper, IEnumerable<TerrainSegments> terrainSegments)
-        {
-            return
-                AddSegments(
-                    helper,
-                    terrainSegments,
-                    TerrainType.Ceiling,
-                    helper.AddCeilingSegmentStart,
-                    (h, s) => h.AddCeilingSegment(s),
-                    (h, v, f) => h.AddCeilingSegmentEnd(v, f));
-        }
-
-        private static ITerrainBuilderHelper AddSegments<TBuilder>(
-            ITerrainBuilderHelper helper, 
-            IEnumerable<TerrainSegments> terrainSegments, 
-            TerrainType terrainType,
-            Func<LineSegment2D, TBuilder> addSegmentStart,
-            Func<TBuilder, LineSegment2D, TBuilder> addSegment,
-            Func<TBuilder, Vector2, float, ITerrainBuilderHelper> addSegmentEnd)
-            where TBuilder : class
-        {
-            var typeSegments = terrainSegments.Where(s => s.TerrainType == terrainType);
-            foreach (var typeSegment in typeSegments)
+            switch (segmentTerrainType)
             {
-                TBuilder tBuilder = null;
-                typeSegment.Segments.ForEach(s =>
-                {
-                    if (tBuilder == null)
-                    {
-                        tBuilder = addSegmentStart(s);
-                    }
-                    else
-                    {
-                        tBuilder = addSegment(tBuilder, s);
-                    }
-                });
-                var lastSlopeSegment = typeSegment.Segments.Last();
-                helper = addSegmentEnd(tBuilder, lastSlopeSegment.P2, lastSlopeSegment.GetOrientationInRadians());
+                case TerrainType.Ceiling:
+                    return field.maxCeilingSegmentLenght;
+                case TerrainType.Floor:
+                    return field.maxFloorSegmentLenght;
+                case TerrainType.Slope:
+                    return field.maxSlopeSegmentLenght;
+                default:
+                    return field.maxFloorSegmentLenght;
             }
-            return helper;
         }
 
-        private static ITerrainBuilderHelper AddFilling(ITerrainBuilderHelper helper, IEnumerable<LineSegment2D> segments, float fillingLowPoint, float fillingUFactor, float fillingVFactor)
+        private IEnumerable<LineSegment2D> DivideSegment(LineSegment2D seg, float maxSegmentLenght)
         {
-            return helper.AddFilling(segments, fillingLowPoint, fillingUFactor, fillingVFactor);
-        }
-
-        private static IEnumerable<LineSegment2D> DivideSegment(LineSegment2D seg, float maxSegmentLenght)
-        {   
             if (seg.Lenght <= maxSegmentLenght)
             {
                 return new[] { seg };
@@ -188,29 +91,5 @@ namespace Terrain.Builder
             return result;
         }
 
-        private static float GetMaxSegmentLenght(OpenTerrainField field, TerrainType segmentTerrainType)
-        {
-            switch (segmentTerrainType)
-            {
-                case TerrainType.Ceiling:
-                    return field.maxCeilingSegmentLenght;
-                case TerrainType.Floor:
-                    return field.maxFloorSegmentLenght;
-                case TerrainType.Slope:
-                    return field.maxSlopeSegmentLenght;
-                default:
-                    return field.maxFloorSegmentLenght;
-            }
-        }
-
-        private static void Print<T>(IEnumerable<T> data)
-        {
-            string result = string.Empty;
-            foreach (var d in data)
-            {
-                result = result + d.ToString() + ", ";
-            }
-            Debug.Log(result);
-        }
     }
 }

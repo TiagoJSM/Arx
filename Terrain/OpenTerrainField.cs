@@ -7,6 +7,7 @@ namespace Terrain
 {
     public class OpenTerrainField : TerrainField
     {
+        public bool addFilling = true;
         public float fillingLowPoint = 0;
     }
 }
