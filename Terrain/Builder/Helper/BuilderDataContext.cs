@@ -16,6 +16,10 @@ namespace Terrain.Builder.Helper
         {
             get
             {
+                if(Indices.Count == 0)
+                {
+                    return -1;
+                }
                 return Indices.Max();
             }
         }
