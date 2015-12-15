@@ -63,35 +63,7 @@ namespace Terrain.Builder.Helper
             _cornerColor = cornerColor;
         }
 
-        public void AddSegmentStart(LineSegment2D segment)
-        {
-            _currentSegmentIndex = 0;
-            AddSegmentCornerStart(segment.P1, segment.GetOrientationInRadians());
-            AddFirstSegmentStart(segment);
-        }
-
-        public void AddNextSegment(LineSegment2D segment)
-        {
-            _currentSegmentIndex++;
-            ArrangePreviousTopRightCorner(segment.GetOrientationInRadians());
-            AddNextSegmentData(segment);
-        }
-
-        public void AddSegmentCornerEnd(Vector2 endPoint, float rotationInRadians)
-        {
-            var halfHeight = _segmentHeight / 2;
-            var vectors =
-                new[] {
-                    endPoint + new Vector2(0, -halfHeight),
-                    endPoint + new Vector2(_cornerWidth, -halfHeight),
-                    endPoint + new Vector2(0, halfHeight),
-                    endPoint + new Vector2(_cornerWidth, halfHeight)
-                };
-
-            AddSegmentDataStart(true, GetRotatedVectors(endPoint, rotationInRadians, vectors));
-        }
-
-        private void AddSegmentCornerStart(Vector2 origin, float rotationInRadians)
+        public void AddSegmentStartingCorner(Vector2 origin, float rotationInRadians)
         {
             var halfHeight = _segmentHeight / 2;
             var vectors =
@@ -103,6 +75,34 @@ namespace Terrain.Builder.Helper
                 };
 
             AddSegmentDataStart(false, GetRotatedVectors(origin, rotationInRadians, vectors));
+        }
+
+        public void AddFirstSegment(LineSegment2D segment)
+        {
+            _currentSegmentIndex = 0;
+            //AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
+            AddFirstSegmentData(segment);
+        }
+
+        public void AddNextSegment(LineSegment2D segment)
+        {
+            _currentSegmentIndex++;
+            ArrangePreviousTopRightCorner(segment.GetOrientationInRadians());
+            AddNextSegmentData(segment);
+        }
+
+        public void AddSegmentEndingCorner(Vector2 endPoint, float rotationInRadians)
+        {
+            var halfHeight = _segmentHeight / 2;
+            var vectors =
+                new[] {
+                    endPoint + new Vector2(0, -halfHeight),
+                    endPoint + new Vector2(_cornerWidth, -halfHeight),
+                    endPoint + new Vector2(0, halfHeight),
+                    endPoint + new Vector2(_cornerWidth, halfHeight)
+                };
+
+            AddSegmentDataStart(true, GetRotatedVectors(endPoint, rotationInRadians, vectors));
         }
 
         private void AddSegmentDataStart(bool mirrowedUvs, params Vector2[] vertices)
@@ -134,7 +134,7 @@ namespace Terrain.Builder.Helper
             return vectors.Select(v => v.RotateAround(originPoint, rotationInRadians)).ToArray();
         }
 
-        private void AddFirstSegmentStart(LineSegment2D segment)
+        private void AddFirstSegmentData(LineSegment2D segment)
         {
             var halfHeight = new Vector2(0, _segmentHeight / 2);
             var radians = segment.GetOrientationInRadians();

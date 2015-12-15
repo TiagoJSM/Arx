@@ -74,19 +74,22 @@ namespace Terrain.Builder.Helper
 
         public IFloorSegmentBuilder AddFloorSegmentStart(LineSegment2D segment)
         {
-            _floorBuilder.AddSegmentStart(segment);
+            _floorBuilder.AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
+            _floorBuilder.AddFirstSegment(segment);
             return this;
         }
 
         public ISlopeSegmentBuilder AddSlopeSegmentStart(LineSegment2D segment)
         {
-            _slopeBuilder.AddSegmentStart(segment);
+            _slopeBuilder.AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
+            _slopeBuilder.AddFirstSegment(segment);
             return this;
         }
 
         public ICeilingSegmentBuilder AddCeilingSegmentStart(LineSegment2D segment)
         {
-            _ceilingBuilder.AddSegmentStart(segment);
+            _ceilingBuilder.AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
+            _ceilingBuilder.AddFirstSegment(segment);
             return this;
         }
 
@@ -114,7 +117,7 @@ namespace Terrain.Builder.Helper
 
         public ITerrainBuilderHelper AddFloorSegmentEnd(Vector2 endPoint, float rotationInRadians)
         {
-            _floorBuilder.AddSegmentCornerEnd(endPoint, rotationInRadians);
+            _floorBuilder.AddSegmentEndingCorner(endPoint, rotationInRadians);
             return this;
         }
 
@@ -130,7 +133,7 @@ namespace Terrain.Builder.Helper
 
         public ITerrainBuilderHelper AddSlopeSegmentEnd(Vector2 endPoint, float rotationInRadians)
         {
-            _slopeBuilder.AddSegmentCornerEnd(endPoint, rotationInRadians);
+            _slopeBuilder.AddSegmentEndingCorner(endPoint, rotationInRadians);
             return this;
         }
 
@@ -146,7 +149,7 @@ namespace Terrain.Builder.Helper
 
         public ITerrainBuilderHelper AddCeilingSegmentEnd(Vector2 endPoint, float rotationInRadians)
         {
-            _ceilingBuilder.AddSegmentCornerEnd(endPoint, rotationInRadians);
+            _ceilingBuilder.AddSegmentEndingCorner(endPoint, rotationInRadians);
             return this;
         }
 
