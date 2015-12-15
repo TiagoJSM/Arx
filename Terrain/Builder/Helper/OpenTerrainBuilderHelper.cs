@@ -13,83 +13,55 @@ using Terrain.Builder.Helper.SegmentBuilders;
 
 namespace Terrain.Builder.Helper
 {
-    public class TerrainBuilderHelper : ITerrainBuilderHelper, IFloorSegmentBuilder, ISlopeSegmentBuilder, ICeilingSegmentBuilder
+    public class OpenTerrainBuilderHelper : 
+        TerrainBuilderHelper, 
+        ITerrainBuilderHelper, 
+        IFloorSegmentBuilder, 
+        ISlopeSegmentBuilder, 
+        ICeilingSegmentBuilder
     {
-        private float _floorHeight;
-        private float _slopeHeight;
-        private float _ceilingHeight;
-        private float _cornerWidth;
-        private BuilderDataContext _dataContext;
-
-        private FloorSegmentBuilder _floorBuilder;
-        private SlopeSegmentBuilder _slopeBuilder;
-        private CeilingSegmentBuilder _ceilingBuilder;
-
-        public Vector3[] Vertices
-        {
-            get { return _dataContext.Vertices.Select(v => v.ToVector3()).ToArray(); }
-        }
-
-        public int[] Indices
-        {
-            get { return _dataContext.Indices.ToArray(); }
-        }
-
-        public Vector2[] Uvs
-        {
-            get { return _dataContext.Uvs.ToArray(); }
-        }
-
-        public Color[] Colors
-        {
-            get { return _dataContext.Colors.ToArray(); }
-        }
-
         public static ITerrainBuilderHelper GetNewBuilder(
             float floorHeight = 0.5f,
             float slopeHeight = 0.5f,
             float ceilingHeight = 0.5f,
             float cornerWidth = 0.5f)
         {
-            return new TerrainBuilderHelper(floorHeight, slopeHeight, ceilingHeight, cornerWidth);
+            return new OpenTerrainBuilderHelper(floorHeight, slopeHeight, ceilingHeight, cornerWidth);
         }
 
-        private TerrainBuilderHelper(
+        public OpenTerrainBuilderHelper(
             float floorHeight,
             float slopeHeight,
             float ceilingHeight, 
             float cornerWidth)
+            : base(
+                floorHeight,
+                slopeHeight,
+                ceilingHeight,
+                cornerWidth)
         {
-            _floorHeight = floorHeight;
-            _slopeHeight = slopeHeight;
-            _ceilingHeight = ceilingHeight;
-            _cornerWidth = cornerWidth;
-            _dataContext = new BuilderDataContext();
-            _floorBuilder = new FloorSegmentBuilder(_dataContext, _floorHeight, _cornerWidth);
-            _slopeBuilder = new SlopeSegmentBuilder(_dataContext, _slopeHeight, _cornerWidth);
-            _ceilingBuilder = new CeilingSegmentBuilder(_dataContext, _ceilingHeight, _cornerWidth);
         }
 
         #region ITerrainBuilderHelper
 
         public IFloorSegmentBuilder AddFloorSegmentStart(LineSegment2D segment)
         {
-            _floorBuilder.AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
-            _floorBuilder.AddFirstSegment(segment);
+            FloorBuilder.AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
+            FloorBuilder.AddFirstSegment(segment);
             return this;
         }
 
         public ISlopeSegmentBuilder AddSlopeSegmentStart(LineSegment2D segment)
         {
-            _slopeBuilder.AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
-            _slopeBuilder.AddFirstSegment(segment);
+            SlopeBuilder.AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
+            SlopeBuilder.AddFirstSegment(segment);
             return this;
         }
 
         public ICeilingSegmentBuilder AddCeilingSegmentStart(LineSegment2D segment)
         {
-            _ceilingBuilder.AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
-            _ceilingBuilder.AddFirstSegment(segment);
+            CeilingBuilder.AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
+            CeilingBuilder.AddFirstSegment(segment);
             return this;
         }
 
@@ -111,13 +83,13 @@ namespace Terrain.Builder.Helper
 
         public IFloorSegmentBuilder AddFloorSegment(LineSegment2D segment)
         {
-            _floorBuilder.AddNextSegment(segment);
+            FloorBuilder.AddNextSegment(segment);
             return this;
         }
 
         public ITerrainBuilderHelper AddFloorSegmentEnd(Vector2 endPoint, float rotationInRadians)
         {
-            _floorBuilder.AddSegmentEndingCorner(endPoint, rotationInRadians);
+            FloorBuilder.AddSegmentEndingCorner(endPoint, rotationInRadians);
             return this;
         }
 
@@ -127,13 +99,13 @@ namespace Terrain.Builder.Helper
 
         public ISlopeSegmentBuilder AddSlopeSegment(LineSegment2D segment)
         {
-            _slopeBuilder.AddNextSegment(segment);
+            SlopeBuilder.AddNextSegment(segment);
             return this;
         }
 
         public ITerrainBuilderHelper AddSlopeSegmentEnd(Vector2 endPoint, float rotationInRadians)
         {
-            _slopeBuilder.AddSegmentEndingCorner(endPoint, rotationInRadians);
+            SlopeBuilder.AddSegmentEndingCorner(endPoint, rotationInRadians);
             return this;
         }
 
@@ -143,13 +115,13 @@ namespace Terrain.Builder.Helper
 
         public ICeilingSegmentBuilder AddCeilingSegment(LineSegment2D segment)
         {
-            _ceilingBuilder.AddNextSegment(segment);
+            CeilingBuilder.AddNextSegment(segment);
             return this;
         }
 
         public ITerrainBuilderHelper AddCeilingSegmentEnd(Vector2 endPoint, float rotationInRadians)
         {
-            _ceilingBuilder.AddSegmentEndingCorner(endPoint, rotationInRadians);
+            CeilingBuilder.AddSegmentEndingCorner(endPoint, rotationInRadians);
             return this;
         }
 
@@ -167,12 +139,12 @@ namespace Terrain.Builder.Helper
                         v.y *= fillingVFactor;
                         return v;
                     }).ToArray();
-            var currentIndice = _dataContext.CurrentIndice;
+            var currentIndice = DataContext.CurrentIndice;
             var indices = Triangulator.TriangulatePolygon(polygonVertices.ToArray()).Select(i => i + currentIndice + 1).ToArray();
-            _dataContext.Vertices.AddRange(polygonVertices);
-            _dataContext.Indices.AddRange(indices);
-            _dataContext.Colors.AddRange(polygonColors);
-            _dataContext.Uvs.AddRange(polygonUvs);
+            DataContext.Vertices.AddRange(polygonVertices);
+            DataContext.Indices.AddRange(indices);
+            DataContext.Colors.AddRange(polygonColors);
+            DataContext.Uvs.AddRange(polygonUvs);
         }
 
         private static void Print<T>(IEnumerable<T> data)

@@ -33,7 +33,7 @@ namespace Terrain.Builder
             field.mesh.vertices = null;
 
             var terrainSegments = GetTerrainSegmentsFor(field);
-            var helper = TerrainBuilderHelper.GetNewBuilder(field.terrainFloorHeight, field.terrainSlopeHeight, field.terrainCeilingHeight, field.cornerWidth);
+            var helper = OpenTerrainBuilderHelper.GetNewBuilder(field.terrainFloorHeight, field.terrainSlopeHeight, field.terrainCeilingHeight, field.cornerWidth);
             if (field.addFilling)
             {
                 helper = AddFilling(helper, field.NodePath.PathSegments, field.fillingLowPoint, field.fillingUFactor, field.fillingVFactor);
