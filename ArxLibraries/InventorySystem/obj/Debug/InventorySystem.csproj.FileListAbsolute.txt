@@ -13,3 +13,12 @@ C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\InventorySystem
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\InventorySystem\obj\Debug\InventorySystem.csprojResolveAssemblyReference.cache
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\InventorySystem\obj\Debug\InventorySystem.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\InventorySystem\obj\Debug\InventorySystem.pdb
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\obj\Debug\InventorySystem.csprojResolveAssemblyReference.cache
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\bin\Debug\InventorySystem.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\bin\Debug\InventorySystem.pdb
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\bin\Debug\CommonInterfaces.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\bin\Debug\UnityEngine.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\bin\Debug\CommonInterfaces.pdb
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\bin\Debug\UnityEngine.xml
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\obj\Debug\InventorySystem.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\obj\Debug\InventorySystem.pdb

@@ -34,7 +34,7 @@ namespace TerrainEditors
             RequiresMeshUpdate = true;
         }
 
-        protected override void OnSceneGUI()
+        private void OnSceneGUI()
         {
             base.OnSceneGUI();
             if (RequiresMeshUpdate)

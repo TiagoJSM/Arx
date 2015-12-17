@@ -74,7 +74,7 @@ namespace Terrain.Builder.Helper
                     origin + new Vector2(0, halfHeight)
                 };
 
-            AddSegmentDataStart(false, GetRotatedVectors(origin, rotationInRadians, vectors));
+            AddSegmentDataStart(false, _cornerColor, GetRotatedVectors(origin, rotationInRadians, vectors));
         }
 
         public void AddFirstSegment(LineSegment2D segment)
@@ -102,10 +102,10 @@ namespace Terrain.Builder.Helper
                     endPoint + new Vector2(_cornerWidth, halfHeight)
                 };
 
-            AddSegmentDataStart(true, GetRotatedVectors(endPoint, rotationInRadians, vectors));
+            AddSegmentDataStart(true, _cornerColor, GetRotatedVectors(endPoint, rotationInRadians, vectors));
         }
 
-        private void AddSegmentDataStart(bool mirrowedUvs, params Vector2[] vertices)
+        private void AddSegmentDataStart(bool mirrowedUvs, Color color, params Vector2[] vertices)
         {
             _dataContext.Vertices.AddRange(vertices);
 
@@ -143,9 +143,9 @@ namespace Terrain.Builder.Helper
             var topLeft = (segment.P1 + halfHeight).RotateAround(segment.P1, radians);
             var topRight = (segment.P2 + halfHeight).RotateAround(segment.P2, radians);
 
-            var v = new[] { bottomLeft, bottomRight, topLeft, topRight };
+            var vertices = new[] { bottomLeft, bottomRight, topLeft, topRight };
 
-            AddSegmentDataStart(false, v);
+            AddSegmentDataStart(false, _segmentColor, vertices);
             _processedSegments.Add(segment);
         }
 

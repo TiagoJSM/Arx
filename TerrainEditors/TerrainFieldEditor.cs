@@ -12,8 +12,8 @@ namespace TerrainEditors
 {
     public abstract class TerrainFieldEditor<TTerrain> : NodePathEditor where TTerrain : TerrainField
     {
-        private bool _shaderChanged;
-        private Shader _previousShader;
+        //private bool _shaderChanged;
+        //private Shader _previousShader;
 
         public TTerrain TerrainField
         {
@@ -35,37 +35,26 @@ namespace TerrainEditors
 
         public TerrainFieldEditor()
         {
-            RequiresMeshUpdate = true;
+            //RequiresMeshUpdate = true;
         }
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            /*var materialShader = TerrainMeshRenderer.material != null ? TerrainMeshRenderer.material.shader : null;
-            if (TerrainField.shader != materialShader && TerrainField.shader != null)
+            if (TerrainMeshRenderer.sharedMaterial != null)
             {
-                
-                TerrainMeshRenderer.material = new Material(TerrainField.shader);
-                //_previousShader = TerrainField.shader;
-            }*/
-            if (_previousShader != TerrainField.shader)
-            {
-                //TerrainMeshRenderer.material = new Material(TerrainField.shader);
-                _shaderChanged = true;
-                _previousShader = TerrainField.shader;
+                if(TerrainField.shader == null)
+                {
+                    TerrainMeshRenderer.material = null;
+                }
+                else if(TerrainMeshRenderer.sharedMaterial.shader != TerrainField.shader)
+                {
+                    TerrainMeshRenderer.material = new Material(TerrainField.shader);
+                }
             }
-            else
+            else if(TerrainField.shader != null)
             {
-                _shaderChanged = false;
-            }
-
-            
-        }
-
-        protected virtual void OnSceneGUI()
-        {
-            if (_shaderChanged && TerrainField.shader != null)
-            {
+                Debug.Log(TerrainMeshRenderer.sharedMaterial);
                 TerrainMeshRenderer.material = new Material(TerrainField.shader);
             }
         }
