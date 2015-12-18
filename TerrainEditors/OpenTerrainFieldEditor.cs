@@ -52,7 +52,6 @@ namespace TerrainEditors
 
         private void OnSceneGUI()
         {
-            base.OnSceneGUI();
             if (RequiresMeshUpdate)
             {
                 RequiresMeshUpdate = false;

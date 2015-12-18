@@ -122,10 +122,10 @@ namespace Terrain.Builder.Helper
 
             _dataContext.Colors.AddRange(
                 new[]{
-                    _cornerColor,
-                    _cornerColor,
-                    _cornerColor,
-                    _cornerColor
+                    color,
+                    color,
+                    color,
+                    color
                 });
         }
 

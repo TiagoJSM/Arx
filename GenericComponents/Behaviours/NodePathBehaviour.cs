@@ -16,13 +16,13 @@ namespace GenericComponents.Behaviours
 
         public NodePath NodePath { get { return _nodePath; } }
 
-        public IEnumerable<LineSegment2D> ControlPathSegments
+        /*public IEnumerable<LineSegment2D> ControlPathSegments
         {
             get
             {
-                return InScenePathNodes.ToPairs().Select(p => new LineSegment2D(p.Item1, p.Item2));
+                return InScenePathSegments.Select(p => new LineSegment2D(p.Item1, p.Item2));
             }
-        }
+        }*/
 
         public IEnumerable<BezierLineSegment2D> BezierPathSegments
         {
@@ -30,7 +30,7 @@ namespace GenericComponents.Behaviours
             {
                 var position = this.transform.position.ToVector2();
                 var controlPointPairs = NodePath.BiezerControlPoints.ToSequencePairs().ToArray();
-                return ControlPathSegments.Select((s, i) =>
+                return InScenePathSegments.Select((s, i) =>
                 {
                     var controlPoints = controlPointPairs[i];
                     return new BezierLineSegment2D(s, controlPoints.Item1 + position, controlPoints.Item2 + position);
@@ -85,7 +85,7 @@ namespace GenericComponents.Behaviours
             return this.GetEnumerator();
         }
 
-        private IEnumerable<Vector2> InScenePathNodes
+        public IEnumerable<Vector2> InScenePathNodes
         {
             get
             {
@@ -93,5 +93,15 @@ namespace GenericComponents.Behaviours
                 return NodePath.Select(n => n + position);
             }
         }
+
+        public IEnumerable<LineSegment2D> InScenePathSegments
+        {
+            get
+            {
+                var position = this.transform.position.ToVector2();
+                return NodePath.OriginControlPathSegments.Select(s => s + position);
+            }
+        }
+
     }
 }

@@ -7,5 +7,9 @@ namespace Terrain
 {
     public class ClosedTerrainField : TerrainField
     {
+        public ClosedTerrainField()
+        {
+            NodePath.IsCircular = true;
+        }
     }
 }

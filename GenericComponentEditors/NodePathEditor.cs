@@ -100,7 +100,7 @@ namespace GenericComponentEditors
         {
             var idx = 0;
             var segmentToDivide = default(int?);
-            foreach (var segment in NodePathBehaviour.ControlPathSegments)
+            foreach (var segment in NodePathBehaviour.InScenePathSegments)
             {
                 var buttonPressedIndex = DrawPathNodeDividerHandle(segment, idx);
                 if (segmentToDivide == null)
@@ -109,12 +109,22 @@ namespace GenericComponentEditors
                 }
                 idx++;
             }
-
             if (segmentToDivide == null)
             {
                 return;
             }
             NodePath.DivideSegment(segmentToDivide.Value);
+            /*if (IsCircularPath)
+            {
+                var firstNode = NodePathBehaviour.InScenePathNodes.First();
+                var lastNode = NodePathBehaviour.InScenePathNodes.Last();
+                var segment = new LineSegment2D(lastNode, firstNode);
+                var buttonPressedIndex = DrawPathNodeDividerHandle(segment, idx);
+                if (buttonPressedIndex != null)
+                {
+                    NodePathBehaviour.AddPathNode(segment.HalfPoint);
+                }
+            }*/
         }
 
         private Vector2 DrawPathNodeMoveHandle(Vector2 point, Color color)
@@ -186,15 +196,26 @@ namespace GenericComponentEditors
         private void DrawLinesBetweenPathNodes()
         {
             Handles.color = Color.blue;
-            foreach (var segment in NodePathBehaviour.ControlPathSegments)
+            foreach (var segment in NodePathBehaviour.InScenePathSegments)
             {
                 Handles.DrawLine(segment.P1.ToVector3(), segment.P2.ToVector3());
             }
+            /*if (IsCircularPath)
+            {
+                var firstNode = NodePathBehaviour.InScenePathNodes.First();
+                var lastNode = NodePathBehaviour.InScenePathNodes.Last();
+                Handles.DrawLine(lastNode.ToVector3(), firstNode.ToVector3());
+            }*/
         }
 
         private void AddPathNode()
         {
             var point = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).origin.ToVector2();
+            AddPathNode(point);
+        }
+
+        private void AddPathNode(Vector2 point)
+        {
             NodePathBehaviour.AddPathNode(point);
             OnNodePathAdded();
         }

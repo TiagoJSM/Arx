@@ -20,7 +20,6 @@ namespace Terrain.Builder
             field.mesh.vertices = null;
 
             var segments = new List<LineSegment2D>(field.NodePath.PathSegments);
-            segments.Add(new LineSegment2D(field.NodePath.Last(), field.NodePath.First()));
 
             var terrainSegments = GetTerrainSegmentsFor(segments, field);
             var helper = ClosedTerrainBuilderHelper.GetNewBuilder(field.terrainFloorHeight, field.terrainSlopeHeight, field.terrainCeilingHeight);

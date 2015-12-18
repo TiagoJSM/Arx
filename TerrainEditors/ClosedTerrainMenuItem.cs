@@ -13,7 +13,7 @@ namespace TerrainEditors
         private const string DefaultName = "Terrain";
         private static readonly Vector2 DefaultFirstVector = new Vector2();
         private static readonly Vector2 DefaultSecondVector = new Vector2(1, 0);
-        private static readonly Vector2 DefaultThirdVector = new Vector2(0.5f, 0.5f);
+        private static readonly Vector2 DefaultThirdVector = new Vector2(0.5f, -0.5f);
 
         [MenuItem("GameObject/2D Object/Terrain/Closed Terrain")]
         static void Init()

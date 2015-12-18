@@ -17,6 +17,17 @@ namespace TerrainEditors
         public ClosedTerrainFieldEditor()
         {
             _builder = new ClosedTerrainBuilder();
+            //NodePath.IsCircular = true;
+        }
+
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            if (GUI.changed)
+            {
+                RequiresMeshUpdate = true;
+            }
         }
 
         protected override void OnNodePathAdded()
@@ -36,12 +47,11 @@ namespace TerrainEditors
 
         private void OnSceneGUI()
         {
-            base.OnSceneGUI();
             if (RequiresMeshUpdate)
             {
                 RequiresMeshUpdate = false;
                 _builder.BuildMeshFor(TerrainField);
-                //TerrainColliderBuilder.BuildColliderFor(TerrainField);
+                TerrainColliderBuilder.BuildColliderFor(TerrainField);
             }
             DrawNodePathEditors();
             DrawCollider();
