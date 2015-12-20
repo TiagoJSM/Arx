@@ -20,6 +20,7 @@ namespace Terrain.Builder
         protected FloorSegmentBuilder FloorBuilder { get; private set; }
         protected SlopeSegmentBuilder SlopeBuilder { get; private set; }
         protected CeilingSegmentBuilder CeilingBuilder { get; private set; }
+        protected FillingBuilder FillingBuilder { get; private set; }
 
         public Vector3[] Vertices
         {
@@ -45,7 +46,10 @@ namespace Terrain.Builder
             float floorHeight,
             float slopeHeight,
             float ceilingHeight,
-            float cornerWidth)
+            float cornerWidth,
+            float fillingLowPoint,
+            float fillingUFactor,
+            float fillingVFactor)
         {
             _floorHeight = floorHeight;
             _slopeHeight = slopeHeight;
@@ -55,6 +59,7 @@ namespace Terrain.Builder
             FloorBuilder = new FloorSegmentBuilder(DataContext, _floorHeight, _cornerWidth);
             SlopeBuilder = new SlopeSegmentBuilder(DataContext, _slopeHeight, _cornerWidth);
             CeilingBuilder = new CeilingSegmentBuilder(DataContext, _ceilingHeight, _cornerWidth);
+            FillingBuilder = new FillingBuilder(DataContext, fillingLowPoint, fillingUFactor, fillingVFactor);
         }
     }
 }

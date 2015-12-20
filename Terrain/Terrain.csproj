@@ -51,6 +51,7 @@
     <Compile Include="Builder\Helper\Interfaces\ITerrainBuilderHelper.cs" />
     <Compile Include="Builder\Helper\SegmentBuilder.cs" />
     <Compile Include="Builder\Helper\SegmentBuilders\CeilingSegmentBuilder.cs" />
+    <Compile Include="Builder\Helper\SegmentBuilders\FillingBuilder.cs" />
     <Compile Include="Builder\Helper\SegmentBuilders\FloorSegmentBuilder.cs" />
     <Compile Include="Builder\Helper\SegmentBuilders\SlopeSegmentBuilder.cs" />
     <Compile Include="Builder\Helper\OpenTerrainBuilderHelper.cs" />

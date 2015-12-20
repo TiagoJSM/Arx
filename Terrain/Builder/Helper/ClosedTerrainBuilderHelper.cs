@@ -16,22 +16,29 @@ namespace Terrain.Builder.Helper
         ICeilingSegmentBuilder
     {
         public static ITerrainBuilderHelper GetNewBuilder(
-            float floorHeight = 0.5f,
-            float slopeHeight = 0.5f,
-            float ceilingHeight = 0.5f)
+            float floorHeight,
+            float slopeHeight,
+            float ceilingHeight,
+            float fillingUFactor,
+            float fillingVFactor)
         {
-            return new ClosedTerrainBuilderHelper(floorHeight, slopeHeight, ceilingHeight);
+            return new ClosedTerrainBuilderHelper(floorHeight, slopeHeight, ceilingHeight, fillingUFactor, fillingVFactor);
         }
 
         public ClosedTerrainBuilderHelper(
             float floorHeight,
             float slopeHeight,
-            float ceilingHeight)
+            float ceilingHeight,
+            float fillingUFactor,
+            float fillingVFactor)
             : base(
                 floorHeight,
                 slopeHeight,
                 ceilingHeight,
-                0)
+                0,
+                0,
+                fillingUFactor,
+                fillingVFactor)
         {
         }
 
@@ -55,15 +62,10 @@ namespace Terrain.Builder.Helper
             return this;
         }
 
-        public ITerrainBuilderHelper AddFilling(IEnumerable<LineSegment2D> segments, float fillingLowPoint, float fillingUFactor, float fillingVFactor)
+        public ITerrainBuilderHelper AddFilling(IEnumerable<LineSegment2D> segments)
         {
-            //Print(segments);
-            /*var segmentArray = segments.ToArray();
-            var fillingIntervals = TerrainFillingUtils.GetFillingIntervals(segmentArray, fillingLowPoint);
-            foreach (var interval in fillingIntervals)
-            {
-                AddFillingForInterval(interval, segments, fillingLowPoint, fillingUFactor, fillingVFactor);
-            }*/
+            var points = segments.Select(s => s.P2);
+            FillingBuilder.AddClosedFilling(points);
             return this;
         }
 

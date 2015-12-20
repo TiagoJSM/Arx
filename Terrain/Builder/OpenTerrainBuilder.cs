@@ -20,10 +20,19 @@ namespace Terrain.Builder
             field.mesh.vertices = null;
 
             var terrainSegments = GetTerrainSegmentsFor(field.NodePath.PathSegments, field);
-            var helper = OpenTerrainBuilderHelper.GetNewBuilder(field.terrainFloorHeight, field.terrainSlopeHeight, field.terrainCeilingHeight, field.cornerWidth);
+            var helper = 
+                OpenTerrainBuilderHelper.GetNewBuilder(
+                    field.terrainFloorHeight, 
+                    field.terrainSlopeHeight, 
+                    field.terrainCeilingHeight, 
+                    field.cornerWidth,
+                    field.fillingLowPoint, 
+                    field.fillingUFactor,
+                    field.fillingVFactor);
+
             if (field.addFilling)
             {
-                helper = AddFilling(helper, field.NodePath.PathSegments, field.fillingLowPoint, field.fillingUFactor, field.fillingVFactor);
+                helper = AddFilling(helper, field.NodePath.PathSegments);
             } 
             helper = AddSlopeSegments(helper, terrainSegments);
             helper = AddCeilingSegments(helper, terrainSegments);
@@ -103,9 +112,9 @@ namespace Terrain.Builder
             return helper;
         }
 
-        private ITerrainBuilderHelper AddFilling(ITerrainBuilderHelper helper, IEnumerable<LineSegment2D> segments, float fillingLowPoint, float fillingUFactor, float fillingVFactor)
+        private ITerrainBuilderHelper AddFilling(ITerrainBuilderHelper helper, IEnumerable<LineSegment2D> segments)
         {
-            return helper.AddFilling(segments, fillingLowPoint, fillingUFactor, fillingVFactor);
+            return helper.AddFilling(segments);
         }
 
         private void Print<T>(IEnumerable<T> data)

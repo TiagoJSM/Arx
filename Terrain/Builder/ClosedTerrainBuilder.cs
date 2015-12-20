@@ -22,8 +22,16 @@ namespace Terrain.Builder
             var segments = new List<LineSegment2D>(field.NodePath.PathSegments);
 
             var terrainSegments = GetTerrainSegmentsFor(segments, field);
-            var helper = ClosedTerrainBuilderHelper.GetNewBuilder(field.terrainFloorHeight, field.terrainSlopeHeight, field.terrainCeilingHeight);
-            //helper = AddFilling(helper, field.NodePath.PathSegments, field.fillingLowPoint, field.fillingUFactor, field.fillingVFactor);
+
+            var helper = 
+                ClosedTerrainBuilderHelper.GetNewBuilder(
+                    field.terrainFloorHeight, 
+                    field.terrainSlopeHeight, 
+                    field.terrainCeilingHeight,
+                    field.fillingUFactor,
+                    field.fillingVFactor);
+
+            helper = AddFilling(helper, field.NodePath.PathSegments);
             helper = AddSlopeSegments(helper, terrainSegments);
             helper = AddCeilingSegments(helper, terrainSegments);
             helper = AddFloorSegments(helper, terrainSegments);
@@ -102,9 +110,9 @@ namespace Terrain.Builder
             return helper;
         }
 
-        private ITerrainBuilderHelper AddFilling(ITerrainBuilderHelper helper, IEnumerable<LineSegment2D> segments, float fillingLowPoint, float fillingUFactor, float fillingVFactor)
+        private ITerrainBuilderHelper AddFilling(ITerrainBuilderHelper helper, IEnumerable<LineSegment2D> segments)
         {
-            return helper.AddFilling(segments, fillingLowPoint, fillingUFactor, fillingVFactor);
+            return helper.AddFilling(segments);
         }
     }
 }

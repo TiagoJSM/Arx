@@ -21,24 +21,40 @@ namespace Terrain.Builder.Helper
         ICeilingSegmentBuilder
     {
         public static ITerrainBuilderHelper GetNewBuilder(
-            float floorHeight = 0.5f,
-            float slopeHeight = 0.5f,
-            float ceilingHeight = 0.5f,
-            float cornerWidth = 0.5f)
+            float floorHeight, 
+            float slopeHeight, 
+            float ceilingHeight, 
+            float cornerWidth, 
+            float fillingLowPoint, 
+            float fillingUFactor,
+            float fillingVFactor)
         {
-            return new OpenTerrainBuilderHelper(floorHeight, slopeHeight, ceilingHeight, cornerWidth);
+            return new OpenTerrainBuilderHelper(
+                floorHeight, 
+                slopeHeight, 
+                ceilingHeight, 
+                cornerWidth, 
+                fillingLowPoint, 
+                fillingUFactor, 
+                fillingVFactor);
         }
 
         public OpenTerrainBuilderHelper(
             float floorHeight,
             float slopeHeight,
             float ceilingHeight, 
-            float cornerWidth)
+            float cornerWidth,
+            float fillingLowPoint,
+            float fillingUFactor,
+            float fillingVFactor)
             : base(
                 floorHeight,
                 slopeHeight,
                 ceilingHeight,
-                cornerWidth)
+                cornerWidth,
+                fillingLowPoint,
+                fillingUFactor,
+                fillingVFactor)
         {
         }
 
@@ -65,15 +81,9 @@ namespace Terrain.Builder.Helper
             return this;
         }
 
-        public ITerrainBuilderHelper AddFilling(IEnumerable<LineSegment2D> segments, float fillingLowPoint, float fillingUFactor, float fillingVFactor)
+        public ITerrainBuilderHelper AddFilling(IEnumerable<LineSegment2D> segments)
         {
-            //Print(segments);
-            var segmentArray = segments.ToArray();
-            var fillingIntervals = TerrainFillingUtils.GetFillingIntervals(segmentArray, fillingLowPoint);
-            foreach (var interval in fillingIntervals)
-            {
-                AddFillingForInterval(interval, segments, fillingLowPoint, fillingUFactor, fillingVFactor);
-            }
+            FillingBuilder.AddOpenFilling(segments);
             return this;
         }
 
@@ -126,26 +136,6 @@ namespace Terrain.Builder.Helper
         }
 
         #endregion
-
-        private void AddFillingForInterval(Tuple<int?, int?> interval, IEnumerable<LineSegment2D> segments, float fillingLowPoint, float fillingUFactor, float fillingVFactor)
-        {
-            var polygonVertices = segments.GetFillingPolygonVertices(interval, fillingLowPoint).ToArray();
-            var polygonColors = Enumerable.Range(0, polygonVertices.Length).Select(idx => TerrainColors.FillingColor).ToArray();
-            var polygonUvs = 
-                polygonVertices
-                    .Select(v =>
-                    {
-                        v.x *= fillingUFactor;
-                        v.y *= fillingVFactor;
-                        return v;
-                    }).ToArray();
-            var currentIndice = DataContext.CurrentIndice;
-            var indices = Triangulator.TriangulatePolygon(polygonVertices.ToArray()).Select(i => i + currentIndice + 1).ToArray();
-            DataContext.Vertices.AddRange(polygonVertices);
-            DataContext.Indices.AddRange(indices);
-            DataContext.Colors.AddRange(polygonColors);
-            DataContext.Uvs.AddRange(polygonUvs);
-        }
 
         private static void Print<T>(IEnumerable<T> data)
         {

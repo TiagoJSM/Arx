@@ -71,11 +71,6 @@ namespace Terrain.Builder
             else if (previous.HasValue)
             {
                 var radians = previous.Value.GetOrientationInRadians();
-                /*if ((Mathf.Abs(radians).NormalizeRadians() > Mathf.PI))
-                {
-                    radians -= Mathf.PI;
-                }*/
-
                 colliderPoints[idx] = 
                     (colliderPoints[idx] + new Vector2(0, field.colliderOffset))
                         .RotateAround(colliderPoints[idx], radians);
