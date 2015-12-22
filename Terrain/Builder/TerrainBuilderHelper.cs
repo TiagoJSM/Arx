@@ -6,10 +6,20 @@ using Terrain.Builder.Helper;
 using Terrain.Builder.Helper.SegmentBuilders;
 using UnityEngine;
 using Extensions;
+using Terrain.Builder.Helper.Interfaces;
+using MathHelper.DataStructures;
+using Extensions;
+using MathHelper.Extensions;
+using Terrain.Utils;
+using Utils;
 
 namespace Terrain.Builder
 {
-    public class TerrainBuilderHelper
+    public class TerrainBuilderHelper :
+        ITerrainBuilderHelper,
+        IFloorSegmentBuilder,
+        ISlopeSegmentBuilder,
+        ICeilingSegmentBuilder
     {
         private float _floorHeight;
         private float _slopeHeight;
@@ -61,5 +71,84 @@ namespace Terrain.Builder
             CeilingBuilder = new CeilingSegmentBuilder(DataContext, _ceilingHeight, _cornerWidth);
             FillingBuilder = new FillingBuilder(DataContext, fillingLowPoint, fillingUFactor, fillingVFactor);
         }
+
+        #region ITerrainBuilderHelper
+
+        public virtual IFloorSegmentBuilder AddFloorSegmentStart(LineSegment2D segment)
+        {
+            FloorBuilder.AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
+            FloorBuilder.AddFirstSegment(segment);
+            return this;
+        }
+
+        public virtual ISlopeSegmentBuilder AddSlopeSegmentStart(LineSegment2D segment)
+        {
+            SlopeBuilder.AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
+            SlopeBuilder.AddFirstSegment(segment);
+            return this;
+        }
+
+        public virtual ICeilingSegmentBuilder AddCeilingSegmentStart(LineSegment2D segment)
+        {
+            CeilingBuilder.AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
+            CeilingBuilder.AddFirstSegment(segment);
+            return this;
+        }
+
+        public virtual ITerrainBuilderHelper AddFilling(IEnumerable<LineSegment2D> segments)
+        {
+            FillingBuilder.AddOpenFilling(segments);
+            return this;
+        }
+
+        #endregion
+
+        #region IFloorSegmentBuilder
+
+        public virtual IFloorSegmentBuilder AddFloorSegment(LineSegment2D segment)
+        {
+            FloorBuilder.AddNextSegment(segment);
+            return this;
+        }
+
+        public virtual ITerrainBuilderHelper AddFloorSegmentEnd(Vector2 endPoint, float rotationInRadians)
+        {
+            FloorBuilder.AddSegmentEndingCorner(endPoint, rotationInRadians);
+            return this;
+        }
+
+        #endregion
+
+        #region ISlopeSegmentBuilder
+
+        public virtual ISlopeSegmentBuilder AddSlopeSegment(LineSegment2D segment)
+        {
+            SlopeBuilder.AddNextSegment(segment);
+            return this;
+        }
+
+        public virtual ITerrainBuilderHelper AddSlopeSegmentEnd(Vector2 endPoint, float rotationInRadians)
+        {
+            SlopeBuilder.AddSegmentEndingCorner(endPoint, rotationInRadians);
+            return this;
+        }
+
+        #endregion
+
+        #region ICeilingSegmentBuilder
+
+        public virtual ICeilingSegmentBuilder AddCeilingSegment(LineSegment2D segment)
+        {
+            CeilingBuilder.AddNextSegment(segment);
+            return this;
+        }
+
+        public virtual ITerrainBuilderHelper AddCeilingSegmentEnd(Vector2 endPoint, float rotationInRadians)
+        {
+            CeilingBuilder.AddSegmentEndingCorner(endPoint, rotationInRadians);
+            return this;
+        }
+
+        #endregion
     }
 }

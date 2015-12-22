@@ -28,6 +28,7 @@ namespace Terrain.Builder
                     field.terrainFloorHeight, 
                     field.terrainSlopeHeight, 
                     field.terrainCeilingHeight,
+                    field.cornerWidth,
                     field.fillingUFactor,
                     field.fillingVFactor);
 
