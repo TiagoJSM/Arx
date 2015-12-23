@@ -27,10 +27,28 @@ namespace GenericComponents
     {
         [SerializeField]
         private List<PathNode> _pathNodes;
+        [SerializeField]
+        private bool _useBezier;
+        [SerializeField]
+        private int _bezierDivisions;
+        [SerializeField]
+        private bool _isCircular;
 
-        public bool UseBezier { get; set; }
-        public int BezierDivisions { get; set; }
-        public bool IsCircular { get; set; }
+        public bool UseBezier
+        {
+            get { return _useBezier; }
+            set { _useBezier = value; }
+        }
+        public int BezierDivisions
+        {
+            get { return _bezierDivisions; }
+            set { _bezierDivisions = value; }
+        }
+        public bool IsCircular
+        {
+            get { return _isCircular; }
+            set { _isCircular = value; }
+        }
 
         public int VerticeCount { get { return _pathNodes.Count; } }
         public int BezierControlPointsCount
