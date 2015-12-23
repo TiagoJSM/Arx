@@ -7,7 +7,7 @@ using UnityEngine;
 using Extensions;
 using MathHelper.Extensions;
 
-namespace Terrain.Builder.Helper
+namespace GenericComponents.Builders
 {
     public class SegmentBuilder
     {
@@ -80,7 +80,6 @@ namespace Terrain.Builder.Helper
         public void AddFirstSegment(LineSegment2D segment)
         {
             _currentSegmentIndex = 0;
-            //AddSegmentStartingCorner(segment.P1, segment.GetOrientationInRadians());
             AddFirstSegmentData(segment);
         }
 
@@ -223,3 +222,4 @@ namespace Terrain.Builder.Helper
         }
     }
 }
+

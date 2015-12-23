@@ -196,7 +196,7 @@ namespace GenericComponents
 
         public void SetBezierControlPointAt(int idx, Vector2 point)
         {
-            if(BezierControlPointsCount == idx + 1)
+            if(BezierControlPointsCount == idx + 1 && IsCircular)
             {
                 var pathNode = _pathNodes.First();
                 pathNode.endBezierOffset = point - pathNode.position;

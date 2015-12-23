@@ -16,14 +16,6 @@ namespace GenericComponents.Behaviours
 
         public NodePath NodePath { get { return _nodePath; } }
 
-        /*public IEnumerable<LineSegment2D> ControlPathSegments
-        {
-            get
-            {
-                return InScenePathSegments.Select(p => new LineSegment2D(p.Item1, p.Item2));
-            }
-        }*/
-
         public IEnumerable<BezierLineSegment2D> BezierPathSegments
         {
             get

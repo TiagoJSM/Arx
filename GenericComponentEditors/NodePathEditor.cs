@@ -114,17 +114,7 @@ namespace GenericComponentEditors
                 return;
             }
             NodePath.DivideSegment(segmentToDivide.Value);
-            /*if (IsCircularPath)
-            {
-                var firstNode = NodePathBehaviour.InScenePathNodes.First();
-                var lastNode = NodePathBehaviour.InScenePathNodes.Last();
-                var segment = new LineSegment2D(lastNode, firstNode);
-                var buttonPressedIndex = DrawPathNodeDividerHandle(segment, idx);
-                if (buttonPressedIndex != null)
-                {
-                    NodePathBehaviour.AddPathNode(segment.HalfPoint);
-                }
-            }*/
+            OnNodePathAdded();
         }
 
         private Vector2 DrawPathNodeMoveHandle(Vector2 point, Color color)

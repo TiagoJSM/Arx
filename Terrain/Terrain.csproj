@@ -42,14 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builder\ClosedTerrainBuilder.cs" />
-    <Compile Include="Builder\Helper\BuilderDataContext.cs" />
     <Compile Include="Builder\Helper\ClosedTerrainBuilderHelper.cs" />
     <Compile Include="Builder\Helper\Interfaces\ICeilingSegmentBuilder.cs" />
     <Compile Include="Builder\Helper\Interfaces\IFloorSegmentBuilder.cs" />
     <Compile Include="Builder\Helper\Interfaces\ISegmentBuilder.cs" />
     <Compile Include="Builder\Helper\Interfaces\ISlopeSegmentBuilder.cs" />
     <Compile Include="Builder\Helper\Interfaces\ITerrainBuilderHelper.cs" />
-    <Compile Include="Builder\Helper\SegmentBuilder.cs" />
     <Compile Include="Builder\Helper\SegmentBuilders\CeilingSegmentBuilder.cs" />
     <Compile Include="Builder\Helper\SegmentBuilders\FillingBuilder.cs" />
     <Compile Include="Builder\Helper\SegmentBuilders\FloorSegmentBuilder.cs" />

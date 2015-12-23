@@ -13,6 +13,11 @@ namespace Extensions
             return new Vector3(vec2.x, vec2.y);
         }
 
+        public static IEnumerable<Vector3> ToVector3s(this IEnumerable<Vector2> vec2s)
+        {
+            return vec2s.Select(v => v.ToVector3());
+        }
+
         public static Vector2 RotateAround(this Vector2 point, Vector2 center, float angleInRadians)
         {
             float s = Mathf.Sin(angleInRadians);

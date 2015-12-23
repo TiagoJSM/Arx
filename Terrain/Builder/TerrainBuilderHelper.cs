@@ -8,10 +8,10 @@ using UnityEngine;
 using Extensions;
 using Terrain.Builder.Helper.Interfaces;
 using MathHelper.DataStructures;
-using Extensions;
 using MathHelper.Extensions;
 using Terrain.Utils;
 using Utils;
+using GenericComponents.Builders;
 
 namespace Terrain.Builder
 {

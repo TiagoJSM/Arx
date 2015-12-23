@@ -8,6 +8,7 @@ using Terrain.Utils;
 using Utils;
 using MathHelper.Extensions;
 using UnityEngine;
+using GenericComponents.Builders;
 
 namespace Terrain.Builder.Helper.SegmentBuilders
 {

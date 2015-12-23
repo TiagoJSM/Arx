@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Terrain.Builder.Helper
+namespace GenericComponents.Builders
 {
     public class BuilderDataContext
     {
@@ -16,7 +16,7 @@ namespace Terrain.Builder.Helper
         {
             get
             {
-                if(Indices.Count == 0)
+                if (Indices.Count == 0)
                 {
                     return -1;
                 }
