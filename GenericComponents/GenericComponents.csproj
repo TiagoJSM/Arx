@@ -54,8 +54,11 @@
     <Compile Include="Controllers\Interaction\SpeechController.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Interfaces\IPath.cs" />
+    <Compile Include="Interfaces\IState.cs" />
+    <Compile Include="Interfaces\IStateFactory.cs" />
     <Compile Include="NodePath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StateMachine\StateManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArxLibraries\CommonInterfaces\CommonInterfaces.csproj">

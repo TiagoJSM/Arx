@@ -17,12 +17,13 @@ public class PlatformerCharacterController : BasePlatformerController, ILedgeGra
     public float maxSpeed = 6.0f;
     public float airMaxSpeed = 2.0f;
     public Transform groundCheck;
-    public GameObject ledgeWallCheckTrigger;
-    public GameObject emptyGrabSpace;
     public LayerMask whatIsGround;
     public float jumpForce = 700.0f;
-    public float ledgeTopThreshold = 0.5f;
-    
+    public Collider2D[] standingColliders;
+    public Collider2D[] duckingColliders;
+    public Transform duckRoofCheck;
+    public float duckRoofCheckHeight = 1.0f;
+
     public bool CanGrabLedge
     {
         get
@@ -55,7 +56,6 @@ public class PlatformerCharacterController : BasePlatformerController, ILedgeGra
     {
         if (!_grabbingLedge && CanGrabLedge)
         {
-            Debug.Log("oops");
             transform.parent = _lastLedge.gameObject.transform;
             _rigidBody.gravityScale = 0;
             _rigidBody.velocity = Vector2.zero;
@@ -105,7 +105,19 @@ public class PlatformerCharacterController : BasePlatformerController, ILedgeGra
         }
         _lastLedge = ledgeCollider;
     }
-    
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        if (duckRoofCheck == null)
+        {
+            return;
+        }
+        Gizmos.DrawLine(
+            duckRoofCheck.position, 
+            duckRoofCheck.transform.position + new Vector3(0, duckRoofCheckHeight, 0));
+    }
+
     private void ProcessMovementWhenGrabbingLedge(float vertical, bool jump)
     {
         var drop = vertical < 0;
@@ -123,7 +135,6 @@ public class PlatformerCharacterController : BasePlatformerController, ILedgeGra
     
     private void DropLedge()
     {
-        Debug.Log("here");
         _grabbingLedge = false;
         transform.parent = null;
         _rigidBody.gravityScale = _gravityScale;
