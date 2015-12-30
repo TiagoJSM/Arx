@@ -1,0 +1,111 @@
+fileFormatVersion: 2
+guid: 359b2ac02c361fc49af5fab909b517ec
+timeCreated: 1451411616
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Arx_0
+    21300002: Arx_2
+    21300004: Arx_3
+    21300006: Arx_5
+    21300008: Arx_6
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Arx_0
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 604
+        width: 224
+        height: 393
+      alignment: 9
+      pivot: {x: .636249125, y: .869654238}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Arx_2
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 803
+        width: 288
+        height: 187
+      alignment: 9
+      pivot: {x: .46608904, y: .062603794}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Arx_3
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 252
+        width: 201
+        height: 304
+      alignment: 9
+      pivot: {x: .336013079, y: .957796574}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Arx_5
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 512
+        width: 207
+        height: 364
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Arx_6
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 21
+        width: 243
+        height: 373
+      alignment: 9
+      pivot: {x: .419618577, y: .977843285}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

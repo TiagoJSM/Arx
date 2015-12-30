@@ -116,7 +116,6 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Constants\Tags.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractibleCharacterController.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ILedgeGrabber.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ITriggerable2D.cs" />
@@ -261,6 +260,9 @@
     <Compile Include="Assets\Standard Assets\Vehicles\Car\Scripts\WheelEffects.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Anima2D\Examples\Shaders\Unlit-Alpha-Cull-off.shader" />
+    <None Include="Assets\Anima2D\Readme.txt" />
+    <None Include="Assets\Anima2D\Version.txt" />
     <None Include="Assets\Standard Assets\2D\Decorators\NodeMesh.shader" />
     <None Include="Assets\Standard Assets\2D\Decorators\SpriteShader.shader" />
     <None Include="Assets\Standard Assets\2D\Terrain\Shaders\Terrain2DShader.shader" />

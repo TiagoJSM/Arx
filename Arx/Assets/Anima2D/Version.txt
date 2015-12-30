@@ -1,0 +1,29 @@
+VERSION LOG
+
+v1.0.2 2015-12-20
+- SpriteMesh Editor: Additive vertex selection using control button was not working on windows.
+- Create SpriteMesh: works on selected textures in the Project View.
+- PoseManager: now checks and shows invalid duplicate bone paths.
+- PoseManager: Load pose will set the position of the attached IKs.
+- Visible and Locked Layers now work as expected in bones.
+- SpriteMeshInstanceEditor: added warning messages when bone list is not valid for skinning.
+- Scene GUI: Highlight the current hovered bone.
+- Scene GUI: Improved bone gizmo size taking zoom into account.
+- Compatible with Unity 5.3.x.
+
+- Fix: SpriteMeshInstace "Set skinned renderer" button now sets the "root bone" property.
+- Fix: Several Undo related bugs:
+  Undo breaking bone chain by unparenting transforms was not recovering the child bone reference.
+  Undo bone hierarchy deletion was causing problems in SpriteMesh Editor, IK components and SpriteMeshInstances.
+- Fix: nullref exceptions when undoing bone hierarchy deletion.
+- Fix: Created SpriteMeshes could have a small offset compared to the original Sprite.
+- Fix: You can now scale bones attached to a LimbIK.
+- Fix: IKs do not update on scene pan/orbit/FPS mouse drag anymore.
+  That introduced unwanted keyframes in animation mode.
+
+
+v1.0.1 2015-11-23
+- Fixed bug: "Cannot calculate automatic weights. Specify bones to the SpriteMeshInstance."
+
+v1.0 2015-10
+- Release! All your 2D base are belong to us.
