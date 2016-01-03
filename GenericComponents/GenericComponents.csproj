@@ -47,18 +47,38 @@
     <Compile Include="Behaviours\NodePathBehaviour.cs" />
     <Compile Include="Builders\BuilderDataContext.cs" />
     <Compile Include="Builders\SegmentBuilder.cs" />
+    <Compile Include="Controllers\Characters\BasePlatformerController.cs" />
+    <Compile Include="Controllers\Characters\PlatformerCharacterController.cs" />
+    <Compile Include="Controllers\Interaction\Environment\LedgeChecker.cs" />
     <Compile Include="Controllers\Interaction\InteractionFinderController.cs" />
     <Compile Include="Controllers\Interaction\InteractionRadiusController.cs" />
     <Compile Include="Controllers\Interaction\InteractionTriggerController.cs" />
     <Compile Include="Controllers\Interaction\InteractionZoneController.cs" />
     <Compile Include="Controllers\Interaction\SpeechController.cs" />
+    <Compile Include="Enums\Direction.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Interfaces\IPath.cs" />
-    <Compile Include="Interfaces\IState.cs" />
+    <Compile Include="Interfaces\States\IState.cs" />
     <Compile Include="Interfaces\IStateFactory.cs" />
+    <Compile Include="Interfaces\States\PlatformerCharacter\PlatformerCharacterContext.cs" />
     <Compile Include="NodePath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachine\StateManager.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\DuckState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\JumpingState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\PlatformerCharacterAction.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\BasePlatformerCharacterState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\FallingState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\GrabbingLedgeState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\IddleState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\MovingState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\PlatformerCharacterStateManager.cs" />
+    <Compile Include="StateMachine\StateContainer.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\RollState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\DuckingState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\StandingState.cs" />
+    <Compile Include="StateMachine\StateTransition.cs" />
+    <Compile Include="StateMachine\TransitionConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArxLibraries\CommonInterfaces\CommonInterfaces.csproj">
@@ -74,6 +94,7 @@
       <Name>MathHelper</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"$(SolutionDir)..\copydlls.bat" "$(TargetDir)" "$(TargetName)" "Arx\Assets\"</PostBuildEvent>

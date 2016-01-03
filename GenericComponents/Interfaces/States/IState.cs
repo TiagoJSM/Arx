@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GenericComponents.Interfaces
+namespace GenericComponents.Interfaces.States
 {
     public interface IState<TStateContext, TAction>
     {
-        TStateContext StateContext { get; set; }
-        IStateFactory<TStateContext, TAction> StateFactory { get; set; }
+        TStateContext StateController { get; set; }
+        float TimeInState { get; set; }
 
         void OnStateEnter();
         IState<TStateContext, TAction> Perform(TAction action);
