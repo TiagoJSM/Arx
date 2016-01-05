@@ -1,14 +1,17 @@
 fileFormatVersion: 2
-guid: 359b2ac02c361fc49af5fab909b517ec
-timeCreated: 1451411616
+guid: 5ed795b7eb0785a4e81be0e440745ff4
+timeCreated: 1451844820
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Arx_0
-    21300002: Arx_2
-    21300004: Arx_3
-    21300006: Arx_5
-    21300008: Arx_6
+    21300000: Torso
+    21300002: LeftArm
+    21300004: Head
+    21300006: Waist
+    21300008: RightArm
+    21300010: RightLeg
+    21300012: LeftLeg
+    21300014: ArxAtlas_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -55,55 +58,75 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: Arx_0
+    - name: Torso
       rect:
         serializedVersion: 2
-        x: 14
-        y: 604
-        width: 224
-        height: 393
+        x: 58
+        y: 640
+        width: 205
+        height: 360
       alignment: 9
-      pivot: {x: .636249125, y: .869654238}
+      pivot: {x: .544940352, y: .08094652}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Arx_2
+    - name: LeftArm
       rect:
         serializedVersion: 2
-        x: 644
-        y: 803
-        width: 288
-        height: 187
-      alignment: 9
-      pivot: {x: .46608904, y: .062603794}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Arx_3
-      rect:
-        serializedVersion: 2
-        x: 12
-        y: 252
+        x: 375
+        y: 667
         width: 201
-        height: 304
+        height: 303
       alignment: 9
-      pivot: {x: .336013079, y: .957796574}
+      pivot: {x: .345307916, y: .914270759}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Arx_5
+    - name: Head
       rect:
         serializedVersion: 2
-        x: 281
-        y: 512
-        width: 207
-        height: 364
+        x: 600
+        y: 712
+        width: 365
+        height: 230
+      alignment: 9
+      pivot: {x: .46529457, y: .0543820597}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Waist
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 533
+        width: 180
+        height: 72
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Arx_6
+    - name: RightLeg
       rect:
         serializedVersion: 2
-        x: 293
-        y: 21
-        width: 243
-        height: 373
+        x: 50
+        y: 116
+        width: 124
+        height: 306
       alignment: 9
-      pivot: {x: .419618577, y: .977843285}
+      pivot: {x: .472138792, y: .974187016}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: LeftLeg
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 116
+        width: 131
+        height: 279
+      alignment: 9
+      pivot: {x: .350556344, y: .978799999}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: RightArm
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 132
+        width: 224
+        height: 393
+      alignment: 9
+      pivot: {x: .607962191, y: .857493162}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
