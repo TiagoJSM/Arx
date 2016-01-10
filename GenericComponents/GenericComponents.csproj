@@ -47,6 +47,7 @@
     <Compile Include="Behaviours\NodePathBehaviour.cs" />
     <Compile Include="Builders\BuilderDataContext.cs" />
     <Compile Include="Builders\SegmentBuilder.cs" />
+    <Compile Include="Containers\PlatformerCharacterAnimations.cs" />
     <Compile Include="Controllers\Characters\BasePlatformerController.cs" />
     <Compile Include="Controllers\Characters\PlatformerCharacterController.cs" />
     <Compile Include="Controllers\Interaction\Environment\LedgeChecker.cs" />

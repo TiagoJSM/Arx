@@ -1,4 +1,5 @@
-﻿using GenericComponents.Controllers.Interaction.Environment;
+﻿using GenericComponents.Containers;
+using GenericComponents.Controllers.Interaction.Environment;
 using GenericComponents.Enums;
 using GenericComponents.Interfaces.States.PlatformerCharacter;
 using GenericComponents.StateMachine;
@@ -8,15 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Experimental.Director;
 
 namespace GenericComponents.Controllers.Characters
 {
     [RequireComponent(typeof(LedgeChecker))]
     public class PlatformerCharacterController : BasePlatformerController, IPlatformerCharacterController
     {
-        private bool _grounded = false;
         private bool _grabbingLedge = false;
-        private float _groundRadius = 0.2f;
         private Direction _facingRight;
         private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
 
@@ -33,29 +33,24 @@ namespace GenericComponents.Controllers.Characters
 
         public float maxSpeed = 6.0f;
         public float airMaxSpeed = 2.0f;
-        public Transform groundCheck;
-        public LayerMask whatIsGround;
         public float jumpForce = 700.0f;
         public Collider2D[] standingColliders;
         public Collider2D[] duckingColliders;
         public Transform duckRoofCheck;
         public float duckRoofCheckHeight = 1.0f;
 
+        [SerializeField]
+        public PlatformerCharacterAnimations animations;
+
         public bool CanGrabLedge
         {
             get
             {
-                return _ledgeDetected && !_grounded && _lastLedge != null && !_grabbingLedge;
+                return _ledgeDetected && !IsGrounded && _lastLedge != null && !_grabbingLedge;
             }
         }
 
-        public bool IsGrounded
-        {
-            get
-            {
-                return _grounded;
-            }
-        }
+        public bool IsGrounded { get; private set; }
 
         public float VerticalSpeed
         {
@@ -73,7 +68,6 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
-        // Use this for initialization
         void Start()
         {
             _animator = GetComponent<Animator>();
@@ -81,6 +75,7 @@ namespace GenericComponents.Controllers.Characters
             _gravityScale = _rigidBody.gravityScale;
             _ledgeChecker = GetComponent<LedgeChecker>();
             _stateManager = new PlatformerCharacterStateManager(this);
+            _animator.Play(new AnimationClipPlayable(animations.iddleAnimation));
         }
 
         void FixedUpdate()
@@ -88,8 +83,8 @@ namespace GenericComponents.Controllers.Characters
             Collider2D collider;
             var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
             LedgeDetected(ledgeDetected, collider);
-            _grounded = Physics2D.OverlapCircle(groundCheck.position, _groundRadius, whatIsGround);
-            _animator.SetBool("Grounded", _grounded);
+            IsGrounded = CheckGrounded();
+            _animator.SetBool("Grounded", IsGrounded);
             _animator.SetFloat("VerticalSpeed", _rigidBody.velocity.y);
             var action = new PlatformerCharacterAction(_move, _vertical, _jump);
             _stateManager.Perform(action);
@@ -98,33 +93,11 @@ namespace GenericComponents.Controllers.Characters
             _jump = false;
         }
 
-        void Update()
-        {
-
-        }
-
         public void Move(float move, float vertical, bool jump)
         {
             _move = move;
             _vertical = vertical;
             _jump = jump;
-            /*if (!_grabbingLedge && CanGrabLedge)
-            {
-                DoGrabLedge();
-            }
-            if (_grabbingLedge)
-            {
-                ProcessMovementWhenGrabbingLedge(vertical, jump);
-                return;
-            }
-
-            DoMove(move);
-
-            if (_grounded && jump)
-            {
-                _animator.SetBool("Grounded", false);
-                _rigidBody.AddForce(new Vector2(0, jumpForce));
-            }*/
         }
 
         public void LedgeDetected(bool detected, Collider2D ledgeCollider)
@@ -211,6 +184,7 @@ namespace GenericComponents.Controllers.Characters
 
         void OnDrawGizmosSelected()
         {
+            base.DrawGizmos();
             Gizmos.color = Color.blue;
             if (duckRoofCheck == null)
             {

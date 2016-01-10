@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 5ed795b7eb0785a4e81be0e440745ff4
-timeCreated: 1451844820
+timeCreated: 1452021869
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -12,6 +12,13 @@ TextureImporter:
     21300010: RightLeg
     21300012: LeftLeg
     21300014: ArxAtlas_2
+    21300016: Torso
+    21300018: LeftArm
+    21300020: Head
+    21300022: Waist
+    21300024: RightArm
+    21300026: RightLeg
+    21300028: LeftLeg
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -66,7 +73,7 @@ TextureImporter:
         width: 205
         height: 360
       alignment: 9
-      pivot: {x: .544940352, y: .08094652}
+      pivot: {x: .550557852, y: .0777475983}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: LeftArm
       rect:
@@ -76,7 +83,7 @@ TextureImporter:
         width: 201
         height: 303
       alignment: 9
-      pivot: {x: .345307916, y: .914270759}
+      pivot: {x: .379683912, y: .9294734}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Head
       rect:
@@ -86,37 +93,17 @@ TextureImporter:
         width: 365
         height: 230
       alignment: 9
-      pivot: {x: .46529457, y: .0543820597}
+      pivot: {x: .462139487, y: .059389066}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Waist
       rect:
         serializedVersion: 2
-        x: 84
-        y: 533
-        width: 180
-        height: 72
+        x: 109
+        y: 423
+        width: 171
+        height: 69
       alignment: 0
       pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RightLeg
-      rect:
-        serializedVersion: 2
-        x: 50
-        y: 116
-        width: 124
-        height: 306
-      alignment: 9
-      pivot: {x: .472138792, y: .974187016}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: LeftLeg
-      rect:
-        serializedVersion: 2
-        x: 238
-        y: 116
-        width: 131
-        height: 279
-      alignment: 9
-      pivot: {x: .350556344, y: .978799999}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: RightArm
       rect:
@@ -126,7 +113,27 @@ TextureImporter:
         width: 224
         height: 393
       alignment: 9
-      pivot: {x: .607962191, y: .857493162}
+      pivot: {x: .592539132, y: .875074804}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: RightLeg
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 15
+        width: 125
+        height: 330
+      alignment: 9
+      pivot: {x: .453936577, y: .918762505}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: LeftLeg
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 15
+        width: 131
+        height: 333
+      alignment: 9
+      pivot: {x: .33297497, y: .890782177}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

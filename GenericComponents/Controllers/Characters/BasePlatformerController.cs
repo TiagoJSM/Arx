@@ -11,6 +11,10 @@ namespace GenericComponents.Controllers.Characters
     {
         private Collider2D activePlatformCollider;
 
+        public Transform groundCheck;
+        public LayerMask whatIsGround;
+        public float groundCheckRadius = 0.2f;
+
         void OnCollisionEnter2D(Collision2D other)
         {
             if (activePlatformCollider != null)
@@ -60,6 +64,21 @@ namespace GenericComponents.Controllers.Characters
                 return Direction.Left;
             }
             return defaultValue;
+        }
+
+        protected bool CheckGrounded()
+        {
+            return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+        }
+
+        protected void DrawGizmos()
+        {
+            if(groundCheck == null)
+            {
+                return;
+            }
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
 }
