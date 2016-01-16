@@ -7,9 +7,9 @@ using System.Text;
 
 namespace GenericComponents.Interfaces
 {
-    public interface IStateFactory<TStateContext, TAction>
+    public interface IStateFactory<TController, TAction>
     {
-        TState State<TState>() where TState : class, IState<TStateContext, TAction>, new();
-        StateContainer<TStateContext, TAction> GetContainer<TState>() where TState : class, IState<TStateContext, TAction>, new();
+        TState State<TState>() where TState : class, IState<TController, TAction>, new();
+        StateContainer<TController, TAction> GetContainer<TState>() where TState : class, IState<TController, TAction>, new();
     }
 }

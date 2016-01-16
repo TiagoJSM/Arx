@@ -11,7 +11,7 @@ namespace GenericComponents.Interfaces.States
         float TimeInState { get; set; }
 
         void OnStateEnter();
-        IState<TStateContext, TAction> Perform(TAction action);
+        void Perform(TAction action);
         void OnStateExit();
     }
 }

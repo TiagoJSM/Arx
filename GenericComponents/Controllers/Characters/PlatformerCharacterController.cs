@@ -1,4 +1,5 @@
-﻿using GenericComponents.Containers;
+﻿using GenericComponents.Animation.Playables;
+using GenericComponents.Containers;
 using GenericComponents.Controllers.Interaction.Environment;
 using GenericComponents.Enums;
 using GenericComponents.Interfaces.States.PlatformerCharacter;
@@ -24,7 +25,8 @@ namespace GenericComponents.Controllers.Characters
         private Animator _animator;
         private Rigidbody2D _rigidBody;
         private float _gravityScale;
-        private Collider2D _lastLedge;
+        private Collider2D _detectedLedge;
+        private Collider2D _lastGrabbedLedge;
         private bool _ledgeDetected;
 
         private float _move;
@@ -39,6 +41,18 @@ namespace GenericComponents.Controllers.Characters
         public Transform duckRoofCheck;
         public float duckRoofCheckHeight = 1.0f;
 
+        private bool DetectingPreviousGrabbedLedge
+        {
+            get
+            {
+                if(_lastGrabbedLedge == null)
+                {
+                    return false;
+                }
+                return _lastGrabbedLedge == _detectedLedge;
+            }
+        }
+
         [SerializeField]
         public PlatformerCharacterAnimations animations;
 
@@ -46,11 +60,22 @@ namespace GenericComponents.Controllers.Characters
         {
             get
             {
-                return _ledgeDetected && !IsGrounded && _lastLedge != null && !_grabbingLedge;
+                return _ledgeDetected && !IsGrounded && !DetectingPreviousGrabbedLedge && !_grabbingLedge;
             }
         }
 
-        public bool IsGrounded { get; private set; }
+        public bool isGrounded;
+        public bool IsGrounded
+        {
+            get
+            {
+                return isGrounded;
+            }
+            private set
+            {
+                isGrounded = value;
+            }
+        }
 
         public float VerticalSpeed
         {
@@ -75,7 +100,7 @@ namespace GenericComponents.Controllers.Characters
             _gravityScale = _rigidBody.gravityScale;
             _ledgeChecker = GetComponent<LedgeChecker>();
             _stateManager = new PlatformerCharacterStateManager(this);
-            _animator.Play(new AnimationClipPlayable(animations.iddleAnimation));
+            _animator.Play(new PlatformerCharacterAnimationPlayable(_stateManager, animations));
         }
 
         void FixedUpdate()
@@ -84,9 +109,10 @@ namespace GenericComponents.Controllers.Characters
             var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
             LedgeDetected(ledgeDetected, collider);
             IsGrounded = CheckGrounded();
-            _animator.SetBool("Grounded", IsGrounded);
-            _animator.SetFloat("VerticalSpeed", _rigidBody.velocity.y);
+            //_animator.SetBool("Grounded", IsGrounded);
+            //_animator.SetFloat("VerticalSpeed", _rigidBody.velocity.y);
             var action = new PlatformerCharacterAction(_move, _vertical, _jump);
+            //Debug.Log(_stateManager.CurrentState);
             _stateManager.Perform(action);
             _move = 0;
             _vertical = 0;
@@ -109,21 +135,17 @@ namespace GenericComponents.Controllers.Characters
                 {
                     DropLedge();
                 }
-                _lastLedge = null;
+                _lastGrabbedLedge = null;
                 return;
             }
-            if (_lastLedge == ledgeCollider)
-            {
-                return;
-            }
-            _lastLedge = ledgeCollider;
+            _detectedLedge = ledgeCollider;
         }
 
         public void DoMove(float move)
         {
             _facingRight = DirectionOfMovement(move, _facingRight);
 
-            _animator.SetFloat("Speed", Mathf.Abs(move));
+            //_animator.SetFloat("Speed", Mathf.Abs(move));
 
             _rigidBody.velocity = new Vector2(move * maxSpeed, _rigidBody.velocity.y);
             
@@ -134,12 +156,17 @@ namespace GenericComponents.Controllers.Characters
             else if (move < 0)
             {
                 Flip(Direction.Left);
-            }
+            }           
         }
 
         public void DoGrabLedge()
         {
-            transform.parent = _lastLedge.gameObject.transform;
+            if (_detectedLedge == null)
+            {
+                return;
+            }
+            _lastGrabbedLedge = _detectedLedge;
+            transform.parent = _lastGrabbedLedge.gameObject.transform;
             _rigidBody.gravityScale = 0;
             _rigidBody.velocity = Vector2.zero;
             _grabbingLedge = true;
@@ -147,7 +174,7 @@ namespace GenericComponents.Controllers.Characters
 
         public void JumpUp()
         {
-            _animator.SetBool("Grounded", false);
+            //_animator.SetBool("Grounded", false);
             _rigidBody.AddForce(new Vector2(0, jumpForce));
         }
 
@@ -182,6 +209,11 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
+        public void StayStill()
+        {
+            _rigidBody.velocity = new Vector2(0, _rigidBody.velocity.y);
+        }
+
         void OnDrawGizmosSelected()
         {
             base.DrawGizmos();
@@ -193,20 +225,6 @@ namespace GenericComponents.Controllers.Characters
             Gizmos.DrawLine(
                 duckRoofCheck.position,
                 duckRoofCheck.transform.position + new Vector3(0, duckRoofCheckHeight, 0));
-        }
-
-        private void ProcessMovementWhenGrabbingLedge(float vertical, bool jump)
-        {
-            var drop = vertical < 0;
-            if (drop)
-            {
-                DropLedge();
-                return;
-            }
-            else if (jump)
-            {
-                JumpUp();
-            }
         }
     }
 }

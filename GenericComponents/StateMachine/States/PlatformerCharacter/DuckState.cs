@@ -11,5 +11,9 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 {
     public class DuckState : DuckingState
     {
+        public override void Perform(PlatformerCharacterAction action)
+        {
+            StateController.StayStill();
+        }
     }
 }

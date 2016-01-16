@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace GenericComponents.StateMachine.States.PlatformerCharacter
 {
@@ -13,6 +14,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
         {
             this
                 .SetInitialState<IddleState>()
+                    .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<MovingState>((c, a, t) => a.Move != 0 && c.IsGrounded)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
@@ -31,12 +33,13 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 
             this
                 .From<MovingState>()
+                    .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0);
 
             this
                 .From<GrabbingLedgeState>()
-                    .To<JumpingState>((c, a, t) => (a.Jump || c.VerticalSpeed > 0) && !c.GrabbingLedge)
+                    .To<JumpingState>((c, a, t) => a.Jump /*|| c.VerticalSpeed > 0) && !c.GrabbingLedge*/)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && !c.GrabbingLedge);
 
             this
@@ -48,22 +51,6 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
             this
                .From<RollState>()
                    .To<DuckState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > 1);
-
-            /*.SetTransition<FallingState>((c, a) => c.VerticalSpeed < 0 && !c.IsGrounded)
-                .SetTransition<GrabbingLedgeState>((c, a) => c.CanGrabLedge)
-            .Parent
-            .SetTransition<JumpingState>((c, a) => a.Jump)
-            .And<MovingState>((c, a) => a.Move != 0)
-                .SetTransition<FallingState>((c, a) => !c.IsGrounded)
-                    .SetTransition<GrabbingLedgeState>((c, a) => c.CanGrabLedge)
-                        .SetTransition<FallingState>((c, a) => c.VerticalSpeed < 0 && !c.IsGrounded)
-                    .Parent
-                .Parent
-            .Parent
-                .SetTransition<JumpingState>((c, a) => a.Jump || c.VerticalSpeed > 0)
-                    .SetTransition<GrabbingLedgeState>((c, a) => c.CanGrabLedge)
-                        .SetTransition<FallingState>((c, a) => c.VerticalSpeed < 0 && !c.IsGrounded)
-                            .SetTransition<GrabbingLedgeState>((c, a) => c.CanGrabLedge);*/
         }
     }
 }

@@ -16,7 +16,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
             StateController.DoGrabLedge();
         }
 
-        public override IState<IPlatformerCharacterController, PlatformerCharacterAction> Perform(PlatformerCharacterAction action)
+        public override void Perform(PlatformerCharacterAction action)
         {
             base.Perform(action);
             var drop = action.Vertical < 0;
@@ -24,11 +24,15 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
             {
                 StateController.DropLedge();
             }
-            else if (action.Jump)
+            /*else if (action.Jump)
             {
                 StateController.JumpUp();
-            }
-            return this;
+            }*/
+        }
+
+        public override void OnStateExit()
+        {
+            StateController.DropLedge();
         }
     }
 }

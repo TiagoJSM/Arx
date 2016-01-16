@@ -2,7 +2,6 @@
 using GenericComponents.Interfaces.States;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -17,6 +16,14 @@ namespace GenericComponents.StateMachine
         private StateContainer<TController, TAction> _currentStateContainer;
 
         private Dictionary<Type, StateContainer<TController, TAction>> _states;
+
+        public IState<TController, TAction> CurrentState
+        {
+            get
+            {
+                return _currentStateContainer.State;
+            }
+        }
 
         public StateManager(TController controller)
         {
@@ -38,15 +45,13 @@ namespace GenericComponents.StateMachine
             {
                 current = child.StateContainer;
             }
-            
-            if(current != _currentStateContainer)
+
+            if (current != _currentStateContainer)
             {
                 _currentStateContainer.State.OnStateExit();
                 _currentStateContainer = current;
                 _currentStateContainer.State.TimeInState = 0;
                 _currentStateContainer.State.OnStateEnter();
-                _currentStateContainer.State.Perform(action);
-                return;
             }
 
             _currentStateContainer.State.Perform(action);

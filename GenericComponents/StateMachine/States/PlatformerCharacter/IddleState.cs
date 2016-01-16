@@ -10,5 +10,9 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 {
     public class IddleState : StandingState
     {
+        public override void Perform(PlatformerCharacterAction action)
+        {
+            this.StateController.StayStill();
+        }
     }
 }

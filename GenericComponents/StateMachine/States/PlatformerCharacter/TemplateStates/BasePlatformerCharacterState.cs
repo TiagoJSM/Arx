@@ -21,9 +21,8 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter.TemplateStat
         {
         }
 
-        public virtual IState<IPlatformerCharacterController, PlatformerCharacterAction> Perform(PlatformerCharacterAction action)
+        public virtual void Perform(PlatformerCharacterAction action)
         {
-            return this;
         }
     }
 }

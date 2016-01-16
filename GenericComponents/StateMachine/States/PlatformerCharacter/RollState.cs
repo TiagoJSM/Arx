@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace GenericComponents.StateMachine.States.PlatformerCharacter
 {
@@ -13,7 +14,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
         public override void OnStateEnter()
         {
             base.OnStateEnter();
-            StateController.DoMove(1);
+            StateController.DoMove(0.3f);
         }
     }
 }

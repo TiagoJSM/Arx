@@ -10,11 +10,10 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 {
     public class MovingState : StandingState
     {
-        public override IState<IPlatformerCharacterController, PlatformerCharacterAction> Perform(PlatformerCharacterAction action)
+        public override void Perform(PlatformerCharacterAction action)
         {
             base.Perform(action);
             StateController.DoMove(action.Move);
-            return this;
         }
     }
 }

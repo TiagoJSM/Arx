@@ -18,5 +18,6 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         void JumpUp();
         void Duck();
         void Stand();
+        void StayStill();
     }
 }
