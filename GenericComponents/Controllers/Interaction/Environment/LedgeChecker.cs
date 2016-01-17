@@ -9,59 +9,72 @@ namespace GenericComponents.Controllers.Interaction.Environment
 {
     public class LedgeChecker : MonoBehaviour
     {
-        private readonly Color GrabableConditionColor = Color.green;
-        private readonly Color NotGrabableConditionColor = Color.red;
+        private Collider2D _ledge;
+        [SerializeField]
+        private List<Collider2D> _ledgeColliders;
+        [SerializeField]
+        private List<Collider2D> _freeSpaceColliders;
 
-        private Vector2 GrabableLedgeCornerOffset
+        public Collider2D ledgeDetector;
+        public Collider2D freeSpaceDetector;
+
+        void Start()
         {
-            get
+            _ledgeColliders = new List<Collider2D>();
+            _freeSpaceColliders = new List<Collider2D>();
+        }
+
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if (ledgeDetector == null || freeSpaceDetector == null)
             {
-                return grabableLedgeCorner + transform.position.ToVector2();
+                return;
+            }
+            if (Physics2D.IsTouching(ledgeDetector, other))
+            {
+                _ledge = other;
+                AddIfDoesntContain(_ledgeColliders, other);
+            }
+            if (Physics2D.IsTouching(freeSpaceDetector, other))
+            {
+                AddIfDoesntContain(_freeSpaceColliders, other);
             }
         }
 
-        public Vector2 grabableLedgeCorner;
-        public float size = 1.0f;
-        public LayerMask whatIsGround;
+        void OnTriggerExit2D(Collider2D other)
+        {
+            if (ledgeDetector == null || freeSpaceDetector == null)
+            {
+                return;
+            }
+            if (!Physics2D.IsTouching(ledgeDetector, other))
+            {
+                _ledgeColliders.Remove(other);
+            }
+            if (!Physics2D.IsTouching(freeSpaceDetector, other))
+            {
+                _freeSpaceColliders.Remove(other);
+            }
+        }
 
         public bool IsLedgeDetected(out Collider2D ledge)
         {
-            ledge = LedgeArea();
-            if (ledge == null)
+            ledge = null;
+            if (_ledgeColliders.Count != 0 && _freeSpaceColliders.Count == 0)
             {
-                return false;
+                ledge = _ledge;
+                return true;
             }
-            return AreaOverLedge() == null;
+            return false;
         }
 
-        void OnDrawGizmosSelected()
+        private void AddIfDoesntContain(List<Collider2D> colliders, Collider2D collider)
         {
-            var grabableLedgeCornerOffset = GrabableLedgeCornerOffset;
-            var emptySpaceOverLedgeCenter = grabableLedgeCornerOffset;
-            var ledgeDetectorCenter = grabableLedgeCornerOffset;
-            ledgeDetectorCenter.x += size / 2;
-            ledgeDetectorCenter.y += size / 2;
-
-            emptySpaceOverLedgeCenter.x += size / 2;
-            emptySpaceOverLedgeCenter.y += size + (size / 2);
-
-            Gizmos.color = LedgeArea() != null ? GrabableConditionColor : NotGrabableConditionColor;
-            Gizmos.DrawWireCube(ledgeDetectorCenter.ToVector3(), new Vector3(size, size, size));
-            Gizmos.color = AreaOverLedge() == null ? GrabableConditionColor : NotGrabableConditionColor;
-            Gizmos.DrawWireCube(emptySpaceOverLedgeCenter.ToVector3(), new Vector3(size, size, size));
-        }
-
-        private Collider2D LedgeArea()
-        {
-            var point = GrabableLedgeCornerOffset;
-            return Physics2D.OverlapArea(point, point + new Vector2(size, size), whatIsGround);
-        }
-
-        private Collider2D AreaOverLedge()
-        {
-            var emptySpaceOnTopOfLedge = GrabableLedgeCornerOffset;
-            emptySpaceOnTopOfLedge.y += size;
-            return Physics2D.OverlapArea(emptySpaceOnTopOfLedge, emptySpaceOnTopOfLedge + new Vector2(size, size), whatIsGround);
+            if (colliders.Contains(collider))
+            {
+                return;
+            }
+            colliders.Add(collider);
         }
     }
 }

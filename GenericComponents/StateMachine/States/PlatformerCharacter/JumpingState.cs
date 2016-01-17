@@ -11,9 +11,9 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 {
     public class JumpingState : StandingState
     {
-        public override void OnStateEnter()
+        public override void OnStateEnter(PlatformerCharacterAction action)
         {
-            base.OnStateEnter();
+            base.OnStateEnter(action);
             StateController.JumpUp();
         }
 

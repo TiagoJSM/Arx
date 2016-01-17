@@ -7,7 +7,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter.TemplateStat
 {
     public class StandingState : BasePlatformerCharacterState
     {
-        public override void OnStateEnter()
+        public override void OnStateEnter(PlatformerCharacterAction action)
         {
             StateController.Stand();
         }

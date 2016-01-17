@@ -19,5 +19,6 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         void Duck();
         void Stand();
         void StayStill();
+        void Roll(float move);
     }
 }

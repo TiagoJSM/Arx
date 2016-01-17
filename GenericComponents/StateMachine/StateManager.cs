@@ -44,14 +44,10 @@ namespace GenericComponents.StateMachine
             if(child != null)
             {
                 current = child.StateContainer;
-            }
-
-            if (current != _currentStateContainer)
-            {
-                _currentStateContainer.State.OnStateExit();
+                _currentStateContainer.State.OnStateExit(action);
                 _currentStateContainer = current;
                 _currentStateContainer.State.TimeInState = 0;
-                _currentStateContainer.State.OnStateEnter();
+                _currentStateContainer.State.OnStateEnter(action);
             }
 
             _currentStateContainer.State.Perform(action);

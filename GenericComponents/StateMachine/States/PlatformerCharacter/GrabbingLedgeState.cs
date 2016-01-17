@@ -11,7 +11,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 {
     public class GrabbingLedgeState : StandingState
     {
-        public override void OnStateEnter()
+        public override void OnStateEnter(PlatformerCharacterAction action)
         {
             StateController.DoGrabLedge();
         }
@@ -24,13 +24,9 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
             {
                 StateController.DropLedge();
             }
-            /*else if (action.Jump)
-            {
-                StateController.JumpUp();
-            }*/
         }
 
-        public override void OnStateExit()
+        public override void OnStateExit(PlatformerCharacterAction action)
         {
             StateController.DropLedge();
         }

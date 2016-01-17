@@ -13,11 +13,11 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter.TemplateStat
         public IPlatformerCharacterController StateController { get; set; }
         public float TimeInState { get; set; }
 
-        public virtual void OnStateEnter()
+        public virtual void OnStateEnter(PlatformerCharacterAction action)
         {
         }
 
-        public virtual void OnStateExit()
+        public virtual void OnStateExit(PlatformerCharacterAction action)
         {
         }
 

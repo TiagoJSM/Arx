@@ -10,8 +10,8 @@ namespace GenericComponents.Interfaces.States
         TStateContext StateController { get; set; }
         float TimeInState { get; set; }
 
-        void OnStateEnter();
+        void OnStateEnter(TAction action);
         void Perform(TAction action);
-        void OnStateExit();
+        void OnStateExit(TAction action);
     }
 }

@@ -55,6 +55,7 @@ namespace GenericComponents.Animation.Playables
             {
                 return;
             }
+            playable.time = 0;
             AddInput(playable);
         }
 

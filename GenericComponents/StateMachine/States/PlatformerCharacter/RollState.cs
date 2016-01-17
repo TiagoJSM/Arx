@@ -11,10 +11,11 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 {
     public class RollState : DuckingState
     {
-        public override void OnStateEnter()
+        public override void OnStateEnter(PlatformerCharacterAction action)
         {
-            base.OnStateEnter();
-            StateController.DoMove(0.3f);
+            base.OnStateEnter(action);
+            Debug.Log(action.Move);
+            StateController.Roll(action.Move);
         }
     }
 }

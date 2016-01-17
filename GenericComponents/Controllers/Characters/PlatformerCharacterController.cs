@@ -15,13 +15,16 @@ using UnityEngine.Experimental.Director;
 namespace GenericComponents.Controllers.Characters
 {
     [RequireComponent(typeof(LedgeChecker))]
+    [RequireComponent(typeof(RoofChecker))]
     public class PlatformerCharacterController : BasePlatformerController, IPlatformerCharacterController
     {
         private bool _grabbingLedge = false;
-        private Direction _facingRight;
+        [SerializeField]
+        private Direction _direction;
         private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
 
         private LedgeChecker _ledgeChecker;
+        private RoofChecker _roofChecker;
         private Animator _animator;
         private Rigidbody2D _rigidBody;
         private float _gravityScale;
@@ -33,13 +36,13 @@ namespace GenericComponents.Controllers.Characters
         private float _vertical;
         private bool _jump;
 
-        public float maxSpeed = 6.0f;
+        public float maxRunSpeed = 6.0f;
         public float airMaxSpeed = 2.0f;
         public float jumpForce = 700.0f;
         public Collider2D[] standingColliders;
         public Collider2D[] duckingColliders;
-        public Transform duckRoofCheck;
-        public float duckRoofCheckHeight = 1.0f;
+        public float maxRollSpeed = 12.0f;
+        public float rollingDuration = 1;
 
         private bool DetectingPreviousGrabbedLedge
         {
@@ -99,8 +102,9 @@ namespace GenericComponents.Controllers.Characters
             _rigidBody = GetComponent<Rigidbody2D>();
             _gravityScale = _rigidBody.gravityScale;
             _ledgeChecker = GetComponent<LedgeChecker>();
-            _stateManager = new PlatformerCharacterStateManager(this);
-            _animator.Play(new PlatformerCharacterAnimationPlayable(_stateManager, animations));
+            _roofChecker = GetComponent<RoofChecker>();
+            _stateManager = new PlatformerCharacterStateManager(this, rollingDuration);
+            _animator.Play(new PlatformerCharacterAnimationPlayable(_stateManager, animations, rollingDuration));
         }
 
         void FixedUpdate()
@@ -109,10 +113,8 @@ namespace GenericComponents.Controllers.Characters
             var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
             LedgeDetected(ledgeDetected, collider);
             IsGrounded = CheckGrounded();
-            //_animator.SetBool("Grounded", IsGrounded);
-            //_animator.SetFloat("VerticalSpeed", _rigidBody.velocity.y);
+            //roofDetected = _roofChecker.IsTouchingRoof;
             var action = new PlatformerCharacterAction(_move, _vertical, _jump);
-            //Debug.Log(_stateManager.CurrentState);
             _stateManager.Perform(action);
             _move = 0;
             _vertical = 0;
@@ -143,20 +145,9 @@ namespace GenericComponents.Controllers.Characters
 
         public void DoMove(float move)
         {
-            _facingRight = DirectionOfMovement(move, _facingRight);
-
-            //_animator.SetFloat("Speed", Mathf.Abs(move));
-
-            _rigidBody.velocity = new Vector2(move * maxSpeed, _rigidBody.velocity.y);
-            
-            if (move > 0)
-            {
-                Flip(Direction.Right);
-            }
-            else if (move < 0)
-            {
-                Flip(Direction.Left);
-            }           
+            _direction = DirectionOfMovement(move, _direction);
+            _rigidBody.velocity = new Vector2(move * maxRunSpeed, _rigidBody.velocity.y);
+            Flip(_direction);
         }
 
         public void DoGrabLedge()
@@ -174,7 +165,6 @@ namespace GenericComponents.Controllers.Characters
 
         public void JumpUp()
         {
-            //_animator.SetBool("Grounded", false);
             _rigidBody.AddForce(new Vector2(0, jumpForce));
         }
 
@@ -214,17 +204,17 @@ namespace GenericComponents.Controllers.Characters
             _rigidBody.velocity = new Vector2(0, _rigidBody.velocity.y);
         }
 
+        public void Roll(float move)
+        {
+            _direction = DirectionOfMovement(move, _direction);
+            Flip(_direction);
+            var direction = DirectionValue(_direction);
+            _rigidBody.velocity = new Vector2(direction * maxRollSpeed, _rigidBody.velocity.y);
+        }
+
         void OnDrawGizmosSelected()
         {
             base.DrawGizmos();
-            Gizmos.color = Color.blue;
-            if (duckRoofCheck == null)
-            {
-                return;
-            }
-            Gizmos.DrawLine(
-                duckRoofCheck.position,
-                duckRoofCheck.transform.position + new Vector3(0, duckRoofCheckHeight, 0));
         }
     }
 }

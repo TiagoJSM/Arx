@@ -66,6 +66,11 @@ namespace GenericComponents.Controllers.Characters
             return defaultValue;
         }
 
+        protected float DirectionValue(Direction defaultValue)
+        {
+            return defaultValue == Direction.Left ? -1 : 1;
+        }
+
         protected bool CheckGrounded()
         {
             return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);

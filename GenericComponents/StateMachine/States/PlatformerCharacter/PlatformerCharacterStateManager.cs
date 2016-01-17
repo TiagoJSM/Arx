@@ -9,7 +9,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 {
     public class PlatformerCharacterStateManager : StateManager<IPlatformerCharacterController, PlatformerCharacterAction>
     {
-        public PlatformerCharacterStateManager(IPlatformerCharacterController context)
+        public PlatformerCharacterStateManager(IPlatformerCharacterController context, float rollingDuration)
             : base(context)
         {
             this
@@ -39,7 +39,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 
             this
                 .From<GrabbingLedgeState>()
-                    .To<JumpingState>((c, a, t) => a.Jump /*|| c.VerticalSpeed > 0) && !c.GrabbingLedge*/)
+                    .To<JumpingState>((c, a, t) => a.Jump)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && !c.GrabbingLedge);
 
             this
@@ -50,7 +50,9 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 
             this
                .From<RollState>()
-                   .To<DuckState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > 1);
+                   .To<DuckState>((c, a, t) => c.IsGrounded && a.Move == 0 && a.Vertical < 0 && t > rollingDuration)
+                   .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration)
+                   .To<RollState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > rollingDuration);
         }
     }
 }
