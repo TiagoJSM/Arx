@@ -33,11 +33,11 @@ namespace GenericComponents.Controllers.Interaction.Environment
             if (Physics2D.IsTouching(ledgeDetector, other))
             {
                 _ledge = other;
-                AddIfDoesntContain(_ledgeColliders, other);
+                _ledgeColliders.AddIfDoesntContain(other);
             }
             if (Physics2D.IsTouching(freeSpaceDetector, other))
             {
-                AddIfDoesntContain(_freeSpaceColliders, other);
+                _ledgeColliders.AddIfDoesntContain(other);
             }
         }
 
@@ -66,15 +66,6 @@ namespace GenericComponents.Controllers.Interaction.Environment
                 return true;
             }
             return false;
-        }
-
-        private void AddIfDoesntContain(List<Collider2D> colliders, Collider2D collider)
-        {
-            if (colliders.Contains(collider))
-            {
-                return;
-            }
-            colliders.Add(collider);
         }
     }
 }

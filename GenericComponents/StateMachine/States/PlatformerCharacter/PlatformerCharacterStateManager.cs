@@ -45,13 +45,13 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
             this
                 .From<DuckState>()
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Move != 0)
-                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Vertical >= 0)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Vertical >= 0 && c.CanStand)
                     .To<FallingState>((c, a, t) => !c.IsGrounded);
 
             this
                .From<RollState>()
-                   .To<DuckState>((c, a, t) => c.IsGrounded && a.Move == 0 && a.Vertical < 0 && t > rollingDuration)
-                   .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration)
+                   .To<DuckState>((c, a, t) => c.IsGrounded && a.Move == 0 && (a.Vertical < 0 || !c.CanStand) && t > rollingDuration)
+                   .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration && c.CanStand)
                    .To<RollState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > rollingDuration);
         }
     }

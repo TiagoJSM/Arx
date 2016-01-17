@@ -14,7 +14,6 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
             base.OnStateEnter(action);
-            Debug.Log(action.Move);
             StateController.Roll(action.Move);
         }
     }

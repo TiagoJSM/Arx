@@ -11,6 +11,7 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         bool CanGrabLedge { get; }
         float VerticalSpeed { get; }
         bool GrabbingLedge { get; }
+        bool CanStand { get; }
 
         void DoMove(float move);
         void DoGrabLedge();

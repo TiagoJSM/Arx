@@ -9,10 +9,15 @@ namespace GenericComponents.Controllers.Interaction.Environment
 {
     public class RoofChecker : MonoBehaviour
     {
-        private int _roofColliders;
+        private List<Collider2D> _colliders;
 
         public Collider2D roofDetector;
-        public bool IsTouchingRoof { get { return _roofColliders != 0; } }
+        public bool IsTouchingRoof { get { return _colliders.Count != 0; } }
+
+        void Start()
+        {
+            _colliders = new List<Collider2D>();
+        }
 
         void OnTriggerEnter2D(Collider2D other)
         {
@@ -20,12 +25,10 @@ namespace GenericComponents.Controllers.Interaction.Environment
             {
                 return;
             }
-            if(!Physics2D.IsTouching(roofDetector, other))
+            if(Physics2D.IsTouching(roofDetector, other))
             {
-                return;
+                _colliders.AddIfDoesntContain(other);
             }
-
-            _roofColliders++;
         }
 
         void OnTriggerExit2D(Collider2D other)
@@ -34,16 +37,10 @@ namespace GenericComponents.Controllers.Interaction.Environment
             {
                 return;
             }
-            if(IsTouchingRoof != other)
+            if (!Physics2D.IsTouching(roofDetector, other))
             {
-                return;
+                _colliders.Remove(other);
             }
-            if (Physics2D.IsTouching(roofDetector, other))
-            {
-                return;
-            }
-
-            _roofColliders--;
         }
     }
 }

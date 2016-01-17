@@ -67,18 +67,9 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
-        public bool isGrounded;
-        public bool IsGrounded
-        {
-            get
-            {
-                return isGrounded;
-            }
-            private set
-            {
-                isGrounded = value;
-            }
-        }
+        public bool IsGrounded { get; private set; }
+
+        public bool CanStand { get; private set; }
 
         public float VerticalSpeed
         {
@@ -113,7 +104,7 @@ namespace GenericComponents.Controllers.Characters
             var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
             LedgeDetected(ledgeDetected, collider);
             IsGrounded = CheckGrounded();
-            //roofDetected = _roofChecker.IsTouchingRoof;
+            CanStand = !_roofChecker.IsTouchingRoof;
             var action = new PlatformerCharacterAction(_move, _vertical, _jump);
             _stateManager.Perform(action);
             _move = 0;
