@@ -31,7 +31,7 @@ namespace GenericComponents.Animation.Playables
             Assign<IddleState>(new AnimationClipPlayable(_animations.iddleAnimation));
             Assign<MovingState>(new AnimationClipPlayable(_animations.runningAnimation));
             Assign<JumpingState>(new AnimationClipPlayable(_animations.jumpingAnimation));
-            Assign<FallingState>(new AnimationClipPlayable(_animations.jumpingAnimation));
+            Assign<FallingState>(new AnimationClipPlayable(_animations.fallingAnimation));
             Assign<GrabbingLedgeState>(new AnimationClipPlayable(_animations.grabbingAnimation));
             Assign<DuckState>(new AnimationClipPlayable(_animations.duckAnimation));
             Assign<RollState>(rollingPlayable);
