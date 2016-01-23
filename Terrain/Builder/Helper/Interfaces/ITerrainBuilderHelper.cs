@@ -18,6 +18,6 @@ namespace Terrain.Builder.Helper.Interfaces
         IFloorSegmentBuilder AddFloorSegmentStart(LineSegment2D segment);
         ISlopeSegmentBuilder AddSlopeSegmentStart(LineSegment2D segment);
         ICeilingSegmentBuilder AddCeilingSegmentStart(LineSegment2D segment);
-        ITerrainBuilderHelper AddFilling(IEnumerable<LineSegment2D> segments, float fillingLowPoint, float fillingUFactor, float fillingVFactor);
+        ITerrainBuilderHelper AddFilling(IEnumerable<LineSegment2D> segments);
     }
 }

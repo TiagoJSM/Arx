@@ -79,6 +79,20 @@ namespace MathHelper.DataStructures
             }
         }
 
+        public Vector2 HalfPoint
+        {
+            get
+            {
+                var halfLenght = (P2 - P1) / 2;
+                return P1 + halfLenght;
+            }
+        }
+
+        public static LineSegment2D operator +(LineSegment2D segment, Vector2 offset)
+        {
+            return new LineSegment2D(segment.P1 + offset, segment.P2 + offset);
+        }
+
         public override string ToString()
         {
             return "(" + P1.ToString() + ";" + P2.ToString() + ")";

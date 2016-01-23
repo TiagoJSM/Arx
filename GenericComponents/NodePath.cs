@@ -27,12 +27,41 @@ namespace GenericComponents
     {
         [SerializeField]
         private List<PathNode> _pathNodes;
+        [SerializeField]
+        private bool _useBezier;
+        [SerializeField]
+        private int _bezierDivisions;
+        [SerializeField]
+        private bool _isCircular;
 
-        public bool UseBezier { get; set; }
-        public int BezierDivisions { get; set; }
+        public bool UseBezier
+        {
+            get { return _useBezier; }
+            set { _useBezier = value; }
+        }
+        public int BezierDivisions
+        {
+            get { return _bezierDivisions; }
+            set { _bezierDivisions = value; }
+        }
+        public bool IsCircular
+        {
+            get { return _isCircular; }
+            set { _isCircular = value; }
+        }
 
         public int VerticeCount { get { return _pathNodes.Count; } }
-        public int BezierControlPointsCount { get { return (_pathNodes.Count - 1) * 2; } }
+        public int BezierControlPointsCount
+        {
+            get
+            {
+                if (IsCircular)
+                {
+                    return _pathNodes.Count * 2;
+                }
+                return (_pathNodes.Count - 1) * 2;
+            }
+        }
 
         public IEnumerable<LineSegment2D> PathSegments
         {
@@ -50,7 +79,17 @@ namespace GenericComponents
         {
             get
             {
-                return _pathNodes.ToPairs().Select(p => new LineSegment2D(p.Item1.position, p.Item2.position));
+                var pathNodes = _pathNodes;
+                if (IsCircular)
+                {
+                    pathNodes = new List<PathNode>(_pathNodes);
+                    pathNodes.Add(new PathNode()
+                    {
+                        position = _pathNodes.First().position
+                    });
+                }
+                
+                return pathNodes.ToPairs().Select(p => new LineSegment2D(p.Item1.position, p.Item2.position));
             }
         }
 
@@ -63,10 +102,19 @@ namespace GenericComponents
                         .ToPairs()
                         .ToArray();
 
-                return 
-                    OriginControlPathSegments.Select((s, i) => 
+                return
+                    OriginControlPathSegments.Select((s, i) =>
                     {
-                        var controlPoints = controlPointPairs[i];
+                        var controlPoints = default(Tuple<PathNode, PathNode>);
+                        if (i == controlPointPairs.Length)
+                        {
+                            controlPoints = new Tuple<PathNode, PathNode>(_pathNodes.Last(), _pathNodes.First());
+                        }
+                        else
+                        {
+                            controlPoints = controlPointPairs[i];
+                        }
+
                         return new BezierLineSegment2D(s, controlPoints.Item1.StartBezier, controlPoints.Item2.EndBezier);
                     });
             }
@@ -113,8 +161,15 @@ namespace GenericComponents
                     _pathNodes
                         .SelectMany(n => new[] { n.position + n.endBezierOffset, n.position + n.startBezierOffset })
                         .ToList();
+                if(!IsCircular)
+                {
+                    points.RemoveFirst();
+                    points.RemoveLast();
+                    return points;
+                }
+                var first = points.First();
                 points.RemoveFirst();
-                points.RemoveLast();
+                points.Add(first);
                 return points;
             }
         }
@@ -126,22 +181,27 @@ namespace GenericComponents
 
         public void DivideSegment(int segmentIdx)
         {
-            var segmentStartPoint = _pathNodes[segmentIdx];
-            var segmentEndPoint = _pathNodes[segmentIdx + 1];
+            var endPointIndex = segmentIdx + 1;
+            if (IsCircular && endPointIndex >= _pathNodes.Count)
+            {
+                endPointIndex = 0;
+            }
+            var segmentStartPoint = _pathNodes[segmentIdx].position;
+            var segmentEndPoint = _pathNodes[endPointIndex].position;
+            var segment = new LineSegment2D(segmentStartPoint, segmentEndPoint);
 
-            var halfLenght = (segmentEndPoint.position - segmentStartPoint.position) / 2;
-            var divisionPoint = segmentStartPoint.position + halfLenght;
             _pathNodes.Insert(
                 segmentIdx + 1, 
                 new PathNode()
                 {
-                    position = divisionPoint
+                    position = segment.HalfPoint
                 });
         }
 
         public Vector2 GetBezierControlPointAt(int idx)
         {
-            var pointIndex = GetControlPointIndexForBezierPoint(idx);
+            return BiezerControlPoints.ToList()[idx];
+            /*var pointIndex = GetControlPointIndexForBezierPoint(idx);
             if (idx % 2 == 0)
             {
                 return _pathNodes[pointIndex].startBezierOffset + _pathNodes[pointIndex].position;
@@ -149,13 +209,19 @@ namespace GenericComponents
             else
             {
                 return _pathNodes[pointIndex].endBezierOffset + _pathNodes[pointIndex].position;
-            }
+            }*/
         }
 
         public void SetBezierControlPointAt(int idx, Vector2 point)
         {
+            if(BezierControlPointsCount == idx + 1 && IsCircular)
+            {
+                var pathNode = _pathNodes.First();
+                pathNode.endBezierOffset = point - pathNode.position;
+                return;
+            }
             var pointIndex = GetControlPointIndexForBezierPoint(idx);
-            var controlPoint = _pathNodes[GetControlPointIndexForBezierPoint(idx)];
+            var controlPoint = _pathNodes[pointIndex];
             var bezierValue = point - controlPoint.position;
             if (idx % 2 == 0)
             {
@@ -175,16 +241,6 @@ namespace GenericComponents
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
-        }
-
-        private int GetBezierPointForControlPoint(int idx, bool start)
-        {
-            var bezierIdx = idx * 2;
-            if (start)
-            {
-                bezierIdx++;
-            }
-            return bezierIdx;
         }
 
         private int GetControlPointIndexForBezierPoint(int idx)

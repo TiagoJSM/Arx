@@ -9,3 +9,9 @@ C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterface
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\obj\Debug\CommonInterfaces.dll
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\obj\Debug\CommonInterfaces.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\CommonInterfaces\bin\Debug\UnityEngine.xml
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\CommonInterfaces\bin\Debug\CommonInterfaces.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\CommonInterfaces\bin\Debug\CommonInterfaces.pdb
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\CommonInterfaces\bin\Debug\UnityEngine.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\CommonInterfaces\bin\Debug\UnityEngine.xml
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\CommonInterfaces\obj\Debug\CommonInterfaces.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\CommonInterfaces\obj\Debug\CommonInterfaces.pdb

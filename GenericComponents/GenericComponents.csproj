@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviours\NodePathBehaviour.cs" />
+    <Compile Include="Builders\BuilderDataContext.cs" />
+    <Compile Include="Builders\SegmentBuilder.cs" />
     <Compile Include="Controllers\Interaction\InteractionFinderController.cs" />
     <Compile Include="Controllers\Interaction\InteractionRadiusController.cs" />
     <Compile Include="Controllers\Interaction\InteractionTriggerController.cs" />
@@ -52,8 +54,11 @@
     <Compile Include="Controllers\Interaction\SpeechController.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Interfaces\IPath.cs" />
+    <Compile Include="Interfaces\IState.cs" />
+    <Compile Include="Interfaces\IStateFactory.cs" />
     <Compile Include="NodePath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StateMachine\StateManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArxLibraries\CommonInterfaces\CommonInterfaces.csproj">

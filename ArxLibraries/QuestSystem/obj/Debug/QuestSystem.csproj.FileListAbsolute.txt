@@ -19,3 +19,18 @@ C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\MathHelper.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\Extensions.pdb
 C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\QuestSystem\bin\Debug\UnityEngine.xml
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.csprojResolveAssemblyReference.cache
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\bin\Debug\QuestSystem.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\bin\Debug\QuestSystem.pdb
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\bin\Debug\CommonInterfaces.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\bin\Debug\GenericComponents.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\bin\Debug\UnityEngine.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\bin\Debug\MathHelper.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\bin\Debug\Extensions.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\bin\Debug\CommonInterfaces.pdb
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\bin\Debug\GenericComponents.pdb
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\bin\Debug\UnityEngine.xml
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\bin\Debug\MathHelper.pdb
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\bin\Debug\Extensions.pdb
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.dll
+C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\QuestSystem\obj\Debug\QuestSystem.pdb

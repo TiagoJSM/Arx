@@ -28,9 +28,15 @@ namespace Terrain.Builder
                 collider = field.gameObject.AddComponent<EdgeCollider2D>();
             }
 
-            var colliderPoints = field.NodePath.PathNodes.ToArray();
+            var colliderPoints = field.NodePath.PathNodes.ToList();
             var idx = 0;
+
             var previous = default(LineSegment2D?);
+            if (field.NodePath.IsCircular)
+            {
+                previous = field.NodePath.PathSegments.Last();
+            }
+
             foreach (var pathSegment in field.NodePath.PathSegments)
             {
                 float radians = 0;
@@ -46,22 +52,31 @@ namespace Terrain.Builder
                     }
                 }
 
-
                 colliderPoints[idx] = 
                     (colliderPoints[idx] + new Vector2(0, field.colliderOffset))
                         .RotateAround(colliderPoints[idx], radians);
                 previous = pathSegment;
+
                 idx++;
+                if (field.NodePath.IsCircular && idx == colliderPoints.Count)
+                {
+                    idx = 0;
+                }
             }
 
-            if (previous.HasValue)
+            if (field.NodePath.IsCircular)
+            {
+                colliderPoints.Add(colliderPoints.First());
+            }
+            else if (previous.HasValue)
             {
                 var radians = previous.Value.GetOrientationInRadians();
-
-                colliderPoints[idx] = (colliderPoints[idx] + new Vector2(0, field.colliderOffset));
+                colliderPoints[idx] = 
+                    (colliderPoints[idx] + new Vector2(0, field.colliderOffset))
+                        .RotateAround(colliderPoints[idx], radians);
             }
 
-            collider.points = colliderPoints;
+            collider.points = colliderPoints.ToArray();
         }
     }
 }

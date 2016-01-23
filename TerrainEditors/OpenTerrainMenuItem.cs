@@ -8,17 +8,17 @@ using UnityEngine;
 
 namespace TerrainEditors
 {
-    public class TerrainMenuItem
+    public class OpenTerrainMenuItem
     {
         private const string DefaultName = "Terrain";
         private static readonly Vector2 DefaultFirstVector = new Vector2();
         private static readonly Vector2 DefaultSecondVector = new Vector2(1, 0);
 
-        [MenuItem("GameObject/2D Object/Terrain")]
+        [MenuItem("GameObject/2D Object/Terrain/Open Terrain")]
         static void Init()
         {
             var terrain = new GameObject(DefaultName);
-            var terrainField = terrain.AddComponent<TerrainField>();
+            var terrainField = terrain.AddComponent<OpenTerrainField>();
             terrainField.mesh = new Mesh();
             terrain.AddComponent<MeshFilter>();
             terrain.AddComponent<MeshRenderer>();

@@ -6,7 +6,6 @@ using UnityEngine;
 using Extensions;
 using System.Collections;
 using MathHelper.DataStructures;
-using Extensions;
 using GenericComponents;
 using GenericComponents.Behaviours;
 
@@ -19,9 +18,8 @@ namespace Terrain
         public float maxFloorSegmentLenght = 2;
         public float maxSlopeSegmentLenght = 2;
         public float maxCeilingSegmentLenght = 2;
-        public float fillingLowPoint = 0;
+        
         public float floorTerrainMaximumSlope = 1.0f;
-        public bool addFilling = true;
         public float cornerWidth = 0.5f;
         public float terrainFloorHeight = 0.5f;
         public float terrainSlopeHeight = 0.5f;

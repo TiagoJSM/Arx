@@ -1,32 +1,25 @@
-﻿using System;
+﻿using Extensions;
+using GenericComponentEditors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terrain;
 using UnityEditor;
 using UnityEngine;
-using Extensions;
-using Utils;
-using CommonEditors;
-using Terrain.Builder;
-using Terrain.Builder.Helper;
-using MathHelper.DataStructures;
-using GenericComponentEditors;
 
 namespace TerrainEditors
 {
-    [CustomEditor(typeof(TerrainField))]
-    public class TerrainFieldEditor : NodePathEditor
+    public abstract class TerrainFieldEditor<TTerrain> : NodePathEditor where TTerrain : TerrainField
     {
-        private bool _requiresMeshUpdate;
-        private bool _shaderChanged;
-        private Shader _previousShader;
+        //private bool _shaderChanged;
+        //private Shader _previousShader;
 
-        public TerrainField TerrainField
+        public TTerrain TerrainField
         {
             get
             {
-                return target as TerrainField;
+                return target as TTerrain;
             }
         }
 
@@ -38,66 +31,35 @@ namespace TerrainEditors
             }
         }
 
+        protected bool RequiresMeshUpdate { get; set; }
+
         public TerrainFieldEditor()
         {
-            _requiresMeshUpdate = true;
+            //RequiresMeshUpdate = true;
         }
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            if (_previousShader != TerrainField.shader)
+            if (TerrainMeshRenderer.sharedMaterial != null)
             {
-                _shaderChanged = true;
-                _previousShader = TerrainField.shader;
+                if(TerrainField.shader == null)
+                {
+                    TerrainMeshRenderer.material = null;
+                }
+                else if(TerrainMeshRenderer.sharedMaterial.shader != TerrainField.shader)
+                {
+                    TerrainMeshRenderer.material = new Material(TerrainField.shader);
+                }
             }
-            else
+            else if(TerrainField.shader != null)
             {
-                _shaderChanged = false;
-            }
-            
-            if (GUI.changed)
-            {
-                _requiresMeshUpdate = true;
-            }
-        }
-
-        protected override void OnNodePathAdded()
-        {
-            _requiresMeshUpdate = true;
-        }
-        
-        protected override void NodePathChanged()
-        {
-            _requiresMeshUpdate = true;
-        }
-
-        protected override void OnNodePathRemoved()
-        {
-            _requiresMeshUpdate = true;
-        }
-
-        private void OnSceneGUI()
-        {
-            if (_requiresMeshUpdate)
-            {
-                _requiresMeshUpdate = false;
-                TerrainBuilder.BuildMeshFor(TerrainField);
-                TerrainColliderBuilder.BuildColliderFor(TerrainField);
-            }
-            if (_shaderChanged && TerrainField.shader != null)
-            {
+                Debug.Log(TerrainMeshRenderer.sharedMaterial);
                 TerrainMeshRenderer.material = new Material(TerrainField.shader);
             }
-            DrawNodePathEditors();
-            DrawCollider();
-            HandleInput();
-            
-            if (GUI.changed)
-                EditorUtility.SetDirty(target);
         }
 
-        private void DrawCollider()
+        protected void DrawCollider()
         {
             var collider = TerrainField.GetComponent<EdgeCollider2D>();
             if (collider == null)
@@ -115,6 +77,5 @@ namespace TerrainEditors
             Handles.color = Color.green;
             Handles.DrawAAPolyLine(3f, points);
         }
-
     }
 }

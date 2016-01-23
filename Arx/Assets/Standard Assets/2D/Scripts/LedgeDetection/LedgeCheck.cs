@@ -3,9 +3,10 @@ using System.Collections;
 
 public class LedgeCheck : MonoBehaviour {
 
+    private ILedgeGrabber ledgeGrabber;
+
     public ContactDetector ledgeWallDetector;
     public ContactDetector emptySpaceDetector;
-    public MonoBehaviour ledgeGrabber;
 
     public bool LedgeDetected
     {
@@ -22,14 +23,18 @@ public class LedgeCheck : MonoBehaviour {
             return ledgeWallDetector.LastContactCollider;
         }
     }
-	
-	void FixedUpdate () {
-        var lGrabber = ledgeGrabber as ILedgeGrabber;
-        if (lGrabber == null)
+
+    void Start()
+    {
+        ledgeGrabber = GetComponentInParent<ILedgeGrabber>();
+    }
+
+    void FixedUpdate () {
+        if (ledgeGrabber == null)
         {
             return;
         }
 
-        lGrabber.LedgeDetected(LedgeDetected, LastContactCollider);
+        ledgeGrabber.LedgeDetected(LedgeDetected, LastContactCollider);
 	}
 }
