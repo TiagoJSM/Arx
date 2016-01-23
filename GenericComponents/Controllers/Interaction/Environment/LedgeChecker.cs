@@ -37,7 +37,7 @@ namespace GenericComponents.Controllers.Interaction.Environment
             }
             if (Physics2D.IsTouching(freeSpaceDetector, other))
             {
-                _ledgeColliders.AddIfDoesntContain(other);
+                _freeSpaceColliders.AddIfDoesntContain(other);
             }
         }
 

@@ -12,9 +12,15 @@ namespace GenericComponents.Animation.Playables
 {
     public class StateAnimationMixerPlayable<TController, TAction> : AnimationMixerPlayable
     {
+        private const float TransitionTime = 0.3f;
+        private const float TransitionStartFirstWeight = 0.99f;
+        private const float TransitionStartSecondWeight = 0.01f;
+
         private IState<TController, TAction> _currentState;
         private StateManager<TController, TAction> _stateManager;
         private Dictionary<Type, AnimationPlayable> _animationPlayablesByState;
+
+        private AnimationPlayable _currentAnimation;
 
         private IState<TController, TAction> State
         {
@@ -40,23 +46,73 @@ namespace GenericComponents.Animation.Playables
 
         public override void PrepareFrame(FrameData info)
         {
-            if (!RequiresAnimationChange())
+            if (StateChanged())
+            {
+                AssignAnimationsForStateChange();
+                return;
+            }
+            if (InTransition())
+            {
+                SetTransitionWeightValues();
+                return;
+            }
+            if (TransitionNeedsToStop())
+            {
+                RemoveTransitionAnimation();
+            }
+        }
+
+        private void RemoveTransitionAnimation()
+        {
+            this.RemoveInput(0);
+        }
+
+        private bool TransitionNeedsToStop()
+        {
+            return this.inputCount > 1;
+        }
+
+        private void SetTransitionWeightValues()
+        {
+            if (_currentAnimation == null)
             {
                 return;
             }
+            if (this.inputCount < 2)
+            {
+                return;
+            }
+            var weight = Mathf.Clamp01((float)_currentAnimation.time / TransitionTime);
+            this.SetInputWeight(0, 1 - weight);
+            this.SetInputWeight(1, weight);
+        }
+
+        private void AssignAnimationsForStateChange()
+        {
             ClearInputs();
+            var previousState = _currentState;
             var state = State;
             if (state == null)
             {
                 return;
             }
-            AnimationPlayable playable;
-            if (!_animationPlayablesByState.TryGetValue(state.GetType(), out playable))
+            var previousAnimation = _currentAnimation;
+            if (!_animationPlayablesByState.TryGetValue(state.GetType(), out _currentAnimation))
             {
                 return;
             }
-            playable.time = 0;
-            AddInput(playable);
+            _currentAnimation.time = 0;
+            if (previousAnimation != null)
+            {
+                AddInput(previousAnimation);
+            }
+            AddInput(_currentAnimation);
+
+            if (previousAnimation != null)
+            {
+                this.SetInputWeight(0, TransitionStartFirstWeight);
+                this.SetInputWeight(1, TransitionStartSecondWeight);
+            }
         }
 
         public void Assign<TState>(AnimationPlayable animationPlayable) where TState : IState<TController, TAction>
@@ -64,9 +120,18 @@ namespace GenericComponents.Animation.Playables
             _animationPlayablesByState.Add(typeof(TState), animationPlayable);
         }
 
-        private bool RequiresAnimationChange()
+        private bool StateChanged()
         {
             return _currentState != _stateManager.CurrentState;
+        }
+
+        private bool InTransition()
+        {
+            if (_currentAnimation != null && _currentAnimation.time < TransitionTime)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
