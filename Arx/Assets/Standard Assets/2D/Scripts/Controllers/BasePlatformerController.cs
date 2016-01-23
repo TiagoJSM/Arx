@@ -31,4 +31,28 @@ public class BasePlatformerController : MonoBehaviour {
             activePlatformCollider = null;
         }
     }
+
+    protected void Flip(bool right)
+    {
+        var scale = transform.localScale;
+        if ((right && scale.x > 0) || (!right && scale.x < 0))
+        {
+            return;
+        }
+        scale.x *= -1;
+        transform.localScale = scale;
+    }
+
+    protected bool DirectionOfMovement(float horizontal, bool defaultValue)
+    {
+        if (horizontal > 0)
+        {
+            return true;
+        }
+        else if (horizontal < 0)
+        {
+            return false;
+        }
+        return defaultValue;
+    }
 }

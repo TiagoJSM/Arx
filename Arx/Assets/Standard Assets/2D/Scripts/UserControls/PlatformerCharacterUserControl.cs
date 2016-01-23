@@ -6,6 +6,7 @@ using CommonInterfaces.Inventory;
 using InventorySystem;
 using GenericComponents.Controllers.Interaction;
 using QuestSystem.QuestStructures;
+using GenericComponents.Controllers.Characters;
 
 [RequireComponent(typeof(PlatformerCharacterController))]
 [RequireComponent(typeof(ItemFinderController))]
