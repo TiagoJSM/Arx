@@ -1,4 +1,5 @@
-﻿using Extensions;
+﻿using CommonEditors;
+using Extensions;
 using GenericComponentEditors;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,6 @@ namespace TerrainEditors
 {
     public abstract class TerrainFieldEditor<TTerrain> : NodePathEditor where TTerrain : TerrainField
     {
-        //private bool _shaderChanged;
-        //private Shader _previousShader;
-
         public TTerrain TerrainField
         {
             get
@@ -31,11 +29,19 @@ namespace TerrainEditors
             }
         }
 
+        public MeshFilter TerrainMeshFilter
+        {
+            get
+            {
+                return TerrainField.GetComponent<MeshFilter>();
+            }
+        }
+
         protected bool RequiresMeshUpdate { get; set; }
 
         public TerrainFieldEditor()
         {
-            //RequiresMeshUpdate = true;
+            base.InputHandler.Add(new DuplicateEventCombination(CustomDuplicate));
         }
 
         public override void OnInspectorGUI()
@@ -76,6 +82,14 @@ namespace TerrainEditors
 
             Handles.color = Color.green;
             Handles.DrawAAPolyLine(3f, points);
+        }
+
+        private void CustomDuplicate()
+        {
+            var clone = Instantiate(this.TerrainField);
+            clone.mesh = new Mesh();
+            clone.GetComponent<MeshRenderer>().material = new Material(TerrainMeshRenderer.sharedMaterial);
+            //ToDo: new shader
         }
     }
 }

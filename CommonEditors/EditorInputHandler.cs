@@ -4,10 +4,17 @@ using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
+using Extensions;
 
 namespace CommonEditors
 {
-    public class InputCombination
+    public interface IInputCombination
+    {
+        bool CanExecute();
+        void Execute();
+    }
+
+    public class InputCombination : IInputCombination
     {
         private KeyCode? _pressedKey;
         private MouseButton? _button;
@@ -60,13 +67,49 @@ namespace CommonEditors
         }
     }
 
+    public class DuplicateEventCombination : IInputCombination
+    {
+        private Action _action;
+        private bool _cancelDefaultDuplicateEvent;
+
+        public DuplicateEventCombination(Action action, bool cancelDefaultDuplicateEvent = true)
+        {
+            _action = action;
+            _cancelDefaultDuplicateEvent = cancelDefaultDuplicateEvent;
+        }
+
+        public bool CanExecute()
+        {
+            Event e = Event.current;
+            if (e != null && e.type == EventType.ValidateCommand && e.commandName == "Duplicate")
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void Execute()
+        {
+            _action();
+            if (_cancelDefaultDuplicateEvent)
+            {
+                Event.current.CancelDuplicate();
+            }
+        }
+    }
+
     public class EditorInputHandler
     {
-        private InputCombination[] _combinations;
+        private List<IInputCombination> _combinations;
 
-        public EditorInputHandler(params InputCombination[] combinations)
+        public EditorInputHandler(params IInputCombination[] combinations)
         {
-            _combinations = combinations;
+            _combinations = new List<IInputCombination>(combinations);
+        }
+
+        public void Add(params IInputCombination[] combinations)
+        {
+            _combinations.AddRange(combinations);
         }
 
         public void HandleInput()
@@ -76,7 +119,6 @@ namespace CommonEditors
                 if (combination.CanExecute())
                 {
                     combination.Execute();
-                    return;
                 }
             }
         }

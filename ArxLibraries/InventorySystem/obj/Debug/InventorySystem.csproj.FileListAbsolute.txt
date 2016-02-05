@@ -22,3 +22,5 @@ C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\bin\Debug\Com
 C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\bin\Debug\UnityEngine.xml
 C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\obj\Debug\InventorySystem.dll
 C:\Users\TIAGO\Documents\Projects\Arx\ArxLibraries\InventorySystem\obj\Debug\InventorySystem.pdb
+C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\InventorySystem\bin\Debug\UnityEngine.dll
+C:\Users\Public\Documents\Unity Projects\ArxProject\ArxLibraries\InventorySystem\bin\Debug\UnityEngine.xml

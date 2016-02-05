@@ -60,8 +60,8 @@ namespace TerrainEditors
             }
             DrawNodePathEditors();
             DrawCollider();
-            HandleInput();
-            
+            HandleInput();        
+
             if (GUI.changed)
                 EditorUtility.SetDirty(target);
         }
