@@ -54,7 +54,9 @@ namespace DecoratorEditors.NodeMeshDecoration
             HandleInput();
 
             if (GUI.changed)
+            {
                 EditorUtility.SetDirty(target);
+            }
         }
 
         public override void OnInspectorGUI()

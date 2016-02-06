@@ -63,7 +63,9 @@ namespace TerrainEditors
             HandleInput();        
 
             if (GUI.changed)
+            {
                 EditorUtility.SetDirty(target);
+            }  
         }
     }
 }

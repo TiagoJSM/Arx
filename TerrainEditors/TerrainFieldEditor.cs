@@ -60,7 +60,6 @@ namespace TerrainEditors
             }
             else if(TerrainField.shader != null)
             {
-                Debug.Log(TerrainMeshRenderer.sharedMaterial);
                 TerrainMeshRenderer.material = new Material(TerrainField.shader);
             }
         }
@@ -89,7 +88,6 @@ namespace TerrainEditors
             var clone = Instantiate(this.TerrainField);
             clone.mesh = new Mesh();
             clone.GetComponent<MeshRenderer>().material = new Material(TerrainMeshRenderer.sharedMaterial);
-            //ToDo: new shader
         }
     }
 }
