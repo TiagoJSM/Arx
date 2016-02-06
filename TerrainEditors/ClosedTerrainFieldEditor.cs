@@ -17,48 +17,37 @@ namespace TerrainEditors
         public ClosedTerrainFieldEditor()
         {
             _builder = new ClosedTerrainBuilder();
-            //NodePath.IsCircular = true;
         }
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-
-            if (GUI.changed)
-            {
-                RequiresMeshUpdate = true;
-            }
         }
 
         protected override void OnNodePathAdded()
         {
-            RequiresMeshUpdate = true;
         }
 
         protected override void NodePathChanged()
         {
-            RequiresMeshUpdate = true;
         }
 
         protected override void OnNodePathRemoved()
         {
-            RequiresMeshUpdate = true;
         }
 
         private void OnSceneGUI()
         {
-            if (RequiresMeshUpdate)
-            {
-                RequiresMeshUpdate = false;
-                _builder.BuildMeshFor(TerrainField);
-                TerrainColliderBuilder.BuildColliderFor(TerrainField);
-            }
+            _builder.BuildMeshFor(TerrainField);
+            TerrainColliderBuilder.BuildColliderFor(TerrainField);
             DrawNodePathEditors();
             DrawCollider();
             HandleInput();
 
             if (GUI.changed)
+            {
                 EditorUtility.SetDirty(target);
+            }
         }
     }
 }

@@ -37,8 +37,6 @@ namespace TerrainEditors
             }
         }
 
-        protected bool RequiresMeshUpdate { get; set; }
-
         public TerrainFieldEditor()
         {
             base.InputHandler.Add(new DuplicateEventCombination(CustomDuplicate));

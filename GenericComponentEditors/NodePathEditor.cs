@@ -90,10 +90,9 @@ namespace GenericComponentEditors
                 var translated = DrawPathNodeMoveHandle(point, Color.white);
                 if (point != translated)
                 {
-                    //Debug.Log("DrawPathNodesMoveHandles");
-                    Undo.RecordObject(target, "Edit Transform");
+                    Undo.RecordObject(target, "Move path node");
                     NodePathBehaviour[idx] = translated;
-                    TriggerNodePathChanged();
+                    NodePathChanged();
                 }
             }
         }
@@ -240,10 +239,9 @@ namespace GenericComponentEditors
                 var translated = DrawPathNodeMoveHandle(point, color);
                 if (point != translated)
                 {
-                    //Debug.Log("DrawBezierMoveHandles");
-                    Undo.RecordObject(target, "Edit Transform");
+                    Undo.RecordObject(target, "Move bezier point");
                     NodePathBehaviour.SetBezierControlPointAt(idx, translated);
-                    TriggerNodePathChanged();
+                    NodePathChanged();
                 }
             }
         }
@@ -257,12 +255,6 @@ namespace GenericComponentEditors
                 Handles.color = EndColor;
                 Handles.DrawLine(bezierLineSegment.LineSegment.P2.ToVector3(), bezierLineSegment.P2ControlPoint.ToVector3());
             }
-        }
-
-        private void TriggerNodePathChanged()
-        {
-            
-            NodePathChanged();
         }
     }
 }
