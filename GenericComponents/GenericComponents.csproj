@@ -85,7 +85,7 @@
     <Compile Include="StateMachine\TransitionConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArxLibraries\CommonInterfaces\CommonInterfaces.csproj">
+    <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
       <Project>{70cd1f80-87f4-4a17-b701-de961bbc798c}</Project>
       <Name>CommonInterfaces</Name>
     </ProjectReference>

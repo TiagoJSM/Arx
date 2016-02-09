@@ -28,3 +28,18 @@ C:\Users\TIAGO\Documents\Projects\Arx\GenericComponents\bin\Debug\UnityEngine.UI
 C:\Users\TIAGO\Documents\Projects\Arx\GenericComponents\obj\Debug\GenericComponents.csprojResolveAssemblyReference.cache
 C:\Users\TIAGO\Documents\Projects\Arx\GenericComponents\obj\Debug\GenericComponents.dll
 C:\Users\TIAGO\Documents\Projects\Arx\GenericComponents\obj\Debug\GenericComponents.pdb
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\obj\Debug\GenericComponents.csprojResolveAssemblyReference.cache
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\obj\Debug\GenericComponents.dll
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\obj\Debug\GenericComponents.pdb
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\GenericComponents.dll
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\GenericComponents.pdb
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\CommonInterfaces.dll
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\Extensions.dll
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\MathHelper.dll
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEngine.dll
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEngine.UI.dll
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\CommonInterfaces.pdb
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\Extensions.pdb
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\MathHelper.pdb
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEngine.xml
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEngine.UI.xml

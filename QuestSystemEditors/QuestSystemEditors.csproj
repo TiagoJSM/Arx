@@ -37,7 +37,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEditor">
-      <HintPath>..\Arx\Library\UnityAssemblies\UnityEditor.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\..\..\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
@@ -57,13 +57,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\ArxLibraries\QuestSystem\QuestSystem.csproj">
-      <Project>{7b14c9d3-dc8c-427f-9b4c-22f409959393}</Project>
-      <Name>QuestSystem</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CommonEditors\CommonEditors.csproj">
       <Project>{e3a4d66e-8b19-4b41-9861-7bb62c514f18}</Project>
       <Name>CommonEditors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QuestSystem\QuestSystem.csproj">
+      <Project>{7b14c9d3-dc8c-427f-9b4c-22f409959393}</Project>
+      <Name>QuestSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{4b1bd451-4f17-42bf-ac8d-5eea64d7cde7}</Project>
