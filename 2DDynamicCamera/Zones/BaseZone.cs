@@ -21,11 +21,11 @@ namespace _2DDynamicCamera.Zones
             {
                 return;
             }
-            if (dynamicCamera.owner == null)
+            if (dynamicCamera.Owner == null)
             {
                 return;
             }
-            if (other.gameObject == dynamicCamera.owner.gameObject)
+            if (other.gameObject == dynamicCamera.Owner.gameObject)
             {
                 _ownerIsInside = true;
                 OnCameraOwnerEnter();
@@ -43,11 +43,11 @@ namespace _2DDynamicCamera.Zones
             {
                 return;
             }
-            if (dynamicCamera.owner == null)
+            if (dynamicCamera.Owner == null)
             {
                 return;
             }
-            if (other.gameObject == dynamicCamera.owner.gameObject)
+            if (other.gameObject == dynamicCamera.Owner.gameObject)
             {
                 _ownerIsInside = false;
                 OnCameraOwnerExit();

@@ -61,10 +61,14 @@
     <Compile Include="Controllers\Interaction\SpeechController.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Events.cs" />
+    <Compile Include="Factories\PlayerSpawner.cs" />
     <Compile Include="Interfaces\IPath.cs" />
     <Compile Include="Interfaces\States\IState.cs" />
     <Compile Include="Interfaces\IStateFactory.cs" />
     <Compile Include="Interfaces\States\PlatformerCharacter\PlatformerCharacterContext.cs" />
+    <Compile Include="Managers\CheckpointManager.cs" />
+    <Compile Include="Managers\LevelManager.cs" />
+    <Compile Include="Managers\Singleton.cs" />
     <Compile Include="NodePath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachine\StateManager.cs" />
@@ -83,6 +87,11 @@
     <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\StandingState.cs" />
     <Compile Include="StateMachine\StateTransition.cs" />
     <Compile Include="StateMachine\TransitionConfiguration.cs" />
+    <Compile Include="UserControls\PlatformerCharacterUserControl.cs" />
+    <Compile Include="Zones\BaseZone.cs" />
+    <Compile Include="Zones\CheckpointZone.cs" />
+    <Compile Include="Zones\DeathZone.cs" />
+    <Compile Include="Zones\LevelChangeZone.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">

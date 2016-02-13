@@ -11,7 +11,6 @@ namespace _2DDynamicCamera
 {
     public class DynamicCamera : MonoBehaviour
     {
-        public Transform owner;
         [Range(0, float.MaxValue)]
         public float xDamping = 0.1f;
         [Range(0, float.MaxValue)]
@@ -24,6 +23,8 @@ namespace _2DDynamicCamera
         public float yBounds;
         public Vector2 offset;
 
+        [SerializeField]
+        private Transform _owner;
         [Range(0, 100)]
         [SerializeField]
         private float _defaultZoom = 3.3f;
@@ -31,8 +32,8 @@ namespace _2DDynamicCamera
 
         private float _currentXVelocity;
         private float _currentYVelocity;
-        private float _offsetZ;
         private float _zoomTarget;
+        private float _cachedOffsetZ;
         private float _currentZoom;
         private float _zoomDamping;
         private List<ICameraTarget> _targets;
@@ -46,11 +47,40 @@ namespace _2DDynamicCamera
                 {
                     targetPosition = _targets.Last().Position;
                 }
+                else if(_owner != null)
+                {
+                    targetPosition = _owner.position;
+                }
                 else
                 {
-                    targetPosition = owner.position;
+                    targetPosition = transform.position;
                 }
                 return targetPosition + offset.ToVector3();
+            }
+        }
+
+        private float OffsetZ
+        {
+            get
+            {
+                if(_owner == null)
+                {
+                    return 0;
+                }
+                return (transform.position - _owner.position).z;
+            }
+        }
+
+        public Transform Owner
+        {
+            get
+            {
+                return _owner;
+            }
+            set
+            {
+                _owner = value;
+                _cachedOffsetZ = OffsetZ;
             }
         }
 
@@ -105,13 +135,13 @@ namespace _2DDynamicCamera
         private void Start()
         {
             _targets = new List<ICameraTarget>();
-            _offsetZ = (transform.position - owner.position).z;
             _currentZoom = _defaultZoom;
             _zoomTarget = _defaultZoom;
+            _cachedOffsetZ = OffsetZ;
             if (startOnTarget)
             {
-                var position = owner.position;
-                position.z = _offsetZ;
+                var position = _owner.position;
+                position.z = _cachedOffsetZ;
                 transform.position = position;
             }
         }
@@ -139,7 +169,7 @@ namespace _2DDynamicCamera
 
             var cameraPosition = cameraPositionRelative + targetPosition;
 
-            cameraPosition.z = _offsetZ;
+            cameraPosition.z = _cachedOffsetZ;
 
             transform.position = cameraPosition;
 

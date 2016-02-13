@@ -42,10 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Interaction\IInteractionTriggerController.cs" />
+    <Compile Include="Controllers\IPlayerControl.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Inventory\IInventory.cs" />
     <Compile Include="Inventory\IInventoryItem.cs" />
     <Compile Include="Inventory\IItemOwner.cs" />
+    <Compile Include="Management\ICheckpoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
