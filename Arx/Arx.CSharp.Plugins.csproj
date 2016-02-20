@@ -100,6 +100,9 @@
     <Reference Include="Utils">
       <HintPath>Assets\Utils.dll</HintPath>
     </Reference>
+    <Reference Include="AnimatorSequencer">
+      <HintPath>Assets\AnimatorSequencer\AnimatorSequencer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\2D\Cameras\Scripts\Camera2DAhead.cs" />

@@ -100,6 +100,9 @@
     <Reference Include="Utils">
       <HintPath>Assets\Utils.dll</HintPath>
     </Reference>
+    <Reference Include="AnimatorSequencer">
+      <HintPath>Assets\AnimatorSequencer\AnimatorSequencer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Arx.CSharp.Plugins.csproj">
