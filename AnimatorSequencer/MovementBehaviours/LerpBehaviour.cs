@@ -8,6 +8,8 @@ namespace AnimatorSequencer.MovementBehaviours
 {
     public class LerpBehaviour : BaseStateMachineBehaviour
     {
+        private Vector3 _startPosition;
+
         public Transform moveToPosition;
         public Transform target;
         public float time = 1;
@@ -15,16 +17,17 @@ namespace AnimatorSequencer.MovementBehaviours
         protected override void PerformOnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             animator.applyRootMotion = true;
-        }
-
-        protected override void PerformOnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-            var elapsed = Time.time - StateEnterTime;
-            var elapsedPercentage = elapsed / time;
-            target.position = Vector3.Lerp(target.position, moveToPosition.position, elapsedPercentage);
+            _startPosition = target.position;
         }
 
         protected override void PerformStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            var elapsed = Time.time - OnDelayPassedTime;
+            var elapsedPercentage = elapsed / time;
+            target.position = Vector3.Lerp(_startPosition, moveToPosition.position, elapsedPercentage);
+        }
+
+        protected override void PerformOnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             
         }

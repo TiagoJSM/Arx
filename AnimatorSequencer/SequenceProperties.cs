@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AnimatorSequencer.AnimationBehaviours;
+using AnimatorSequencer.MovementBehaviours;
+using AnimatorSequencer.Zones;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,15 +54,34 @@ namespace AnimatorSequencer
 
         void Start()
         {
-            foreach(var behaviourField in behaviourFields)
+            var animator = GetComponent<Animator>();
+            var animatorBehaviours = animator.GetBehaviours<StateMachineBehaviour>();
+
+            foreach (var behaviourField in behaviourFields)
             {
+                var animatorBehaviour = GetAnimatorBehaviour(animatorBehaviours, behaviourField);
+                if(animatorBehaviour == null)
+                {
+                    continue;
+                }
                 var field =
-                    behaviourField
-                        .StateMachineBehaviour
+                    animatorBehaviour
                         .GetType()
                         .GetField(behaviourField.FieldName);
-                field.SetValue(behaviourField.StateMachineBehaviour, behaviourField.Value);
+
+                field.SetValue(animatorBehaviour, behaviourField.Value);
             }
+            
+            animator.enabled = false;
+        }
+
+        private StateMachineBehaviour GetAnimatorBehaviour(StateMachineBehaviour[] animatorBehaviours, BehaviourField behaviourField)
+        {
+            var stateBehaviours = 
+                animatorBehaviours
+                    .Where(ab => ab.GetType() == behaviourField.StateMachineBehaviour.GetType())
+                    .ToArray();
+            return stateBehaviours[behaviourField.Order];
         }
     }
 }

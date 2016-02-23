@@ -9,6 +9,8 @@ namespace AnimatorSequencer
     public abstract class BaseStateMachineBehaviour : StateMachineBehaviour
     {
         private float _stateEnterTime;
+        private float _onDelayPassed;
+        private bool _onDelayPassedCalled;
 
         public float delay;
 
@@ -19,11 +21,19 @@ namespace AnimatorSequencer
                 return _stateEnterTime;
             }
         }
+        public float OnDelayPassedTime
+        {
+            get
+            {
+                return _onDelayPassed;
+            }
+        }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             base.OnStateEnter(animator, stateInfo, layerIndex);
             _stateEnterTime = Time.time;
+            _onDelayPassedCalled = false;
             PerformOnStateEnter(animator, stateInfo, layerIndex);
         }
 
@@ -34,6 +44,12 @@ namespace AnimatorSequencer
             if(elapsed < delay)
             {
                 return;
+            }
+            if (!_onDelayPassedCalled)
+            {
+                _onDelayPassedCalled = true;
+                _onDelayPassed = Time.time;
+                OnDelayPassed();
             }
             PerformStateUpdate(animator, stateInfo, layerIndex);
         }
@@ -47,5 +63,6 @@ namespace AnimatorSequencer
         protected abstract void PerformOnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex);
         protected abstract void PerformStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex);
         protected abstract void PerformOnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex);
+        protected virtual void OnDelayPassed() { }
     }
 }

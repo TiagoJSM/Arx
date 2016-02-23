@@ -15,6 +15,8 @@ namespace AnimatorSequencer
         private string _fieldName;
         [SerializeField]
         private UnityEngine.Object _value;
+        [SerializeField]
+        private int _order;
 
         public StateMachineBehaviour StateMachineBehaviour
         {
@@ -30,6 +32,11 @@ namespace AnimatorSequencer
         {
             get { return _value; }
             set { _value = value; }
+        }
+        public int Order
+        {
+            get { return _order; }
+            set { _order = value; }
         }
     }
 }

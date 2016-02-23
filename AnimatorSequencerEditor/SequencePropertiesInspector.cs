@@ -28,6 +28,11 @@ namespace AnimatorSequencerEditor
             Undo.RecordObject(target, "Sequence properties changed");
             var animator = Target.GetComponent<Animator>();
             var controller = animator.runtimeAnimatorController as AnimatorController;
+            if(controller == null)
+            {
+                Debug.LogError("Missing controller");
+                return;
+            }
             var baseLayer = controller.layers[0];
             RemoveNonExistentFields(baseLayer);
             foreach(var animatorState in baseLayer.stateMachine.states)
@@ -72,6 +77,8 @@ namespace AnimatorSequencerEditor
                 return;
             }
 
+            var orderMapping = behaviours.Select(b => b.GetType()).Distinct().ToDictionary(t => t, t => 0);
+
             foreach (var behaviour in behaviours)
             {
                 EditorGUILayout.InspectorTitlebar(true, behaviour);
@@ -81,11 +88,12 @@ namespace AnimatorSequencerEditor
                         .GetFields(_fieldFlags)
                         .Where(f => f.FieldType.IsSubclassOf(typeof(UnityEngine.Object)))
                         .ToArray();
-                GenerateEditionFields(behaviour, fields);
+                GenerateEditionFields(behaviour, fields, orderMapping);
+                orderMapping[behaviour.GetType()] = orderMapping[behaviour.GetType()] + 1;
             }
         }
 
-        private void GenerateEditionFields(StateMachineBehaviour behaviour, FieldInfo[] fields)
+        private void GenerateEditionFields(StateMachineBehaviour behaviour, FieldInfo[] fields, Dictionary<Type, int> orderMapping)
         {
             foreach(var field in fields)
             {
@@ -101,6 +109,8 @@ namespace AnimatorSequencerEditor
                 }
                 EditorGUI.indentLevel = 1;
                 var type = field.FieldType;
+                behaviourField.Order = orderMapping[behaviour.GetType()];
+                
                 behaviourField.Value = EditorGUILayout.ObjectField(field.Name, obj, type, true);
             }
         }
