@@ -45,13 +45,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationBehaviours\PlayAnimationBehaviour.cs" />
+    <Compile Include="BaseSequenceState.cs" />
     <Compile Include="BaseStateMachineBehaviour.cs" />
     <Compile Include="BehaviourFieldKey.cs" />
     <Compile Include="MovementBehaviours\LerpBehaviour.cs" />
     <Compile Include="MovementBehaviours\SmoothDampBehaviour.cs" />
+    <Compile Include="MovementStates\LerpState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SequenceProperties.cs" />
     <Compile Include="Zones\PlaySequenceOnPlayerTrigger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AnimationStates\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

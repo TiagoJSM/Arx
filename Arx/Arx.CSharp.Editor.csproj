@@ -127,6 +127,9 @@
     <Reference Include="Utils">
       <HintPath>Assets\Utils.dll</HintPath>
     </Reference>
+    <Reference Include="AnimatorSequencer">
+      <HintPath>Assets\AnimatorSequencer\AnimatorSequencer.dll</HintPath>
+    </Reference>
     <Reference Include="2DDynamicCameraEditors">
       <HintPath>Assets\Editor\2DDynamicCameraEditors.dll</HintPath>
     </Reference>
@@ -147,9 +150,6 @@
     </Reference>
     <Reference Include="TerrainEditors">
       <HintPath>Assets\Editor\TerrainEditors.dll</HintPath>
-    </Reference>
-    <Reference Include="AnimatorSequencer">
-      <HintPath>Assets\AnimatorSequencer\AnimatorSequencer.dll</HintPath>
     </Reference>
     <Reference Include="AnimatorSequencerEditor">
       <HintPath>Assets\Editor\AnimatorSequencerEditor\AnimatorSequencerEditor.dll</HintPath>
@@ -265,6 +265,7 @@
     <None Include="Assets\Anima2D\Examples\Shaders\Unlit-Alpha-Cull-off.shader" />
     <None Include="Assets\Anima2D\Readme.txt" />
     <None Include="Assets\Anima2D\Version.txt" />
+    <None Include="Assets\Plugins\Node_Editor\Resources\LineShader.shader" />
     <None Include="Assets\Standard Assets\2D\Decorators\NodeMesh.shader" />
     <None Include="Assets\Standard Assets\2D\Decorators\SpriteShader.shader" />
     <None Include="Assets\Standard Assets\2D\Terrain\Shaders\Terrain2DShader.shader" />
