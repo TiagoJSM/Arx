@@ -151,9 +151,6 @@
     <Reference Include="TerrainEditors">
       <HintPath>Assets\Editor\TerrainEditors.dll</HintPath>
     </Reference>
-    <Reference Include="AnimatorSequencerEditor">
-      <HintPath>Assets\Editor\AnimatorSequencerEditor\AnimatorSequencerEditor.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Arx.CSharp.Plugins.csproj">

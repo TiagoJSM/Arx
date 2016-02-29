@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace AnimatorSequencer.Zones
@@ -11,7 +10,7 @@ namespace AnimatorSequencer.Zones
     {
         private bool played = false;
 
-        public Animator animator;
+        public AnimationSequenceBehaviour animationSequence;
 
         void OnTriggerEnter2D(Collider2D other)
         {
@@ -19,24 +18,7 @@ namespace AnimatorSequencer.Zones
             {
                 return;
             }
-
-            var controller = animator.runtimeAnimatorController as AnimatorController;
-            if (controller == null)
-            {
-                Debug.LogError("Missing controller");
-                return;
-            }
-            var baseLayer = controller.layers[0];
-            var editorBehaviours =
-                    baseLayer
-                        .stateMachine
-                        .states
-                        .SelectMany(animStates => animStates.state.behaviours)
-                        .ToArray();
-
-            Debug.Log(editorBehaviours.First().GetType() + " " + editorBehaviours.First().GetInstanceID());
-            animator.enabled = true;
-            animator.Play(0);
+            animationSequence.Run();
             played = true;
         }
     }

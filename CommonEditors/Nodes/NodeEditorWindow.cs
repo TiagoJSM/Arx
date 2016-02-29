@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using CommonEditors.Nodes.Framework.CanvasSaveObjects;
 using CommonEditors.Nodes.Framework;
 using CommonEditors.Nodes.Utilities;
+using CommonEditors.AnimationSequence;
 
 namespace CommonEditors.Nodes
 {
@@ -195,18 +196,37 @@ namespace CommonEditors.Nodes
 			if (NodeEditor.isTransitioning (mainNodeCanvas) && GUILayout.Button ("Stop Transitioning"))
 				NodeEditor.StopTransitioning (mainNodeCanvas);
 
-			NodeEditorGUI.knobSize = EditorGUILayout.IntSlider (new GUIContent ("Handle Size", "The size of the Node Input/Output handles"), NodeEditorGUI.knobSize, 12, 20);
+            if (GUILayout.Button(new GUIContent("Save as animation sequence", "Saves the Canvas as an animation sequence to be used in a scene")))
+            {
+                string path = EditorUtility.SaveFilePanelInProject("Save Animation Sequence", "Animation Sequence", "asset", "", NodeEditor.editorPath + "Resources/Saves/");
+                if (!string.IsNullOrEmpty(path))
+                {
+                    SaveAnimationSequence(path);
+                }
+            }
+
+            if (GUILayout.Button(new GUIContent("Load as animation sequence", "Saves the Canvas as an animation sequence to be used in a scene")))
+            {
+                string path = EditorUtility.OpenFilePanel("Load Node Canvas", NodeEditor.editorPath + "Resources/Saves/", "asset");
+                if (!string.IsNullOrEmpty(path))
+                {
+                    ScriptableObject[] objects = ResourceManager.LoadResources<ScriptableObject>(path);
+                    var i = 0;
+                }
+            }
+
+            NodeEditorGUI.knobSize = EditorGUILayout.IntSlider (new GUIContent ("Handle Size", "The size of the Node Input/Output handles"), NodeEditorGUI.knobSize, 12, 20);
 			mainEditorState.zoom = EditorGUILayout.Slider (new GUIContent ("Zoom", "Use the Mousewheel. Seriously."), mainEditorState.zoom, 0.6f, 2);
 
             if (mainEditorState.selectedNode != null && Event.current.type != EventType.Ignore)
                     mainEditorState.selectedNode.DrawNodePropertyEditor();
         }
 
-		#endregion
+        #endregion
 
-		#region Cache
+        #region Cache
 
-		private void SaveNewNode (Node node) 
+        private void SaveNewNode (Node node) 
 		{
 			if (!mainNodeCanvas.nodes.Contains (node))
 				throw new UnityException ("Cache system: Writing new Node to save file failed as Node is not part of the Cache!");
@@ -298,11 +318,18 @@ namespace CommonEditors.Nodes
 			//SaveCache ();
 			Repaint ();
 		}
-		
-		/// <summary>
-		/// Loads the mainNodeCanvas and it's associated mainEditorState from an asset at path
-		/// </summary>
-		public void LoadNodeCanvas (string path) 
+
+        public void SaveAnimationSequence(string path)
+        {
+            var data = AnimationSequenceBehaviourGenerator.Compile(mainNodeCanvas);
+            AnimatorSequenceSaveManager.Save(path, data);
+            Repaint ();
+        }
+
+        /// <summary>
+        /// Loads the mainNodeCanvas and it's associated mainEditorState from an asset at path
+        /// </summary>
+        public void LoadNodeCanvas (string path) 
 		{
 			// Else it will be stuck forever
 			NodeEditor.StopTransitioning (mainNodeCanvas);

@@ -6,9 +6,11 @@ using UnityEngine;
 
 namespace AnimatorSequencer
 {
-    public abstract class BaseSequenceState
+    public abstract class BaseSequenceState : ScriptableObject
     {
         private float _stateEnterTime;
+
+        public string stateName;
 
         public float StateEnterTime
         {
@@ -33,6 +35,8 @@ namespace AnimatorSequencer
         {
             PerformOnStateExit();
         }
+
+        public abstract bool Complete();
 
         protected virtual void PerformOnStateEnter() { }
         protected virtual void PerformOnStateUpdate() { }

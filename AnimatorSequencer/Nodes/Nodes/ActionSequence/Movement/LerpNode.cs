@@ -1,0 +1,70 @@
+﻿using AnimatorSequencer.MovementStates;
+using AnimatorSequencer.Nodes.Nodes.ActionSequence;
+using CommonEditors.Nodes.Framework;
+using CommonEditors.Nodes.Framework.CanvasSaveObjects;
+using CommonEditors.Nodes.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+
+namespace CommonEditors.Nodes.Nodes
+{
+    [Serializable]
+    [Node(false, "Movement/Lerp")]
+    public class LerpNode : BaseActionSequenceNode<LerpState>
+    {
+        public const string ID = "lerpNode";
+        public override string GetID { get { return ID; } }
+
+        public float value = 1f;
+
+        public LerpNode() : base(CreateInstance<LerpState>())
+        {
+        }
+
+        public override Node Create(Vector2 pos)
+        { // This function has to be registered in Node_Editor.ContextCallback
+            var node = CreateInstance<LerpNode>();
+
+            node.name = "Lerp Node";
+            node.rect = new Rect(pos.x, pos.y, 200, 50); ;
+
+            NodeInput.Create(node, "Value", "Float");
+            NodeOutput.Create(node, "Value", "Float");
+
+            return node;
+        }
+
+        protected override void NodeGUI()
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical();
+            float val = 0;
+
+            if (Inputs[0].connection != null)
+                GUILayout.Label(Inputs[0].name);
+            else
+                val = RTEditorGUI.FloatField(GUIContent.none, val);
+            InputKnob(0);
+
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical();
+
+            Outputs[0].DisplayLayout();
+
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+
+            if (GUI.changed)
+                NodeEditor.RecalculateFrom(this);
+        }
+
+        public override bool Calculate()
+        {
+            Outputs[0].SetValue<float>(value);
+            return true;
+        }
+    }
+}
