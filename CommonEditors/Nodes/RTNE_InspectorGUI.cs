@@ -5,7 +5,7 @@ using CommonEditors.Nodes.Framework.CanvasSaveObjects;
 
 namespace CommonEditors.Nodes
 {
-	[CustomEditor (typeof(RuntimeNodeEditor))]
+	/*[CustomEditor (typeof(RuntimeNodeEditor))]
 	public class RTNE_InspectorGUI : Editor
 	{
 		public RuntimeNodeEditor RTNE;
@@ -30,5 +30,5 @@ namespace CommonEditors.Nodes
 			RTNE.specifiedCanvasRect = EditorGUILayout.RectField (new GUIContent ("Canvas Rect", "The rect of the canvas."), RTNE.specifiedCanvasRect);
 			EditorGUILayout.EndToggleGroup ();
 		}
-	}
+	}*/
 }

@@ -24,6 +24,17 @@ namespace AnimatorSequencer.Nodes.Nodes.ActionSequence
         {
             _actionSequence = actionSequence;
         }
+
+        public override ScriptableObject[] GetScriptableObjects()
+        {
+            return base.GetScriptableObjects().Concat(new[] { _actionSequence }).ToArray();
+        }
+
+        public override void CopyScriptableObjects(System.Func<ScriptableObject, ScriptableObject> replaceSerializableObject)
+        {
+            base.CopyScriptableObjects(replaceSerializableObject);
+            _actionSequence = replaceSerializableObject(_actionSequence) as BaseSequenceState;
+        }
     }
 
     public abstract class BaseActionSequenceNode<TActionSequence> : BaseActionSequenceNode where TActionSequence : BaseSequenceState

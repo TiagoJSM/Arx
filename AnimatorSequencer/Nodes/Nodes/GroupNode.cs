@@ -6,7 +6,7 @@ using CommonEditors.Nodes.Framework.CanvasSaveObjects;
 
 namespace CommonEditors.Nodes.Nodes
 {
-    [System.Serializable]
+    /*[System.Serializable]
     [Node(true, "Group")]
     public class GroupNode : Node
     {
@@ -184,7 +184,7 @@ namespace CommonEditors.Nodes.Nodes
             //			NodeEditor.RecalculateAll (nodeGroupCanvas, false);
             return true;
         }
-    }
+    }*/
 }
 
 

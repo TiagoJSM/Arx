@@ -13,43 +13,43 @@ namespace CommonEditors.Nodes
 	public class NodeEditorWindow : EditorWindow 
 	{
 		// Information about current instance
-		private static NodeEditorWindow _editor;
-		public static NodeEditorWindow editor { get { AssureEditor (); return _editor; } }
-		public static void AssureEditor () { if (_editor == null) CreateEditor (); }
+		//private static NodeEditorWindow _editor;
+		//public static NodeEditorWindow editor { get { AssureEditor (); return _editor; } }
+		//public static void AssureEditor () { if (_editor == null) CreateEditor (); }
 
 		// Opened Canvas
 		public NodeCanvas mainNodeCanvas;
 		public NodeEditorState mainEditorState;
-		public static NodeCanvas MainNodeCanvas { get { return editor.mainNodeCanvas; } }
-		public static NodeEditorState MainEditorState { get { return editor.mainEditorState; } }
+		public NodeCanvas MainNodeCanvas { get { return mainNodeCanvas; } }
+		public NodeEditorState MainEditorState { get { return mainEditorState; } }
 		public void AssureCanvas () { if (mainNodeCanvas == null) NewNodeCanvas (); }
 		public static string openedCanvasPath;
 		public string tempSessionPath;
 
 		// GUI
 		public static int sideWindowWidth = 400;
-		private static Texture iconTexture;
+		protected Texture iconTexture;
 		public Rect sideWindowRect { get { return new Rect (position.width - sideWindowWidth, 0, sideWindowWidth, position.height); } }
 		public Rect canvasWindowRect { get { return new Rect (0, 0, position.width - sideWindowWidth, position.height); } }
 
-		#region General 
+        #region General 
 
-		[MenuItem ("Window/Node Editor")]
+        /*[MenuItem ("Window/Node Editor")]
 		public static void CreateEditor () 
 		{
-			_editor = GetWindow<NodeEditorWindow> ();
+			var editor = GetWindow<NodeEditorWindow> ();
 			_editor.minSize = new Vector2 (800, 600);
 			NodeEditor.ClientRepaints += _editor.Repaint;
 			NodeEditor.initiated = NodeEditor.InitiationError = false;
 
-			iconTexture = ResourceManager.LoadTexture (EditorGUIUtility.isProSkin? "Textures/Icon_Dark.png" : "Textures/Icon_Light.png");
-			_editor.titleContent = new GUIContent ("Node Editor", iconTexture);
-		}
-		
-		/// <summary>
-		/// Handle opening canvas when double-clicking asset
-		/// </summary>
-		[UnityEditor.Callbacks.OnOpenAsset(1)]
+            editor.iconTexture = ResourceManager.LoadTexture (EditorGUIUtility.isProSkin? "Textures/Icon_Dark.png" : "Textures/Icon_Light.png");
+            editor.titleContent = new GUIContent ("Node Editor", editor.iconTexture);
+		}*/
+
+        /// <summary>
+        /// Handle opening canvas when double-clicking asset
+        /// </summary>
+        /*[UnityEditor.Callbacks.OnOpenAsset(1)]
 		public static bool AutoOpenCanvas (int instanceID, int line) 
 		{
 			if (Selection.activeObject != null && Selection.activeObject.GetType () == typeof(NodeCanvas))
@@ -60,11 +60,11 @@ namespace CommonEditors.Nodes
 				return true;
 			}
 			return false;
-		}
+		}*/
 
-		public void OnDestroy () 
+        public void OnDestroy () 
 		{
-			NodeEditor.ClientRepaints -= _editor.Repaint;
+			NodeEditor.ClientRepaints -= Repaint;
 			//SaveCache ();
 
 	#if UNITY_EDITOR
@@ -126,7 +126,7 @@ namespace CommonEditors.Nodes
 				GUILayout.Label ("Node Editor Initiation failed! Check console for more information!");
 				return;
 			}
-			AssureEditor ();
+			//AssureEditor ();
 			AssureCanvas ();
 
 			// Specify the Canvas rect in the EditorState
@@ -211,7 +211,6 @@ namespace CommonEditors.Nodes
                 if (!string.IsNullOrEmpty(path))
                 {
                     ScriptableObject[] objects = ResourceManager.LoadResources<ScriptableObject>(path);
-                    var i = 0;
                 }
             }
 
@@ -264,6 +263,7 @@ namespace CommonEditors.Nodes
 			//DeleteCache (); // Delete old cache
 			string canvasName = mainNodeCanvas.name;
 			EditorPrefs.SetString ("NodeEditorLastSession", canvasName);
+            //ToDo: find out why createWorkingCopy was false here, this was leading to an issue with additionals scriptable objects
 			NodeEditorSaveManager.SaveNodeCanvas (tempSessionPath + "/LastSession.asset", false, mainNodeCanvas, mainEditorState);
 			mainNodeCanvas.name = canvasName;
 

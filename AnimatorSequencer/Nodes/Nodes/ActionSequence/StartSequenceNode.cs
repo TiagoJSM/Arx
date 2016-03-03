@@ -18,15 +18,19 @@ namespace AnimatorSequencer.Nodes.Nodes.ActionSequence
 
         public float value = 1f;
 
+        public StartSequenceNode()
+        {
+            var texture = new Texture2D(1, 1);
+            texture.SetPixels(new Color[] { new Color(0f, 0.5f, 0f) });
+            texture.Apply();
+            BackgroundColorTexture = texture;
+        }
+
         public override Node Create(Vector2 pos)
         { // This function has to be registered in Node_Editor.ContextCallback
             var node = CreateInstance<StartSequenceNode>();
 
             var areaStyle = new GUIStyle();
-            var texture = new Texture2D(1, 1);
-            texture.SetPixels(new Color[] { new Color(0f, 0.5f, 0f) });
-            texture.Apply();
-            node.BackgroundColorTexture = texture;
             node.canBeDeleted = false;
 
             node.name = "Start Sequence Node";

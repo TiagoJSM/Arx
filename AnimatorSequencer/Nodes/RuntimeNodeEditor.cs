@@ -8,7 +8,7 @@ using CommonEditors.Nodes.Utilities;
 
 namespace CommonEditors.Nodes
 {
-    public class RuntimeNodeEditor : MonoBehaviour
+    /*public class RuntimeNodeEditor : MonoBehaviour
     {
         public string canvasPath;
         public NodeCanvas canvas;
@@ -190,5 +190,5 @@ namespace CommonEditors.Nodes
                 instance.FPSNextPeriod += FPSMeasurePeriod;
             }
         }
-    }
+    }*/
 }

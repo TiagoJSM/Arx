@@ -144,14 +144,14 @@ namespace CommonEditors.Nodes.Framework
 		/// </summary>
 		public abstract bool Calculate ();
 
-		#endregion
+        #endregion
 
-		#region Node Type Properties
+        #region Node Type Properties
 
-		/// <summary>
-		/// Does this node allow recursion? Recursion is allowed if atleast a single Node in the loop allows for recursion
-		/// </summary>
-		public virtual bool AllowRecursion { get { return false; } }
+        /// <summary>
+        /// Does this node allow recursion? Recursion is allowed if atleast a single Node in the loop allows for recursion
+        /// </summary>
+        public virtual bool AllowRecursion { get { return false; } }
 
 		/// <summary>
 		/// Should the following Nodes be calculated after finishing the Calculation function of this node?
