@@ -35,7 +35,7 @@ namespace CommonEditors.AnimationSequence
                     .root
                     .GetAllSequenceNodes()
                     .Where(n => n.state != null)
-                    .Select(n => new Tuple<string, BaseSequenceState>(n.name, n.state))
+                    .Select(n => new Tuple<string, BaseSequenceState>(n.state.name, n.state))
                     .ToArray();
 
             if (previous != myTarget.root || _foldouts == null)

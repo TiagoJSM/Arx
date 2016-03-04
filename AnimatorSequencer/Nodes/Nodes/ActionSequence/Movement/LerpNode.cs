@@ -29,33 +29,43 @@ namespace CommonEditors.Nodes.Nodes
             var node = CreateInstance<LerpNode>();
 
             node.name = "Lerp Node";
-            node.rect = new Rect(pos.x, pos.y, 200, 50); ;
+            node.BaseActionSequence.name = node.name;
+            node.rect = new Rect(pos.x, pos.y, 200, 50);
 
-            NodeInput.Create(node, "Value", "Float");
-            NodeOutput.Create(node, "Value", "Float");
+            NodeInput.Create(node, "", "Float");
+            NodeOutput.Create(node, "", "Float");
 
             return node;
         }
 
         protected override void NodeGUI()
         {
-            GUILayout.BeginHorizontal();
+            /*GUILayout.BeginHorizontal();
             GUILayout.BeginVertical();
             float val = 0;
 
             if (Inputs[0].connection != null)
                 GUILayout.Label(Inputs[0].name);
             else
-                val = RTEditorGUI.FloatField(GUIContent.none, val);
-            InputKnob(0);
-
-            GUILayout.EndVertical();
-            GUILayout.BeginVertical();
-
+                val = RTEditorGUI.FloatField(GUIContent.none, val);*/
+            GUILayout.BeginHorizontal();
+            Inputs[0].DisplayLayout();
+            this.BaseActionSequence.name = GUILayout.TextField(this.BaseActionSequence.name);
             Outputs[0].DisplayLayout();
-
-            GUILayout.EndVertical();
             GUILayout.EndHorizontal();
+            /*GUILayout.EndVertical();
+            GUILayout.BeginVertical();*/
+            
+            
+            //value = RTEditorGUI.FloatField(new GUIContent("Value", "The input value of type float"), value);
+            /*GUILayout.BeginHorizontal();
+            GUILayout.Label("Name", GUILayout.ExpandWidth(true));
+            this.BaseActionSequence.name = GUILayout.TextField(this.BaseActionSequence.name);
+
+            GUILayout.EndHorizontal();*/
+
+            /*GUILayout.EndVertical();
+            GUILayout.EndHorizontal();*/
 
             if (GUI.changed)
                 NodeEditor.RecalculateFrom(this);

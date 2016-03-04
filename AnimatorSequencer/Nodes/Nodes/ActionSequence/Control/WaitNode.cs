@@ -28,6 +28,7 @@ namespace AnimatorSequencer.Nodes.Nodes.ActionSequence.Control
             var node = CreateInstance<WaitNode>();
 
             node.name = "Wait Node";
+            node.BaseActionSequence.name = node.name;
             node.rect = new Rect(pos.x, pos.y, 200, 50); ;
 
             NodeInput.Create(node, "Value", "Float");

@@ -31,6 +31,7 @@ namespace CommonEditors.AnimationSequence
             foreach (var sequenceNode in nextActionSequenceNodes)
             {
                 var actionState = ScriptableObject.CreateInstance(sequenceNode.BaseActionSequence.GetType()) as BaseSequenceState;
+                actionState.name = sequenceNode.BaseActionSequence.name;
                 var nextNode = ScriptableObject.CreateInstance<AnimationSequenceNode>();
                 nextNode.state = actionState;
                 PopulateNode(nextNode, sequenceNode.OutputConnectedNodes);

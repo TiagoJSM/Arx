@@ -10,8 +10,6 @@ namespace AnimatorSequencer
     {
         private float _stateEnterTime;
 
-        public string stateName;
-
         public float StateEnterTime
         {
             get
