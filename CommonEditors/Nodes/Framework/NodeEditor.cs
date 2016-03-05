@@ -476,7 +476,12 @@ namespace CommonEditors.Nodes.Framework
 						{ // An input was clicked, it'll will now be connected
 							NodeInput clickedInput = curEditorState.focusedNode.GetInputAtPos (e.mousePosition);
 							if (clickedInput.CanApplyConnection (curEditorState.connectOutput)) 
-							{ // It can connect (type is equals, it does not cause recursion, ...)
+							{ 
+                                // It can connect (type is equals, it does not cause recursion, ...)
+                                if (curEditorState.connectOutput.singleConnection && curEditorState.connectOutput.connections.Count > 0)
+                                {
+                                    curEditorState.connectOutput.connections.ForEach(c => c.RemoveConnection());
+                                }
 								clickedInput.ApplyConnection (curEditorState.connectOutput);
 							}
 						}

@@ -133,6 +133,9 @@
     <Reference Include="2DDynamicCameraEditors">
       <HintPath>Assets\Editor\2DDynamicCameraEditors.dll</HintPath>
     </Reference>
+    <Reference Include="AnimatorSequencerEditors">
+      <HintPath>Assets\Editor\AnimatorSequencerEditors.dll</HintPath>
+    </Reference>
     <Reference Include="CommonEditors">
       <HintPath>Assets\Editor\CommonEditors.dll</HintPath>
     </Reference>

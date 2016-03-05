@@ -60,13 +60,18 @@ namespace CommonEditors.Nodes.Framework
 				scriptAssemblies.Add (Assembly.GetExecutingAssembly ());
 			foreach (Assembly assembly in scriptAssemblies) 
 			{
-				foreach (Type type in assembly.GetTypes ().Where (T => T.IsClass && !T.IsAbstract && T.GetInterfaces ().Contains (typeof (ITypeDeclaration)))) 
-				{
-					ITypeDeclaration typeDecl = assembly.CreateInstance (type.FullName) as ITypeDeclaration;
-					if (typeDecl == null)
-						throw new UnityException ("Error with Type Declaration " + type.FullName);
-					types.Add (typeDecl.name, new TypeData (typeDecl));
-				}
+                try {
+                    foreach (Type type in assembly.GetTypes().Where(T => T.IsClass && !T.IsAbstract && T.GetInterfaces().Contains(typeof(ITypeDeclaration))))
+                    {
+                        ITypeDeclaration typeDecl = assembly.CreateInstance(type.FullName) as ITypeDeclaration;
+                        if (typeDecl == null)
+                            throw new UnityException("Error with Type Declaration " + type.FullName);
+                        types.Add(typeDecl.name, new TypeData(typeDecl));
+                    }
+                }catch(Exception e)
+                {
+
+                }
 			}
 		}
 	}

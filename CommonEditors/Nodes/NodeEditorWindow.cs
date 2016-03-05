@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using CommonEditors.Nodes.Framework.CanvasSaveObjects;
 using CommonEditors.Nodes.Framework;
 using CommonEditors.Nodes.Utilities;
-using CommonEditors.AnimationSequence;
 
 namespace CommonEditors.Nodes
 {
@@ -113,11 +112,13 @@ namespace CommonEditors.Nodes
 	#endif
 		}
 
-		#endregion
+        #endregion
 
-		#region GUI
+        #region GUI
 
-		private void OnGUI () 
+        protected virtual void AdditionalSideWindowContent() { }
+
+        private void OnGUI () 
 		{
 			// Initiation
 			NodeEditor.checkInit ();
@@ -196,23 +197,7 @@ namespace CommonEditors.Nodes
 			if (NodeEditor.isTransitioning (mainNodeCanvas) && GUILayout.Button ("Stop Transitioning"))
 				NodeEditor.StopTransitioning (mainNodeCanvas);
 
-            if (GUILayout.Button(new GUIContent("Save as animation sequence", "Saves the Canvas as an animation sequence to be used in a scene")))
-            {
-                string path = EditorUtility.SaveFilePanelInProject("Save Animation Sequence", "Animation Sequence", "asset", "", NodeEditor.editorPath + "Resources/Saves/");
-                if (!string.IsNullOrEmpty(path))
-                {
-                    SaveAnimationSequence(path);
-                }
-            }
-
-            if (GUILayout.Button(new GUIContent("Load as animation sequence", "Saves the Canvas as an animation sequence to be used in a scene")))
-            {
-                string path = EditorUtility.OpenFilePanel("Load Node Canvas", NodeEditor.editorPath + "Resources/Saves/", "asset");
-                if (!string.IsNullOrEmpty(path))
-                {
-                    ScriptableObject[] objects = ResourceManager.LoadResources<ScriptableObject>(path);
-                }
-            }
+            AdditionalSideWindowContent();
 
             NodeEditorGUI.knobSize = EditorGUILayout.IntSlider (new GUIContent ("Handle Size", "The size of the Node Input/Output handles"), NodeEditorGUI.knobSize, 12, 20);
 			mainEditorState.zoom = EditorGUILayout.Slider (new GUIContent ("Zoom", "Use the Mousewheel. Seriously."), mainEditorState.zoom, 0.6f, 2);
@@ -318,13 +303,6 @@ namespace CommonEditors.Nodes
 			//SaveCache ();
 			Repaint ();
 		}
-
-        public void SaveAnimationSequence(string path)
-        {
-            var data = AnimationSequenceBehaviourGenerator.Compile(mainNodeCanvas);
-            AnimatorSequenceSaveManager.Save(path, data);
-            Repaint ();
-        }
 
         /// <summary>
         /// Loads the mainNodeCanvas and it's associated mainEditorState from an asset at path

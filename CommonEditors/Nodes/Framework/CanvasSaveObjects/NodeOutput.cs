@@ -16,6 +16,7 @@ namespace CommonEditors.Nodes.Framework.CanvasSaveObjects
 		// NodeInput Members
 		public List<NodeInput> connections = new List<NodeInput> ();
 		public string type;
+        public bool singleConnection;
 		[System.NonSerialized]
 		public TypeData typeData;
 		[System.NonSerialized]

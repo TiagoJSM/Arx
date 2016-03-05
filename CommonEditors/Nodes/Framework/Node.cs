@@ -23,9 +23,24 @@ namespace CommonEditors.Nodes.Framework
 		[HideInInspector]
 		[NonSerialized]
 		public bool calculated = true;
+        public bool canBeDeleted = true;
+
+        public IEnumerable<Node> OutputConnectedNodes
+        {
+            get
+            {
+                return Outputs.SelectMany(o => o.connections.Select(i => i.body));
+            }
+        }
 		
 		// State graph
 		public List<Transition> transitions = new List<Transition> ();
+
+        protected Texture2D BackgroundColorTexture { get; set; }
+
+        public Node()
+        {
+        }
 
 		#region General
 
@@ -129,14 +144,14 @@ namespace CommonEditors.Nodes.Framework
 		/// </summary>
 		public abstract bool Calculate ();
 
-		#endregion
+        #endregion
 
-		#region Node Type Properties
+        #region Node Type Properties
 
-		/// <summary>
-		/// Does this node allow recursion? Recursion is allowed if atleast a single Node in the loop allows for recursion
-		/// </summary>
-		public virtual bool AllowRecursion { get { return false; } }
+        /// <summary>
+        /// Does this node allow recursion? Recursion is allowed if atleast a single Node in the loop allows for recursion
+        /// </summary>
+        public virtual bool AllowRecursion { get { return false; } }
 
 		/// <summary>
 		/// Should the following Nodes be calculated after finishing the Calculation function of this node?
@@ -225,9 +240,21 @@ namespace CommonEditors.Nodes.Framework
 
 			// Begin the body frame around the NodeGUI
 			Rect bodyRect = new Rect (nodeRect.x, nodeRect.y + contentOffset.y, nodeRect.width, nodeRect.height - contentOffset.y);
-			GUI.BeginGroup (bodyRect, GUI.skin.box);
-			bodyRect.position = Vector2.zero;
-			GUILayout.BeginArea (bodyRect, GUI.skin.box);
+            GUI.BeginGroup(bodyRect, GUI.skin.box);
+
+            bodyRect.position = Vector2.zero;
+            
+            if(BackgroundColorTexture == null)
+            {
+                GUILayout.BeginArea(bodyRect, GUI.skin.box);
+            }
+            else
+            {
+                var areaStyle = new GUIStyle();
+                areaStyle.normal.background = BackgroundColorTexture;
+                GUILayout.BeginArea(bodyRect, areaStyle);
+            }
+            
 			// Call NodeGUI
 			GUI.changed = false;
 			NodeGUI ();

@@ -44,30 +44,42 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimationSequence\AnimationSequenceBehaviourGenerator.cs" />
-    <Compile Include="AnimationSequence\AnimationSequenceEditor.cs" />
-    <Compile Include="AnimationSequence\AnimatorSequenceSaveManager.cs" />
     <Compile Include="CustomEditors\EditorWithoutScript.cs" />
     <Compile Include="EditorInputHandler.cs" />
-    <Compile Include="Extensions\AnimationSequenceNodeExtensions.cs" />
     <Compile Include="GuiComponents\BaseGuiComponent.cs" />
     <Compile Include="GuiComponents\BaseWindow.cs" />
     <Compile Include="ExtendedEditorWindow.cs" />
     <Compile Include="GuiComponents\FileIoActionsMenuGuiComponent.cs" />
     <Compile Include="Keyboard.cs" />
     <Compile Include="MouseButton.cs" />
-    <Compile Include="Nodes\AnimationSequenceEditor.cs" />
+    <Compile Include="Nodes\Framework\CanvasSaveObjects\NodeCanvas.cs" />
+    <Compile Include="Nodes\Framework\CanvasSaveObjects\NodeEditorState.cs" />
+    <Compile Include="Nodes\Framework\CanvasSaveObjects\NodeInput.cs" />
+    <Compile Include="Nodes\Framework\CanvasSaveObjects\NodeOutput.cs" />
+    <Compile Include="Nodes\Framework\CanvasSaveObjects\Transition.cs" />
+    <Compile Include="Nodes\Framework\ConnectionTypes.cs" />
+    <Compile Include="Nodes\Framework\GroupNode.cs" />
+    <Compile Include="Nodes\Framework\Node.cs" />
+    <Compile Include="Nodes\Framework\NodeEditor.cs" />
+    <Compile Include="Nodes\Framework\NodeEditorCallbackReceiver.cs" />
+    <Compile Include="Nodes\Framework\NodeEditorGUI.cs" />
+    <Compile Include="Nodes\Framework\NodeEditorSaveManager.cs" />
+    <Compile Include="Nodes\Framework\NodeKnob.cs" />
+    <Compile Include="Nodes\Framework\NodeTypes.cs" />
+    <Compile Include="Nodes\Framework\StateNode.cs" />
     <Compile Include="Nodes\NodeEditorWindow.cs" />
     <Compile Include="Nodes\RTNE_InspectorGUI.cs" />
     <Compile Include="Nodes\Utilities\EditorLoadingControl.cs" />
+    <Compile Include="Nodes\Utilities\Editor\UnityFuncEditor.cs" />
+    <Compile Include="Nodes\Utilities\GUIScaleUtility.cs" />
+    <Compile Include="Nodes\Utilities\OverlayGUI.cs" />
+    <Compile Include="Nodes\Utilities\ResourceManager.cs" />
+    <Compile Include="Nodes\Utilities\RTEditorGUI.cs" />
+    <Compile Include="Nodes\Utilities\UnityFunc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowEvents.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AnimatorSequencer\AnimatorSequencer.csproj">
-      <Project>{5d0ec744-ea21-4b83-8576-ce7f86275dc8}</Project>
-      <Name>AnimatorSequencer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{de006f2e-b5dd-4ad1-8be3-f147e2f6286e}</Project>
       <Name>Extensions</Name>

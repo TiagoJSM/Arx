@@ -24,9 +24,12 @@ namespace CommonEditors.Nodes.Framework
             List<Assembly> scriptAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();//.Where ((Assembly assembly) => assembly.FullName.Contains ("Assembly")).ToList ();
 			if (!scriptAssemblies.Contains (Assembly.GetExecutingAssembly ()))
 				scriptAssemblies.Add (Assembly.GetExecutingAssembly ());
+
+
+
 			foreach (Assembly assembly in scriptAssemblies) 
 			{
-				foreach (Type type in assembly.GetTypes ().Where (T => T.IsClass && !T.IsAbstract && T.IsSubclassOf (typeof (Node)))) 
+				foreach (Type type in assembly.GetTypes ().Where (T => T.IsClass && !T.IsAbstract && (T.IsSubclassOf(typeof(Node)))/*(T.IsSubclassOf (typeof (BaseActionSequenceNode))) || T == typeof(StartSequenceNode)*/)) 
 				{
 					object[] nodeAttributes = type.GetCustomAttributes (typeof (NodeAttribute), false);
 					NodeAttribute attr = nodeAttributes [0] as NodeAttribute;
