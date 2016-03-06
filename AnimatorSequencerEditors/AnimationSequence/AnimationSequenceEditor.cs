@@ -30,6 +30,7 @@ namespace AnimatorSequencerEditors.AnimationSequence
                 return;
             }
 
+            base.OnInspectorGUI();
             var nodes =
                 myTarget
                     .root
