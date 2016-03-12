@@ -76,6 +76,10 @@
       <Project>{de006f2e-b5dd-4ad1-8be3-f147e2f6286e}</Project>
       <Name>Extensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GenericComponents\GenericComponents.csproj">
+      <Project>{5ed6d708-beb5-4f23-9f44-f8a491a42f84}</Project>
+      <Name>GenericComponents</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

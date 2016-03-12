@@ -30,7 +30,8 @@ namespace AnimatorSequencerEditors.AnimationSequence
             var nextActionSequenceNodes = nextNodes.OfType<BaseActionSequenceNode>().ToArray();
             foreach (var sequenceNode in nextActionSequenceNodes)
             {
-                var actionState = ScriptableObject.CreateInstance(sequenceNode.BaseActionSequence.GetType()) as BaseSequenceState;
+                //var actionState = ScriptableObject.CreateInstance(sequenceNode.BaseActionSequence.GetType()) as BaseSequenceState;
+                var actionState = UnityEngine.Object.Instantiate(sequenceNode.BaseActionSequence) as BaseSequenceState;
                 actionState.name = sequenceNode.BaseActionSequence.name;
                 var nextNode = ScriptableObject.CreateInstance<AnimationSequenceNode>();
                 nextNode.state = actionState;

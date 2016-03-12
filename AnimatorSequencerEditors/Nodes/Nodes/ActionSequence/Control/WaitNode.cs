@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Control
@@ -29,10 +30,10 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Control
 
             node.name = "Wait Node";
             node.BaseActionSequence.name = node.name;
-            node.rect = new Rect(pos.x, pos.y, 200, 50); ;
+            node.rect = new Rect(pos.x, pos.y, 200, 80); ;
 
-            NodeInput.Create(node, "Value", "Float");
-            NodeOutput.Create(node, "Value", "Float");
+            NodeInput.Create(node, "", "Float");
+            NodeOutput.Create(node, "", "Float");
 
             return node;
         }
@@ -40,21 +41,23 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Control
         protected override void NodeGUI()
         {
             GUILayout.BeginHorizontal();
-            GUILayout.BeginVertical();
-            float val = 0;
+            Inputs[0].DisplayLayout();
 
-            if (Inputs[0].connection != null)
-                GUILayout.Label(Inputs[0].name);
-            else
-                val = RTEditorGUI.FloatField(GUIContent.none, val);
-            InputKnob(0);
+            GUILayout.BeginVertical();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("State name");
+            this.BaseActionSequence.name = GUILayout.TextField(this.BaseActionSequence.name);
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Wait Time");
+            this.ActionSequence.waitTimeInSeconds = EditorGUILayout.FloatField(this.ActionSequence.waitTimeInSeconds);
+            GUILayout.EndHorizontal();
 
             GUILayout.EndVertical();
-            GUILayout.BeginVertical();
 
             Outputs[0].DisplayLayout();
-
-            GUILayout.EndVertical();
             GUILayout.EndHorizontal();
 
             if (GUI.changed)

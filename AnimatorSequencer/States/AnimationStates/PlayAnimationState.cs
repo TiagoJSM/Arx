@@ -10,16 +10,17 @@ namespace AnimatorSequencer.States.AnimationStates
     public class PlayAnimationState : BaseSequenceState
     {
         public Animator animator;
+
         protected override void PerformOnStateEnter()
         {
-            animator.enabled = false;
+            animator.enabled = true;
             animator.Play(0);
         }
 
         public override bool Complete()
         {
-            //todo: decide what complete is for animator
-            return true;
+            var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            return stateInfo.normalizedTime > 1;
         }
     }
 }

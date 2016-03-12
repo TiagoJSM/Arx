@@ -24,57 +24,94 @@ namespace AnimatorSequencerEditors.AnimationSequence
 
             myTarget.root = EditorGUILayout.ObjectField("Animation Sequence", myTarget.root, typeof(AnimationSequenceNode), true) as AnimationSequenceNode;
 
-            if (myTarget.root == null)
+            if(myTarget.root != null)
+            {
+                myTarget.clonedRoot = CloneRoot(myTarget.root);
+                myTarget.root = null;
+                SetFoldouts(myTarget);
+            }
+
+            if (myTarget.clonedRoot == null)
             {
                 _foldouts = null;
                 return;
             }
 
-            base.OnInspectorGUI();
-            var nodes =
-                myTarget
-                    .root
-                    .GetAllSequenceNodes()
-                    .Where(n => n.state != null)
-                    .Select(n => new Tuple<string, BaseSequenceState>(n.state.name, n.state))
-                    .ToArray();
-
-            if (previous != myTarget.root || _foldouts == null)
+            if(_foldouts == null)
             {
-                SetFoldouts(nodes);
+                SetFoldouts(myTarget);
             }
 
-            
+            base.OnInspectorGUI();
+
+            //ToDo: Delete removed from Behaviour
+            DisplayStates(myTarget);
+
+            if (GUI.changed)
+            {
+                EditorUtility.SetDirty(target);
+            }
+        }
+
+        private void DisplayStates(AnimationSequenceBehaviour behaviour)
+        {
+            var nodes = GetStates(behaviour);
+
             foreach (var node in nodes)
             {
+                Undo.RecordObject(node.Item2, "Property change");
                 EditorGUI.indentLevel = 1;
                 _foldouts[node.Item2] = EditorGUILayout.Foldout(_foldouts[node.Item2], node.Item1);
                 if (_foldouts[node.Item2])
                 {
-                    DisplayProperties(node.Item2, myTarget);
+                    var serializedObject = new SerializedObject(node.Item2);
+                    var iter = serializedObject.GetIterator();
+                    if(iter == null)
+                    {
+                        continue;
+                    }
+                    iter.NextVisible(true);         //required by the API
+                    while(iter.NextVisible(false))  // skip the first property, it's script, we don't want it to display
+                    {
+                        EditorGUILayout.PropertyField(iter);
+                        serializedObject.ApplyModifiedProperties();
+                    }
                 }
             }
         }
 
-        private void DisplayProperties(BaseSequenceState state, AnimationSequenceBehaviour behaviour)
+        private AnimationSequenceNode CloneRoot(AnimationSequenceNode root)
         {
-            var objectFields = 
-                state
-                    .GetType()
-                    .GetFields(BindingFlags.Public | BindingFlags.Instance)
-                    .Where(f => typeof(UnityEngine.Object).IsAssignableFrom(f.FieldType))
-                    .ToArray();
-
-            foreach (var objectField in objectFields)
+            var clone = Instantiate(root);
+            clone.name = root.name;
+            if (clone.nextStates == null)
             {
-                var stateParameter = behaviour.GetParameter(state, objectField.Name);
-                stateParameter.value = EditorGUILayout.ObjectField(objectField.Name, stateParameter.value as UnityEngine.Object, objectField.FieldType, true);
-                //behaviour.SetParameters(state, objectField.Name, value);
+                return clone;
             }
+            if(clone.state != null)
+            {
+                clone.state = Instantiate(root.state);
+                clone.state.name = root.state.name;
+            }
+            clone.nextStates = root.nextStates.Select(CloneRoot).ToList();
+            return clone;
         }
 
-        private void SetFoldouts(Tuple<string, BaseSequenceState>[] nodes)
+        private Tuple<string, BaseSequenceState>[] GetStates(AnimationSequenceBehaviour target)
         {
+            return
+                target
+                    .clonedRoot
+                    .GetAllSequenceNodes()
+                    .Where(n => n.state != null)
+                    .Select(n => new Tuple<string, BaseSequenceState>(n.state.name, n.state))
+                    .ToArray();
+        }
+
+        private void SetFoldouts(AnimationSequenceBehaviour target)
+        {
+            var nodes = GetStates(target);
+
             var foldouts = nodes.ToDictionary(n => n.Item2, n => true);
             if(_foldouts == null)
             {

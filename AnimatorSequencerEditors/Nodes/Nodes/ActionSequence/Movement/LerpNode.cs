@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 namespace AnimatorSequencerEditors.Nodes.Nodes.Movement
@@ -30,7 +31,7 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.Movement
 
             node.name = "Lerp Node";
             node.BaseActionSequence.name = node.name;
-            node.rect = new Rect(pos.x, pos.y, 200, 50);
+            node.rect = new Rect(pos.x, pos.y, 200, 80);
 
             NodeInput.Create(node, "", "Float");
             NodeOutput.Create(node, "", "Float");
@@ -40,32 +41,25 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.Movement
 
         protected override void NodeGUI()
         {
-            /*GUILayout.BeginHorizontal();
-            GUILayout.BeginVertical();
-            float val = 0;
-
-            if (Inputs[0].connection != null)
-                GUILayout.Label(Inputs[0].name);
-            else
-                val = RTEditorGUI.FloatField(GUIContent.none, val);*/
             GUILayout.BeginHorizontal();
             Inputs[0].DisplayLayout();
+
+            GUILayout.BeginVertical();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("State name");
             this.BaseActionSequence.name = GUILayout.TextField(this.BaseActionSequence.name);
+            GUILayout.EndHorizontal();
+            
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Time");
+            this.ActionSequence.time = EditorGUILayout.FloatField(this.ActionSequence.time);
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndVertical();
+
             Outputs[0].DisplayLayout();
             GUILayout.EndHorizontal();
-            /*GUILayout.EndVertical();
-            GUILayout.BeginVertical();*/
-            
-            
-            //value = RTEditorGUI.FloatField(new GUIContent("Value", "The input value of type float"), value);
-            /*GUILayout.BeginHorizontal();
-            GUILayout.Label("Name", GUILayout.ExpandWidth(true));
-            this.BaseActionSequence.name = GUILayout.TextField(this.BaseActionSequence.name);
-
-            GUILayout.EndHorizontal();*/
-
-            /*GUILayout.EndVertical();
-            GUILayout.EndHorizontal();*/
 
             if (GUI.changed)
                 NodeEditor.RecalculateFrom(this);
