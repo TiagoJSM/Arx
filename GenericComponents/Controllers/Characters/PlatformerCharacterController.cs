@@ -36,6 +36,8 @@ namespace GenericComponents.Controllers.Characters
         private float _vertical;
         private bool _jump;
 
+        public float groundMovementForce = 2f;
+        public float airMovementForce = 1f;
         public float maxRunSpeed = 6.0f;
         public float airMaxSpeed = 2.0f;
         public float jumpForce = 700.0f;
@@ -110,6 +112,10 @@ namespace GenericComponents.Controllers.Characters
             _move = 0;
             _vertical = 0;
             _jump = false;
+            //ToDo, this seems wrong
+            //check https://vonlehecreative.wordpress.com/2010/02/02/unity-resource-velocitylimiter/
+            var currentMaxSpeed = IsGrounded ? maxRunSpeed : airMaxSpeed;
+            _rigidBody.velocity = new Vector2(Mathf.Clamp(_rigidBody.velocity.x, -currentMaxSpeed, currentMaxSpeed), _rigidBody.velocity.y);
         }
 
         public void Move(float move, float vertical, bool jump)
@@ -136,8 +142,20 @@ namespace GenericComponents.Controllers.Characters
 
         public void DoMove(float move)
         {
+            
             _direction = DirectionOfMovement(move, _direction);
-            _rigidBody.velocity = new Vector2(move * maxRunSpeed, _rigidBody.velocity.y);
+            var movementForce = IsGrounded ? groundMovementForce : airMovementForce;
+            //_rigidBody.velocity = new Vector2(move * maxRunSpeed, _rigidBody.velocity.y);
+
+            if (Math.Abs(move) < 0.5)
+            {
+                _rigidBody.velocity = new Vector2(0, _rigidBody.velocity.y);
+            }
+            else
+            {
+                _rigidBody.AddForce(new Vector2(movementForce, 0) * DirectionValue(_direction), ForceMode2D.Impulse);
+            }
+            
             Flip(_direction);
         }
 
@@ -156,7 +174,7 @@ namespace GenericComponents.Controllers.Characters
 
         public void JumpUp()
         {
-            _rigidBody.AddForce(new Vector2(0, jumpForce));
+            _rigidBody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
         }
 
         public void DropLedge()

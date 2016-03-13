@@ -9,12 +9,30 @@ namespace AnimatorSequencer
     public abstract class BaseSequenceState : ScriptableObject
     {
         private float _stateEnterTime;
+        private float? _previousTime;
+        private float _currentTime;
 
         public float StateEnterTime
         {
             get
             {
                 return _stateEnterTime;
+            }
+        }
+
+        public float ElapsedTime
+        {
+            get
+            {
+                return Time.time - _stateEnterTime;
+            }
+        }
+
+        public float ElapsedTimeSinceLastUpdate
+        {
+            get
+            {
+                return Time.time - _previousTime.Value;
             }
         }
 
@@ -26,7 +44,13 @@ namespace AnimatorSequencer
 
         public void OnStateUpdate()
         {
+            _currentTime = Time.time;
+            if(_previousTime == null)
+            {
+                _previousTime = _currentTime;
+            }
             PerformOnStateUpdate();
+            _previousTime = _currentTime;
         }
 
         public void OnStateExit()

@@ -52,6 +52,7 @@
     <Compile Include="States\AnimationStates\PlayAnimationState.cs" />
     <Compile Include="States\ControlStates\WaitState.cs" />
     <Compile Include="States\MovementStates\LerpState.cs" />
+    <Compile Include="States\MovementStates\TimedRotationState.cs" />
     <Compile Include="States\MovementStates\SmoothDumpState.cs" />
     <Compile Include="BaseSequenceState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
