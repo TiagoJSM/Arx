@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonInterfaces.Controllers.Interaction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,7 @@ namespace GenericComponents.Controllers.Interaction
 {
     public class InteractionFinderController : MonoBehaviour
     {
-
-        public InteractionTriggerController InteractionTriggerController { get; private set; }
+        public IInteractionTriggerController InteractionTriggerController { get; private set; }
 
         // Use this for initialization
         void Start()
@@ -46,19 +46,19 @@ namespace GenericComponents.Controllers.Interaction
             }
         }
 
-        private InteractionTriggerController GetInteractionTriggerController(Collider2D other)
+        private IInteractionTriggerController GetInteractionTriggerController(Collider2D other)
         {
-            var interactionRadius = other.gameObject.GetComponent<InteractionRadiusController>();
+            /*var interactionRadius = other.gameObject.GetComponent<InteractionRadiusController>();
             if (interactionRadius == null)
             {
                 return null;
-            }
-            var parent = other.gameObject.transform.parent;
+            }*/
+            /*var parent = other.gameObject.transform.parent;
             if (parent == null)
             {
                 return null;
-            }
-            var controller = parent.GetComponent<InteractionTriggerController>();
+            }*/
+            var controller = other.GetComponent<IInteractionTriggerController>();
             if (controller == null)
             {
                 return null;

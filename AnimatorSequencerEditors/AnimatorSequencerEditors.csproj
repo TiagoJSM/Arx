@@ -54,6 +54,7 @@
     <Compile Include="Nodes\Nodes\ActionSequence\Control\WaitNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\EndSequenceNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Movement\LerpNode.cs" />
+    <Compile Include="Nodes\Nodes\ActionSequence\Movement\TimedRotationNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\StartSequenceNode.cs" />
     <Compile Include="Nodes\Nodes\AllAroundNode.cs" />
     <Compile Include="Nodes\Nodes\ExampleNode.cs" />

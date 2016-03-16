@@ -73,7 +73,10 @@ namespace GenericComponents.Controllers.Characters
 
         protected bool CheckGrounded()
         {
-            return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+            return 
+                Physics2D
+                    .OverlapCircleAll(groundCheck.position, groundCheckRadius, whatIsGround)
+                    .FirstOrDefault(c => !c.isTrigger);
         }
 
         protected void DrawGizmos()

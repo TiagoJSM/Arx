@@ -18,7 +18,7 @@ namespace AnimatorSequencer.States.MovementStates
 
         protected override void PerformOnStateUpdate()
         {
-            var rotation = rotationValuePerSecond / ElapsedTimeSinceLastUpdate;
+            var rotation = rotationValuePerSecond * ElapsedTimeSinceLastUpdate;
             var eulerAngle = target.rotation.eulerAngles;
             eulerAngle.z = eulerAngle.z + rotation;
             target.rotation = Quaternion.Euler(eulerAngle);

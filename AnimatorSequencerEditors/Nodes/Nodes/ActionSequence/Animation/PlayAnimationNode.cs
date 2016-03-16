@@ -31,13 +31,13 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Animation
             node.BaseActionSequence.name = node.name;
             node.rect = new Rect(pos.x, pos.y, 200, 50); ;
 
-            NodeInput.Create(node, "Value", "Float");
-            NodeOutput.Create(node, "Value", "Float");
+            NodeInput.Create(node, "", "Float");
+            NodeOutput.Create(node, "", "Float");
 
             return node;
         }
 
-        protected override void NodeGUI()
+        /*protected override void NodeGUI()
         {
             GUILayout.BeginHorizontal();
             GUILayout.BeginVertical();
@@ -65,6 +65,6 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Animation
         {
             Outputs[0].SetValue<float>(value);
             return true;
-        }
+        }*/
     }
 }

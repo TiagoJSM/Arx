@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace AnimatorSequencer.MovementStates
         public float time = 1;
         [SerializeField]
         public float distanceThreshold = 0.01f;
+        [SerializeField]
+        public bool ignoreZ = true;
 
         protected override void PerformOnStateEnter()
         {
@@ -29,12 +32,25 @@ namespace AnimatorSequencer.MovementStates
         {
             var elapsed = Time.time - StateEnterTime;
             var elapsedPercentage = elapsed / time;
-            target.position = Vector3.Lerp(_startPosition, moveToPosition.position, elapsedPercentage);
+            var result = Vector3.Lerp(_startPosition, moveToPosition.position, elapsedPercentage);
+            if (ignoreZ)
+            {
+                result.z = target.position.z;
+            }
+            target.position = result;
         }
 
         public override bool Complete()
         {
-            var distance = Vector3.Distance(moveToPosition.position, target.position);
+            var distance = default(float);
+            if (ignoreZ)
+            {
+                distance = Vector2.Distance(moveToPosition.position.ToVector2(), target.position.ToVector2());
+            }
+            else
+            {
+                distance = Vector3.Distance(moveToPosition.position, target.position);
+            }
             return distance < distanceThreshold;
         }
     }

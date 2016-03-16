@@ -21,7 +21,11 @@ namespace GenericComponents.Controllers.Interaction.Environment
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            if(roofDetector == null)
+            if (other.isTrigger)
+            {
+                return;
+            }
+            if (roofDetector == null)
             {
                 return;
             }
@@ -33,6 +37,10 @@ namespace GenericComponents.Controllers.Interaction.Environment
 
         void OnTriggerExit2D(Collider2D other)
         {
+            if (other.isTrigger)
+            {
+                return;
+            }
             if (roofDetector == null)
             {
                 return;

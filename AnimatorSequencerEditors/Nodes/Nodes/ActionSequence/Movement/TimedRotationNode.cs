@@ -1,35 +1,32 @@
-﻿using AnimatorSequencer.MovementStates;
-using AnimatorSequencerEditors.Nodes.Nodes.ActionSequence;
+﻿using AnimatorSequencer.States.MovementStates;
 using CommonEditors.Nodes.Framework;
 using CommonEditors.Nodes.Framework.CanvasSaveObjects;
-using CommonEditors.Nodes.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UnityEditor;
 using UnityEngine;
 
-namespace AnimatorSequencerEditors.Nodes.Nodes.Movement
+namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Movement
 {
     [Serializable]
-    [Node(false, "Movement/Lerp")]
-    public class LerpNode : BaseActionSequenceNode<LerpState>
+    [Node(false, "Movement/Timed rotation")]
+    public class TimedRotationNode : BaseActionSequenceNode<TimedRotationState>
     {
-        public const string ID = "lerpNode";
+        public const string ID = "timedRotationNode";
         public override string GetID { get { return ID; } }
 
         //public float value = 1f;
 
-        public LerpNode() : base(CreateInstance<LerpState>())
+        public TimedRotationNode() : base(CreateInstance<TimedRotationState>())
         {
         }
 
         public override Node Create(Vector2 pos)
         { // This function has to be registered in Node_Editor.ContextCallback
-            var node = CreateInstance<LerpNode>();
+            var node = CreateInstance<TimedRotationNode>();
 
-            node.name = "Lerp Node";
+            node.name = "Timed Rotation Node";
             node.BaseActionSequence.name = node.name;
             node.rect = new Rect(pos.x, pos.y, 200, 80);
 

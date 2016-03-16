@@ -36,6 +36,33 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence
             base.CopyScriptableObjects(replaceSerializableObject);
             _actionSequence = replaceSerializableObject(_actionSequence) as BaseSequenceState;
         }
+
+        protected override void NodeGUI()
+        {
+            GUILayout.BeginHorizontal();
+            Inputs[0].DisplayLayout();
+
+            GUILayout.BeginVertical();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("State name");
+            this.BaseActionSequence.name = GUILayout.TextField(this.BaseActionSequence.name);
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndVertical();
+
+            Outputs[0].DisplayLayout();
+            GUILayout.EndHorizontal();
+
+            if (GUI.changed)
+                NodeEditor.RecalculateFrom(this);
+        }
+
+        public override bool Calculate()
+        {
+            Outputs[0].SetValue<float>(0);
+            return true;
+        }
     }
 
     public abstract class BaseActionSequenceNode<TActionSequence> : BaseActionSequenceNode where TActionSequence : BaseSequenceState

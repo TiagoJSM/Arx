@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace CommonInterfaces.Controllers.Interaction
 {
@@ -10,6 +11,7 @@ namespace CommonInterfaces.Controllers.Interaction
         event OnInteract OnInteract;
         event OnStopInteraction OnStopInteraction;
 
+        void Interact(GameObject interactor);
         void StopInteraction();
     }
 }

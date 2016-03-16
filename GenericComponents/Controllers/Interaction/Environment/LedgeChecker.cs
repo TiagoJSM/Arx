@@ -26,6 +26,10 @@ namespace GenericComponents.Controllers.Interaction.Environment
 
         void OnTriggerEnter2D(Collider2D other)
         {
+            if (other.isTrigger)
+            {
+                return;
+            }
             if (ledgeDetector == null || freeSpaceDetector == null)
             {
                 return;
@@ -43,6 +47,10 @@ namespace GenericComponents.Controllers.Interaction.Environment
 
         void OnTriggerExit2D(Collider2D other)
         {
+            if (other.isTrigger)
+            {
+                return;
+            }
             if (ledgeDetector == null || freeSpaceDetector == null)
             {
                 return;

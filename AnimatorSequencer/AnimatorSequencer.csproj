@@ -56,9 +56,18 @@
     <Compile Include="States\MovementStates\SmoothDumpState.cs" />
     <Compile Include="BaseSequenceState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Zones\PlaySequenceOnInteraction.cs" />
     <Compile Include="Zones\PlaySequenceOnPlayerTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
+      <Project>{70cd1f80-87f4-4a17-b701-de961bbc798c}</Project>
+      <Name>CommonInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{de006f2e-b5dd-4ad1-8be3-f147e2f6286e}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GenericComponents\GenericComponents.csproj">
       <Project>{5ed6d708-beb5-4f23-9f44-f8a491a42f84}</Project>
       <Name>GenericComponents</Name>

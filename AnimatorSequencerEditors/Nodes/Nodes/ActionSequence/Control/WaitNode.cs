@@ -38,7 +38,7 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Control
             return node;
         }
 
-        protected override void NodeGUI()
+        /*protected override void NodeGUI()
         {
             GUILayout.BeginHorizontal();
             Inputs[0].DisplayLayout();
@@ -68,6 +68,6 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Control
         {
             Outputs[0].SetValue<float>(value);
             return true;
-        }
+        }*/
     }
 }
