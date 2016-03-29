@@ -19,8 +19,6 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.Movement
         public const string ID = "lerpNode";
         public override string GetID { get { return ID; } }
 
-        //public float value = 1f;
-
         public LerpNode() : base(CreateInstance<LerpState>())
         {
         }

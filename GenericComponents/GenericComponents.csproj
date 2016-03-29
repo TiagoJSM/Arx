@@ -59,6 +59,7 @@
     <Compile Include="Controllers\Interaction\InteractionTriggerController.cs" />
     <Compile Include="Controllers\Interaction\InteractionZoneController.cs" />
     <Compile Include="Controllers\Interaction\SpeechController.cs" />
+    <Compile Include="Controllers\Interaction\TemplateSpeechController.cs" />
     <Compile Include="Enums\Direction.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Factories\PlayerSpawner.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\StandingState.cs" />
     <Compile Include="StateMachine\StateTransition.cs" />
     <Compile Include="StateMachine\TransitionConfiguration.cs" />
+    <Compile Include="TeleporterSpawner.cs" />
     <Compile Include="UserControls\PlatformerCharacterUserControl.cs" />
     <Compile Include="Zones\BaseZone.cs" />
     <Compile Include="Zones\CheckpointZone.cs" />

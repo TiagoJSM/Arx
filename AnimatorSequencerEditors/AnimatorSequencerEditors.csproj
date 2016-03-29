@@ -51,8 +51,17 @@
     <Compile Include="Extensions\AnimationSequenceNodeExtensions.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Animation\PlayAnimationNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\BaseActionSequenceNode.cs" />
+    <Compile Include="Nodes\Nodes\ActionSequence\Control\ChangeActiveNode.cs" />
+    <Compile Include="Nodes\Nodes\ActionSequence\Control\DisableAllPlayerControlNode.cs" />
+    <Compile Include="Nodes\Nodes\ActionSequence\Control\DisablePlayerControlNode.cs" />
+    <Compile Include="Nodes\Nodes\ActionSequence\Control\EnableAllPlayerControlNode.cs" />
+    <Compile Include="Nodes\Nodes\ActionSequence\Control\EnablePlayerControlNode.cs" />
+    <Compile Include="Nodes\Nodes\ActionSequence\Control\SetActiveCameraNode.cs" />
+    <Compile Include="Nodes\Nodes\ActionSequence\Control\UnityEventCallNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Control\WaitNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\EndSequenceNode.cs" />
+    <Compile Include="Nodes\Nodes\ActionSequence\Interaction\DialogueNode.cs" />
+    <Compile Include="Nodes\Nodes\ActionSequence\Movement\CallMoveToTargetNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Movement\LerpNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Movement\TimedRotationNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\StartSequenceNode.cs" />

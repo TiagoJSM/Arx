@@ -8,22 +8,22 @@ using UnityEngine.UI;
 
 namespace GenericComponents.Controllers.Interaction
 {
-    public class SpeechController : MonoBehaviour
+    [RequireComponent(typeof(ScrollRect))]
+    [RequireComponent(typeof(RectTransform))]
+    public class SpeechController : TemplateSpeechController
     {
         private Canvas _canvas;
-
+        private bool _speechEnded;
         private RectTransform _scrollRectRectTransform;
         private RectTransform _contentRectTransform;
+        private ScrollRect _scrollRect;
         [SerializeField]
         [TextArea(3, 10)]
         private string _text;
 
-        public OnScrollEnd OnScrollEnd;
-
-        public ScrollRect scrollRect;
         public Text textUi;
 
-        public string Text
+        public override string Text
         {
             get
             {
@@ -35,33 +35,28 @@ namespace GenericComponents.Controllers.Interaction
             }
         }
 
-        public bool Visible 
-        {
-            get { return _canvas.enabled; } 
-            set 
-            {
-                if (value)
-                {
-                    _contentRectTransform.position = new Vector3();
-                }
-                _canvas.enabled = value;
-            } 
-        }
+        public override bool SpeechEnded { get { return _speechEnded; } }
 
         void Start()
         {
             _canvas = GetComponentInChildren<Canvas>();
-            _scrollRectRectTransform = scrollRect.GetComponent<RectTransform>();
-            _contentRectTransform = scrollRect.content;
+            _scrollRect = GetComponent<ScrollRect>();
+            _scrollRectRectTransform = GetComponent<RectTransform>();
+            _contentRectTransform = _scrollRect.content;
             _contentRectTransform.position = new Vector3();
-            _canvas.enabled = false;
             Text = _text;
+        }
+
+        public void Reset()
+        {
+            _contentRectTransform.position = new Vector3();
+            _speechEnded = false;
         }
 
         public void ScrollPageDown()
         {
             var speechBubbleHeight = _scrollRectRectTransform.rect.height;
-            var textBubbleHeight = scrollRect.content.rect.height;
+            var textBubbleHeight = _scrollRect.content.rect.height;
             ScrollDown(speechBubbleHeight);
         }
 
@@ -70,13 +65,24 @@ namespace GenericComponents.Controllers.Interaction
             var transformed = _contentRectTransform.anchoredPosition + new Vector2(0, scroll);
             _contentRectTransform.anchoredPosition = transformed;
 
-            if (scrollRect.verticalNormalizedPosition <= 0)
+            if (_scrollRect.verticalNormalizedPosition <= 0)
             {
-                if(OnScrollEnd != null)
+                _speechEnded = true;
+                if (OnScrollEnd != null)
                 {
                     OnScrollEnd();
                 }
             }
+        }
+
+        public override void Continue()
+        {
+            ScrollPageDown();
+        }
+
+        protected override void OnVisibleChange()
+        {
+            _canvas.enabled = Visible;
         }
     }
 }

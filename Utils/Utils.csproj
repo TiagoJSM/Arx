@@ -47,10 +47,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CameraUtils.cs" />
     <Compile Include="DataStructures\Edge.cs" />
     <Compile Include="DataStructures\Polygon2D.cs" />
     <Compile Include="DataStructures\Triangle.cs" />
     <Compile Include="IntrospectionUtils.cs" />
+    <Compile Include="ObjectUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Triangulator.cs" />
   </ItemGroup>

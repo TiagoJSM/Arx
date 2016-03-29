@@ -25,7 +25,7 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Control
         }
 
         public override Node Create(Vector2 pos)
-        { // This function has to be registered in Node_Editor.ContextCallback
+        { 
             var node = CreateInstance<WaitNode>();
 
             node.name = "Wait Node";
@@ -37,37 +37,5 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Control
 
             return node;
         }
-
-        /*protected override void NodeGUI()
-        {
-            GUILayout.BeginHorizontal();
-            Inputs[0].DisplayLayout();
-
-            GUILayout.BeginVertical();
-
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("State name");
-            this.BaseActionSequence.name = GUILayout.TextField(this.BaseActionSequence.name);
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Wait Time");
-            this.ActionSequence.waitTimeInSeconds = EditorGUILayout.FloatField(this.ActionSequence.waitTimeInSeconds);
-            GUILayout.EndHorizontal();
-
-            GUILayout.EndVertical();
-
-            Outputs[0].DisplayLayout();
-            GUILayout.EndHorizontal();
-
-            if (GUI.changed)
-                NodeEditor.RecalculateFrom(this);
-        }
-
-        public override bool Calculate()
-        {
-            Outputs[0].SetValue<float>(value);
-            return true;
-        }*/
     }
 }

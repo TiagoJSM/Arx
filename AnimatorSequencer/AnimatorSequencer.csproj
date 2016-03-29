@@ -50,7 +50,16 @@
     <Compile Include="AnimationSequenceNode.cs" />
     <Compile Include="AnimTest.cs" />
     <Compile Include="States\AnimationStates\PlayAnimationState.cs" />
+    <Compile Include="States\ControlStates\ChangeEnableState.cs" />
+    <Compile Include="States\ControlStates\DisableAllPlayerControlState.cs" />
+    <Compile Include="States\ControlStates\DisablePlayerControlState.cs" />
+    <Compile Include="States\ControlStates\EnableAllPlayerControlState.cs" />
+    <Compile Include="States\ControlStates\EnablePlayerControlState.cs" />
+    <Compile Include="States\ControlStates\SetActiveCameraState.cs" />
+    <Compile Include="States\ControlStates\UnityEventCallState.cs" />
     <Compile Include="States\ControlStates\WaitState.cs" />
+    <Compile Include="States\InteractionStates\DialogueState.cs" />
+    <Compile Include="States\MovementStates\CallMoveToTargetState.cs" />
     <Compile Include="States\MovementStates\LerpState.cs" />
     <Compile Include="States\MovementStates\TimedRotationState.cs" />
     <Compile Include="States\MovementStates\SmoothDumpState.cs" />
@@ -72,7 +81,12 @@
       <Project>{5ed6d708-beb5-4f23-9f44-f8a491a42f84}</Project>
       <Name>GenericComponents</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{4b1bd451-4f17-42bf-ac8d-5eea64d7cde7}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"$(SolutionDir)..\copydlls.bat" "$(TargetDir)" "$(TargetName)" "Arx\Assets\$(TargetName)\"</PostBuildEvent>

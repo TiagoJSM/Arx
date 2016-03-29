@@ -9,8 +9,12 @@ namespace AnimatorSequencer
     public abstract class BaseSequenceState : ScriptableObject
     {
         private float _stateEnterTime;
-        private float? _previousTime;
-        private float _currentTime;
+
+        private float? _previousFixedUpdateTime;
+        private float _currentFixedUpdateTime;
+
+        private float? _previousUpdateTime;
+        private float _currentUpdateTime;
 
         public float StateEnterTime
         {
@@ -28,11 +32,19 @@ namespace AnimatorSequencer
             }
         }
 
+        public float ElapsedTimeSinceLastFixedUpdate
+        {
+            get
+            {
+                return Time.time - _previousFixedUpdateTime.Value;
+            }
+        }
+
         public float ElapsedTimeSinceLastUpdate
         {
             get
             {
-                return Time.time - _previousTime.Value;
+                return Time.time - _previousUpdateTime.Value;
             }
         }
 
@@ -42,15 +54,26 @@ namespace AnimatorSequencer
             PerformOnStateEnter();
         }
 
+        public void OnStateFixedUpdate()
+        {
+            _currentFixedUpdateTime = Time.time;
+            if (_previousFixedUpdateTime == null)
+            {
+                _previousFixedUpdateTime = _currentFixedUpdateTime;
+            }
+            PerformOnStateFixedUpdate();
+            _previousFixedUpdateTime = _currentFixedUpdateTime;
+        }
+
         public void OnStateUpdate()
         {
-            _currentTime = Time.time;
-            if(_previousTime == null)
+            _currentUpdateTime = Time.time;
+            if(_previousUpdateTime == null)
             {
-                _previousTime = _currentTime;
+                _previousUpdateTime = _currentUpdateTime;
             }
             PerformOnStateUpdate();
-            _previousTime = _currentTime;
+            _previousUpdateTime = _currentUpdateTime;
         }
 
         public void OnStateExit()
@@ -61,6 +84,7 @@ namespace AnimatorSequencer
         public abstract bool Complete();
 
         protected virtual void PerformOnStateEnter() { }
+        protected virtual void PerformOnStateFixedUpdate() { }
         protected virtual void PerformOnStateUpdate() { }
         protected virtual void PerformOnStateExit() { }
     }

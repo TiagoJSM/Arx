@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace AnimatorSequencer
 {
@@ -22,6 +23,11 @@ namespace AnimatorSequencer
         {
             _node = node;
             _node.state.OnStateEnter();
+        }
+
+        public void FixedUpdate()
+        {
+            _node.state.OnStateFixedUpdate();
         }
 
         public void Update()
@@ -46,33 +52,25 @@ namespace AnimatorSequencer
         private bool _run;
 
         [SerializeField]
+        [HideInInspector]
         public AnimationSequenceNode root;
 
-        //[HideInInspector]
+        [HideInInspector]
         public AnimationSequenceNode clonedRoot;
 
         public AnimationSequenceBehaviour()
         {
         }
 
+        void FixedUpdate()
+        {
+            //test.Invoke(1, 0, false);
+            PerformUpdate(t => t.FixedUpdate());
+        }
+
         void Update()
         {
-            if (!_run)
-            {
-                return;
-            }
-
-            var threadsCopy = _runningThreads.ToList();
-            foreach (var thread in threadsCopy)
-            {
-                thread.Update();
-                if (thread.Complete())
-                {
-                    thread.OnExit();
-                    _runningThreads.Remove(thread);
-                    _runningThreads.AddRange(thread.Node.nextStates.Select(s => new AnimationThread(s)));
-                }
-            }
+            PerformUpdate(t => t.Update());
         }
 
         public void Run()
@@ -88,6 +86,27 @@ namespace AnimatorSequencer
         private void AssignInitialAnimationThreads()
         {
             _runningThreads = clonedRoot.nextStates.Select(s => new AnimationThread(s)).ToList();
+        }
+
+        private void PerformUpdate(Action<AnimationThread> action)
+        {
+            if (!_run)
+            {
+                return;
+            }
+
+            var threadsCopy = _runningThreads.ToList();
+            foreach (var thread in threadsCopy)
+            {
+                //thread.Update();
+                action(thread);
+                if (thread.Complete())
+                {
+                    thread.OnExit();
+                    _runningThreads.Remove(thread);
+                    _runningThreads.AddRange(thread.Node.nextStates.Select(s => new AnimationThread(s)));
+                }
+            }
         }
     }
 }

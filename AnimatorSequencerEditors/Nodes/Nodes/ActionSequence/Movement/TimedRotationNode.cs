@@ -16,8 +16,6 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Movement
         public const string ID = "timedRotationNode";
         public override string GetID { get { return ID; } }
 
-        //public float value = 1f;
-
         public TimedRotationNode() : base(CreateInstance<TimedRotationState>())
         {
         }

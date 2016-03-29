@@ -142,10 +142,8 @@ namespace GenericComponents.Controllers.Characters
 
         public void DoMove(float move)
         {
-            
             _direction = DirectionOfMovement(move, _direction);
             var movementForce = IsGrounded ? groundMovementForce : airMovementForce;
-            //_rigidBody.velocity = new Vector2(move * maxRunSpeed, _rigidBody.velocity.y);
 
             if (Math.Abs(move) < 0.5)
             {

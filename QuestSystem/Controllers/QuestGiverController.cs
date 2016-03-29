@@ -55,6 +55,7 @@ namespace QuestSystem.Controllers
             if (!_speechController.Visible)
             {
                 SetAppropriateText(interactor);
+                _speechController.Reset();
                 _speechController.Visible = true;
                 return;
             }

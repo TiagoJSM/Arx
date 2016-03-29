@@ -43,6 +43,7 @@ namespace AnimatorSequencerEditors.AnimationSequence
             }
 
             base.OnInspectorGUI();
+            EditorGUILayout.LabelField("Sequence: " + myTarget.clonedRoot.name);
 
             //ToDo: Delete removed from Behaviour
             DisplayStates(myTarget);
@@ -71,11 +72,12 @@ namespace AnimatorSequencerEditors.AnimationSequence
                         continue;
                     }
                     iter.NextVisible(true);         //required by the API
-                    while(iter.NextVisible(false))  // skip the first property, it's script, we don't want it to display
+                    EditorGUI.indentLevel = 2;
+                    while (iter.NextVisible(false)) // skip the first property, it's script, we don't want it to display
                     {
-                        EditorGUILayout.PropertyField(iter);
-                        serializedObject.ApplyModifiedProperties();
+                        EditorGUILayout.PropertyField(iter, true);
                     }
+                    serializedObject.ApplyModifiedProperties();
                 }
             }
         }
