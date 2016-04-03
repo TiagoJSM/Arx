@@ -1,7 +1,7 @@
-﻿using GenericComponents.Animation.Playables;
+﻿using CommonInterfaces.Enums;
+using GenericComponents.Animation.Playables;
 using GenericComponents.Containers;
 using GenericComponents.Controllers.Interaction.Environment;
-using GenericComponents.Enums;
 using GenericComponents.Interfaces.States.PlatformerCharacter;
 using GenericComponents.StateMachine;
 using GenericComponents.StateMachine.States.PlatformerCharacter;
@@ -45,6 +45,14 @@ namespace GenericComponents.Controllers.Characters
         public Collider2D[] duckingColliders;
         public float maxRollSpeed = 12.0f;
         public float rollingDuration = 1;
+
+        public Direction Direction
+        { 
+            get
+            {
+                return _direction;
+            }
+        }
 
         private bool DetectingPreviousGrabbedLedge
         {

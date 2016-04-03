@@ -60,7 +60,6 @@
     <Compile Include="Controllers\Interaction\InteractionZoneController.cs" />
     <Compile Include="Controllers\Interaction\SpeechController.cs" />
     <Compile Include="Controllers\Interaction\TemplateSpeechController.cs" />
-    <Compile Include="Enums\Direction.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Factories\PlayerSpawner.cs" />
     <Compile Include="Interfaces\IPath.cs" />
@@ -89,6 +88,7 @@
     <Compile Include="StateMachine\StateTransition.cs" />
     <Compile Include="StateMachine\TransitionConfiguration.cs" />
     <Compile Include="TeleporterSpawner.cs" />
+    <Compile Include="UserControls\PlatformerAICharacterControl.cs" />
     <Compile Include="UserControls\PlatformerCharacterUserControl.cs" />
     <Compile Include="Zones\BaseZone.cs" />
     <Compile Include="Zones\CheckpointZone.cs" />
@@ -107,6 +107,10 @@
     <ProjectReference Include="..\MathHelper\MathHelper.csproj">
       <Project>{3703e408-e0fa-4d51-94c5-4caec5d609d8}</Project>
       <Name>MathHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{4b1bd451-4f17-42bf-ac8d-5eea64d7cde7}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

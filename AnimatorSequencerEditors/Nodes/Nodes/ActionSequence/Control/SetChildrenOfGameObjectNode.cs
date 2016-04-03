@@ -10,23 +10,23 @@ using UnityEngine;
 namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Control
 {
     [Serializable]
-    [Node(false, "Control/Set Active Camera Node")]
-    public class SetActiveCameraNode : BaseActionSequenceNode<SetActiveCameraState>
+    [Node(false, "Control/Set Children Of Game Object")]
+    public class SetChildrenOfGameObjectNode : BaseActionSequenceNode<SetChildrenOfGameObjectState>
     {
-        public const string ID = "setActiveCameraNode";
+        public const string ID = "setChildrenOfGameObject";
         public override string GetID { get { return ID; } }
 
         public float value = 1f;
 
-        public SetActiveCameraNode() : base(CreateInstance<SetActiveCameraState>())
+        public SetChildrenOfGameObjectNode() : base(CreateInstance<SetChildrenOfGameObjectState>())
         {
         }
 
         public override Node Create(Vector2 pos)
         {
-            var node = CreateInstance<SetActiveCameraNode>();
+            var node = CreateInstance<SetChildrenOfGameObjectNode>();
 
-            node.name = "Set Active Camera Node";
+            node.name = "Set Children Of Game Object Node";
             node.BaseActionSequence.name = node.name;
             node.rect = new Rect(pos.x, pos.y, 200, 80); ;
 

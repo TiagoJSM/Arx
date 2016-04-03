@@ -56,6 +56,7 @@
     <Compile Include="States\ControlStates\EnableAllPlayerControlState.cs" />
     <Compile Include="States\ControlStates\EnablePlayerControlState.cs" />
     <Compile Include="States\ControlStates\SetActiveCameraState.cs" />
+    <Compile Include="States\ControlStates\SetChildrenOfGameObjectState.cs" />
     <Compile Include="States\ControlStates\UnityEventCallState.cs" />
     <Compile Include="States\ControlStates\WaitState.cs" />
     <Compile Include="States\InteractionStates\DialogueState.cs" />

@@ -57,6 +57,7 @@
     <Compile Include="Nodes\Nodes\ActionSequence\Control\EnableAllPlayerControlNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Control\EnablePlayerControlNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Control\SetActiveCameraNode.cs" />
+    <Compile Include="Nodes\Nodes\ActionSequence\Control\SetChildrenOfGameObjectNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Control\UnityEventCallNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Control\WaitNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\EndSequenceNode.cs" />

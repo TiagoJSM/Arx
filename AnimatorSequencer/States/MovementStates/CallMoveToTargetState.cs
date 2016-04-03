@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
 using Extensions;
-using GenericComponents.Enums;
+using CommonInterfaces.Enums;
 
 namespace AnimatorSequencer.States.MovementStates
 {
@@ -22,7 +22,7 @@ namespace AnimatorSequencer.States.MovementStates
         [SerializeField]
         public MoveDirectionUnityEvent moveEvent;
         [SerializeField]
-        public float distanceThreshold = 0.01f;
+        public float distanceThreshold = 1f;
         [SerializeField]
         public bool ignoreZ = true;
 
@@ -56,6 +56,7 @@ namespace AnimatorSequencer.States.MovementStates
             {
                 distance = Vector3.Distance(moveToPosition.position, targetTransform.position);
             }
+            
             return distance < distanceThreshold;
         }
     }

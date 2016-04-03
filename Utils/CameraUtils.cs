@@ -14,8 +14,9 @@ namespace Utils
             for(var idx = 0; idx < cameras.Length; idx++)
             {
                 var camera = cameras[idx];
-                camera.enabled = camera == cam;
+                camera.enabled = false;
             }
+            cam.enabled = true;
         }
     }
 }

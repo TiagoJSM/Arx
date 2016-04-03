@@ -24,7 +24,7 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence.Control
 
         public override Node Create(Vector2 pos)
         {
-            var node = CreateInstance<DisableAllPlayerControlNode>();
+            var node = CreateInstance<ChangeActiveNode>();
 
             node.name = "Change Active State Node";
             node.BaseActionSequence.name = node.name;

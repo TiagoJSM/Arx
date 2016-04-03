@@ -43,3 +43,5 @@ C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\Extensi
 C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\MathHelper.pdb
 C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEngine.xml
 C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEngine.UI.xml
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\Utils.dll
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\Utils.pdb

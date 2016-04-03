@@ -1,5 +1,5 @@
-﻿using GenericComponents.Controllers.Characters;
-using GenericComponents.Enums;
+﻿using CommonInterfaces.Enums;
+using GenericComponents.Controllers.Characters;
 using System;
 using System.Collections.Generic;
 using System.Linq;

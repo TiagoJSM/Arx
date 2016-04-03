@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Interaction\IInteractionTriggerController.cs" />
     <Compile Include="Controllers\IPlayerControl.cs" />
+    <Compile Include="Enums\Direction.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Inventory\IInventory.cs" />
     <Compile Include="Inventory\IInventoryItem.cs" />

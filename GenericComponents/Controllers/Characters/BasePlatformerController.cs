@@ -1,9 +1,10 @@
-﻿using GenericComponents.Enums;
+﻿using CommonInterfaces.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Utils;
 
 namespace GenericComponents.Controllers.Characters
 {
@@ -55,15 +56,7 @@ namespace GenericComponents.Controllers.Characters
 
         protected Direction DirectionOfMovement(float horizontal, Direction defaultValue)
         {
-            if (horizontal > 0)
-            {
-                return Direction.Right;
-            }
-            else if (horizontal < 0)
-            {
-                return Direction.Left;
-            }
-            return defaultValue;
+            return MovementUtils.DirectionOfMovement(horizontal, defaultValue);
         }
 
         protected float DirectionValue(Direction defaultValue)
