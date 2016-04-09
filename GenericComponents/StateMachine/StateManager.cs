@@ -21,6 +21,10 @@ namespace GenericComponents.StateMachine
         {
             get
             {
+                if(_currentStateContainer == null)
+                {
+                    return null;
+                }
                 return _currentStateContainer.State;
             }
         }
@@ -35,8 +39,14 @@ namespace GenericComponents.StateMachine
         {
             if(_currentStateContainer == null)
             {
-                return;
+                if(_root == null)
+                {
+                    return;
+                }
+                _currentStateContainer = _root;
+                _currentStateContainer.State.OnStateEnter(action);
             }
+
             var current = _currentStateContainer;
             current.State.TimeInState += Time.fixedDeltaTime;
 
@@ -58,7 +68,7 @@ namespace GenericComponents.StateMachine
             var state = State<TState>();
             var container = _states[state.GetType()];
             _root = container;
-            _currentStateContainer = _root;
+            //_currentStateContainer = _root;
             return new TransitionConfiguration<TController, TAction>(this, _root);
         }
 

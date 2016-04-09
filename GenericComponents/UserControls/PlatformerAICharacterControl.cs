@@ -6,30 +6,58 @@ using System.Text;
 using UnityEngine;
 using Extensions;
 using Utils;
+using CommonInterfaces.Controls;
+using System.Collections;
 
 namespace GenericComponents.UserControls
 {
     [RequireComponent(typeof(PlatformerCharacterController))]
-    public class PlatformerAICharacterControl : MonoBehaviour
+    public abstract class PlatformerAICharacterControl : MonoBehaviour, IPlatformerAICharacterControl
     {
         private PlatformerCharacterController _characterController;
+        private Vector2? _moveToPosition;
+        private float _treshold;
 
-        public bool MoveDirectlyTo(Vector2 position, float treshold)
+        protected PlatformerCharacterController CharacterController
         {
-            var currentPosition = this.transform.position.ToVector2();
-            var distance = Vector2.Distance(currentPosition, position);
-            if(distance < treshold)
+            get
             {
-                return true;
+                return _characterController;
             }
-            var xDifference = currentPosition.x - position.x;
-            _characterController.Move(xDifference, 0, false);
-            return false;
         }
 
-        void Start()
+        public void MoveDirectlyTo(Vector2 position, float treshold)
+        {
+            _moveToPosition = position;
+            _treshold = treshold;
+        }
+
+        public void StopMoving()
+        {
+            _moveToPosition = null;
+        }
+
+        protected void PerformStart()
         {
             _characterController = GetComponent<PlatformerCharacterController>();
+        }
+
+        protected void PerformFixedUpdate()
+        {
+            if (_moveToPosition == null)
+            {
+                return;
+            }
+
+            var currentPosition = this.transform.position.ToVector2();
+            var distance = Vector2.Distance(currentPosition, _moveToPosition.Value);
+            if (distance < _treshold)
+            {
+                _moveToPosition = null;
+                return;
+            }
+            var xDifference = _moveToPosition.Value.x - currentPosition.x;
+            _characterController.Move(xDifference, 0, false);
         }
     }
 }

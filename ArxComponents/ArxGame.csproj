@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Ai\NightmareHunterGateLiftAiControl.cs" />
     <Compile Include="Components\MainPlatformerCharacterUserControl.cs" />
     <Compile Include="Components\SequencePlatformerCharacterControl.cs" />
     <Compile Include="GameSave\ArxGameSaveHandler.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="LevelManagers\DreamingBeyondImaginationManager.cs" />
     <Compile Include="LevelManagers\MainMenu\MainMenuManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StateMachine\NightmareHunterGateAiStateManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">

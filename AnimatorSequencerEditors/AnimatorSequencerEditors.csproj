@@ -52,6 +52,7 @@
     <Compile Include="Nodes\Nodes\ActionSequence\Animation\PlayAnimationNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\BaseActionSequenceNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Control\ChangeActiveNode.cs" />
+    <Compile Include="Nodes\Nodes\ActionSequence\Control\ChangeCameraOwnerNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Control\DisableAllPlayerControlNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Control\DisablePlayerControlNode.cs" />
     <Compile Include="Nodes\Nodes\ActionSequence\Control\EnableAllPlayerControlNode.cs" />

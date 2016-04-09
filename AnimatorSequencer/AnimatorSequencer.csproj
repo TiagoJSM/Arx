@@ -50,6 +50,7 @@
     <Compile Include="AnimationSequenceNode.cs" />
     <Compile Include="AnimTest.cs" />
     <Compile Include="States\AnimationStates\PlayAnimationState.cs" />
+    <Compile Include="States\ControlStates\ChangeCameraOwnerState.cs" />
     <Compile Include="States\ControlStates\ChangeEnableState.cs" />
     <Compile Include="States\ControlStates\DisableAllPlayerControlState.cs" />
     <Compile Include="States\ControlStates\DisablePlayerControlState.cs" />
@@ -70,6 +71,10 @@
     <Compile Include="Zones\PlaySequenceOnPlayerTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\2DDynamicCamera\2DDynamicCamera.csproj">
+      <Project>{032238dd-361c-4bb7-b95d-f563b768f294}</Project>
+      <Name>2DDynamicCamera</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
       <Project>{70cd1f80-87f4-4a17-b701-de961bbc798c}</Project>
       <Name>CommonInterfaces</Name>
