@@ -16,6 +16,18 @@ namespace AnimatorSequencer
         private float? _previousUpdateTime;
         private float _currentUpdateTime;
 
+        //[HideInInspector]
+        [SerializeField]
+        private string _id;
+
+        public string Id
+        {
+            get
+            {
+                return _id;
+            }
+        }
+
         public float StateEnterTime
         {
             get
@@ -46,6 +58,11 @@ namespace AnimatorSequencer
             {
                 return Time.time - _previousUpdateTime.Value;
             }
+        }
+
+        public BaseSequenceState()
+        {
+            _id = Guid.NewGuid().ToString();
         }
 
         public void OnStateEnter()
@@ -79,6 +96,14 @@ namespace AnimatorSequencer
         public void OnStateExit()
         {
             PerformOnStateExit();
+        }
+
+        public bool AreCopies(BaseSequenceState other)
+        {
+            return
+                other.GetType() == this.GetType() &&
+                this.Id != Guid.Empty.ToString() &&
+                this.Id == other.Id;
         }
 
         public abstract bool Complete();

@@ -45,16 +45,15 @@ namespace AnimatorSequencerEditors
 
             if (GUILayout.Button(new GUIContent("Save as animation sequence", "Saves the Canvas as an animation sequence to be used in a scene")))
             {
-                string path = EditorUtility.SaveFilePanelInProject("Save Animation Sequence", "Animation Sequence", "asset", "", NodeEditor.editorPath + "Resources/Saves/");
+                string path = EditorUtility.SaveFilePanelInProject("Save Animation Sequence", "Animation Sequence", "asset", "", "Assets/Sequences");
                 if (!string.IsNullOrEmpty(path))
                 {
                     SaveAnimationSequence(path);
                 }
             }
-
             if (GUILayout.Button(new GUIContent("Load as animation sequence", "Saves the Canvas as an animation sequence to be used in a scene")))
             {
-                string path = EditorUtility.OpenFilePanel("Load Node Canvas", NodeEditor.editorPath + "Resources/Saves/", "asset");
+                string path = EditorUtility.OpenFilePanel("Load Node Canvas", "Assets/Sequences", "asset");
                 if (!string.IsNullOrEmpty(path))
                 {
                     ScriptableObject[] objects = ResourceManager.LoadResources<ScriptableObject>(path);

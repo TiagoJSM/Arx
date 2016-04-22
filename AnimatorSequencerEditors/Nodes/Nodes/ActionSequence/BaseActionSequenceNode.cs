@@ -24,6 +24,7 @@ namespace AnimatorSequencerEditors.Nodes.Nodes.ActionSequence
         public BaseActionSequenceNode(BaseSequenceState actionSequence)
         {
             _actionSequence = actionSequence;
+            //_actionSequence.Id = Guid.NewGuid().ToString();
         }
 
         public override ScriptableObject[] GetScriptableObjects()

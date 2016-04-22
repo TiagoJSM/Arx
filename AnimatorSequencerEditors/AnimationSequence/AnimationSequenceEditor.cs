@@ -94,6 +94,11 @@ namespace AnimatorSequencerEditors.AnimationSequence
             {
                 clone.state = Instantiate(root.state);
                 clone.state.name = root.state.name;
+                var copy = GetWithSameId(clone.state);
+                if(copy != null)
+                {
+                    EditorUtility.CopySerialized(copy, clone.state);
+                }
             }
             clone.nextStates = root.nextStates.Select(CloneRoot).ToList();
             return clone;
@@ -128,6 +133,18 @@ namespace AnimatorSequencerEditors.AnimationSequence
                 }
             }
             _foldouts = foldouts;
+        }
+
+        private BaseSequenceState GetWithSameId(BaseSequenceState state)
+        {
+            var myTarget = (AnimationSequenceBehaviour)target;
+            return
+                myTarget
+                    .clonedRoot
+                    .GetAllSequenceNodes()
+                    .Where(n => n.state != null)
+                    .Select(n => n.state)
+                    .FirstOrDefault(s => s.AreCopies(state));
         }
     }
 }
