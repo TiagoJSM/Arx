@@ -45,3 +45,5 @@ C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEn
 C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEngine.UI.xml
 C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\Utils.dll
 C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\Utils.pdb
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEditor.dll
+C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEditor.xml

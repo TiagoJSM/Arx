@@ -51,6 +51,7 @@
     <Compile Include="DataStructures\Edge.cs" />
     <Compile Include="DataStructures\Polygon2D.cs" />
     <Compile Include="DataStructures\Triangle.cs" />
+    <Compile Include="EditorUtils.cs" />
     <Compile Include="IntrospectionUtils.cs" />
     <Compile Include="MovementUtils.cs" />
     <Compile Include="ObjectUtils.cs" />

@@ -1,0 +1,216 @@
+fileFormatVersion: 2
+guid: cc5a4ae00f7d15f429de77b3ad94792b
+timeCreated: 1460320221
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: WallBridge_0
+    21300002: WallBridge1
+    21300004: WallBridge2
+    21300006: WallBridge
+    21300008: WallBridge_4
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: WallBridge1
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 892
+        width: 228
+        height: 129
+      alignment: 9
+      pivot: {x: 0.9747815, y: 0.75888604}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -211.25018, y: 31.103699}
+        - {x: -222.25018, y: 1.1036987}
+        - {x: -222.25018, y: -30.896301}
+        - {x: -165.25018, y: -40.8963}
+        - {x: -119.25018, y: -95.8963}
+        - {x: -104.25018, y: -97.8963}
+        - {x: -24.250183, y: -97.8963}
+        - {x: 5.749817, y: -35.8963}
+        - {x: 5.749817, y: 29.103699}
+        - {x: -47.250183, y: 31.103699}
+    - name: WallBridge2
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 804
+        width: 286
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 143, y: 100}
+        - {x: 139, y: 101}
+        - {x: -27, y: 108}
+        - {x: -131, y: 108}
+        - {x: -131, y: 107}
+        - {x: -143, y: 74}
+        - {x: -143, y: 48}
+        - {x: -80, y: 25}
+        - {x: -33, y: -76}
+        - {x: 1, y: -106}
+        - {x: 14, y: -108}
+        - {x: 41, y: -108}
+        - {x: 41, y: -105}
+        - {x: 72, y: -17}
+        - {x: 143, y: 80}
+    - name: WallBridge
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 516
+        width: 802
+        height: 372
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -401, y: -169}
+        - {x: -401, y: -186}
+        - {x: -377, y: -186}
+        - {x: -377, y: -177}
+        - {x: -379, y: -173}
+        - {x: -400, y: -168}
+      - - {x: 397, y: -154}
+        - {x: 401, y: -149}
+        - {x: 401, y: -140}
+        - {x: 392, y: -129}
+        - {x: 368, y: -108}
+        - {x: 332, y: -72}
+        - {x: 322, y: -59}
+        - {x: 294, y: -6}
+        - {x: 291, y: 1}
+        - {x: 269, y: 41}
+        - {x: 270, y: 43}
+        - {x: 264, y: 56}
+        - {x: 259, y: 140}
+        - {x: 258, y: 177}
+        - {x: 253, y: 180}
+        - {x: 192, y: 180}
+        - {x: 155, y: 178}
+        - {x: 127, y: 178}
+        - {x: 115, y: 177}
+        - {x: 106, y: 176}
+        - {x: 93, y: 175}
+        - {x: 42, y: 175}
+        - {x: 33, y: 178}
+        - {x: 0, y: 177}
+        - {x: 0, y: 175}
+        - {x: -74, y: 178}
+        - {x: -167, y: 178}
+        - {x: -176, y: 179}
+        - {x: -239, y: 185}
+        - {x: -248, y: 186}
+        - {x: -323, y: 186}
+        - {x: -332, y: 168}
+        - {x: -339, y: 153}
+        - {x: -341, y: 147}
+        - {x: -346, y: 128}
+        - {x: -358, y: 103}
+        - {x: -362, y: 88}
+        - {x: -370, y: 63}
+        - {x: -379, y: 37}
+        - {x: -390, y: 40}
+        - {x: -399, y: 39}
+        - {x: -401, y: 37}
+        - {x: -401, y: 14}
+        - {x: -400, y: 13}
+        - {x: -391, y: 9}
+        - {x: -397, y: -2}
+        - {x: -401, y: -29}
+        - {x: -398, y: -34}
+        - {x: -391, y: -41}
+        - {x: -379, y: -49}
+        - {x: -368, y: -54}
+        - {x: -360, y: -57}
+        - {x: -344, y: -61}
+        - {x: -321, y: -62}
+        - {x: -292, y: -69}
+        - {x: -268, y: -73}
+        - {x: -249, y: -72}
+        - {x: -229, y: -69}
+        - {x: -197, y: -74}
+        - {x: -155, y: -85}
+        - {x: -126, y: -91}
+        - {x: -97, y: -105}
+        - {x: -86, y: -109}
+        - {x: -48, y: -120}
+        - {x: -29, y: -132}
+        - {x: 14, y: -144}
+        - {x: 37, y: -151}
+        - {x: 71, y: -159}
+        - {x: 97, y: -162}
+        - {x: 112, y: -163}
+        - {x: 141, y: -168}
+        - {x: 184, y: -174}
+        - {x: 229, y: -178}
+        - {x: 268, y: -184}
+        - {x: 290, y: -185}
+        - {x: 310, y: -186}
+        - {x: 338, y: -186}
+        - {x: 369, y: -175}
+        - {x: 386, y: -163}
+    - name: WallBridge_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 515
+        width: 22
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

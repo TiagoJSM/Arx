@@ -22,6 +22,7 @@ namespace GenericComponents.Controllers.Characters
         [SerializeField]
         private Direction _direction;
         private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
+        private PlatformerCharacterAnimationPlayable _characterAnimations;
 
         private LedgeChecker _ledgeChecker;
         private RoofChecker _roofChecker;
@@ -105,7 +106,9 @@ namespace GenericComponents.Controllers.Characters
             _ledgeChecker = GetComponent<LedgeChecker>();
             _roofChecker = GetComponent<RoofChecker>();
             _stateManager = new PlatformerCharacterStateManager(this, rollingDuration);
-            _animator.Play(new PlatformerCharacterAnimationPlayable(_stateManager, animations, rollingDuration));
+            _characterAnimations = new PlatformerCharacterAnimationPlayable(
+                new PlatformerCharacterStateAnimationPlayable(_stateManager, animations, rollingDuration));
+            _animator.Play(_characterAnimations);
         }
 
         void FixedUpdate()
@@ -225,6 +228,18 @@ namespace GenericComponents.Controllers.Characters
             Flip(_direction);
             var direction = DirectionValue(_direction);
             _rigidBody.velocity = new Vector2(direction * maxRollSpeed, _rigidBody.velocity.y);
+        }
+
+        public void PlayAnimation(AnimationClip animation)
+        {
+            _characterAnimations.PlayAnimationOverDefault(animation);
+            //_animator.Play(animation);
+        }
+
+        public void PlayCharacterAnimations()
+        {
+            _characterAnimations.PlayDefaultAnimation();
+            //_animator.Play(_characterAnimations);
         }
 
         void OnDrawGizmosSelected()

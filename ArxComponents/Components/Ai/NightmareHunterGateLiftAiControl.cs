@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Extensions;
+using UnityEngine.Experimental.Director;
 
 namespace ArxGame.Components.Ai
 {
@@ -31,6 +32,7 @@ namespace ArxGame.Components.Ai
         public GameObject gate;
         public GameObject target;
         public float targetTreshold = 1;
+        public AnimationClip knockGateAnimation;
 
         public bool ReachedGate
         {
@@ -49,6 +51,7 @@ namespace ArxGame.Components.Ai
 
         public void KnockGate()
         {
+            CharacterController.PlayAnimation(knockGateAnimation);
             //throw new NotImplementedException();
         }
 

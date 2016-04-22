@@ -11,12 +11,47 @@ using UnityEngine.Experimental.Director;
 
 namespace GenericComponents.Animation.Playables
 {
-    public class PlatformerCharacterAnimationPlayable : 
+    public class PlatformerCharacterAnimationPlayable : AnimationMixerPlayable
+    {
+        private AnimationPlayable _defaultAnimation;
+        private AnimationPlayable _requestedAnimation;
+
+        public PlatformerCharacterAnimationPlayable(AnimationPlayable defaultAnimation)
+        {
+            _defaultAnimation = defaultAnimation;
+            PlayDefaultAnimation();
+        }
+
+        public override void PrepareFrame(FrameData info)
+        {
+            //PlayDefaultAnimation();
+        }
+
+        public void PlayAnimationOverDefault(AnimationClip animation)
+        {
+            _requestedAnimation = new AnimationClipPlayable(animation);
+            ClearInputs();
+            _requestedAnimation.time = 0;
+            AddInput(_requestedAnimation);
+            this.SetInputWeight(0, 1);
+        }
+
+        public void PlayDefaultAnimation()
+        {
+            _requestedAnimation = null;
+            ClearInputs();
+            _defaultAnimation.time = 0;
+            AddInput(_defaultAnimation);
+            this.SetInputWeight(0, 1);
+        }
+    }
+
+    public class PlatformerCharacterStateAnimationPlayable : 
         StateAnimationMixerPlayable<IPlatformerCharacterController, PlatformerCharacterAction>
     {
         private PlatformerCharacterAnimations _animations;
 
-        public PlatformerCharacterAnimationPlayable(
+        public PlatformerCharacterStateAnimationPlayable(
             StateManager<IPlatformerCharacterController, PlatformerCharacterAction> stateManager,
             PlatformerCharacterAnimations animations,
             float rollingDuration)

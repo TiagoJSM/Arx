@@ -1,0 +1,157 @@
+fileFormatVersion: 2
+guid: f75a455d7873be54d92f18330f0fcb46
+timeCreated: 1460309266
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: CageDoor
+    21300002: CageBack
+    21300004: CageFront
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: CageDoor
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 188
+        width: 143
+        height: 265
+      alignment: 9
+      pivot: {x: 0.8031041, y: 0.833939}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 4.1561127, y: 44.006165}
+        - {x: -114.84389, y: -141.99384}
+        - {x: -114.84389, y: -220.99384}
+        - {x: -89.84389, y: -220.99384}
+        - {x: -82.84389, y: -215.99384}
+        - {x: 28.156113, y: 36.006165}
+        - {x: 28.156113, y: 44.006165}
+    - name: CageBack
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 156
+        width: 315
+        height: 335
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 40.5, y: -167.5}
+        - {x: 44.5, y: -160.5}
+        - {x: 55.5, y: -167.5}
+        - {x: 82.5, y: -167.5}
+        - {x: 85.5, y: -153.5}
+        - {x: 157.5, y: -111.5}
+        - {x: 157.5, y: -79.5}
+        - {x: 85.5, y: 65.5}
+        - {x: 29.5, y: 154.5}
+        - {x: 14.5, y: 167.5}
+        - {x: -0.5, y: 167.5}
+        - {x: 1.5, y: 145.5}
+        - {x: -14.5, y: 167.5}
+        - {x: -32.5, y: 167.5}
+        - {x: -37.5, y: 166.5}
+        - {x: -70.5, y: 122.5}
+        - {x: -127.5, y: -48.5}
+        - {x: -157.5, y: -85.5}
+        - {x: -157.5, y: -111.5}
+        - {x: -117.5, y: -148.5}
+        - {x: -92.5, y: -167.5}
+        - {x: -68.5, y: -167.5}
+        - {x: -66.5, y: -162.5}
+        - {x: -57.5, y: -134.5}
+        - {x: -32.5, y: -167.5}
+    - name: CageFront
+      rect:
+        serializedVersion: 2
+        x: 685
+        y: 187
+        width: 242
+        height: 298
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: 135}
+        - {x: 1, y: -32}
+        - {x: 4, y: -113}
+        - {x: 15, y: -149}
+        - {x: 52, y: -149}
+        - {x: 52, y: -46}
+        - {x: 48, y: 30}
+        - {x: 17, y: 135}
+      - - {x: -46, y: 145}
+        - {x: -115, y: -59}
+        - {x: -115, y: -140}
+        - {x: -82, y: -144}
+        - {x: -31, y: 81}
+        - {x: -31, y: 83}
+        - {x: -31, y: 77}
+        - {x: -32, y: 76}
+        - {x: -33, y: 72}
+        - {x: -38, y: 50}
+        - {x: -48, y: -14}
+        - {x: -53, y: -59}
+        - {x: -58, y: -136}
+        - {x: -50, y: -148}
+        - {x: -19, y: -148}
+        - {x: -8, y: -7}
+        - {x: -8, y: 145}
+      - - {x: 23, y: 143}
+        - {x: 13, y: 143}
+        - {x: 13, y: 126}
+        - {x: 79, y: -141}
+        - {x: 120, y: -141}
+        - {x: 120, y: -30}
+        - {x: 42, y: 115}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

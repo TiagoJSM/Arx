@@ -1,0 +1,220 @@
+fileFormatVersion: 2
+guid: 1dfcf018fb87bd74791b030dac70621e
+timeCreated: 1460298871
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: BridgePath1
+    21300002: BridgePath2
+    21300004: BackSupport1
+    21300006: FrontSupport1
+    21300008: FrontSupport2
+    21300010: BackSupport2
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: BridgePath1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 334
+        width: 232
+        height: 153
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -72, y: 76.5}
+        - {x: -116, y: 53.5}
+        - {x: -116, y: 16.5}
+        - {x: -88, y: -64.5}
+        - {x: -81, y: -74.5}
+        - {x: -62, y: -76.5}
+        - {x: 116, y: -76.5}
+        - {x: 116, y: -60.5}
+        - {x: 74, y: 76.5}
+      - - {x: 24, y: -62.5}
+        - {x: 24, y: -68.5}
+        - {x: 29, y: -68.5}
+        - {x: 30, y: -66.5}
+        - {x: 30, y: -64.5}
+        - {x: 28, y: -62.5}
+    - name: BridgePath2
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 336
+        width: 315
+        height: 174
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 157.5, y: -67}
+        - {x: 157.5, y: -36}
+        - {x: 120.5, y: 74}
+        - {x: 114.5, y: 87}
+        - {x: 36.5, y: 87}
+        - {x: -98.5, y: 84}
+        - {x: -100.5, y: 67}
+        - {x: -157.5, y: 67}
+        - {x: -157.5, y: 47}
+        - {x: -125.5, y: -85}
+        - {x: -118.5, y: -87}
+        - {x: -43.5, y: -87}
+        - {x: -42.5, y: -81}
+        - {x: 18.5, y: -85}
+        - {x: 101.5, y: -80}
+      - - {x: 148.5, y: -65}
+        - {x: 140.5, y: -65}
+        - {x: 139.5, y: -68}
+        - {x: 143.5, y: -73}
+        - {x: 150.5, y: -73}
+        - {x: 152.5, y: -71}
+        - {x: 152.5, y: -66}
+    - name: BackSupport1
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 304
+        width: 258
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 129, y: -42}
+        - {x: 129, y: 3}
+        - {x: 59, y: 98}
+        - {x: 19, y: 98}
+        - {x: -2, y: 58}
+        - {x: -123, y: 98}
+        - {x: -129, y: 98}
+        - {x: -129, y: -90}
+        - {x: -125, y: -94}
+        - {x: -70, y: -98}
+        - {x: 88, y: -98}
+        - {x: 129, y: -86}
+        - {x: 129, y: -43}
+        - {x: 68, y: -41}
+    - name: FrontSupport1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 237
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 100.5, y: 29}
+        - {x: 75.5, y: 100}
+        - {x: 35.5, y: 100}
+        - {x: 29.5, y: 30}
+        - {x: -80.5, y: 100}
+        - {x: -107.5, y: 100}
+        - {x: -111.5, y: 93}
+        - {x: -118.5, y: -3}
+        - {x: -118.5, y: -97}
+        - {x: -114.5, y: -100}
+        - {x: 118.5, y: -100}
+        - {x: 118.5, y: 35}
+        - {x: 116.5, y: 36}
+    - name: FrontSupport2
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 4
+        width: 258
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 118, y: 85}
+        - {x: 110, y: 102}
+        - {x: 92, y: 108}
+        - {x: 75, y: 108}
+        - {x: -23, y: 71}
+        - {x: -44, y: 100}
+        - {x: -72, y: 105}
+        - {x: -80, y: 53}
+        - {x: -129, y: 25}
+        - {x: -129, y: -20}
+        - {x: -126, y: -20}
+        - {x: -73, y: -4}
+        - {x: -129, y: -68}
+        - {x: -129, y: -108}
+        - {x: 129, y: -108}
+        - {x: 129, y: -15}
+    - name: BackSupport2
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 68
+        width: 235
+        height: 211
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 50.5, y: 105.5}
+        - {x: 48.5, y: 100.5}
+        - {x: -5.5, y: 105.5}
+        - {x: -93.5, y: 105.5}
+        - {x: -117.5, y: -5.5}
+        - {x: -117.5, y: -97.5}
+        - {x: -52.5, y: -105.5}
+        - {x: 113.5, y: -105.5}
+        - {x: 117.5, y: -100.5}
+        - {x: 117.5, y: 21.5}
+        - {x: 85.5, y: 105.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
