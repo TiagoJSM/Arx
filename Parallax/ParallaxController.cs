@@ -7,6 +7,7 @@ using Extensions;
 
 namespace Parallax
 {
+    [ExecuteInEditMode]
     public class ParallaxController : MonoBehaviour
     {
         private Vector3? _previousPosition;

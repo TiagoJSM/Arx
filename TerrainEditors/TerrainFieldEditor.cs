@@ -84,8 +84,14 @@ namespace TerrainEditors
         private void CustomDuplicate()
         {
             var clone = Instantiate(this.TerrainField);
+
+            clone.transform.position = this.TerrainField.transform.position;
+            clone.transform.rotation = this.TerrainField.transform.rotation;
+            clone.transform.localScale = this.TerrainField.transform.lossyScale;
+
             clone.mesh = new Mesh();
             clone.GetComponent<MeshRenderer>().material = new Material(TerrainMeshRenderer.sharedMaterial);
+            clone.transform.parent = this.TerrainField.transform.parent;
         }
     }
 }
