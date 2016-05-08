@@ -10,3 +10,5 @@ bin
 
 # Ignore the following file extensions
 *.exe
+
+!Arx/Assets/**/*.dll
