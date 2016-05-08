@@ -47,3 +47,22 @@ C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEd
 C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEditor.xml
 C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEngine.dll
 C:\Users\Public\Documents\Unity Projects\Arx\GenericComponents\bin\Debug\UnityEngine.UI.dll
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\GenericComponents.dll
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\GenericComponents.pdb
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\CommonInterfaces.dll
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\Extensions.dll
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\MathHelper.dll
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\UnityEngine.dll
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\UnityEngine.UI.dll
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\Utils.dll
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\UnityEditor.dll
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\CommonInterfaces.pdb
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\Extensions.pdb
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\MathHelper.pdb
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\Utils.pdb
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\UnityEngine.xml
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\UnityEngine.UI.xml
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\bin\Debug\UnityEditor.xml
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\obj\Debug\GenericComponents.csprojResolveAssemblyReference.cache
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\obj\Debug\GenericComponents.dll
+C:\Users\tiago\Documents\Projects\GameDev\Arx\GenericComponents\obj\Debug\GenericComponents.pdb

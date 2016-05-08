@@ -23,7 +23,8 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
             this
                 .From<JumpingState>()
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
-                    .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge);
+                    .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && t > 1);
 
             this
                 .From<FallingState>()

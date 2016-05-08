@@ -61,6 +61,7 @@ namespace GenericComponents.StateMachine
             }
 
             _currentStateContainer.State.Perform(action);
+            
         }
 
         public TransitionConfiguration<TController, TAction> SetInitialState<TState>() where TState : class, IState<TController, TAction>, new()

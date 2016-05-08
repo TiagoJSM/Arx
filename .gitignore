@@ -12,3 +12,4 @@ bin
 *.exe
 
 !Arx/Assets/**/*.dll
+/Arx/packages
