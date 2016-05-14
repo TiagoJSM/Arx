@@ -10,6 +10,7 @@ using MathHelper.DataStructures;
 using Utils;
 using CommonEditors;
 using GenericComponents.Behaviours;
+using MathHelper;
 
 namespace GenericComponentEditors
 {
@@ -101,7 +102,7 @@ namespace GenericComponentEditors
         {
             var idx = 0;
             var segmentToDivide = default(int?);
-            foreach (var segment in NodePathBehaviour.InScenePathSegments)
+            foreach (var segment in NodePathBehaviour.BezierLinePathSegments)
             {
                 var buttonPressedIndex = DrawPathNodeDividerHandle(segment, idx);
                 if (segmentToDivide == null)
@@ -136,15 +137,23 @@ namespace GenericComponentEditors
             return translated;
         }
 
-        private int? DrawPathNodeDividerHandle(LineSegment2D lineSegment, int lineIndex)
+        private int? DrawPathNodeDividerHandle(BezierLineSegment2D bezierLineSegment, int lineIndex)
         {
-            
+            var lineSegment = bezierLineSegment.LineSegment;
+            var middlePoint = 
+                Bezier
+                    .CalculateBezierPoint(
+                        0.5f, 
+                        lineSegment.P1, 
+                        bezierLineSegment.P1ControlPoint, 
+                        bezierLineSegment.P2ControlPoint, 
+                        lineSegment.P2);
             var halfLenght = (lineSegment.P2 - lineSegment.P1) / 2;
-            var size = HandleUtility.GetHandleSize(lineSegment.P1 + halfLenght) / handlesSizeRatio;
+            var size = HandleUtility.GetHandleSize(middlePoint) / handlesSizeRatio;
             var pressed =
                 Handles
                     .Button(
-                        lineSegment.P1 + halfLenght,
+                        middlePoint,
                         Quaternion.identity,
                         size,
                         0.2f,
@@ -190,9 +199,13 @@ namespace GenericComponentEditors
         private void DrawLinesBetweenPathNodes()
         {
             Handles.color = Color.blue;
-            foreach (var segment in NodePathBehaviour.InScenePathSegments)
+            /*foreach (var segment in NodePathBehaviour.InScenePathSegments)
             {
                 Handles.DrawLine(segment.P1.ToVector3(), segment.P2.ToVector3());
+            }*/
+            foreach(var segment in NodePathBehaviour.BezierPathSegments)
+            {
+                Handles.DrawLine(segment.P1, segment.P2);
             }
         }
 
@@ -248,7 +261,7 @@ namespace GenericComponentEditors
 
         private void DrawBezierConnectionLines()
         {
-            foreach (var bezierLineSegment in NodePathBehaviour.BezierPathSegments)
+            foreach (var bezierLineSegment in NodePathBehaviour.BezierLinePathSegments)
             {
                 Handles.color = StartColor;
                 Handles.DrawLine(bezierLineSegment.LineSegment.P1.ToVector3(), bezierLineSegment.P1ControlPoint.ToVector3());

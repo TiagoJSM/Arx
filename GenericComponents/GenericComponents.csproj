@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Animation\Playables\PlatformerCharacterAnimationPlayable.cs" />
     <Compile Include="Animation\Playables\StateAnimationMixerPlayable.cs" />
+    <Compile Include="Behaviours\AnimationDelay.cs" />
     <Compile Include="Behaviours\NodePathBehaviour.cs" />
     <Compile Include="Builders\BuilderDataContext.cs" />
     <Compile Include="Builders\SegmentBuilder.cs" />
@@ -92,6 +93,8 @@
     <Compile Include="TeleporterSpawner.cs" />
     <Compile Include="UserControls\PlatformerAICharacterControl.cs" />
     <Compile Include="UserControls\PlatformerCharacterUserControl.cs" />
+    <Compile Include="Waypoint\WaypointPath.cs" />
+    <Compile Include="Waypoint\WaypointPathController.cs" />
     <Compile Include="Zones\BaseZone.cs" />
     <Compile Include="Zones\CheckpointZone.cs" />
     <Compile Include="Zones\DeathZone.cs" />

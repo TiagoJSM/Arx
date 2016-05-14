@@ -16,7 +16,7 @@ namespace GenericComponents.Behaviours
 
         public NodePath NodePath { get { return _nodePath; } }
 
-        public IEnumerable<BezierLineSegment2D> BezierPathSegments
+        public IEnumerable<BezierLineSegment2D> BezierLinePathSegments
         {
             get
             {
@@ -27,6 +27,29 @@ namespace GenericComponents.Behaviours
                     var controlPoints = controlPointPairs[i];
                     return new BezierLineSegment2D(s, controlPoints.Item1 + position, controlPoints.Item2 + position);
                 });
+            }
+        }
+
+        public IEnumerable<LineSegment2D> BezierPathSegments
+        {
+            get
+            {
+                var position = this.transform.position.ToVector2();
+                return NodePath.PathSegments.Select((s, i) =>
+                {
+                    s.P1 = s.P1 + position;
+                    s.P2 = s.P2 + position;
+                    return s;
+                });
+            }
+        }
+
+        public IEnumerable<Vector2> PathNodes
+        {
+            get
+            {
+                var position = this.transform.position.ToVector2();
+                return _nodePath.PathNodes.Select(n => n + position);
             }
         }
 
