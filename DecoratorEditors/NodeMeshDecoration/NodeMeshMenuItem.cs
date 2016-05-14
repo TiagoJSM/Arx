@@ -19,12 +19,20 @@ namespace DecoratorEditors.NodeMeshDecoration
         static void Init()
         {
             var gameObj = new GameObject(DefaultName);
+            var view = SceneView.currentDrawingSceneView ?? SceneView.lastActiveSceneView;
             var nodeMesh = gameObj.AddComponent<NodeMesh>();
             nodeMesh.mesh = new Mesh();
             gameObj.AddComponent<MeshFilter>();
             gameObj.AddComponent<MeshRenderer>();
             nodeMesh.AddPathNode(DefaultFirstVector);
             nodeMesh.AddPathNode(DefaultSecondVector);
+            if (view != null)
+            {
+                gameObj.transform.position = view.camera.transform.position;
+                var position = gameObj.transform.position;
+                position.z = 0;
+                gameObj.transform.position = position;
+            }
         }
     }
 }

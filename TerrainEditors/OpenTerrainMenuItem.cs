@@ -18,12 +18,20 @@ namespace TerrainEditors
         static void Init()
         {
             var terrain = new GameObject(DefaultName);
+            var view = SceneView.currentDrawingSceneView ?? SceneView.lastActiveSceneView;
             var terrainField = terrain.AddComponent<OpenTerrainField>();
             terrainField.mesh = new Mesh();
             terrain.AddComponent<MeshFilter>();
             terrain.AddComponent<MeshRenderer>();
             terrainField.AddPathNode(DefaultFirstVector);
             terrainField.AddPathNode(DefaultSecondVector);
+            if (view != null)
+            {
+                terrain.transform.position = view.camera.transform.position;
+                var position = terrain.transform.position;
+                position.z = 0;
+                terrain.transform.position = position;
+            }
         }
     }
 }

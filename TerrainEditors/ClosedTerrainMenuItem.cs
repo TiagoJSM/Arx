@@ -19,6 +19,7 @@ namespace TerrainEditors
         static void Init()
         {
             var terrain = new GameObject(DefaultName);
+            var view = SceneView.currentDrawingSceneView ?? SceneView.lastActiveSceneView;
             var terrainField = terrain.AddComponent<ClosedTerrainField>();
             terrainField.mesh = new Mesh();
             terrain.AddComponent<MeshFilter>();
@@ -26,6 +27,13 @@ namespace TerrainEditors
             terrainField.AddPathNode(DefaultFirstVector);
             terrainField.AddPathNode(DefaultSecondVector);
             terrainField.AddPathNode(DefaultThirdVector);
+            if (view != null)
+            {
+                terrain.transform.position = view.camera.transform.position;
+                var position = terrain.transform.position;
+                position.z = 0;
+                terrain.transform.position = position;
+            }
         }
     }
 }

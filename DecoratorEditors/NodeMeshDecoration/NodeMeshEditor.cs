@@ -1,4 +1,5 @@
-﻿using Decorator;
+﻿using CommonEditors;
+using Decorator;
 using Decorator.Builders;
 using Decorator.NodeMeshDecoration;
 using GenericComponentEditors;
@@ -36,6 +37,7 @@ namespace DecoratorEditors.NodeMeshDecoration
         public NodeMeshEditor()
         {
             _requiresMeshUpdate = true;
+            base.InputHandler.Add(new DuplicateEventCombination(CustomDuplicate));
         }
 
         private void OnSceneGUI()
@@ -49,7 +51,7 @@ namespace DecoratorEditors.NodeMeshDecoration
             {
                 NodeMeshRenderer.material = new Material(NodeMesh.shader);
             }
-
+            
             DrawNodePathEditors();
             HandleInput();
 
@@ -92,6 +94,22 @@ namespace DecoratorEditors.NodeMeshDecoration
         protected override void OnNodePathRemoved()
         {
             _requiresMeshUpdate = true;
+        }
+
+        private void CustomDuplicate()
+        {
+            var clone = Instantiate(this.NodeMesh);
+
+            clone.transform.position = this.NodeMesh.transform.position;
+            clone.transform.rotation = this.NodeMesh.transform.rotation;
+            clone.transform.localScale = this.NodeMesh.transform.lossyScale;
+
+            clone.mesh = new Mesh();
+            if (NodeMeshRenderer.sharedMaterial != null)
+            {
+                clone.GetComponent<MeshRenderer>().material = new Material(NodeMeshRenderer.sharedMaterial);
+            }
+            clone.transform.parent = this.NodeMesh.transform.parent;
         }
     }
 }
