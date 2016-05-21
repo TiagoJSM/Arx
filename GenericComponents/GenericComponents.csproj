@@ -49,6 +49,7 @@
     <Compile Include="Animation\Playables\PlatformerCharacterAnimationPlayable.cs" />
     <Compile Include="Animation\Playables\StateAnimationMixerPlayable.cs" />
     <Compile Include="Behaviours\AnimationDelay.cs" />
+    <Compile Include="Behaviours\EnableTrigger.cs" />
     <Compile Include="Behaviours\NodePathBehaviour.cs" />
     <Compile Include="Builders\BuilderDataContext.cs" />
     <Compile Include="Builders\SegmentBuilder.cs" />

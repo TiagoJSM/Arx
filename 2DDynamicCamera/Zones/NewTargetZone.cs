@@ -25,7 +25,7 @@ namespace _2DDynamicCamera.Zones.Target
             }
         }
 
-        protected abstract Collider2D Collider { get; }
+        //protected abstract Collider2D Collider { get; }
 
         private Vector3 Center
         {

@@ -15,32 +15,32 @@ namespace _2DDynamicCamera.Zones
 
     public class StandardNewTargetZone : NewTargetZone
     {
-        private ColliderType _selectedColliderType;
-        private Collider2D _collider;
+        //private ColliderType _selectedColliderType;
+        //private Collider2D _collider;
 
-        public ColliderType colliderType;
+        //public ColliderType colliderType;
 
-        protected override Collider2D Collider { get { return _collider; } }
+        //protected override Collider2D Collider { get { return _collider; } }
 
-        void Start()
-        {
-            var colliders = this.gameObject.GetComponents<Collider2D>();
-            foreach (var collider in colliders)
-            {
-                DestroyImmediate(collider);
-            }
-            _selectedColliderType = colliderType;
-            SetCollider(_selectedColliderType);
-        }
+        //void Start()
+        //{
+        //    var colliders = this.gameObject.GetComponents<Collider2D>();
+        //    foreach (var collider in colliders)
+        //    {
+        //        DestroyImmediate(collider);
+        //    }
+        //    _selectedColliderType = colliderType;
+        //    SetCollider(_selectedColliderType);
+        //}
 
-        void Update()
-        {
-            if (_selectedColliderType != colliderType)
-            {
-                _selectedColliderType = colliderType;
-                SetCollider(_selectedColliderType);
-            }
-        }
+        //void Update()
+        //{
+        //    if (_selectedColliderType != colliderType)
+        //    {
+        //        _selectedColliderType = colliderType;
+        //        SetCollider(_selectedColliderType);
+        //    }
+        //}
 
         protected override void OnCameraOwnerEnter()
         {
@@ -52,43 +52,43 @@ namespace _2DDynamicCamera.Zones
             DynamicCamera.Main.RemoveTarget(this);
         }
 
-        private void SetCollider(ColliderType _selectedColliderType)
-        {
-            switch (_selectedColliderType)
-            {
-                case ColliderType.Box:
-                    SetBoxCollider();
-                    break;
-                case ColliderType.Circle:
-                    SetCircleCollider();
-                    break;
-            }
-        }
+        //private void SetCollider(ColliderType _selectedColliderType)
+        //{
+        //    switch (_selectedColliderType)
+        //    {
+        //        case ColliderType.Box:
+        //            SetBoxCollider();
+        //            break;
+        //        case ColliderType.Circle:
+        //            SetCircleCollider();
+        //            break;
+        //    }
+        //}
 
-        private void SetBoxCollider()
-        {
-            RemoveCollider();
-            AddCollider<BoxCollider2D>();
-        }
+        //private void SetBoxCollider()
+        //{
+        //    RemoveCollider();
+        //    AddCollider<BoxCollider2D>();
+        //}
 
-        private void SetCircleCollider()
-        {
-            RemoveCollider();
-            AddCollider<CircleCollider2D>();
-        }
+        //private void SetCircleCollider()
+        //{
+        //    RemoveCollider();
+        //    AddCollider<CircleCollider2D>();
+        //}
 
-        private void AddCollider<TCollider>() where TCollider : Collider2D
-        {
-            _collider = this.gameObject.AddComponent<CircleCollider2D>();
-            _collider.isTrigger = true;
-        }
+        //private void AddCollider<TCollider>() where TCollider : Collider2D
+        //{
+        //    _collider = this.gameObject.AddComponent<CircleCollider2D>();
+        //    _collider.isTrigger = true;
+        //}
 
-        private void RemoveCollider()
-        {
-            if (_collider != null)
-            {
-                DestroyImmediate(_collider);
-            }
-        }
+        //private void RemoveCollider()
+        //{
+        //    if (_collider != null)
+        //    {
+        //        DestroyImmediate(_collider);
+        //    }
+        //}
     }
 }

@@ -11,7 +11,7 @@ namespace _2DDynamicCamera.Zones
         private float _previousCameraZoom;
 
         public float zoom = 3;
-        [Range(0, 1)]
+        [Range(0, 50)]
         public float damping = 2f;
 
         protected override void OnCameraOwnerEnter()

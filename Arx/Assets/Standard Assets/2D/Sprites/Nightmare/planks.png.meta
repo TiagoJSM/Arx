@@ -1,0 +1,147 @@
+fileFormatVersion: 2
+guid: 7faea6b27739d0a42a8476564c8198b5
+timeCreated: 1463825846
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: planks_0
+    21300002: planks_1
+    21300004: planks_2
+    21300006: planks_3
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: planks_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 87
+        width: 117
+        height: 155
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15.5, y: -75.5}
+        - {x: -15.5, y: -77.5}
+        - {x: -7.5, y: -77.5}
+        - {x: -7.5, y: -75.5}
+        - {x: -10.5, y: -72.5}
+        - {x: -12.5, y: -72.5}
+      - - {x: 45.5, y: -77.5}
+        - {x: 44.5, y: -74.5}
+        - {x: 40.5, y: -74.5}
+        - {x: 39.5, y: -77.5}
+      - - {x: -56.5, y: 77.5}
+        - {x: -58.5, y: 73.5}
+        - {x: -58.5, y: 5.5}
+        - {x: -34.5, y: -72.5}
+        - {x: -19.5, y: -74.5}
+        - {x: 58.5, y: -74.5}
+        - {x: 58.5, y: -15.5}
+        - {x: 18.5, y: 77.5}
+    - name: planks_1
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 91
+        width: 117
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -58.5, y: 75}
+        - {x: -58.5, y: -8}
+        - {x: -23.5, y: -75}
+        - {x: 58.5, y: -75}
+        - {x: 58.5, y: -45}
+        - {x: 41.5, y: 35}
+        - {x: 14.5, y: 75}
+    - name: planks_2
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 91
+        width: 116
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 17, y: 69}
+        - {x: 14, y: 75}
+        - {x: -58, y: 75}
+        - {x: -58, y: 12}
+        - {x: -30, y: -71}
+        - {x: -15, y: -75}
+        - {x: 58, y: -75}
+        - {x: 58, y: -49}
+        - {x: 34, y: 26}
+    - name: planks_3
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 87
+        width: 116
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 14, y: 75.5}
+        - {x: -58, y: 75.5}
+        - {x: -58, y: 11.5}
+        - {x: -25, y: -67.5}
+        - {x: -16, y: -75.5}
+        - {x: 58, y: -75.5}
+        - {x: 58, y: -48.5}
+        - {x: 21, y: 61.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
