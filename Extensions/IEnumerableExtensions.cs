@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Extensions
 {
@@ -93,6 +94,12 @@ namespace Extensions
             }
             var min = source.MinBy(selector);
             return source.IndexOf(s => s.Equals(min));
+        }
+
+        public static TData Random<TData>(this IEnumerable<TData> data)
+        {
+            var idx = UnityEngine.Random.Range(0, data.Count());
+            return data.ElementAt(idx);
         }
     }
 }

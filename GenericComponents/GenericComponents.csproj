@@ -50,7 +50,11 @@
     <Compile Include="Animation\Playables\StateAnimationMixerPlayable.cs" />
     <Compile Include="Behaviours\AnimationDelay.cs" />
     <Compile Include="Behaviours\EnableTrigger.cs" />
+    <Compile Include="Behaviours\FootstepPlayer.cs" />
+    <Compile Include="Behaviours\GroundComponent.cs" />
     <Compile Include="Behaviours\NodePathBehaviour.cs" />
+    <Compile Include="Behaviours\PlayAudio.cs" />
+    <Compile Include="Behaviours\PlayAudios.cs" />
     <Compile Include="Builders\BuilderDataContext.cs" />
     <Compile Include="Builders\SegmentBuilder.cs" />
     <Compile Include="Containers\PlatformerCharacterAnimations.cs" />
@@ -66,6 +70,7 @@
     <Compile Include="Controllers\Interaction\TemplateSpeechController.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Factories\PlayerSpawner.cs" />
+    <Compile Include="GroundMaterial.cs" />
     <Compile Include="Interfaces\IPath.cs" />
     <Compile Include="Interfaces\States\IState.cs" />
     <Compile Include="Interfaces\IStateFactory.cs" />
