@@ -61,8 +61,17 @@
     <Compile Include="LevelManagers\MainMenu\MainMenuManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachine\NightmareHunterGateAiStateManager.cs" />
+    <Compile Include="Triggers\PlaySequenceTrigger.cs" />
+    <Compile Include="UI\InventoryItemManager.cs" />
+    <Compile Include="UI\InventoryListManager.cs" />
+    <Compile Include="UI\InventorySectionManager.cs" />
+    <Compile Include="UI\UiMenuManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AnimatorSequencer\AnimatorSequencer.csproj">
+      <Project>{5D0EC744-EA21-4B83-8576-CE7F86275DC8}</Project>
+      <Name>AnimatorSequencer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
       <Project>{70cd1f80-87f4-4a17-b701-de961bbc798c}</Project>
       <Name>CommonInterfaces</Name>

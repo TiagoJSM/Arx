@@ -39,7 +39,8 @@ namespace InventorySystemEditors
         {
             _topButtonMenus.OnGui();
 
-            _scrollPosition = GUI.BeginScrollView(new Rect(0, 0, position.width, position.height), _scrollPosition, new Rect(0, 0, 1000, 1000));
+            _scrollPosition = GUILayout.BeginScrollView(_scrollPosition);
+            //_scrollPosition = GUI.BeginScrollView(new Rect(0, 0, position.width, position.height), _scrollPosition, new Rect(0, 0, 1000, 1000));
             GUILayout.BeginVertical();
             DrawGuiComponents(_components);
 
@@ -48,7 +49,8 @@ namespace InventorySystemEditors
 
             editor.OnInspectorGUI();
             GUILayout.EndVertical();
-            GUI.EndScrollView();
+            //GUI.EndScrollView();
+            GUILayout.EndScrollView();
         }
 
         private void OnNewHandler()
@@ -69,6 +71,7 @@ namespace InventorySystemEditors
         private void NewItemScreen()
         {
             var item = ScriptableObject.CreateInstance(_topButtonMenus.SelectedInventoryType) as InventoryItem;
+            //item.Id = Guid.NewGuid().ToString();
             LoadedItemScreen(item);
         }
 

@@ -7,5 +7,6 @@ namespace CommonInterfaces.Inventory
 {
     public interface IItemOwner
     {
+        T GetComponent<T>();
     }
 }

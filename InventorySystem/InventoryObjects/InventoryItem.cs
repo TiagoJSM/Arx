@@ -1,5 +1,5 @@
 ﻿using CommonInterfaces.Inventory;
-using InventorySystem.InventoryItemUseValidations;
+using InventorySystem.ItemCallbacks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +12,29 @@ namespace InventorySystem.InventoryObjects
     {
         [SerializeField]
         private string _name;
+        [SerializeField]
+        private string _id;
 
         public bool canDiscard;
         public bool canStack;
         public int maximumStack;
+        [TextArea]
         public string description;
         public bool removeOnUse;
 
-        public UseValidation UseValidation;
         public InventoryItemUse itemUse;
+
+        public string Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+            }
+        }
 
         public string Name 
         {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using UnityEditor;
 using Utils;
+using UnityEngine;
 
 namespace InventorySystemEditors.GuiComponent
 {
@@ -39,6 +40,17 @@ namespace InventorySystemEditors.GuiComponent
         {
             _index = EditorGUILayout.Popup(_index, _inventoryItemNames);
             base.OnGui();
+        }
+
+        protected override void AfterCreatingAsset(UnityEngine.Object obj, string path)
+        {
+            var item = obj as InventoryItem;
+            if(item == null)
+            {
+                return;
+            }
+            item.Id = AssetDatabase.AssetPathToGUID(path);
+            AssetDatabase.SaveAssets();
         }
     }
 }

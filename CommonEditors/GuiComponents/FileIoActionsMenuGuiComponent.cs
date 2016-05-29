@@ -64,15 +64,18 @@ namespace CommonEditors.GuiComponents.GuiComponents.GuiComponents
                                 _saveAsMessage);
                 if (!string.IsNullOrEmpty(path))
                 {
-                    var dummy = AssetDatabase.LoadAssetAtPath(AssetDatabase.GetAssetPath(Object.GetInstanceID()), Object.GetType());
-                    
-                    if (dummy == null)
+                    var asset = AssetDatabase.LoadAssetAtPath(AssetDatabase.GetAssetPath(Object.GetInstanceID()), Object.GetType());
+                    if (asset == null)
                     {
                         AssetDatabase.CreateAsset(Object, path);
+                        AfterCreatingAsset(Object, path);
                     }
                     else
                     {
-                        AssetDatabase.CopyAsset(Path, path);
+                        //AssetDatabase.CopyAsset(Path, path);
+                        var obj = UnityEngine.Object.Instantiate(Object);
+                        AssetDatabase.CreateAsset(obj, path);
+                        AfterCreatingAsset(obj, path);
                     }
                     Path = path;
                 }
@@ -95,6 +98,10 @@ namespace CommonEditors.GuiComponents.GuiComponents.GuiComponents
                 }
             }
             GUILayout.EndHorizontal();
+        }
+
+        protected virtual void AfterCreatingAsset(UnityEngine.Object obj, string path)
+        {
         }
     }
 }
