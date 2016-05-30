@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ArxGame.UI
 {
@@ -12,6 +13,7 @@ namespace ArxGame.UI
     {
         public GameObject InventoryItemPrefab;
         public GameObject Content;
+        public Text description;
 
         public void Add(InventoryItems items)
         {
@@ -24,6 +26,17 @@ namespace ArxGame.UI
                 return;
             }
             itemManager.InventoryItems = items;
+            itemManager.OnClick += OnClickHandler;
+        }
+
+        private void OnClickHandler(IInventoryItem item)
+        {
+            var inventoryItem = item as InventoryItem;
+            if(inventoryItem == null)
+            {
+                return;
+            }
+            description.text = inventoryItem.description;
         }
     }
 }

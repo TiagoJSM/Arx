@@ -53,5 +53,10 @@ namespace InventorySystem.InventoryObjects
         {
             maximumStack = 1;
         }
+
+        public bool UseItem()
+        {
+            return itemUse.Use(Owner, this);
+        }
     }
 }

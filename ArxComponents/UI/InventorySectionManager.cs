@@ -21,17 +21,20 @@ namespace ArxGame.UI
             inventory.AddItem(new InventoryItem()
             {
                 Id = "abc",
-                Name = "item 1"
+                Name = "item 1",
+                description = "desc1"
             });
             inventory.AddItem(new InventoryItem()
             {
                 Id = "abcd",
-                Name = "item 2"
+                Name = "item 2",
+                description = "desc2"
             });
             inventory.AddItem(new InventoryItem()
             {
                 Id = "abcd",
-                Name = "item 2"
+                Name = "item 2",
+                description = "desc2"
             });
             foreach (var item in inventory.InventoryItems)
             {
