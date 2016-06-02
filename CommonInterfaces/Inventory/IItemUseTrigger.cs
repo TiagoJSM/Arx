@@ -1,11 +1,9 @@
-﻿using CommonInterfaces.Inventory;
-using InventorySystem.InventoryObjects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace InventorySystem
+namespace CommonInterfaces.Inventory
 {
     public interface IItemUseTrigger
     {

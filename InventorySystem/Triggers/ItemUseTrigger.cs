@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace InventorySystem
+namespace InventorySystem.Triggers
 {
     public abstract class ItemUseTrigger : MonoBehaviour, IItemUseTrigger
     {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommonInterfaces.Inventory;
+using InventorySystem.Triggers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +8,14 @@ using UnityEngine;
 
 namespace InventorySystem.Controllers
 {
-    public class ItemUseFinderController : MonoBehaviour
+    public class ItemUseFinderController : MonoBehaviour, IItemUseFinderController
     {
-        public List<IItemUseTrigger> ItemUseTriggers { get; private set; }
+        private List<IItemUseTrigger> _itemUseTriggers;
+        public IEnumerable<IItemUseTrigger> ItemUseTriggers { get { return _itemUseTriggers; } }
 
         public ItemUseFinderController()
         {
-            ItemUseTriggers = new List<IItemUseTrigger>();
+            _itemUseTriggers = new List<IItemUseTrigger>();
         }
 
         void OnTriggerEnter2D(Collider2D other)
@@ -22,7 +25,7 @@ namespace InventorySystem.Controllers
             {
                 return;
             }
-            ItemUseTriggers.Add(item);
+            _itemUseTriggers.Add(item);
         }
 
         void OnTriggerExit2D(Collider2D other)
@@ -32,7 +35,7 @@ namespace InventorySystem.Controllers
             {
                 return;
             }
-            ItemUseTriggers.Remove(item);
+            _itemUseTriggers.Remove(item);
         }
     }
 }

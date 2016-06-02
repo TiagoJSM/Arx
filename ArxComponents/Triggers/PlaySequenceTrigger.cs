@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 using CommonInterfaces.Inventory;
 using AnimatorSequencer;
+using InventorySystem.Triggers;
 
 namespace ArxGame.Triggers
 {

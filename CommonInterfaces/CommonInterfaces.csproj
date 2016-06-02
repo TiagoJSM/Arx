@@ -50,8 +50,11 @@
     <Compile Include="Inventory\IInventory.cs" />
     <Compile Include="Inventory\IInventoryItem.cs" />
     <Compile Include="Inventory\IItemOwner.cs" />
+    <Compile Include="Inventory\IItemUseFinderController.cs" />
+    <Compile Include="Inventory\IItemUseTrigger.cs" />
     <Compile Include="Management\ICheckpoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\IUiController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

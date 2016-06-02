@@ -1,5 +1,4 @@
 ﻿using CommonInterfaces.Inventory;
-using InventorySystem.ItemCallbacks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using UnityEngine;
 
 namespace InventorySystem.InventoryObjects
 {
-    public class InventoryItem : ScriptableObject, IInventoryItem
+    public abstract class InventoryItem : ScriptableObject, IInventoryItem
     {
         [SerializeField]
         private string _name;
@@ -21,8 +20,6 @@ namespace InventorySystem.InventoryObjects
         [TextArea]
         public string description;
         public bool removeOnUse;
-
-        public InventoryItemUse itemUse;
 
         public string Id
         {
@@ -54,9 +51,7 @@ namespace InventorySystem.InventoryObjects
             maximumStack = 1;
         }
 
-        public bool UseItem()
-        {
-            return itemUse.Use(Owner, this);
-        }
+        public abstract bool CanUse();
+        public abstract void UseItem();
     }
 }

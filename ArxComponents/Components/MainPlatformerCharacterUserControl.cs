@@ -1,4 +1,5 @@
-﻿using CommonInterfaces.Controllers;
+﻿using ArxGame.UI;
+using CommonInterfaces.Controllers;
 using CommonInterfaces.Inventory;
 using GenericComponents.UserControls;
 using InventorySystem;
@@ -16,11 +17,13 @@ namespace ArxGame.Components
     [RequireComponent(typeof(ItemFinderController))]
     [RequireComponent(typeof(InventoryComponent))]
     [RequireComponent(typeof(QuestLogComponent))]
+    [RequireComponent(typeof(UiController))]
     public class MainPlatformerCharacterUserControl : PlatformerCharacterUserControl, IQuestSubscriber, IItemOwner, IPlayerControl
     {
         private ItemFinderController _itemFinderController;
         private InventoryComponent _inventoryComponent;
         private QuestLogComponent _questLogComponent;
+        private UiController _uiController;
 
         public event OnInventoryAdd OnInventoryItemAdd;
         public event OnInventoryRemove OnInventoryItemRemove;
@@ -39,6 +42,30 @@ namespace ArxGame.Components
         public bool HasQuest(Quest quest)
         {
             throw new NotImplementedException();
+        }
+
+        void Start()
+        {
+            _itemFinderController = GetComponent<ItemFinderController>();
+            _inventoryComponent = GetComponent<InventoryComponent>();
+            _questLogComponent = GetComponent<QuestLogComponent>();
+            _uiController = GetComponent<UiController>();
+
+            _itemFinderController.OnInventoryItemFound += OnInventoryItemFoundHandler;
+        }
+
+        void LateUpdate()
+        {
+            if (!Input.GetButtonDown("InGameMenu"))
+            {
+                return;
+            }
+            _uiController.Toggle();
+        }
+
+        private void OnInventoryItemFoundHandler(IInventoryItem item)
+        {
+            _inventoryComponent.Inventory.AddItem(item);
         }
     }
 }

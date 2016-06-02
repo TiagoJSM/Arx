@@ -54,6 +54,7 @@
     <Compile Include="Components\MainPlatformerCharacterUserControl.cs" />
     <Compile Include="Components\SequencePlatformerCharacterControl.cs" />
     <Compile Include="Components\TextAlphaMinimumValueTransition.cs" />
+    <Compile Include="Components\UiController.cs" />
     <Compile Include="GameSave\ArxGameSaveHandler.cs" />
     <Compile Include="GameSave\ArxSaveData.cs" />
     <Compile Include="GameSave\DreamingBeyondImaginationSaveData.cs" />

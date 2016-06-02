@@ -45,15 +45,14 @@
     <Compile Include="Controllers\ItemFinderController.cs" />
     <Compile Include="Controllers\ItemUseFinderController.cs" />
     <Compile Include="Events.cs" />
-    <Compile Include="IItemUseTrigger.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="InventoryComponent.cs" />
-    <Compile Include="ItemCallbacks\InventoryItemUse.cs" />
-    <Compile Include="ItemCallbacks\RunTriggerUse.cs" />
+    <Compile Include="InventoryItemPickable.cs" />
+    <Compile Include="InventoryObjects\QuestInventoryItem.cs" />
     <Compile Include="InventoryObjects\ExtendedInventoryItem.cs" />
     <Compile Include="InventoryObjects\InventoryItem.cs" />
     <Compile Include="InventoryObjects\InventoryItems.cs" />
-    <Compile Include="ItemUseTrigger.cs" />
+    <Compile Include="Triggers\ItemUseTrigger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

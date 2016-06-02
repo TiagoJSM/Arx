@@ -14,9 +14,9 @@ namespace InventorySystem.InventoryObjects
         Note
     }
 
-    public class ExtendedInventoryItem : InventoryItem
+    public abstract class ExtendedInventoryItem : InventoryItem
     {
         public Texture2D icon;
-        public InventoryItemType ItemType;
+        public abstract InventoryItemType ItemType { get; }
     }
 }

@@ -24,7 +24,8 @@ namespace ArxGame.UI
             if (toggle)
             {
                 SetSection(inventorySection);
-                inventorySection.GetComponent<InventorySectionManager>().InventoryComponent = inventoryComponent;
+                _currentSection.GetComponent<InventorySectionManager>().Initialize(inventoryComponent);
+                //_currentSection.GetComponent<InventorySectionManager>().InventoryComponent = inventoryComponent;
             }
         }
 
