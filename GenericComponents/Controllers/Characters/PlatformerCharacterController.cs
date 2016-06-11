@@ -109,6 +109,9 @@ namespace GenericComponents.Controllers.Characters
             _characterAnimations = new PlatformerCharacterAnimationPlayable(
                 new PlatformerCharacterStateAnimationPlayable(_stateManager, animations, rollingDuration));
             _animator.Play(_characterAnimations);
+            //var cross = new CrossFadePlayable();
+            //cross.Play(new AnimationClipPlayable(animations.runningAnimation));
+            //_animator.Play(cross);
         }
 
         void FixedUpdate()

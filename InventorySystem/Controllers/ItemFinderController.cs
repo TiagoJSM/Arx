@@ -21,6 +21,7 @@ namespace InventorySystem.Controllers
             if(OnInventoryItemFound != null)
             {
                 OnInventoryItemFound(itemPickable.item);
+                itemPickable.PickUp();
             }
         }
     }

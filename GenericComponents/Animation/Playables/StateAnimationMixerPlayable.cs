@@ -1,6 +1,7 @@
 ﻿using GenericComponents.Interfaces;
 using GenericComponents.Interfaces.States;
 using GenericComponents.StateMachine;
+using GenericComponents.StateMachine.States.PlatformerCharacter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using UnityEngine.Experimental.Director;
 
 namespace GenericComponents.Animation.Playables
 {
-    public class StateAnimationMixerPlayable<TController, TAction> : AnimationMixerPlayable
+    public class StateAnimationMixerPlayable<TController, TAction> : AnimationPlayable
     {
         private const float TransitionTime = 0.3f;
         private const float TransitionStartFirstWeight = 0.99f;

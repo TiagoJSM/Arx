@@ -14,7 +14,7 @@ namespace Parallax
 
         public ParallaxLayer[] parallaxLayers;
 
-        void Update()
+        void LateUpdate()
         {
             var camera = Camera.main;
             if (camera == null)

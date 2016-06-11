@@ -10,6 +10,12 @@ using System.Collections;
 
 namespace _2DDynamicCamera
 {
+    public enum UpdateMode
+    {
+        FixedUpdate,
+        LateUpdate
+    }
+
     [RequireComponent(typeof(Camera))]
     public class DynamicCamera : MonoBehaviour
     {
@@ -28,6 +34,7 @@ namespace _2DDynamicCamera
         [Range(0, float.MaxValue)]
         public float yBounds;
         public Vector2 offset;
+        public UpdateMode updateMode;
 
         [SerializeField]
         private Transform _owner;
@@ -149,8 +156,43 @@ namespace _2DDynamicCamera
             }
         }
 
-        // Update is called once per frame
         private void FixedUpdate()
+        {
+            if (updateMode == UpdateMode.FixedUpdate)
+            {
+                CameraUpdate();
+            }
+        }
+
+        private void LateUpdate()
+        {
+            if(updateMode == UpdateMode.LateUpdate)
+            {
+                CameraUpdate();
+            }
+        }
+
+        public IEnumerator ZoomOverTime(float damping, float targetZoom)
+        {
+            var currentZoom = _camera.orthographicSize;
+            var currentZoomVelocity = 0.0f;
+
+            while (true)
+            {
+                if (FloatUtils.IsApproximately(currentZoom, targetZoom, _zoomThreshold))
+                {
+                    _camera.orthographicSize = targetZoom;
+                    yield break;
+                }
+
+                currentZoom = Mathf.SmoothDamp(currentZoom, targetZoom, ref currentZoomVelocity, damping);
+                _camera.orthographicSize = currentZoom;
+
+                yield return null;
+            }
+        }
+
+        private void CameraUpdate()
         {
             Vector3 targetPosition = TargetPosition;
             var cameraPositionRelative = transform.position - targetPosition;
@@ -179,26 +221,6 @@ namespace _2DDynamicCamera
             cameraPosition.z = _cachedOffsetZ;
 
             transform.position = cameraPosition;
-        }
-
-        public IEnumerator ZoomOverTime(float damping, float targetZoom)
-        {
-            var currentZoom = _camera.orthographicSize;
-            var currentZoomVelocity = 0.0f;
-
-            while (true)
-            {
-                if (FloatUtils.IsApproximately(currentZoom, targetZoom, _zoomThreshold))
-                {
-                    _camera.orthographicSize = targetZoom;
-                    yield break;
-                }
-
-                currentZoom = Mathf.SmoothDamp(currentZoom, targetZoom, ref currentZoomVelocity, damping);
-                _camera.orthographicSize = currentZoom;
-
-                yield return null;
-            }
         }
 
         private void StartZoomCoroutine(float damping, float targetZoom)

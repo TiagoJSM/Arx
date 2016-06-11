@@ -9,6 +9,14 @@ namespace InventorySystem
 {
     public class InventoryItemPickable : MonoBehaviour
     {
+        [SerializeField]
+        private GameObject _rootObject;
+
         public InventoryItem item;
+
+        public void PickUp()
+        {
+            Destroy(_rootObject);
+        }
     }
 }

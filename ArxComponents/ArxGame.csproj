@@ -63,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachine\NightmareHunterGateAiStateManager.cs" />
     <Compile Include="Triggers\PlaySequenceTrigger.cs" />
+    <Compile Include="UI\HudManager.cs" />
     <Compile Include="UI\InventoryItemManager.cs" />
     <Compile Include="UI\InventoryListManager.cs" />
     <Compile Include="UI\InventorySectionManager.cs" />

@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 
 namespace GenericComponents.Behaviours
-{
+{    
     public class PlayAudio : MonoBehaviour
     {
         public AudioClip sound;
@@ -15,6 +15,11 @@ namespace GenericComponents.Behaviours
         public void Play()
         {
             AudioSource.PlayClipAtPoint(sound, this.transform.position, volume);
+        }
+
+        public void PlayClip(AudioClip clip)
+        {
+            AudioSource.PlayClipAtPoint(clip, this.transform.position, volume);
         }
     }
 }

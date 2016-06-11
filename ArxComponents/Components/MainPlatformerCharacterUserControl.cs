@@ -24,6 +24,9 @@ namespace ArxGame.Components
         private InventoryComponent _inventoryComponent;
         private QuestLogComponent _questLogComponent;
         private UiController _uiController;
+        private HudManager _hud;
+
+        public GameObject HudPrefab;
 
         public event OnInventoryAdd OnInventoryItemAdd;
         public event OnInventoryRemove OnInventoryItemRemove;
@@ -52,6 +55,7 @@ namespace ArxGame.Components
             _uiController = GetComponent<UiController>();
 
             _itemFinderController.OnInventoryItemFound += OnInventoryItemFoundHandler;
+            _hud = Instantiate(HudPrefab).GetComponent<HudManager>();
         }
 
         void LateUpdate()
@@ -66,6 +70,11 @@ namespace ArxGame.Components
         private void OnInventoryItemFoundHandler(IInventoryItem item)
         {
             _inventoryComponent.Inventory.AddItem(item);
+            _hud.Toast("Item found: " + item.Name, _hud.Short);
+            if (OnInventoryItemAdd != null)
+            {
+                OnInventoryItemAdd(item);
+            }
         }
     }
 }

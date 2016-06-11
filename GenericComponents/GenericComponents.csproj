@@ -46,12 +46,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation\Playables\CrossFadePlayable.cs" />
     <Compile Include="Animation\Playables\PlatformerCharacterAnimationPlayable.cs" />
     <Compile Include="Animation\Playables\StateAnimationMixerPlayable.cs" />
     <Compile Include="Behaviours\AnimationDelay.cs" />
+    <Compile Include="Behaviours\CloneSpriteMaterial.cs" />
     <Compile Include="Behaviours\EnableTrigger.cs" />
     <Compile Include="Behaviours\FootstepPlayer.cs" />
     <Compile Include="Behaviours\GroundComponent.cs" />
+    <Compile Include="Behaviours\HighlightTrigger.cs" />
     <Compile Include="Behaviours\NodePathBehaviour.cs" />
     <Compile Include="Behaviours\PlayAudio.cs" />
     <Compile Include="Behaviours\PlayAudios.cs" />
@@ -97,6 +100,7 @@
     <Compile Include="StateMachine\StateTransition.cs" />
     <Compile Include="StateMachine\TransitionConfiguration.cs" />
     <Compile Include="TeleporterSpawner.cs" />
+    <Compile Include="UI\CloneUiTextMaterial.cs" />
     <Compile Include="UserControls\PlatformerAICharacterControl.cs" />
     <Compile Include="UserControls\PlatformerCharacterUserControl.cs" />
     <Compile Include="Waypoint\WaypointPath.cs" />
@@ -124,9 +128,7 @@
       <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"$(SolutionDir)..\copydlls.bat" "$(TargetDir)" "$(TargetName)" "Arx\Assets\"</PostBuildEvent>

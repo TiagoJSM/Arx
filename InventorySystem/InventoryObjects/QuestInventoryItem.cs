@@ -1,4 +1,5 @@
 ﻿using CommonInterfaces.Inventory;
+using CommonInterfaces.UI;
 using InventorySystem.Controllers;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace InventorySystem.InventoryObjects
 
         public override void UseItem()
         {
+            var uiController = Owner.GetComponent<IUiController>();
+            uiController.TurnOff();
             var trigger = GetItemUseTrigger();
             if(trigger!= null)
             {
