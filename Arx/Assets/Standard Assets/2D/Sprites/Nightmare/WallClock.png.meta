@@ -1,0 +1,210 @@
+fileFormatVersion: 2
+guid: 7592d2231cd0f1745a6f748b47da0606
+timeCreated: 1465724604
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: WallClock_0
+    21300002: WallClock_1
+    21300004: WallClock_2
+    21300006: WallClock_3
+    21300008: WallClock_4
+    21300010: WallClock_5
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: WallClock_0
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 222
+        width: 337
+        height: 282
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 109.5, y: -111}
+        - {x: 117.5, y: -105}
+        - {x: 139.5, y: -85}
+        - {x: 157.5, y: -62}
+        - {x: 168.5, y: -31}
+        - {x: 168.5, y: 33}
+        - {x: 158.5, y: 62}
+        - {x: 124.5, y: 102}
+        - {x: 103.5, y: 116}
+        - {x: 68.5, y: 134}
+        - {x: 36.5, y: 141}
+        - {x: -34.5, y: 141}
+        - {x: -62.5, y: 136}
+        - {x: -92.5, y: 124}
+        - {x: -124.5, y: 101}
+        - {x: -138.5, y: 85}
+        - {x: -156.5, y: 61}
+        - {x: -168.5, y: 34}
+        - {x: -168.5, y: -29}
+        - {x: -165.5, y: -41}
+        - {x: -155.5, y: -61}
+        - {x: -147.5, y: -75}
+        - {x: -123.5, y: -101}
+        - {x: -103.5, y: -116}
+        - {x: -68.5, y: -134}
+        - {x: -36.5, y: -141}
+        - {x: 33.5, y: -141}
+        - {x: 56.5, y: -137}
+        - {x: 85.5, y: -126}
+        - {x: 103.5, y: -115}
+    - name: WallClock_1
+      rect:
+        serializedVersion: 2
+        x: 574
+        y: 13
+        width: 442
+        height: 269
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 174, y: -123.5}
+        - {x: 208, y: -134.5}
+        - {x: 221, y: -134.5}
+        - {x: 221, y: -128.5}
+        - {x: 175, y: -96.5}
+        - {x: 117, y: 10.5}
+        - {x: 104, y: 77.5}
+        - {x: 105, y: 121.5}
+        - {x: 104, y: 124.5}
+        - {x: -20, y: 116.5}
+        - {x: -53, y: 130.5}
+        - {x: -65, y: 130.5}
+        - {x: -67, y: 129.5}
+        - {x: -107, y: 121.5}
+        - {x: -106, y: 76.5}
+        - {x: -117, y: 13.5}
+        - {x: -133, y: -32.5}
+        - {x: -205, y: -121.5}
+        - {x: -221, y: -130.5}
+        - {x: -221, y: -134.5}
+        - {x: -209, y: -134.5}
+        - {x: -177, y: -128.5}
+        - {x: -108, y: -118.5}
+        - {x: -50, y: -120.5}
+        - {x: 108, y: -118.5}
+    - name: WallClock_2
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 312
+        width: 142
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 68, y: 95}
+        - {x: 44, y: 95}
+        - {x: -2, y: 86}
+        - {x: -55, y: 95}
+        - {x: -71, y: 95}
+        - {x: -71, y: -95}
+        - {x: 70, y: -95}
+        - {x: 71, y: -70}
+        - {x: 71, y: 92}
+    - name: WallClock_3
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 15
+        width: 55
+        height: 274
+      alignment: 9
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 6.5, y: 0}
+        - {x: -12.5, y: 0}
+        - {x: -27.5, y: -88}
+        - {x: -27.5, y: -274}
+        - {x: 24.5, y: -274}
+        - {x: 27.5, y: -266}
+        - {x: 27.5, y: -141}
+        - {x: 9.5, y: -6}
+    - name: WallClock_4
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 95
+        width: 52
+        height: 31
+      alignment: 9
+      pivot: {x: 0.0069744405, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: WallClock_5
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 56
+        width: 96
+        height: 32
+      alignment: 9
+      pivot: {x: 0.013234775, y: 0.4829836}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 76.72946, y: 16.544525}
+        - {x: 75.72946, y: 14.544525}
+        - {x: -1.2705383, y: 7.544525}
+        - {x: -1.2705383, y: -7.455475}
+        - {x: 46.72946, y: -15.455475}
+        - {x: 88.72946, y: -15.455475}
+        - {x: 94.72946, y: -6.455475}
+        - {x: 94.72946, y: 10.544525}
+        - {x: 85.72946, y: 16.544525}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

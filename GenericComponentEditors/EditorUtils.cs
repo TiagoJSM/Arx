@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using UnityEditorInternal;
 
-namespace Utils
+namespace GenericComponentEditors
 {
     public static class EditorUtils
     {

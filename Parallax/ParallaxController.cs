@@ -14,6 +14,12 @@ namespace Parallax
 
         public ParallaxLayer[] parallaxLayers;
 
+        void Awake()
+        {
+            var camera = Camera.main;
+            _previousPosition = camera.transform.position;
+        }
+
         void LateUpdate()
         {
             var camera = Camera.main;

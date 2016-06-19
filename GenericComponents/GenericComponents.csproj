@@ -56,6 +56,7 @@
     <Compile Include="Behaviours\GroundComponent.cs" />
     <Compile Include="Behaviours\HighlightTrigger.cs" />
     <Compile Include="Behaviours\NodePathBehaviour.cs" />
+    <Compile Include="Behaviours\PlayAnimation.cs" />
     <Compile Include="Behaviours\PlayAudio.cs" />
     <Compile Include="Behaviours\PlayAudios.cs" />
     <Compile Include="Builders\BuilderDataContext.cs" />

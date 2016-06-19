@@ -36,10 +36,6 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEditor, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Arx\Library\UnityAssemblies\UnityEditor.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Arx\Library\UnityAssemblies\UnityEngine.dll</HintPath>
@@ -54,7 +50,6 @@
     <Compile Include="DataStructures\Edge.cs" />
     <Compile Include="DataStructures\Polygon2D.cs" />
     <Compile Include="DataStructures\Triangle.cs" />
-    <Compile Include="EditorUtils.cs" />
     <Compile Include="IntrospectionUtils.cs" />
     <Compile Include="MovementUtils.cs" />
     <Compile Include="ObjectUtils.cs" />
