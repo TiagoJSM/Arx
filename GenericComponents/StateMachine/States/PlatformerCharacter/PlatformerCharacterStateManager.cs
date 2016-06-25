@@ -1,4 +1,5 @@
-﻿using GenericComponents.Interfaces.States.PlatformerCharacter;
+﻿using GenericComponents.Enums;
+using GenericComponents.Interfaces.States.PlatformerCharacter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,8 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
                     .To<MovingState>((c, a, t) => a.Move != 0 && c.IsGrounded)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
-                    .To<DuckState>((c, a, t) => a.Vertical < 0 && c.IsGrounded);
+                    .To<DuckState>((c, a, t) => a.Vertical < 0 && c.IsGrounded)
+                    .To<LightAttackGroundState>((c, a, t) => a.AttackType == AttackType.Light);
 
             this
                 .From<JumpingState>()
@@ -54,6 +56,14 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
                    .To<DuckState>((c, a, t) => c.IsGrounded && a.Move == 0 && (a.Vertical < 0 || !c.CanStand) && t > rollingDuration)
                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration && c.CanStand)
                    .To<RollState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > rollingDuration);
+
+            this
+                .From<LightAttackGroundState>()
+                    .To<LightAttackGroundState>((c, a, t) => 
+                        a.AttackType == AttackType.Light && c.IsCurrentAnimationOver)
+                    .To<IddleState>((c, a, t) => 
+                        c.IsGrounded && a.Move == 0 && c.IsCurrentAnimationOver)
+                    .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && c.IsCurrentAnimationOver);
         }
     }
 }

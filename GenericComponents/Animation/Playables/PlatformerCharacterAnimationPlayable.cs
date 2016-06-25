@@ -46,30 +46,95 @@ namespace GenericComponents.Animation.Playables
         }
     }
 
-    public class PlatformerCharacterStateAnimationPlayable : 
-        StateAnimationMixerPlayable<IPlatformerCharacterController, PlatformerCharacterAction>
+    public class PlatformerCharacterState
+    {
+        public Type StateType { get; set; }
+        public int? ComboNumber { get; set; }
+
+        public PlatformerCharacterState() { }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as PlatformerCharacterState;
+            if(other == null)
+            {
+                return false;
+            }
+            if (StateType != other.StateType)
+            {
+                return false;
+            }
+            if(ComboNumber == null || other.ComboNumber == null)
+            {
+                return true;
+            }
+            return ComboNumber == other.ComboNumber;
+        }
+
+        public override int GetHashCode()
+        {
+            return StateType != null ? StateType.GetHashCode() : 0;
+        }
+    }
+
+    public class PlatformerCharacterStateAnimationPlayable : StateAnimationMixerPlayable<PlatformerCharacterState>
     {
         private PlatformerCharacterAnimations _animations;
+        private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
 
         public PlatformerCharacterStateAnimationPlayable(
             StateManager<IPlatformerCharacterController, PlatformerCharacterAction> stateManager,
             PlatformerCharacterAnimations animations,
             float rollingDuration)
-            : base(stateManager)
+            : base()
         {
             _animations = animations;
+            _stateManager = stateManager;
 
             var rollingPlayable = new AnimationClipPlayable(_animations.rollingAnimation);
             var time = rollingDuration / rollingPlayable.clip.length;
             rollingPlayable.speed = 1 / time;
             
-            Assign<IddleState>(new AnimationClipPlayable(_animations.iddleAnimation));
-            Assign<MovingState>(new AnimationClipPlayable(_animations.runningAnimation));
-            Assign<JumpingState>(new AnimationClipPlayable(_animations.jumpingAnimation));
-            Assign<FallingState>(new AnimationClipPlayable(_animations.fallingAnimation));
-            Assign<GrabbingLedgeState>(new AnimationClipPlayable(_animations.grabbingAnimation));
-            Assign<DuckState>(new AnimationClipPlayable(_animations.duckAnimation));
-            Assign<RollState>(rollingPlayable);
+            Assign(
+                new PlatformerCharacterState() { StateType = typeof(IddleState) }, 
+                new AnimationClipPlayable(_animations.iddleAnimation));
+            Assign(
+                new PlatformerCharacterState() { StateType = typeof(MovingState) }, 
+                new AnimationClipPlayable(_animations.runningAnimation));
+            Assign(
+                new PlatformerCharacterState() { StateType = typeof(JumpingState) }, 
+                new AnimationClipPlayable(_animations.jumpingAnimation));
+            Assign(
+                new PlatformerCharacterState() { StateType = typeof(FallingState) }, 
+                new AnimationClipPlayable(_animations.fallingAnimation));
+            Assign(
+                new PlatformerCharacterState() { StateType = typeof(GrabbingLedgeState) }, 
+                new AnimationClipPlayable(_animations.grabbingAnimation));
+            Assign(
+                new PlatformerCharacterState() { StateType = typeof(DuckState) }, 
+                new AnimationClipPlayable(_animations.duckAnimation));
+            Assign(
+                new PlatformerCharacterState() { StateType = typeof(RollState) }, 
+                rollingPlayable);
+            Assign(
+                new PlatformerCharacterState() { StateType = typeof(LightAttackGroundState), ComboNumber = 1 },
+                new AnimationClipPlayable(_animations.lightAttack1));
+            Assign(
+                new PlatformerCharacterState() { StateType = typeof(LightAttackGroundState), ComboNumber = 2 },
+                new AnimationClipPlayable(_animations.lightAttack2));
+            Assign(
+                new PlatformerCharacterState() { StateType = typeof(LightAttackGroundState), ComboNumber = 3 },
+                new AnimationClipPlayable(_animations.lightAttack3));
+        }
+
+        protected override PlatformerCharacterState GetState()
+        {
+            var currentState = _stateManager.CurrentState;
+            return new PlatformerCharacterState()
+            {
+                StateType = currentState == null ? default(Type) : currentState.GetType(),
+                ComboNumber = _stateManager.Controller.ComboNumber
+            };
         }
     }
 }

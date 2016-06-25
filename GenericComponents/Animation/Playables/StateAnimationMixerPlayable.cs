@@ -10,38 +10,62 @@ using UnityEngine.Experimental.Director;
 
 namespace GenericComponents.Animation.Playables
 {
-    public class StateAnimationMixerPlayable<TController, TAction> : AnimationMixerPlayable
+    public abstract class StateAnimationMixerPlayable<TState> : AnimationMixerPlayable
     {
         private const float TransitionTime = 0.3f;
         private const float TransitionStartFirstWeight = 0.99f;
         private const float TransitionStartSecondWeight = 0.01f;
 
-        private IState<TController, TAction> _currentState;
-        private StateManager<TController, TAction> _stateManager;
-        private Dictionary<Type, AnimationPlayable> _animationPlayablesByState;
+        private TState _currentState;
+        //private StateManager<TController, TAction> _stateManager;
+        private Dictionary<TState, AnimationClipPlayable> _animationPlayablesByState;
 
-        private AnimationPlayable _currentAnimation;
+        private AnimationClipPlayable _currentAnimation;
 
-        private IState<TController, TAction> State
+        public float NormalizedTime
         {
             get
             {
+                return (float)_currentAnimation.time / _currentAnimation.clip.length;
+            }
+        }
+
+        public float TimeToFinish
+        {
+            get
+            {
+                return _currentAnimation.clip.length - (float)_currentAnimation.time;
+            }
+        }
+
+        public bool CurrentAnimationIsOver
+        {
+            get
+            {
+                return _currentAnimation.time > _currentAnimation.clip.length;
+            }
+        }
+
+        private TState State
+        {
+            get
+            {
+                var state = GetState();
                 if (_currentState == null)
                 {
-                    _currentState = _stateManager.CurrentState;
+                    _currentState = state;
                 }
-                if (_currentState != _stateManager.CurrentState)
+                if (!_currentState.Equals(state))
                 {
-                    _currentState = _stateManager.CurrentState;
+                    _currentState = state;
                 }
                 return _currentState;
             }
         }
 
-        public StateAnimationMixerPlayable(StateManager<TController, TAction> stateManager)
+        public StateAnimationMixerPlayable()
         {
-            _animationPlayablesByState = new Dictionary<Type, AnimationPlayable>();
-            _stateManager = stateManager;
+            _animationPlayablesByState = new Dictionary<TState, AnimationClipPlayable>();
         }
 
         public override void PrepareFrame(FrameData info)
@@ -97,8 +121,9 @@ namespace GenericComponents.Animation.Playables
                 return;
             }
             var previousAnimation = _currentAnimation;
-            if (!_animationPlayablesByState.TryGetValue(state.GetType(), out _currentAnimation))
+            if (!_animationPlayablesByState.TryGetValue(state, out _currentAnimation))
             {
+                _animationPlayablesByState.TryGetValue(state, out _currentAnimation);
                 return;
             }
             _currentAnimation.time = 0;
@@ -115,14 +140,19 @@ namespace GenericComponents.Animation.Playables
             }
         }
 
-        public void Assign<TState>(AnimationPlayable animationPlayable) where TState : IState<TController, TAction>
+        public void Assign(TState state, AnimationClipPlayable animationPlayable)
         {
-            _animationPlayablesByState.Add(typeof(TState), animationPlayable);
+            _animationPlayablesByState.Add(state, animationPlayable);
         }
 
         private bool StateChanged()
         {
-            return _currentState != _stateManager.CurrentState;
+            var state = GetState();
+            if(state == null)
+            {
+                return false;
+            }
+            return !GetState().Equals(_currentState);
         }
 
         private bool InTransition()
@@ -133,5 +163,7 @@ namespace GenericComponents.Animation.Playables
             }
             return false;
         }
+
+        protected abstract TState GetState();
     }
 }

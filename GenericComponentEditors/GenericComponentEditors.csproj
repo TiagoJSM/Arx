@@ -50,6 +50,7 @@
     <Compile Include="MeshRendererSortingLayersEditor.cs" />
     <Compile Include="NodePathEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyDrawers\HealthPropertyDrawer.cs" />
     <Compile Include="Waypoint\WaypointPathEditor.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +75,7 @@
       <Name>CommonEditors</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"$(SolutionDir)..\copydlls.bat" "$(TargetDir)" "$(TargetName)" "Arx\Assets\Editor\"</PostBuildEvent>

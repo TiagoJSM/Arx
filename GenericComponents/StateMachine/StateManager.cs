@@ -17,6 +17,14 @@ namespace GenericComponents.StateMachine
 
         private Dictionary<Type, StateContainer<TController, TAction>> _states;
 
+        public TController Controller
+        {
+            get
+            {
+                return _controller;
+            }
+        }
+
         public IState<TController, TAction> CurrentState
         {
             get

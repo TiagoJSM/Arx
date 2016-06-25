@@ -18,5 +18,8 @@ namespace GenericComponents.Containers
         public AnimationClip jumpingAnimation;
         public AnimationClip grabbingAnimation;
         public AnimationClip fallingAnimation;
+        public AnimationClip lightAttack1;
+        public AnimationClip lightAttack2;
+        public AnimationClip lightAttack3;
     }
 }

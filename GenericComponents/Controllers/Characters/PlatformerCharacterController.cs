@@ -1,7 +1,9 @@
 ﻿using CommonInterfaces.Enums;
+using Extensions;
 using GenericComponents.Animation.Playables;
 using GenericComponents.Containers;
 using GenericComponents.Controllers.Interaction.Environment;
+using GenericComponents.Enums;
 using GenericComponents.Interfaces.States.PlatformerCharacter;
 using GenericComponents.StateMachine;
 using GenericComponents.StateMachine.States.PlatformerCharacter;
@@ -14,15 +16,22 @@ using UnityEngine.Experimental.Director;
 
 namespace GenericComponents.Controllers.Characters
 {
+    [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(LedgeChecker))]
     [RequireComponent(typeof(RoofChecker))]
     public class PlatformerCharacterController : BasePlatformerController, IPlatformerCharacterController
     {
+        private const int MAX_COMBOS = 3;
+        private const int COMBO_START = 1;
+
         private bool _grabbingLedge = false;
         [SerializeField]
         private Direction _direction;
         private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
         private PlatformerCharacterAnimationPlayable _characterAnimations;
+        private AttackType? _comboType;
+        private int _comboNumber;
+        private PlatformerCharacterStateAnimationPlayable _statePlayable;
 
         private LedgeChecker _ledgeChecker;
         private RoofChecker _roofChecker;
@@ -36,6 +45,7 @@ namespace GenericComponents.Controllers.Characters
         private float _move;
         private float _vertical;
         private bool _jump;
+        private AttackType _attackAction;
 
         public float groundMovementForce = 2f;
         public float airMovementForce = 1f;
@@ -98,6 +108,22 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
+        public bool IsCurrentAnimationOver
+        {
+            get
+            {
+                return _statePlayable.NormalizedTime >= 1;
+            }
+        }
+
+        public int ComboNumber
+        {
+            get
+            {
+                return _comboNumber;
+            }
+        }
+
         void Start()
         {
             _animator = GetComponent<Animator>();
@@ -106,8 +132,9 @@ namespace GenericComponents.Controllers.Characters
             _ledgeChecker = GetComponent<LedgeChecker>();
             _roofChecker = GetComponent<RoofChecker>();
             _stateManager = new PlatformerCharacterStateManager(this, rollingDuration);
-            _characterAnimations = new PlatformerCharacterAnimationPlayable(
-                new PlatformerCharacterStateAnimationPlayable(_stateManager, animations, rollingDuration));
+            _statePlayable = new PlatformerCharacterStateAnimationPlayable(_stateManager, animations, rollingDuration);
+            _characterAnimations = new PlatformerCharacterAnimationPlayable(_statePlayable);
+            
             _animator.Play(_characterAnimations);
             //var cross = new CrossFadePlayable();
             //cross.Play(new AnimationClipPlayable(animations.runningAnimation));
@@ -121,11 +148,12 @@ namespace GenericComponents.Controllers.Characters
             LedgeDetected(ledgeDetected, collider);
             IsGrounded = CheckGrounded();
             CanStand = !_roofChecker.IsTouchingRoof;
-            var action = new PlatformerCharacterAction(_move, _vertical, _jump);
+            var action = new PlatformerCharacterAction(_move, _vertical, _jump, _attackAction);
             _stateManager.Perform(action);
             _move = 0;
             _vertical = 0;
             _jump = false;
+            //_attackAction = AttackType.None;
             //ToDo, this seems wrong
             //check https://vonlehecreative.wordpress.com/2010/02/02/unity-resource-velocitylimiter/
             var currentMaxSpeed = IsGrounded ? maxRunSpeed : airMaxSpeed;
@@ -137,6 +165,20 @@ namespace GenericComponents.Controllers.Characters
             _move = move;
             _vertical = vertical;
             _jump = jump;
+        }
+
+        public void LightAttack()
+        {
+            _attackAction = AttackType.Light;
+            //if(_statePlayable.TimeToFinish < 1)
+            //{
+            //    _attackAction = AttackType.Light;
+            //}
+        }
+
+        public void StrongAttack()
+        {
+            _attackAction = AttackType.Strong;
         }
 
         public void LedgeDetected(bool detected, Collider2D ledgeCollider)
@@ -198,6 +240,7 @@ namespace GenericComponents.Controllers.Characters
 
         public void Duck()
         {
+            _comboNumber = 0;
             foreach(var duckCollider in duckingColliders)
             {
                 duckCollider.enabled = true;
@@ -210,6 +253,7 @@ namespace GenericComponents.Controllers.Characters
 
         public void Stand()
         {
+            _comboNumber = 0;
             foreach (var duckCollider in duckingColliders)
             {
                 duckCollider.enabled = false;
@@ -233,6 +277,16 @@ namespace GenericComponents.Controllers.Characters
             _rigidBody.velocity = new Vector2(direction * maxRollSpeed, _rigidBody.velocity.y);
         }
 
+        public void DoLightAttack()
+        {
+            DoAttack(AttackType.Light);
+        }
+
+        public void DoStrongAttack()
+        {
+            DoAttack(AttackType.Strong);
+        }
+
         public void PlayAnimation(AnimationClip animation)
         {
             _characterAnimations.PlayAnimationOverDefault(animation);
@@ -245,9 +299,47 @@ namespace GenericComponents.Controllers.Characters
             //_animator.Play(_characterAnimations);
         }
 
+        public void DealLightCombo1Damage()
+        {
+            Debug.Log("light combo 1 damage");
+        }
+
+        public void DealLightCombo2Damage()
+        {
+            Debug.Log("light combo 2 damage");
+        }
+
+        public void DealLightCombo3Damage()
+        {
+            Debug.Log("light combo 3 damage");
+        }
+
         void OnDrawGizmosSelected()
         {
             base.DrawGizmos();
+        }
+
+        private void DoAttack(AttackType attackType)
+        {
+            if(attackType == AttackType.None)
+            {
+                attackType = AttackType.None;
+                _comboNumber = 0;
+            }
+            else if (_comboType == AttackType.Strong)
+            {
+                _comboNumber++;
+                if (_comboNumber > MAX_COMBOS)
+                {
+                    _comboNumber = COMBO_START;
+                }
+            }
+            else
+            {
+                _comboType = AttackType.Strong;
+                _comboNumber = COMBO_START;
+            }
+            _attackAction = AttackType.None;
         }
     }
 }

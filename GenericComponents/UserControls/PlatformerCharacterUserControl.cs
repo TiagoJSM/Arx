@@ -41,6 +41,11 @@ namespace GenericComponents.UserControls
             // Pass all parameters to the character control script.
             _characterController.Move(horizontal, vertical, _jump);
             _jump = false;
+            if (Input.GetButtonDown("Fire1"))
+            {
+                _characterController.LightAttack();
+            }
+            
         }
     }
 }

@@ -61,6 +61,7 @@
     <Compile Include="Behaviours\PlayAudios.cs" />
     <Compile Include="Builders\BuilderDataContext.cs" />
     <Compile Include="Builders\SegmentBuilder.cs" />
+    <Compile Include="Containers\Health.cs" />
     <Compile Include="Containers\PlatformerCharacterAnimations.cs" />
     <Compile Include="Controllers\Characters\BasePlatformerController.cs" />
     <Compile Include="Controllers\Characters\PlatformerCharacterController.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Controllers\Interaction\InteractionZoneController.cs" />
     <Compile Include="Controllers\Interaction\SpeechController.cs" />
     <Compile Include="Controllers\Interaction\TemplateSpeechController.cs" />
+    <Compile Include="Enums\AttackType.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Factories\PlayerSpawner.cs" />
     <Compile Include="GroundMaterial.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachine\StateManager.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\DuckState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\LightAttackGroundState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\JumpingState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\PlatformerCharacterAction.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\BasePlatformerCharacterState.cs" />

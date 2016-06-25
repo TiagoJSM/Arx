@@ -12,6 +12,8 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         float VerticalSpeed { get; }
         bool GrabbingLedge { get; }
         bool CanStand { get; }
+        bool IsCurrentAnimationOver { get; }
+        int ComboNumber { get; }
 
         void DoMove(float move);
         void DoGrabLedge();
@@ -21,5 +23,7 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         void Stand();
         void StayStill();
         void Roll(float move);
+        void DoLightAttack();
+        void DoStrongAttack();
     }
 }

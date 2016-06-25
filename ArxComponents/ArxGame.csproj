@@ -51,10 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Ai\NightmareHunterGateLiftAiControl.cs" />
+    <Compile Include="Components\CharacterStatus.cs" />
+    <Compile Include="Components\EnemyControllers\BaseEnemyController.cs" />
+    <Compile Include="Components\EnemyControllers\DummyTargetController.cs" />
     <Compile Include="Components\MainPlatformerCharacterUserControl.cs" />
     <Compile Include="Components\SequencePlatformerCharacterControl.cs" />
     <Compile Include="Components\TextAlphaMinimumValueTransition.cs" />
     <Compile Include="Components\UiController.cs" />
+    <Compile Include="Components\Weapons\EnemyDetection.cs" />
     <Compile Include="GameSave\ArxGameSaveHandler.cs" />
     <Compile Include="GameSave\ArxSaveData.cs" />
     <Compile Include="GameSave\DreamingBeyondImaginationSaveData.cs" />
