@@ -14,6 +14,14 @@ namespace GenericComponents.UserControls
 
         public InteractionFinderController interactionController;
 
+        public PlatformerCharacterController PlatformerCharacterController
+        {
+            get
+            {
+                return _characterController;
+            }
+        }
+
         private void Awake()
         {
             _characterController = GetComponent<PlatformerCharacterController>();

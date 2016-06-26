@@ -20,6 +20,7 @@ namespace ArxGame.Components
     [RequireComponent(typeof(QuestLogComponent))]
     [RequireComponent(typeof(UiController))]
     [RequireComponent(typeof(CharacterStatus))]
+    [RequireComponent(typeof(EquipmentController))]
     public class MainPlatformerCharacterUserControl : PlatformerCharacterUserControl, IQuestSubscriber, IItemOwner, IPlayerControl, ICharacter
     {
         private ItemFinderController _itemFinderController;
@@ -27,11 +28,10 @@ namespace ArxGame.Components
         private QuestLogComponent _questLogComponent;
         private UiController _uiController;
         private CharacterStatus _characterStatus;
+        private EquipmentController _equipmentController;
         private HudManager _hud;
 
         public GameObject HudPrefab;
-        public EnemyDetection startingWeapon;
-        public GameObject weaponSocket;
 
         public bool CanBeAttacked
         {
@@ -90,11 +90,12 @@ namespace ArxGame.Components
             _inventoryComponent = GetComponent<InventoryComponent>();
             _questLogComponent = GetComponent<QuestLogComponent>();
             _characterStatus = GetComponent<CharacterStatus>();
+            _equipmentController = GetComponent<EquipmentController>();
             _uiController = GetComponent<UiController>();
 
             _itemFinderController.OnInventoryItemFound += OnInventoryItemFoundHandler;
             _hud = Instantiate(HudPrefab).GetComponent<HudManager>();
-            EquipWeapon(startingWeapon); ;
+            PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
         }
 
         void LateUpdate()
@@ -110,27 +111,12 @@ namespace ArxGame.Components
         {
             _inventoryComponent.Inventory.AddItem(item);
             _hud.Toast("Item found: " + item.Name, _hud.Short);
-            if (OnInventoryItemAdd != null)
-            {
-                OnInventoryItemAdd(item);
-            }
+            OnInventoryItemAdd?.Invoke(item);
         }
 
-        public bool Attack(ICharacter target, Vector3? hitPoint)
-        {
-            return target.Attacked(this, 10, hitPoint);
-        }
-
-        public bool Attacked(ICharacter attacker, int damage, Vector3? hitPoint)
+        public bool Attacked(GameObject attacker, int damage, Vector3? hitPoint)
         {
             return false;
-        }
-
-        public void EquipWeapon(EnemyDetection startingWeapon)
-        {
-            var weapon = Instantiate(startingWeapon);
-            weapon.Owner = this;
-            weapon.transform.SetParent(weaponSocket.transform, false);
         }
     }
 }

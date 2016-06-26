@@ -10,13 +10,14 @@ namespace GenericComponents.Controllers.Interaction.Environment
     public class LedgeChecker : MonoBehaviour
     {
         private Collider2D _ledge;
-        [SerializeField]
+        //[SerializeField]
         private List<Collider2D> _ledgeColliders;
-        [SerializeField]
+        //[SerializeField]
         private List<Collider2D> _freeSpaceColliders;
 
         public Collider2D ledgeDetector;
         public Collider2D freeSpaceDetector;
+        public LayerMask whatIsGround;
 
         void Start()
         {
@@ -24,13 +25,21 @@ namespace GenericComponents.Controllers.Interaction.Environment
             _freeSpaceColliders = new List<Collider2D>();
         }
 
+        void FixedUpdate()
+        {
+            if (_ledgeColliders.Any(c => c == null))
+            {
+                _ledgeColliders = _ledgeColliders.Where(c => c != null).ToList();
+            }
+            if (_freeSpaceColliders.Any(c => c == null))
+            {
+                _freeSpaceColliders = _freeSpaceColliders.Where(c => c != null).ToList();
+            }
+        }
+
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.isTrigger)
-            {
-                return;
-            }
-            if (ledgeDetector == null || freeSpaceDetector == null)
+            if (!IsValid(other))
             {
                 return;
             }
@@ -47,11 +56,7 @@ namespace GenericComponents.Controllers.Interaction.Environment
 
         void OnTriggerExit2D(Collider2D other)
         {
-            if (other.isTrigger)
-            {
-                return;
-            }
-            if (ledgeDetector == null || freeSpaceDetector == null)
+            if (!IsValid(other))
             {
                 return;
             }
@@ -74,6 +79,23 @@ namespace GenericComponents.Controllers.Interaction.Environment
                 return true;
             }
             return false;
+        }
+
+        private bool IsValid(Collider2D other)
+        {
+            if (other.isTrigger)
+            {
+                return false;
+            }
+            if (ledgeDetector == null || freeSpaceDetector == null)
+            {
+                return false;
+            }
+            if (!whatIsGround.IsInAnyLayer(other.gameObject))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

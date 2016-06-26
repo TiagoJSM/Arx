@@ -8,12 +8,15 @@ using Extensions;
 using Utils;
 using CommonInterfaces.Controls;
 using System.Collections;
+using GenericComponents.Controllers.AnimationControllers;
 
 namespace GenericComponents.UserControls
 {
     [RequireComponent(typeof(PlatformerCharacterController))]
+    [RequireComponent(typeof(PlatformerCharacterAnimationController))]
     public abstract class PlatformerAICharacterControl : MonoBehaviour, IPlatformerAICharacterControl
     {
+        private PlatformerCharacterAnimationController _animationController;
         private PlatformerCharacterController _characterController;
         private Vector2? _moveToPosition;
         private float _treshold;
@@ -23,6 +26,13 @@ namespace GenericComponents.UserControls
             get
             {
                 return _characterController;
+            }
+        }
+        protected PlatformerCharacterAnimationController AnimationController
+        {
+            get
+            {
+                return _animationController;
             }
         }
 
@@ -40,6 +50,7 @@ namespace GenericComponents.UserControls
         protected void PerformStart()
         {
             _characterController = GetComponent<PlatformerCharacterController>();
+            _animationController = GetComponent<PlatformerCharacterAnimationController>();
         }
 
         protected void PerformFixedUpdate()

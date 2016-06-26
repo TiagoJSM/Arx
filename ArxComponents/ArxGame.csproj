@@ -54,6 +54,7 @@
     <Compile Include="Components\CharacterStatus.cs" />
     <Compile Include="Components\EnemyControllers\BaseEnemyController.cs" />
     <Compile Include="Components\EnemyControllers\DummyTargetController.cs" />
+    <Compile Include="Components\EquipmentController.cs" />
     <Compile Include="Components\MainPlatformerCharacterUserControl.cs" />
     <Compile Include="Components\SequencePlatformerCharacterControl.cs" />
     <Compile Include="Components\TextAlphaMinimumValueTransition.cs" />

@@ -1,7 +1,9 @@
 ﻿using CommonInterfaces.Enums;
+using CommonInterfaces.Weapons;
 using Extensions;
 using GenericComponents.Animation.Playables;
 using GenericComponents.Containers;
+using GenericComponents.Controllers.AnimationControllers;
 using GenericComponents.Controllers.Interaction.Environment;
 using GenericComponents.Enums;
 using GenericComponents.Interfaces.States.PlatformerCharacter;
@@ -16,9 +18,9 @@ using UnityEngine.Experimental.Director;
 
 namespace GenericComponents.Controllers.Characters
 {
-    [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(LedgeChecker))]
     [RequireComponent(typeof(RoofChecker))]
+    [RequireComponent(typeof(PlatformerCharacterAnimationController))]
     public class PlatformerCharacterController : BasePlatformerController, IPlatformerCharacterController
     {
         private const int MAX_COMBOS = 3;
@@ -28,14 +30,12 @@ namespace GenericComponents.Controllers.Characters
         [SerializeField]
         private Direction _direction;
         private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
-        private PlatformerCharacterAnimationPlayable _characterAnimations;
         private AttackType? _comboType;
         private int _comboNumber;
-        private PlatformerCharacterStateAnimationPlayable _statePlayable;
 
+        private PlatformerCharacterAnimationController _animationController;
         private LedgeChecker _ledgeChecker;
         private RoofChecker _roofChecker;
-        private Animator _animator;
         private Rigidbody2D _rigidBody;
         private float _gravityScale;
         private Collider2D _detectedLedge;
@@ -55,7 +55,6 @@ namespace GenericComponents.Controllers.Characters
         public Collider2D[] standingColliders;
         public Collider2D[] duckingColliders;
         public float maxRollSpeed = 12.0f;
-        public float rollingDuration = 1;
 
         public Direction Direction
         { 
@@ -64,6 +63,8 @@ namespace GenericComponents.Controllers.Characters
                 return _direction;
             }
         }
+
+        public IWeapon Weapon { get; set; }
 
         private bool DetectingPreviousGrabbedLedge
         {
@@ -76,9 +77,6 @@ namespace GenericComponents.Controllers.Characters
                 return _lastGrabbedLedge == _detectedLedge;
             }
         }
-
-        [SerializeField]
-        public PlatformerCharacterAnimations animations;
 
         public bool CanGrabLedge
         {
@@ -112,7 +110,14 @@ namespace GenericComponents.Controllers.Characters
         {
             get
             {
-                return _statePlayable.NormalizedTime >= 1;
+                return _animationController.IsCurrentAnimationOver;
+            }
+        }
+        public StateManager<IPlatformerCharacterController, PlatformerCharacterAction> StateManager
+        {
+            get
+            {
+                return _stateManager;
             }
         }
 
@@ -124,21 +129,14 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
-        void Start()
+        void Awake()
         {
-            _animator = GetComponent<Animator>();
             _rigidBody = GetComponent<Rigidbody2D>();
             _gravityScale = _rigidBody.gravityScale;
             _ledgeChecker = GetComponent<LedgeChecker>();
             _roofChecker = GetComponent<RoofChecker>();
-            _stateManager = new PlatformerCharacterStateManager(this, rollingDuration);
-            _statePlayable = new PlatformerCharacterStateAnimationPlayable(_stateManager, animations, rollingDuration);
-            _characterAnimations = new PlatformerCharacterAnimationPlayable(_statePlayable);
-            
-            _animator.Play(_characterAnimations);
-            //var cross = new CrossFadePlayable();
-            //cross.Play(new AnimationClipPlayable(animations.runningAnimation));
-            //_animator.Play(cross);
+            _animationController = GetComponent<PlatformerCharacterAnimationController>();
+            _stateManager = new PlatformerCharacterStateManager(this, _animationController.rollingDuration);
         }
 
         void FixedUpdate()
@@ -287,16 +285,9 @@ namespace GenericComponents.Controllers.Characters
             DoAttack(AttackType.Strong);
         }
 
-        public void PlayAnimation(AnimationClip animation)
+        public void AttackIsOver()
         {
-            _characterAnimations.PlayAnimationOverDefault(animation);
-            //_animator.Play(animation);
-        }
-
-        public void PlayCharacterAnimations()
-        {
-            _characterAnimations.PlayDefaultAnimation();
-            //_animator.Play(_characterAnimations);
+            Weapon.AttackIsOver();
         }
 
         public void DealLightCombo1Damage()
@@ -333,11 +324,13 @@ namespace GenericComponents.Controllers.Characters
                 {
                     _comboNumber = COMBO_START;
                 }
+                Weapon.StartStrongAttack();
             }
             else
             {
-                _comboType = AttackType.Strong;
+                _comboType = AttackType.Light;
                 _comboNumber = COMBO_START;
+                Weapon.StartLightAttack(_comboNumber);
             }
             _attackAction = AttackType.None;
         }

@@ -12,6 +12,8 @@ namespace GenericComponents.Controllers.Interaction.Environment
         private List<Collider2D> _colliders;
 
         public Collider2D roofDetector;
+        public LayerMask whatIsGround;
+
         public bool IsTouchingRoof { get { return _colliders.Count != 0; } }
 
         void Start()
@@ -19,17 +21,21 @@ namespace GenericComponents.Controllers.Interaction.Environment
             _colliders = new List<Collider2D>();
         }
 
+        void FixedUpdate()
+        {
+            if(_colliders.Any(c => c == null))
+            {
+                _colliders = _colliders.Where(c => c != null).ToList();
+            }
+        }
+
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.isTrigger)
+            if (!IsValid(other))
             {
                 return;
             }
-            if (roofDetector == null)
-            {
-                return;
-            }
-            if(Physics2D.IsTouching(roofDetector, other))
+            if (Physics2D.IsTouching(roofDetector, other))
             {
                 _colliders.AddIfDoesntContain(other);
             }
@@ -37,11 +43,7 @@ namespace GenericComponents.Controllers.Interaction.Environment
 
         void OnTriggerExit2D(Collider2D other)
         {
-            if (other.isTrigger)
-            {
-                return;
-            }
-            if (roofDetector == null)
+            if (!IsValid(other))
             {
                 return;
             }
@@ -49,6 +51,23 @@ namespace GenericComponents.Controllers.Interaction.Environment
             {
                 _colliders.Remove(other);
             }
+        }
+
+        private bool IsValid(Collider2D other)
+        {
+            if (other.isTrigger)
+            {
+                return false;
+            }
+            if (roofDetector == null)
+            {
+                return false;
+            }
+            if (!whatIsGround.IsInAnyLayer(other.gameObject))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

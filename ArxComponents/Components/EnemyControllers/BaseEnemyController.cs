@@ -50,8 +50,7 @@ namespace ArxGame.Components.EnemyControllers
             OnAwake();
         }
 
-        public abstract bool Attack(ICharacter target, Vector3? hitPoint);
-        public abstract bool Attacked(ICharacter attacker, int damage, Vector3? hitPoint);
+        public abstract bool Attacked(GameObject attacker, int damage, Vector3? hitPoint);
 
         protected virtual void OnAwake() { }
 

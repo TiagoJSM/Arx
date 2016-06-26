@@ -9,12 +9,7 @@ namespace ArxGame.Components.EnemyControllers
 {
     public class DummyTargetController : BaseEnemyController
     {
-        public override bool Attack(ICharacter target, Vector3? hitPoint)
-        {
-            return false;
-        }
-
-        public override bool Attacked(ICharacter attacker, int damage, Vector3? hitPoint)
+        public override bool Attacked(GameObject attacker, int damage, Vector3? hitPoint)
         {
             CharacterStatus.Damage(damage);
             if (CharacterStatus.HealthDepleted)

@@ -51,7 +51,7 @@ namespace ArxGame.Components.Ai
 
         public void KnockGate()
         {
-            CharacterController.PlayAnimation(knockGateAnimation);
+            AnimationController.PlayAnimation(knockGateAnimation);
             //throw new NotImplementedException();
         }
 

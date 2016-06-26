@@ -1,5 +1,6 @@
 ﻿using ArxGame.Components.EnemyControllers;
 using CommonInterfaces.Controllers;
+using CommonInterfaces.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +9,57 @@ using UnityEngine;
 
 namespace ArxGame.Components.Weapons
 {
-    public class EnemyDetection : MonoBehaviour
+    public class EnemyDetection : MonoBehaviour, IWeapon
     {
         private List<BaseEnemyController> _attackedEnemies;
 
-        public ICharacter Owner { get; set; }
+        public Collider2D detectionCollider;
+
+        public GameObject Owner { get; set; }
+
+        public void StartStrongAttack()
+        {
+            StartAttack();
+        }
+
+        public void StartLightAttack(int comboCount)
+        {
+            StartAttack();
+        }
 
         public void AttackIsOver()
         {
             _attackedEnemies.Clear();
+            this.enabled = false;
+            detectionCollider.enabled = false;
         }
 
         void Awake()
         {
             _attackedEnemies = new List<BaseEnemyController>();
+            this.enabled = false;
+            detectionCollider.enabled = false;
         }
 
         void OnTriggerEnter2D(Collider2D other)
         {
             var enemy = other.GetComponent<BaseEnemyController>();
+            if(enemy == null)
+            {
+                return;
+            }
             if (_attackedEnemies.Contains(enemy))
             {
                 return;
             }
             _attackedEnemies.Add(enemy);
-            Owner.Attack(enemy, null);
+            enemy.Attacked(Owner, 10, null);
+        }
+
+        private void StartAttack()
+        {
+            this.enabled = true;
+            detectionCollider.enabled = true;
         }
     }
 }
