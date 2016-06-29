@@ -151,7 +151,6 @@ namespace GenericComponents.Controllers.Characters
             _move = 0;
             _vertical = 0;
             _jump = false;
-            //_attackAction = AttackType.None;
             //ToDo, this seems wrong
             //check https://vonlehecreative.wordpress.com/2010/02/02/unity-resource-velocitylimiter/
             var currentMaxSpeed = IsGrounded ? maxRunSpeed : airMaxSpeed;
@@ -168,10 +167,6 @@ namespace GenericComponents.Controllers.Characters
         public void LightAttack()
         {
             _attackAction = AttackType.Light;
-            //if(_statePlayable.TimeToFinish < 1)
-            //{
-            //    _attackAction = AttackType.Light;
-            //}
         }
 
         public void StrongAttack()
@@ -292,17 +287,17 @@ namespace GenericComponents.Controllers.Characters
 
         public void DealLightCombo1Damage()
         {
-            Debug.Log("light combo 1 damage");
+            //Debug.Log("light combo 1 damage");
         }
 
         public void DealLightCombo2Damage()
         {
-            Debug.Log("light combo 2 damage");
+            //Debug.Log("light combo 2 damage");
         }
 
         public void DealLightCombo3Damage()
         {
-            Debug.Log("light combo 3 damage");
+            //Debug.Log("light combo 3 damage");
         }
 
         void OnDrawGizmosSelected()
@@ -312,12 +307,12 @@ namespace GenericComponents.Controllers.Characters
 
         private void DoAttack(AttackType attackType)
         {
-            if(attackType == AttackType.None)
+            _comboType = attackType;
+            if (attackType == AttackType.None)
             {
-                attackType = AttackType.None;
                 _comboNumber = 0;
             }
-            else if (_comboType == AttackType.Strong)
+            else if (attackType == AttackType.Strong)
             {
                 _comboNumber++;
                 if (_comboNumber > MAX_COMBOS)
@@ -326,10 +321,13 @@ namespace GenericComponents.Controllers.Characters
                 }
                 Weapon.StartStrongAttack();
             }
-            else
+            else if(attackType == AttackType.Light)
             {
-                _comboType = AttackType.Light;
-                _comboNumber = COMBO_START;
+                _comboNumber++;
+                if (_comboNumber > MAX_COMBOS)
+                {
+                    _comboNumber = COMBO_START;
+                }
                 Weapon.StartLightAttack(_comboNumber);
             }
             _attackAction = AttackType.None;

@@ -59,7 +59,11 @@
     <Compile Include="Components\SequencePlatformerCharacterControl.cs" />
     <Compile Include="Components\TextAlphaMinimumValueTransition.cs" />
     <Compile Include="Components\UiController.cs" />
+    <Compile Include="Components\Weapons\ChainedProjectile.cs" />
+    <Compile Include="Components\Weapons\ChainThrow.cs" />
     <Compile Include="Components\Weapons\EnemyDetection.cs" />
+    <Compile Include="Components\Weapons\Projectile.cs" />
+    <Compile Include="Components\Weapons\Shooter.cs" />
     <Compile Include="GameSave\ArxGameSaveHandler.cs" />
     <Compile Include="GameSave\ArxSaveData.cs" />
     <Compile Include="GameSave\DreamingBeyondImaginationSaveData.cs" />

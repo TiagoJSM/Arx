@@ -12,5 +12,11 @@ namespace MathHelper
         {
             return Mathf.Abs(a - b) < tolerance;
         }
+
+        public static float AngleBetween(Vector3 origin, Vector3 other)
+        {
+            var dir = other - origin;
+            return Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        }
     }
 }
