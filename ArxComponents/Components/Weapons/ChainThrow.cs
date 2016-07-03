@@ -8,8 +8,9 @@ using UnityEngine;
 
 namespace ArxGame.Components.Weapons
 {
-    public class ChainThrow : MonoBehaviour, IWeapon
+    public class ChainThrow : MonoBehaviour, IChainThrowWeapon
     {
+        private float _focusTime;
         private List<BaseEnemyController> _attackedEnemies;
         private ChainedProjectile _instantiatedProjectile;
 
@@ -18,21 +19,27 @@ namespace ArxGame.Components.Weapons
 
         public GameObject Owner { get; set; }
 
-        public void StartStrongAttack()
+        public void Spin()
         {
             StartAttack();
         }
 
-        public void StartLightAttack(int comboCount)
+        public void FocusThrow()
+        {
+            _focusTime += Time.deltaTime;
+        }
+
+        public void Throw()
         {
             StartAttack();
+            _instantiatedProjectile.Throw();
         }
 
         public void AttackIsOver()
         {
             _attackedEnemies.Clear();
             this.enabled = false;
-            detectionCollider.enabled = false;
+            //detectionCollider.enabled = false;
         }
 
         void Awake()
@@ -42,14 +49,19 @@ namespace ArxGame.Components.Weapons
             //detectionCollider.enabled = false;
             _instantiatedProjectile = Instantiate(projectile);
             _instantiatedProjectile.origin = this.gameObject;
-            _instantiatedProjectile.transform.position = this.transform.position;
+            
             //_instantiatedProjectile.transform.parent = this.transform;
         }
 
-        private void Update()
+        void Start()
         {
-            _instantiatedProjectile.Throw();
+            _instantiatedProjectile.transform.position = this.transform.position;
         }
+
+        //private void Update()
+        //{
+        //    _instantiatedProjectile.Throw();
+        //}
 
         void OnTriggerEnter2D(Collider2D other)
         {
@@ -69,7 +81,8 @@ namespace ArxGame.Components.Weapons
         private void StartAttack()
         {
             this.enabled = true;
-            detectionCollider.enabled = true;
+            //detectionCollider.enabled = true;
+            _focusTime = 0;
         }
     }
 }

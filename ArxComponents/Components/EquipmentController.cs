@@ -1,4 +1,5 @@
 ﻿using ArxGame.Components.Weapons;
+using CommonInterfaces.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,20 @@ namespace ArxGame.Components
 {
     public class EquipmentController : MonoBehaviour
     {
-        private EnemyDetection _equippedWeapon;
+        private GameObject _equippedWeapon;
 
-        public EnemyDetection startingWeapon;
+        public GameObject startingWeapon;
         public GameObject weaponSocket;
 
-        public EnemyDetection EquippedWeapon
+        public IWeapon EquippedWeapon
         {
             get
             {
-                return _equippedWeapon;
+                if(_equippedWeapon == null)
+                {
+                    return null;
+                }
+                return _equippedWeapon.GetComponent<IWeapon>();
             }
         }
 
@@ -30,14 +35,20 @@ namespace ArxGame.Components
             }
         }
 
-        public void EquipWeapon(EnemyDetection startingWeapon)
+        public void EquipWeapon(GameObject weaponObject)
         {
-            if(_equippedWeapon != null)
+            var weapon = weaponObject.GetComponent<IWeapon>();
+            if(weapon == null)
+            {
+                Debug.LogError("GameObject is not a weapon");
+                return;
+            }
+            if (_equippedWeapon != null)
             {
                 Destroy(_equippedWeapon);
             }
-            _equippedWeapon = Instantiate(startingWeapon);
-            _equippedWeapon.Owner = this.gameObject;
+            _equippedWeapon = Instantiate(weaponObject);
+            //_equippedWeapon.Owner = this.gameObject;
             _equippedWeapon.transform.SetParent(weaponSocket.transform, false);
         }
     }

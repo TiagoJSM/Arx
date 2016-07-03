@@ -8,8 +8,8 @@ namespace CommonInterfaces.Weapons
 {
     public interface IWeapon
     {
-        void StartStrongAttack();
-        void StartLightAttack(int comboCount);
-        void AttackIsOver();
+        //void StartStrongAttack();
+        //void StartLightAttack(int comboCount);
+        //void AttackIsOver();
     }
 }

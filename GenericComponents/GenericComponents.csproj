@@ -78,6 +78,7 @@
     <Compile Include="Events.cs" />
     <Compile Include="Factories\PlayerSpawner.cs" />
     <Compile Include="GroundMaterial.cs" />
+    <Compile Include="Helpers\AttackHandlerHelper.cs" />
     <Compile Include="Interfaces\IPath.cs" />
     <Compile Include="Interfaces\States\IState.cs" />
     <Compile Include="Interfaces\IStateFactory.cs" />

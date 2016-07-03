@@ -39,7 +39,10 @@ namespace ArxGame.Components.Weapons
 
         private void Return()
         {
-            StopCoroutine(_current);
+            if(_current != null)
+            {
+                StopCoroutine(_current);
+            }
             _current = StartCoroutine(ReturnCoroutine());
         }
 
@@ -81,7 +84,7 @@ namespace ArxGame.Components.Weapons
             {
                 return;
             }
-            Return();
+            //Return();
         }
     }
 }

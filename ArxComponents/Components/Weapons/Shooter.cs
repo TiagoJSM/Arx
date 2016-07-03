@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace ArxGame.Components.Weapons
 {
-    public class Shooter : MonoBehaviour, IWeapon
+    public class Shooter : MonoBehaviour, IShooterWeapon
     {
         private float _lastShotTime;
         [SerializeField]
@@ -17,10 +17,26 @@ namespace ArxGame.Components.Weapons
         public Transform t;
         public Projectile projectilePrefab;
 
+        public bool InCooldown
+        {
+            get
+            {
+                return !(RemainingCooldownTime > 0);
+            }
+        }
+
+        public float RemainingCooldownTime
+        {
+            get
+            {
+                var elapsed = Time.time - _lastShotTime;
+                return Mathf.Max(elapsed - _cooldown, 0);
+            }
+        }
+
         public bool Shoot(float angleInDegrees)
         {
-            var elapsed = Time.time - _lastShotTime;
-            if(elapsed < _cooldown)
+            if(InCooldown)
             {
                 return false;
             }
@@ -34,30 +50,9 @@ namespace ArxGame.Components.Weapons
             return true;
         }
 
-        public void AttackIsOver()
-        {
-            //throw new NotImplementedException();
-        }
-
-        public void StartLightAttack(int comboCount)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StartStrongAttack()
-        {
-            //throw new NotImplementedException();
-        }
-
         void Awake()
         {
             _lastShotTime = Time.time - _cooldown;
-        }
-
-        void Update()
-        {
-            var angle = FloatUtils.AngleBetween(this.transform.position, t.position);
-            Shoot(angle);
         }
     }
 }

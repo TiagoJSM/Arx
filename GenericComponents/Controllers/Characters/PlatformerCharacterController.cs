@@ -6,6 +6,7 @@ using GenericComponents.Containers;
 using GenericComponents.Controllers.AnimationControllers;
 using GenericComponents.Controllers.Interaction.Environment;
 using GenericComponents.Enums;
+using GenericComponents.Helpers;
 using GenericComponents.Interfaces.States.PlatformerCharacter;
 using GenericComponents.StateMachine;
 using GenericComponents.StateMachine.States.PlatformerCharacter;
@@ -46,6 +47,8 @@ namespace GenericComponents.Controllers.Characters
         private float _vertical;
         private bool _jump;
         private AttackType _attackAction;
+        private IWeapon _weapon;
+        private IAttackHandler _attackHandler;
 
         public float groundMovementForce = 2f;
         public float airMovementForce = 1f;
@@ -64,7 +67,18 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
-        public IWeapon Weapon { get; set; }
+        public IWeapon Weapon
+        {
+            get
+            {
+                return _weapon;
+            }
+            set
+            {
+                _weapon = value;
+                _attackHandler = AttackHandlerHelper.GetHandlerFor(_weapon);
+            }
+        }
 
         private bool DetectingPreviousGrabbedLedge
         {
@@ -282,7 +296,8 @@ namespace GenericComponents.Controllers.Characters
 
         public void AttackIsOver()
         {
-            Weapon.AttackIsOver();
+            //Weapon.AttackIsOver();
+            _attackHandler.AttackIsOver();
         }
 
         public void DealLightCombo1Damage()
@@ -319,7 +334,8 @@ namespace GenericComponents.Controllers.Characters
                 {
                     _comboNumber = COMBO_START;
                 }
-                Weapon.StartStrongAttack();
+                //Weapon.StartStrongAttack();
+                _attackHandler.SecundaryAttack();
             }
             else if(attackType == AttackType.Light)
             {
@@ -328,7 +344,12 @@ namespace GenericComponents.Controllers.Characters
                 {
                     _comboNumber = COMBO_START;
                 }
-                Weapon.StartLightAttack(_comboNumber);
+                //Weapon.StartLightAttack(_comboNumber);
+                _attackHandler.PrimaryAttack(
+                    new AttackHandlerContext()
+                    {
+                        ComboCount = _comboNumber
+                    });
             }
             _attackAction = AttackType.None;
         }

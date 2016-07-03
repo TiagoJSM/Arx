@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace ArxGame.Components.Weapons
 {
-    public class EnemyDetection : MonoBehaviour, IWeapon
+    public class EnemyDetection : MonoBehaviour, ICloseCombatWeapon
     {
         private List<BaseEnemyController> _attackedEnemies;
 
