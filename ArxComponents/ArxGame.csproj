@@ -52,18 +52,24 @@
   <ItemGroup>
     <Compile Include="Components\Ai\NightmareHunterGateLiftAiControl.cs" />
     <Compile Include="Components\CharacterStatus.cs" />
+    <Compile Include="Components\CombatModule.cs" />
     <Compile Include="Components\EnemyControllers\BaseEnemyController.cs" />
     <Compile Include="Components\EnemyControllers\DummyTargetController.cs" />
     <Compile Include="Components\EquipmentController.cs" />
     <Compile Include="Components\MainPlatformerCharacterUserControl.cs" />
+    <Compile Include="Components\MainPlatformerController.cs" />
+    <Compile Include="Components\AnimationControllers\PlatformerCharacterAnimationController.cs" />
     <Compile Include="Components\SequencePlatformerCharacterControl.cs" />
     <Compile Include="Components\TextAlphaMinimumValueTransition.cs" />
     <Compile Include="Components\UiController.cs" />
+    <Compile Include="Components\UserControls\PlatformerCharacterUserControl.cs" />
     <Compile Include="Components\Weapons\ChainedProjectile.cs" />
     <Compile Include="Components\Weapons\ChainThrow.cs" />
     <Compile Include="Components\Weapons\EnemyDetection.cs" />
+    <Compile Include="Components\Weapons\Fists.cs" />
     <Compile Include="Components\Weapons\Projectile.cs" />
     <Compile Include="Components\Weapons\Shooter.cs" />
+    <Compile Include="Components\Weapons\Sword.cs" />
     <Compile Include="GameSave\ArxGameSaveHandler.cs" />
     <Compile Include="GameSave\ArxSaveData.cs" />
     <Compile Include="GameSave\DreamingBeyondImaginationSaveData.cs" />

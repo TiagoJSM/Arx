@@ -10,7 +10,7 @@ namespace ArxGame.Components.Weapons
     public class ChainedProjectile : MonoBehaviour
     {
         //duration of throw + return
-        
+        public event Action OnAttackFinish;
 
         private Coroutine _current;
 
@@ -48,6 +48,7 @@ namespace ArxGame.Components.Weapons
 
         private IEnumerator ThrowCoroutine()
         {
+            this.transform.parent = null;
             var throwDuration = duration / 2;
             var elapsedTime = 0f;
             while (true)
@@ -72,6 +73,8 @@ namespace ArxGame.Components.Weapons
                 if (Vector3.Distance(this.transform.localPosition, origin.transform.position) < threshold)
                 {
                     _current = null;
+                    this.transform.parent = origin.transform;
+                    OnAttackFinish?.Invoke();
                     yield break;
                 }
                 yield return null;

@@ -1,4 +1,5 @@
-﻿using ArxGame.Components.Weapons;
+﻿using ArxGame.Components.UserControls;
+using ArxGame.Components.Weapons;
 using ArxGame.UI;
 using CommonInterfaces.Controllers;
 using CommonInterfaces.Inventory;

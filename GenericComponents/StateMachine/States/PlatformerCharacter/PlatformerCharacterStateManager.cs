@@ -20,7 +20,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
                     .To<DuckState>((c, a, t) => a.Vertical < 0 && c.IsGrounded)
-                    .To<LightAttackGroundState>((c, a, t) => a.AttackType == AttackType.Light);
+                    .To<LightAttackGroundState>((c, a, t) => a.AttackType == AttackType.Primary);
 
             this
                 .From<JumpingState>()
@@ -60,7 +60,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
             this
                 .From<LightAttackGroundState>()
                     .To<LightAttackGroundState>((c, a, t) => 
-                        a.AttackType == AttackType.Light && c.IsCurrentAnimationOver)
+                        a.AttackType == AttackType.Primary && c.IsCurrentAnimationOver)
                     .To<IddleState>((c, a, t) => 
                         c.IsGrounded && a.Move == 0 && c.IsCurrentAnimationOver)
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && c.IsCurrentAnimationOver);

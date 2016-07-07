@@ -17,7 +17,19 @@ namespace ArxGame.Components.Weapons
         public Collider2D detectionCollider;
         public ChainedProjectile projectile;
 
+        public event Action OnAttackFinish;
+
         public GameObject Owner { get; set; }
+
+        public WeaponType WeaponType
+        {
+            get
+            {
+                return WeaponType.ChainedProjectile;
+            }
+        }
+
+        public bool ReadyToThrow { get; private set; }
 
         public void Spin()
         {
@@ -31,6 +43,7 @@ namespace ArxGame.Components.Weapons
 
         public void Throw()
         {
+            ReadyToThrow = false;
             StartAttack();
             _instantiatedProjectile.Throw();
         }
@@ -49,7 +62,9 @@ namespace ArxGame.Components.Weapons
             //detectionCollider.enabled = false;
             _instantiatedProjectile = Instantiate(projectile);
             _instantiatedProjectile.origin = this.gameObject;
-            
+            _instantiatedProjectile.transform.parent = this.transform;
+            _instantiatedProjectile.OnAttackFinish += OnAttackFinishHandler;
+
             //_instantiatedProjectile.transform.parent = this.transform;
         }
 
@@ -83,6 +98,12 @@ namespace ArxGame.Components.Weapons
             this.enabled = true;
             //detectionCollider.enabled = true;
             _focusTime = 0;
+        }
+
+        private void OnAttackFinishHandler()
+        {
+            ReadyToThrow = true;
+            OnAttackFinish?.Invoke();
         }
     }
 }

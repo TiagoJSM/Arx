@@ -8,6 +8,9 @@ namespace MathHelper
 {
     public static class FloatUtils
     {
+        public const float FullDegreeTurn = 360;
+        public const float HalfDegreeTurn = FullDegreeTurn / 2;
+
         public static bool IsApproximately(float a, float b, float tolerance)
         {
             return Mathf.Abs(a - b) < tolerance;

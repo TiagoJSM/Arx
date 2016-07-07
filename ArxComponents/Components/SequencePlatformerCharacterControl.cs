@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace ArxGame.Components
 {
-    [RequireComponent(typeof(PlatformerCharacterController))]
+    [RequireComponent(typeof(MainPlatformerController))]
     public class SequencePlatformerCharacterControl : MonoBehaviour
     {
-        private PlatformerCharacterController _characterController;
+        private MainPlatformerController _characterController;
 
         public void Move(Direction direction)
         {
@@ -20,7 +20,7 @@ namespace ArxGame.Components
 
         void Start()
         {
-            _characterController = this.GetComponent<PlatformerCharacterController>();
+            _characterController = this.GetComponent<MainPlatformerController>();
         }
     }
 }

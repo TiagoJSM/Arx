@@ -76,5 +76,18 @@ namespace MathHelper.Extensions
             }
             return false;
         }
+
+        public static float ReduceToSingleTurn(this float degrees)
+        {
+            var turns = (int)(degrees / FloatUtils.FullDegreeTurn);
+            
+            if(degrees < 0)
+            {
+                turns = -turns;
+                var reduced = degrees + (turns * FloatUtils.FullDegreeTurn);
+                return reduced + FloatUtils.FullDegreeTurn;
+            }
+            return degrees - (turns * FloatUtils.FullDegreeTurn);
+        }
     }
 }

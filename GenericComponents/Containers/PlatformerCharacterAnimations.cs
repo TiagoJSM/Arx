@@ -21,5 +21,6 @@ namespace GenericComponents.Containers
         public AnimationClip lightAttack1;
         public AnimationClip lightAttack2;
         public AnimationClip lightAttack3;
+        public AnimationClip chainThrow;
     }
 }

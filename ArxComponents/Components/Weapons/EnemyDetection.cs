@@ -9,13 +9,15 @@ using UnityEngine;
 
 namespace ArxGame.Components.Weapons
 {
-    public class EnemyDetection : MonoBehaviour, ICloseCombatWeapon
+    public abstract class EnemyDetection : MonoBehaviour, ICloseCombatWeapon
     {
         private List<BaseEnemyController> _attackedEnemies;
 
         public Collider2D detectionCollider;
 
         public GameObject Owner { get; set; }
+
+        public WeaponType WeaponType { get; protected set; }
 
         public void StartStrongAttack()
         {

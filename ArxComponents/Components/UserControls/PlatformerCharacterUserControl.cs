@@ -1,20 +1,22 @@
-﻿using UnityEngine;
-using System.Collections;
-using CommonInterfaces.Inventory;
+﻿using GenericComponents.Controllers.Characters;
 using GenericComponents.Controllers.Interaction;
-using GenericComponents.Controllers.Characters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
 
-namespace GenericComponents.UserControls
+namespace ArxGame.Components.UserControls
 {
-    [RequireComponent(typeof(PlatformerCharacterController))]
+    [RequireComponent(typeof(MainPlatformerController))]
     public class PlatformerCharacterUserControl : MonoBehaviour
     {
-        private PlatformerCharacterController _characterController;
+        private MainPlatformerController _characterController;
         private bool _jump;
 
         public InteractionFinderController interactionController;
 
-        public PlatformerCharacterController PlatformerCharacterController
+        public MainPlatformerController PlatformerCharacterController
         {
             get
             {
@@ -24,7 +26,7 @@ namespace GenericComponents.UserControls
 
         private void Awake()
         {
-            _characterController = GetComponent<PlatformerCharacterController>();
+            _characterController = GetComponent<MainPlatformerController>();
         }
 
         private void Update()
@@ -53,7 +55,7 @@ namespace GenericComponents.UserControls
             {
                 _characterController.LightAttack();
             }
-            
+
         }
     }
 }

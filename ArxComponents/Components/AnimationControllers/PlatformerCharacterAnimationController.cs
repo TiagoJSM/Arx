@@ -1,4 +1,5 @@
-﻿using GenericComponents.Animation.Playables;
+﻿using CommonInterfaces.Controllers;
+using GenericComponents.Animation.Playables;
 using GenericComponents.Containers;
 using GenericComponents.Controllers.Characters;
 using System;
@@ -7,11 +8,11 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace GenericComponents.Controllers.AnimationControllers
+namespace ArxGame.Components.AnimationControllers
 {
     [RequireComponent(typeof(PlatformerCharacterController))]
     [RequireComponent(typeof(Animator))]
-    public class PlatformerCharacterAnimationController : MonoBehaviour
+    public class PlatformerCharacterAnimationController : MonoBehaviour, IAnimationController
     {
         private Animator _animator;
         private PlatformerCharacterStateAnimationPlayable _statePlayable;
@@ -42,7 +43,7 @@ namespace GenericComponents.Controllers.AnimationControllers
         void Start()
         {
             _animator = GetComponent<Animator>();
-            var stateManager = GetComponent<PlatformerCharacterController>().StateManager;
+            var stateManager = GetComponent<MainPlatformerController>().StateManager;
             _statePlayable = new PlatformerCharacterStateAnimationPlayable(stateManager, animations, rollingDuration);
             _characterAnimations = new PlatformerCharacterAnimationPlayable(_statePlayable);
 

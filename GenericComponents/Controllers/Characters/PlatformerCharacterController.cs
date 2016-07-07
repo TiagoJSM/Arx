@@ -3,7 +3,6 @@ using CommonInterfaces.Weapons;
 using Extensions;
 using GenericComponents.Animation.Playables;
 using GenericComponents.Containers;
-using GenericComponents.Controllers.AnimationControllers;
 using GenericComponents.Controllers.Interaction.Environment;
 using GenericComponents.Enums;
 using GenericComponents.Helpers;
@@ -21,20 +20,12 @@ namespace GenericComponents.Controllers.Characters
 {
     [RequireComponent(typeof(LedgeChecker))]
     [RequireComponent(typeof(RoofChecker))]
-    [RequireComponent(typeof(PlatformerCharacterAnimationController))]
-    public class PlatformerCharacterController : BasePlatformerController, IPlatformerCharacterController
+    public class PlatformerCharacterController : BasePlatformerController
     {
-        private const int MAX_COMBOS = 3;
-        private const int COMBO_START = 1;
-
         private bool _grabbingLedge = false;
         [SerializeField]
         private Direction _direction;
-        private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
-        private AttackType? _comboType;
-        private int _comboNumber;
 
-        private PlatformerCharacterAnimationController _animationController;
         private LedgeChecker _ledgeChecker;
         private RoofChecker _roofChecker;
         private Rigidbody2D _rigidBody;
@@ -42,13 +33,6 @@ namespace GenericComponents.Controllers.Characters
         private Collider2D _detectedLedge;
         private Collider2D _lastGrabbedLedge;
         private bool _ledgeDetected;
-
-        private float _move;
-        private float _vertical;
-        private bool _jump;
-        private AttackType _attackAction;
-        private IWeapon _weapon;
-        private IAttackHandler _attackHandler;
 
         public float groundMovementForce = 2f;
         public float airMovementForce = 1f;
@@ -64,19 +48,6 @@ namespace GenericComponents.Controllers.Characters
             get
             {
                 return _direction;
-            }
-        }
-
-        public IWeapon Weapon
-        {
-            get
-            {
-                return _weapon;
-            }
-            set
-            {
-                _weapon = value;
-                _attackHandler = AttackHandlerHelper.GetHandlerFor(_weapon);
             }
         }
 
@@ -118,74 +89,6 @@ namespace GenericComponents.Controllers.Characters
             {
                 return _grabbingLedge;
             }
-        }
-
-        public bool IsCurrentAnimationOver
-        {
-            get
-            {
-                return _animationController.IsCurrentAnimationOver;
-            }
-        }
-        public StateManager<IPlatformerCharacterController, PlatformerCharacterAction> StateManager
-        {
-            get
-            {
-                return _stateManager;
-            }
-        }
-
-        public int ComboNumber
-        {
-            get
-            {
-                return _comboNumber;
-            }
-        }
-
-        void Awake()
-        {
-            _rigidBody = GetComponent<Rigidbody2D>();
-            _gravityScale = _rigidBody.gravityScale;
-            _ledgeChecker = GetComponent<LedgeChecker>();
-            _roofChecker = GetComponent<RoofChecker>();
-            _animationController = GetComponent<PlatformerCharacterAnimationController>();
-            _stateManager = new PlatformerCharacterStateManager(this, _animationController.rollingDuration);
-        }
-
-        void FixedUpdate()
-        {
-            Collider2D collider;
-            var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
-            LedgeDetected(ledgeDetected, collider);
-            IsGrounded = CheckGrounded();
-            CanStand = !_roofChecker.IsTouchingRoof;
-            var action = new PlatformerCharacterAction(_move, _vertical, _jump, _attackAction);
-            _stateManager.Perform(action);
-            _move = 0;
-            _vertical = 0;
-            _jump = false;
-            //ToDo, this seems wrong
-            //check https://vonlehecreative.wordpress.com/2010/02/02/unity-resource-velocitylimiter/
-            var currentMaxSpeed = IsGrounded ? maxRunSpeed : airMaxSpeed;
-            _rigidBody.velocity = new Vector2(Mathf.Clamp(_rigidBody.velocity.x, -currentMaxSpeed, currentMaxSpeed), _rigidBody.velocity.y);
-        }
-
-        public void Move(float move, float vertical, bool jump)
-        {
-            _move = move;
-            _vertical = vertical;
-            _jump = jump;
-        }
-
-        public void LightAttack()
-        {
-            _attackAction = AttackType.Light;
-        }
-
-        public void StrongAttack()
-        {
-            _attackAction = AttackType.Strong;
         }
 
         public void LedgeDetected(bool detected, Collider2D ledgeCollider)
@@ -245,9 +148,9 @@ namespace GenericComponents.Controllers.Characters
             _rigidBody.gravityScale = _gravityScale;
         }
 
-        public void Duck()
+        public virtual void Duck()
         {
-            _comboNumber = 0;
+            //_comboNumber = 0;
             foreach(var duckCollider in duckingColliders)
             {
                 duckCollider.enabled = true;
@@ -258,9 +161,9 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
-        public void Stand()
+        public virtual void Stand()
         {
-            _comboNumber = 0;
+            //_comboNumber = 0;
             foreach (var duckCollider in duckingColliders)
             {
                 duckCollider.enabled = false;
@@ -284,74 +187,30 @@ namespace GenericComponents.Controllers.Characters
             _rigidBody.velocity = new Vector2(direction * maxRollSpeed, _rigidBody.velocity.y);
         }
 
-        public void DoLightAttack()
+        protected virtual void Awake()
         {
-            DoAttack(AttackType.Light);
+            _rigidBody = GetComponent<Rigidbody2D>();
+            _gravityScale = _rigidBody.gravityScale;
+            _ledgeChecker = GetComponent<LedgeChecker>();
+            _roofChecker = GetComponent<RoofChecker>();
         }
 
-        public void DoStrongAttack()
+        protected virtual void FixedUpdate()
         {
-            DoAttack(AttackType.Strong);
-        }
-
-        public void AttackIsOver()
-        {
-            //Weapon.AttackIsOver();
-            _attackHandler.AttackIsOver();
-        }
-
-        public void DealLightCombo1Damage()
-        {
-            //Debug.Log("light combo 1 damage");
-        }
-
-        public void DealLightCombo2Damage()
-        {
-            //Debug.Log("light combo 2 damage");
-        }
-
-        public void DealLightCombo3Damage()
-        {
-            //Debug.Log("light combo 3 damage");
+            Collider2D collider;
+            var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
+            LedgeDetected(ledgeDetected, collider);
+            IsGrounded = CheckGrounded();
+            CanStand = !_roofChecker.IsTouchingRoof;
+            //ToDo, this seems wrong
+            //check https://vonlehecreative.wordpress.com/2010/02/02/unity-resource-velocitylimiter/
+            var currentMaxSpeed = IsGrounded ? maxRunSpeed : airMaxSpeed;
+            _rigidBody.velocity = new Vector2(Mathf.Clamp(_rigidBody.velocity.x, -currentMaxSpeed, currentMaxSpeed), _rigidBody.velocity.y);
         }
 
         void OnDrawGizmosSelected()
         {
             base.DrawGizmos();
-        }
-
-        private void DoAttack(AttackType attackType)
-        {
-            _comboType = attackType;
-            if (attackType == AttackType.None)
-            {
-                _comboNumber = 0;
-            }
-            else if (attackType == AttackType.Strong)
-            {
-                _comboNumber++;
-                if (_comboNumber > MAX_COMBOS)
-                {
-                    _comboNumber = COMBO_START;
-                }
-                //Weapon.StartStrongAttack();
-                _attackHandler.SecundaryAttack();
-            }
-            else if(attackType == AttackType.Light)
-            {
-                _comboNumber++;
-                if (_comboNumber > MAX_COMBOS)
-                {
-                    _comboNumber = COMBO_START;
-                }
-                //Weapon.StartLightAttack(_comboNumber);
-                _attackHandler.PrimaryAttack(
-                    new AttackHandlerContext()
-                    {
-                        ComboCount = _comboNumber
-                    });
-            }
-            _attackAction = AttackType.None;
         }
     }
 }

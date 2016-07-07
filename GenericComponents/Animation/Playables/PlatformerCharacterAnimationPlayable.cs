@@ -1,4 +1,5 @@
-﻿using GenericComponents.Containers;
+﻿using CommonInterfaces.Weapons;
+using GenericComponents.Containers;
 using GenericComponents.Interfaces.States.PlatformerCharacter;
 using GenericComponents.StateMachine;
 using GenericComponents.StateMachine.States.PlatformerCharacter;
@@ -50,12 +51,14 @@ namespace GenericComponents.Animation.Playables
     {
         public Type StateType { get; set; }
         public int? ComboNumber { get; set; }
+        public WeaponType? WeaponType { get; set; }
 
         public PlatformerCharacterState() { }
 
         public override bool Equals(object obj)
         {
             var other = obj as PlatformerCharacterState;
+
             if(other == null)
             {
                 return false;
@@ -64,11 +67,13 @@ namespace GenericComponents.Animation.Playables
             {
                 return false;
             }
-            if(ComboNumber == null || other.ComboNumber == null)
-            {
-                return true;
-            }
-            return ComboNumber == other.ComboNumber;
+
+            var comboNumberCompare =
+                (ComboNumber == null || other.ComboNumber == null) || ComboNumber == other.ComboNumber;
+            var weaponTypeCompare =
+                (WeaponType == null || other.WeaponType == null) || WeaponType == other.WeaponType;
+
+            return comboNumberCompare && weaponTypeCompare;
         }
 
         public override int GetHashCode()
@@ -117,14 +122,17 @@ namespace GenericComponents.Animation.Playables
                 new PlatformerCharacterState() { StateType = typeof(RollState) }, 
                 rollingPlayable);
             Assign(
-                new PlatformerCharacterState() { StateType = typeof(LightAttackGroundState), ComboNumber = 1 },
+                new PlatformerCharacterState() { StateType = typeof(LightAttackGroundState), ComboNumber = 1, WeaponType = WeaponType.Sword },
                 new AnimationClipPlayable(_animations.lightAttack1));
             Assign(
-                new PlatformerCharacterState() { StateType = typeof(LightAttackGroundState), ComboNumber = 2 },
+                new PlatformerCharacterState() { StateType = typeof(LightAttackGroundState), ComboNumber = 2, WeaponType = WeaponType.Sword },
                 new AnimationClipPlayable(_animations.lightAttack2));
             Assign(
-                new PlatformerCharacterState() { StateType = typeof(LightAttackGroundState), ComboNumber = 3 },
+                new PlatformerCharacterState() { StateType = typeof(LightAttackGroundState), ComboNumber = 3, WeaponType = WeaponType.Sword },
                 new AnimationClipPlayable(_animations.lightAttack3));
+            Assign(
+                new PlatformerCharacterState() { StateType = typeof(LightAttackGroundState), WeaponType = WeaponType.ChainedProjectile },
+                new AnimationClipPlayable(_animations.chainThrow));
         }
 
         protected override PlatformerCharacterState GetState()
@@ -133,7 +141,8 @@ namespace GenericComponents.Animation.Playables
             return new PlatformerCharacterState()
             {
                 StateType = currentState == null ? default(Type) : currentState.GetType(),
-                ComboNumber = _stateManager.Controller.ComboNumber
+                ComboNumber = _stateManager.Controller.ComboNumber,
+                WeaponType = _stateManager.Controller.WeaponType
             };
         }
     }

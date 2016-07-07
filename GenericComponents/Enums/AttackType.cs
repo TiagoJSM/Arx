@@ -8,7 +8,7 @@ namespace GenericComponents.Enums
     public enum AttackType
     {
         None,
-        Light,
-        Strong
+        Primary,
+        Secundary
     }
 }

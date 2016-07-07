@@ -10,27 +10,30 @@ namespace ArxGame.Components.Weapons
 {
     public class Shooter : MonoBehaviour, IShooterWeapon
     {
-        private float _lastShotTime;
+        //private float _lastShotTime;
         [SerializeField]
         private float _cooldown = 1;
 
         public Transform t;
         public Projectile projectilePrefab;
 
+        public event Action OnCooldownFinish;
+
         public bool InCooldown
         {
             get
             {
-                return !(RemainingCooldownTime > 0);
+                return RemainingCooldownTime > 0;
             }
         }
 
-        public float RemainingCooldownTime
+        public float RemainingCooldownTime { get; private set; }
+
+        public WeaponType WeaponType
         {
             get
             {
-                var elapsed = Time.time - _lastShotTime;
-                return Mathf.Max(elapsed - _cooldown, 0);
+                return WeaponType.Shoot;
             }
         }
 
@@ -45,14 +48,29 @@ namespace ArxGame.Components.Weapons
             var projectile = Instantiate(projectilePrefab);
             projectile.transform.position = this.transform.position;
             projectile.direction = direction;
-            _lastShotTime = Time.time;
+            RemainingCooldownTime = _cooldown;
+            //_lastShotTime = Time.time;
 
             return true;
         }
 
         void Awake()
         {
-            _lastShotTime = Time.time - _cooldown;
+            //_lastShotTime = Time.time - _cooldown;
+        }
+
+        void Update()
+        {
+            if (!InCooldown)
+            {
+                return;
+            }
+            //var elapsed = Time.time - _lastShotTime;
+            RemainingCooldownTime =  Mathf.Max(RemainingCooldownTime - Time.deltaTime, 0);
+            if (!InCooldown)
+            {
+                OnCooldownFinish?.Invoke();
+            }
         }
     }
 }

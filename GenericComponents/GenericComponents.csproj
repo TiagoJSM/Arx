@@ -63,7 +63,6 @@
     <Compile Include="Builders\SegmentBuilder.cs" />
     <Compile Include="Containers\Health.cs" />
     <Compile Include="Containers\PlatformerCharacterAnimations.cs" />
-    <Compile Include="Controllers\AnimationControllers\PlatformerCharacterAnimationController.cs" />
     <Compile Include="Controllers\Characters\BasePlatformerController.cs" />
     <Compile Include="Controllers\Characters\PlatformerCharacterController.cs" />
     <Compile Include="Controllers\Interaction\Environment\LedgeChecker.cs" />
@@ -108,7 +107,6 @@
     <Compile Include="TeleporterSpawner.cs" />
     <Compile Include="UI\CloneUiTextMaterial.cs" />
     <Compile Include="UserControls\PlatformerAICharacterControl.cs" />
-    <Compile Include="UserControls\PlatformerCharacterUserControl.cs" />
     <Compile Include="Waypoint\WaypointPath.cs" />
     <Compile Include="Waypoint\WaypointPathController.cs" />
     <Compile Include="Zones\BaseZone.cs" />

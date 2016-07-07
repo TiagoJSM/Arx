@@ -7,6 +7,8 @@ namespace CommonInterfaces.Weapons
 {
     public interface IChainThrowWeapon : IWeapon
     {
+        event Action OnAttackFinish;
+        bool ReadyToThrow { get; }
         void Spin();
         void FocusThrow();
         void Throw();

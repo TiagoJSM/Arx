@@ -7,6 +7,7 @@ namespace CommonInterfaces.Weapons
 {
     public interface IShooterWeapon : IWeapon
     {
+        event Action OnCooldownFinish;
         bool InCooldown { get; }
         float RemainingCooldownTime { get; }
 

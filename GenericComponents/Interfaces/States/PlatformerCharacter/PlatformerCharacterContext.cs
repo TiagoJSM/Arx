@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonInterfaces.Weapons;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         bool CanStand { get; }
         bool IsCurrentAnimationOver { get; }
         int ComboNumber { get; }
+        WeaponType? WeaponType { get;}
 
         void DoMove(float move);
         void DoGrabLedge();
@@ -23,8 +25,8 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         void Stand();
         void StayStill();
         void Roll(float move);
-        void DoLightAttack();
-        void DoStrongAttack();
+        void DoPrimaryAttack();
+        void DoSecundaryAttack();
         void AttackIsOver();
     }
 }
