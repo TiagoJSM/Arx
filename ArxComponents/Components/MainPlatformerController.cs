@@ -127,6 +127,7 @@ namespace ArxGame.Components
             _combatModule = GetComponent<CombatModule>();
             _stateManager = new PlatformerCharacterStateManager(this, _animationController.rollingDuration);
 
+            _combatModule.AnimationController = _animationController;
             _combatModule.OnAttackFinish += OnAttackFinishHandler;
         }
 

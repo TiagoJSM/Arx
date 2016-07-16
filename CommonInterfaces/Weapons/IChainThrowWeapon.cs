@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonInterfaces.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,6 @@ namespace CommonInterfaces.Weapons
         bool ReadyToThrow { get; }
         void Spin();
         void FocusThrow();
-        void Throw();
+        void Throw(Direction direction);
     }
 }

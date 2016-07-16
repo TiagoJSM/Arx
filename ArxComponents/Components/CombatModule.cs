@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace ArxGame.Components
 {
-    public class CombatModule : MonoBehaviour
+    public class CombatModule : MonoBehaviour, ICombatComponent
     {
         private const int MAX_COMBOS = 3;
         private const int COMBO_START = 1;
@@ -20,10 +20,14 @@ namespace ArxGame.Components
         private IAttackHandler _attackHandler;
 
         public GameObject aimingArm;
+        public GameObject head;
         [Range(0, 90)]
         public float aimLimit = 90;
+        [Range(0, 90)]
+        public float headLookLimit = 90;
 
         public event Action OnAttackFinish;
+        public event Action OnChainWeaponThrow;
 
         public IWeapon Weapon
         {
@@ -34,7 +38,11 @@ namespace ArxGame.Components
             set
             {
                 _weapon = value;
-                _attackHandler = AttackHandlerHelper.GetHandlerFor(_weapon, AttackFinished, AnimationController, aimingArm, aimLimit);
+                if(_attackHandler != null)
+                {
+                    _attackHandler.Dispose();
+                }
+                _attackHandler = AttackHandlerHelper.GetHandlerFor(_weapon, this);
             }
         }
 
@@ -53,6 +61,46 @@ namespace ArxGame.Components
         }
 
         public IAnimationController AnimationController { get; set; }
+
+        public GameObject AimingArm
+        {
+            get
+            {
+                return aimingArm;
+            }
+        }
+
+        public float AimingLimit
+        {
+            get
+            {
+                return aimLimit;
+            }
+        }
+
+        public bool IsCurrentAnimationOver
+        {
+            get
+            {
+                return AnimationController.IsCurrentAnimationOver;
+            }
+        }
+
+        public GameObject Head
+        {
+            get
+            {
+                return head;
+            }
+        }
+
+        public float HeadLookLimit
+        {
+            get
+            {
+                return headLookLimit;
+            }
+        }
 
         public void PrimaryAttack()
         {
@@ -100,9 +148,14 @@ namespace ArxGame.Components
             }
         }
 
-        public void AttackFinished()
+        public void NotifyAttackFinish()
         {
             OnAttackFinish?.Invoke();
+        }
+
+        public void ThrowChainWeapon()
+        {
+            OnChainWeaponThrow?.Invoke();
         }
 
         void Update()

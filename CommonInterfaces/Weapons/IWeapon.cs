@@ -17,8 +17,5 @@ namespace CommonInterfaces.Weapons
     public interface IWeapon
     {
         WeaponType WeaponType { get; }
-        //void StartStrongAttack();
-        //void StartLightAttack(int comboCount);
-        //void AttackIsOver();
     }
 }

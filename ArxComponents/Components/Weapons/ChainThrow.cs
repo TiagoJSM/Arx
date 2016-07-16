@@ -1,6 +1,8 @@
 ﻿using ArxGame.Components.EnemyControllers;
+using CommonInterfaces.Enums;
 using CommonInterfaces.Weapons;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +14,7 @@ namespace ArxGame.Components.Weapons
     {
         private float _focusTime;
         private List<BaseEnemyController> _attackedEnemies;
-        private ChainedProjectile _instantiatedProjectile;
+        private ChainedProjectile _instantiatedHeldProjectile;
 
         public Collider2D detectionCollider;
         public ChainedProjectile projectile;
@@ -41,18 +43,11 @@ namespace ArxGame.Components.Weapons
             _focusTime += Time.deltaTime;
         }
 
-        public void Throw()
+        public void Throw(Direction direction)
         {
             ReadyToThrow = false;
             StartAttack();
-            _instantiatedProjectile.Throw();
-        }
-
-        public void AttackIsOver()
-        {
-            _attackedEnemies.Clear();
-            this.enabled = false;
-            //detectionCollider.enabled = false;
+            _instantiatedHeldProjectile.Throw(direction);
         }
 
         void Awake()
@@ -60,23 +55,11 @@ namespace ArxGame.Components.Weapons
             _attackedEnemies = new List<BaseEnemyController>();
             //this.enabled = false;
             //detectionCollider.enabled = false;
-            _instantiatedProjectile = Instantiate(projectile);
-            _instantiatedProjectile.origin = this.gameObject;
-            _instantiatedProjectile.transform.parent = this.transform;
-            _instantiatedProjectile.OnAttackFinish += OnAttackFinishHandler;
-
-            //_instantiatedProjectile.transform.parent = this.transform;
+            _instantiatedHeldProjectile = Instantiate(projectile);
+            _instantiatedHeldProjectile.origin = this.gameObject;
+            _instantiatedHeldProjectile.transform.parent = null;
+            _instantiatedHeldProjectile.OnAttackFinish += OnAttackFinishHandler;
         }
-
-        void Start()
-        {
-            _instantiatedProjectile.transform.position = this.transform.position;
-        }
-
-        //private void Update()
-        //{
-        //    _instantiatedProjectile.Throw();
-        //}
 
         void OnTriggerEnter2D(Collider2D other)
         {
@@ -95,7 +78,7 @@ namespace ArxGame.Components.Weapons
 
         private void StartAttack()
         {
-            this.enabled = true;
+            //this.enabled = true;
             //detectionCollider.enabled = true;
             _focusTime = 0;
         }
@@ -103,6 +86,9 @@ namespace ArxGame.Components.Weapons
         private void OnAttackFinishHandler()
         {
             ReadyToThrow = true;
+            //_instantiatedHeldProjectile.Visible = true;
+            //_instantiatedThrownProjectile.Visible = false;
+            _attackedEnemies.Clear();
             OnAttackFinish?.Invoke();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using CommonInterfaces.Controllers;
+using CommonInterfaces.Enums;
 using CommonInterfaces.Weapons;
 using MathHelper;
 using MathHelper.Extensions;
@@ -17,7 +18,16 @@ namespace GenericComponents.Helpers
         public float AimAngle { get; set; }
         public int ComboCount { get; set; }
     }
-    public interface IAttackHandler
+    public interface ICombatComponent : IAnimationController
+    {
+        GameObject AimingArm { get; }
+        GameObject Head { get; }
+        float AimingLimit { get; }
+        float HeadLookLimit { get; }
+        event Action OnChainWeaponThrow;
+        void NotifyAttackFinish();
+    }
+    public interface IAttackHandler : IDisposable
     {
         WeaponType WeaponType { get; }
         IWeapon Weapon { get; }
@@ -30,6 +40,9 @@ namespace GenericComponents.Helpers
     }
     public abstract class BaseAttackHandler<TWeapon> : IAttackHandler where TWeapon : IWeapon
     {
+        private GameObject _aimingArm;
+        private float _aimingLimit;
+
         public TWeapon Weapon { get; private set; }
 
         public WeaponType WeaponType
@@ -37,6 +50,14 @@ namespace GenericComponents.Helpers
             get
             {
                 return Weapon.WeaponType;
+            }
+        }
+
+        public GameObject AimingArm
+        {
+            get
+            {
+                return _aimingArm;
             }
         }
 
@@ -48,9 +69,13 @@ namespace GenericComponents.Helpers
             }
         }
 
-        public BaseAttackHandler(TWeapon weapon)
+        public BaseAttackHandler(
+            TWeapon weapon,
+            ICombatComponent combatComponent)
         {
             Weapon = weapon;
+            _aimingArm = combatComponent.AimingArm;
+            _aimingLimit = combatComponent.AimingLimit;
         }
 
         public abstract void AttackIsOver();
@@ -62,62 +87,10 @@ namespace GenericComponents.Helpers
         public abstract bool SecundaryAttack();
 
         public abstract void Update();
-    }
-    public class ShooterHandler : BaseAttackHandler<IShooterWeapon>
-    {
-        private AttackFinished _attackFinished;
-        private GameObject _aimingArm;
-        private float _aimingLimit;
 
-        public ShooterHandler(IShooterWeapon weapon, AttackFinished attackFinished, GameObject aimingArm, float aimingLimit) : base(weapon)
-        {
-            _attackFinished = attackFinished;
-            //Weapon.OnCooldownFinish += OnAttackFinishHandler;
-            _aimingArm = aimingArm;
-            _aimingLimit = aimingLimit;
-        }
+        public abstract void Dispose();
 
-        public override void AttackIsOver()
-        {
-        }
-
-        public override void FocusPrimaryAttack()
-        {
-        }
-
-        public override bool PrimaryAttack(AttackHandlerContext context)
-        {
-            var center = _aimingArm.transform.position;
-            var aimPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //ToDo: needs angle clamp
-            var degrees = FloatUtils.AngleBetween(center, aimPosition).ReduceToSingleTurn();
-            var radians = degrees * Mathf.Deg2Rad;
-            var quadrant = radians.GetQuadrant();
-            switch (quadrant)
-            {
-                case 1:
-                    degrees = Mathf.Clamp(degrees, 0, _aimingLimit);
-                    break;
-                case 2:
-                    degrees = Mathf.Clamp(degrees, FloatUtils.HalfDegreeTurn - _aimingLimit, FloatUtils.HalfDegreeTurn);
-                    break;
-                case 3:
-                    degrees = Mathf.Clamp(degrees, FloatUtils.HalfDegreeTurn, FloatUtils.HalfDegreeTurn + _aimingLimit);
-                    break;
-                case 4:
-                    degrees = Mathf.Clamp(degrees, FloatUtils.FullDegreeTurn - _aimingLimit, FloatUtils.FullDegreeTurn);
-                    break;
-            }
-            Debug.Log(degrees);
-            return Weapon.Shoot(degrees);
-        }
-
-        public override bool SecundaryAttack()
-        {
-            return false;
-        }
-
-        public override void Update()
+        protected float AimAtTargetRotation(float limit)
         {
             var center = _aimingArm.transform.position;
             var aimPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -132,27 +105,88 @@ namespace GenericComponents.Helpers
             {
                 rotation = (-FloatUtils.AngleBetween(center, aimPosition) + 180);
             }
-            if(rotation > 180)
+            if (rotation > 180)
             {
                 rotation -= 360;
             }
-            rotation = Mathf.Clamp(rotation, -_aimingLimit, _aimingLimit);
-            _aimingArm.transform.rotation = Quaternion.Euler(0, 0, rotation);
-            _attackFinished();
+            rotation = Mathf.Clamp(rotation, -limit, limit);
+            return rotation;
         }
 
-        private void OnAttackFinishHandler()
+        protected void AimAtTarget(GameObject obj, float limit)
         {
-            _attackFinished();
+            var rotation = AimAtTargetRotation(limit);
+            obj.transform.rotation = Quaternion.Euler(0, 0, rotation);
         }
+
+        protected float GetWeaponAimAngle()
+        {
+            var center = _aimingArm.transform.position;
+            var aimPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var degrees = FloatUtils.AngleBetween(center, aimPosition).ReduceToSingleTurn();
+            var radians = degrees * Mathf.Deg2Rad;
+            var quadrant = radians.GetQuadrant();
+
+            //ToDo: direction should be provided by ICombatComponent
+            var inverted = (_aimingArm.transform.lossyScale.x < 0) || (_aimingArm.transform.lossyScale.y < 0);
+
+            if (!inverted)
+            {
+                degrees = quadrant == 3 ? degrees - FloatUtils.FullDegreeTurn : degrees;
+                degrees = Mathf.Clamp(degrees, -_aimingLimit, _aimingLimit);
+            }
+            else
+            {
+                degrees = Mathf.Clamp(degrees, FloatUtils.HalfDegreeTurn - _aimingLimit, FloatUtils.HalfDegreeTurn + _aimingLimit);
+            }
+            return degrees;
+        }
+    }
+    public class ShooterHandler : BaseAttackHandler<IShooterWeapon>
+    {
+        private ICombatComponent _combatComponent;
+
+        public ShooterHandler(IShooterWeapon weapon, ICombatComponent combatComponent) : base(weapon, combatComponent)
+        {
+            _combatComponent = combatComponent;
+        }
+
+        public override void AttackIsOver()
+        {
+        }
+
+        public override void FocusPrimaryAttack()
+        {
+        }
+
+        public override bool PrimaryAttack(AttackHandlerContext context)
+        {
+            var degrees = GetWeaponAimAngle();
+            return Weapon.Shoot(degrees);
+        }
+
+        public override bool SecundaryAttack()
+        {
+            return false;
+        }
+
+        public override void Update()
+        {
+            AimAtTarget(_combatComponent.Head, _combatComponent.HeadLookLimit);
+            AimAtTarget(_combatComponent.AimingArm, _combatComponent.AimingLimit);
+            _combatComponent.NotifyAttackFinish();
+        }
+
+        public override void Dispose() { }
     }
     public class ChainThrowHandler : BaseAttackHandler<IChainThrowWeapon>
     {
-        private AttackFinished _attackFinished;
+        private ICombatComponent _combatComponent;
 
-        public ChainThrowHandler(IChainThrowWeapon weapon, AttackFinished attackFinished) : base(weapon)
+        public ChainThrowHandler(IChainThrowWeapon weapon, ICombatComponent combatComponent) : base(weapon, combatComponent)
         {
-            _attackFinished = attackFinished;
+            _combatComponent = combatComponent;
+            _combatComponent.OnChainWeaponThrow += OnChainWeaponThrowHandler;
             Weapon.OnAttackFinish += OnAttackFinishHandler;
         }
 
@@ -168,7 +202,6 @@ namespace GenericComponents.Helpers
 
         public override bool PrimaryAttack(AttackHandlerContext context)
         {
-            Weapon.Throw();
             return true;
         }
 
@@ -178,29 +211,35 @@ namespace GenericComponents.Helpers
             return true;
         }
 
-        public override void Update()
+        public override void Update() { }
+
+        public override void Dispose()
         {
-            
+            _combatComponent.OnChainWeaponThrow -= OnChainWeaponThrowHandler;
         }
 
         private void OnAttackFinishHandler()
         {
-            _attackFinished();
+            _combatComponent.NotifyAttackFinish();
+        }
+        
+        private void OnChainWeaponThrowHandler()
+        {
+            //ToDo: direction should be provided by ICombatComponent
+            var inverted = (_combatComponent.AimingArm.transform.lossyScale.x < 0) || (_combatComponent.AimingArm.transform.lossyScale.y < 0);
+            Weapon.Throw(inverted ? Direction.Left : Direction.Right);
         }
     }
     public class CloseCombatHandler : BaseAttackHandler<ICloseCombatWeapon>
     {
-        private AttackFinished _attackFinished;
-        private IAnimationController _animationController;
+        private ICombatComponent _combatComponent;
 
         public CloseCombatHandler(
-            ICloseCombatWeapon weapon, 
-            AttackFinished attackFinished,
-            IAnimationController animationController)
-            : base(weapon)
+            ICloseCombatWeapon weapon,
+            ICombatComponent combatComponent)
+            : base(weapon, combatComponent)
         {
-            _attackFinished = attackFinished;
-            _animationController = animationController;
+            _combatComponent = combatComponent;
         }
 
         public override void AttackIsOver()
@@ -226,32 +265,31 @@ namespace GenericComponents.Helpers
 
         public override void Update()
         {
-            if (_animationController.IsCurrentAnimationOver)
+            if (_combatComponent.IsCurrentAnimationOver)
             {
-                _attackFinished();
+                _combatComponent.NotifyAttackFinish();
             }
         }
+
+        public override void Dispose() { }
     }
     public static class AttackHandlerHelper
     {
         public static IAttackHandler GetHandlerFor(
             IWeapon weapon, 
-            AttackFinished attackFinished,
-            IAnimationController animationController,
-            GameObject aimingArm, 
-            float aimingLimit)
+            ICombatComponent combatComponent)
         {
             if (weapon is IShooterWeapon)
             {
-                return new ShooterHandler(weapon as IShooterWeapon, attackFinished, aimingArm, aimingLimit);
+                return new ShooterHandler(weapon as IShooterWeapon, combatComponent);
             }
             if (weapon is IChainThrowWeapon)
             {
-                return new ChainThrowHandler(weapon as IChainThrowWeapon, attackFinished);
+                return new ChainThrowHandler(weapon as IChainThrowWeapon, combatComponent);
             }
             if (weapon is ICloseCombatWeapon)
             {
-                return new CloseCombatHandler(weapon as ICloseCombatWeapon, attackFinished, animationController);
+                return new CloseCombatHandler(weapon as ICloseCombatWeapon, combatComponent);
             }
             return null;
         }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommonInterfaces.Enums;
+using Extensions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,11 +29,11 @@ namespace ArxGame.Components.Weapons
             }
         }
 
-        public bool Throw()
+        public bool Throw(Direction direction)
         {
             if(_current == null)
             {
-                _current = StartCoroutine(ThrowCoroutine());
+                _current = StartCoroutine(ThrowCoroutine(direction));
                 return true;
             }
             return false;
@@ -46,11 +48,12 @@ namespace ArxGame.Components.Weapons
             _current = StartCoroutine(ReturnCoroutine());
         }
 
-        private IEnumerator ThrowCoroutine()
+        private IEnumerator ThrowCoroutine(Direction direction)
         {
-            this.transform.parent = null;
+            //this.transform.parent = null;
             var throwDuration = duration / 2;
             var elapsedTime = 0f;
+            var movementDirection = direction == Direction.Right ? 1 : -1;
             while (true)
             {
                 elapsedTime += Time.deltaTime;
@@ -59,7 +62,7 @@ namespace ArxGame.Components.Weapons
                     Return();
                     yield break;
                 }
-                this.transform.position = this.transform.position + new Vector3(MovementPerSeconds * Time.deltaTime, 0);
+                this.transform.position = this.transform.position + new Vector3(movementDirection * MovementPerSeconds * Time.deltaTime, 0);
                 yield return null;
             }
         }
@@ -73,7 +76,6 @@ namespace ArxGame.Components.Weapons
                 if (Vector3.Distance(this.transform.localPosition, origin.transform.position) < threshold)
                 {
                     _current = null;
-                    this.transform.parent = origin.transform;
                     OnAttackFinish?.Invoke();
                     yield break;
                 }
@@ -88,6 +90,14 @@ namespace ArxGame.Components.Weapons
                 return;
             }
             //Return();
+        }
+
+        void Update()
+        {
+            if(_current == null)
+            {
+                this.transform.position = origin.transform.position;
+            }
         }
     }
 }
