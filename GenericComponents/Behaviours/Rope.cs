@@ -8,15 +8,16 @@ using UnityEngine;
 
 namespace GenericComponents.Behaviours
 {
-    public class Rope : MonoBehaviour
+    public class Rope : BaseRope
     {
         private EdgeCollider2D _ropeCollider;
         private List<Rigidbody2D> _bodies;
         private Dictionary<Rigidbody2D, RopePart> _jointBodyToRopePart;
 
-        public Joint2D ropeEnd;
+        [SerializeField]
+        private Joint2D _ropeEnd;
         
-        public Vector2[] Points
+        public override Vector2[] Points
         {
             get
             {
@@ -86,13 +87,20 @@ namespace GenericComponents.Behaviours
             return new LineSegment2D(tuple.Value.Item1.position, tuple.Value.Item2.position);
         }
 
-        void Start()
+        public void RefreshRope(Joint2D ropeEnd)
         {
+            _ropeEnd = ropeEnd;
+
             _ropeCollider = this.gameObject.AddComponent<EdgeCollider2D>();
             _ropeCollider.isTrigger = true;
-            
+
             PopulateRopeCollider();
             AddRopeParts();
+        }
+
+        void Start()
+        {
+            RefreshRope(_ropeEnd);
         }
 
         void FixedUpdate()
@@ -116,22 +124,11 @@ namespace GenericComponents.Behaviours
 
         private void PopulateRopeCollider()
         {
-            if (ropeEnd == null || ropeEnd.connectedBody == null)
+            if (_ropeEnd == null || _ropeEnd.connectedBody == null)
             {
                 return;
             }
-            _bodies = new List<Rigidbody2D>();
-            var joint = ropeEnd;
-
-            while (true)
-            {
-                _bodies.Add(joint.GetComponent<Rigidbody2D>());
-                if(joint.connectedBody == null)
-                {
-                    break;
-                }
-                joint = joint.connectedBody.GetComponent<Joint2D>();
-            }
+            _bodies = _ropeEnd.GetRigidBodies2DInJointSequence().ToList();
 
             UpdateCollider();
         }

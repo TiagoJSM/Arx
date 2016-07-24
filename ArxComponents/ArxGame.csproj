@@ -55,6 +55,7 @@
     <Compile Include="Components\CombatModule.cs" />
     <Compile Include="Components\EnemyControllers\BaseEnemyController.cs" />
     <Compile Include="Components\EnemyControllers\DummyTargetController.cs" />
+    <Compile Include="Components\Environment\GrappleRope.cs" />
     <Compile Include="Components\EquipmentController.cs" />
     <Compile Include="Components\MainPlatformerCharacterUserControl.cs" />
     <Compile Include="Components\MainPlatformerController.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Components\Weapons\ChainThrow.cs" />
     <Compile Include="Components\Weapons\EnemyDetection.cs" />
     <Compile Include="Components\Weapons\Fists.cs" />
+    <Compile Include="Components\Weapons\Grapple.cs" />
     <Compile Include="Components\Weapons\Projectile.cs" />
     <Compile Include="Components\Weapons\Shooter.cs" />
     <Compile Include="Components\Weapons\Sword.cs" />

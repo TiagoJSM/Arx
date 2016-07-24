@@ -16,12 +16,9 @@ namespace ArxGame.Components.Weapons
         private List<BaseEnemyController> _attackedEnemies;
         private ChainedProjectile _instantiatedHeldProjectile;
 
-        public Collider2D detectionCollider;
-        public ChainedProjectile projectile;
-
         public event Action OnAttackFinish;
 
-        public GameObject Owner { get; set; }
+        public ChainedProjectile projectile;
 
         public WeaponType WeaponType
         {
@@ -31,7 +28,7 @@ namespace ArxGame.Components.Weapons
             }
         }
 
-        public bool ReadyToThrow { get; private set; }
+        public bool ReadyToThrow { get { return _instantiatedHeldProjectile.Status == ProjectileStatus.None; } }
 
         public void Spin()
         {
@@ -45,7 +42,10 @@ namespace ArxGame.Components.Weapons
 
         public void Throw(Direction direction)
         {
-            ReadyToThrow = false;
+            if (!ReadyToThrow)
+            {
+                return;
+            }
             StartAttack();
             _instantiatedHeldProjectile.Throw(direction);
         }
@@ -53,41 +53,24 @@ namespace ArxGame.Components.Weapons
         void Awake()
         {
             _attackedEnemies = new List<BaseEnemyController>();
-            //this.enabled = false;
-            //detectionCollider.enabled = false;
             _instantiatedHeldProjectile = Instantiate(projectile);
-            _instantiatedHeldProjectile.origin = this.gameObject;
+            _instantiatedHeldProjectile.Origin = this.gameObject;
             _instantiatedHeldProjectile.transform.parent = null;
             _instantiatedHeldProjectile.OnAttackFinish += OnAttackFinishHandler;
         }
 
-        void OnTriggerEnter2D(Collider2D other)
+        private void OnAttackFinishHandler()
         {
-            var enemy = other.GetComponent<BaseEnemyController>();
-            if (enemy == null)
-            {
-                return;
-            }
-            if (_attackedEnemies.Contains(enemy))
-            {
-                return;
-            }
-            _attackedEnemies.Add(enemy);
-            enemy.Attacked(Owner, 10, null);
+            AttackFinished();
         }
 
         private void StartAttack()
         {
-            //this.enabled = true;
-            //detectionCollider.enabled = true;
             _focusTime = 0;
         }
 
-        private void OnAttackFinishHandler()
+        private void AttackFinished()
         {
-            ReadyToThrow = true;
-            //_instantiatedHeldProjectile.Visible = true;
-            //_instantiatedThrownProjectile.Visible = false;
             _attackedEnemies.Clear();
             OnAttackFinish?.Invoke();
         }

@@ -59,6 +59,7 @@
     <Compile Include="UI\IUiController.cs" />
     <Compile Include="Weapons\IChainThrowWeapon.cs" />
     <Compile Include="Weapons\ICloseCombatWeapon.cs" />
+    <Compile Include="Weapons\IGrapple.cs" />
     <Compile Include="Weapons\IShooterWeapon.cs" />
     <Compile Include="Weapons\IWeapon.cs" />
   </ItemGroup>

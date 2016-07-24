@@ -9,17 +9,27 @@ using UnityEngine;
 
 namespace ArxGame.Components.Weapons
 {
+    public enum ProjectileStatus
+    {
+        None,
+        Throw,
+        Return,
+        Stuck
+    }
     public class ChainedProjectile : MonoBehaviour
     {
-        //duration of throw + return
         public event Action OnAttackFinish;
+        public event Action<Collider2D, ChainedProjectile> OnTriggerEnter;
 
-        private Coroutine _current;
+        private Coroutine _coroutine;
 
         public float threshold;
         public float duration = 10;
         public float distance = 20;
-        public GameObject origin;
+        public Collider2D collider;
+
+        public GameObject Origin { get; set; }
+        public ProjectileStatus Status { get; private set; }
 
         private float MovementPerSeconds
         {
@@ -31,29 +41,53 @@ namespace ArxGame.Components.Weapons
 
         public bool Throw(Direction direction)
         {
-            if(_current == null)
+            if(_coroutine == null)
             {
-                _current = StartCoroutine(ThrowCoroutine(direction));
+                _coroutine = StartCoroutine(ThrowCoroutine(direction));
                 return true;
             }
             return false;
         }
 
+        public void Stop()
+        {
+            if (_coroutine != null)
+            {
+                Status = ProjectileStatus.Stuck;
+                StopCoroutine(_coroutine);
+            }
+        }
+
+        public void Reset()
+        {
+            if (_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+                _coroutine = null;
+            }
+            Status = ProjectileStatus.None;
+            collider.enabled = false;
+            this.transform.position = Origin.transform.position;
+        }
+
         private void Return()
         {
-            if(_current != null)
+            if(_coroutine != null)
             {
-                StopCoroutine(_current);
+                StopCoroutine(_coroutine);
             }
-            _current = StartCoroutine(ReturnCoroutine());
+            _coroutine = StartCoroutine(ReturnCoroutine());
         }
 
         private IEnumerator ThrowCoroutine(Direction direction)
         {
-            //this.transform.parent = null;
             var throwDuration = duration / 2;
             var elapsedTime = 0f;
             var movementDirection = direction == Direction.Right ? 1 : -1;
+
+            collider.enabled = true;
+            Status = ProjectileStatus.Throw;
+
             while (true)
             {
                 elapsedTime += Time.deltaTime;
@@ -69,13 +103,17 @@ namespace ArxGame.Components.Weapons
 
         private IEnumerator ReturnCoroutine()
         {
+            Status = ProjectileStatus.Return;
+
             while (true)
             {
-                var direction = (origin.transform.position - this.transform.localPosition).normalized;
+                var direction = (Origin.transform.position - this.transform.localPosition).normalized;
                 this.transform.position = this.transform.position + direction * MovementPerSeconds * Time.deltaTime;
-                if (Vector3.Distance(this.transform.localPosition, origin.transform.position) < threshold)
+                if (Vector3.Distance(this.transform.localPosition, Origin.transform.position) < threshold)
                 {
-                    _current = null;
+                    _coroutine = null;
+                    Status = ProjectileStatus.None;
+                    collider.enabled = false;
                     OnAttackFinish?.Invoke();
                     yield break;
                 }
@@ -89,14 +127,15 @@ namespace ArxGame.Components.Weapons
             {
                 return;
             }
+            OnTriggerEnter?.Invoke(other, this);
             //Return();
         }
 
         void Update()
         {
-            if(_current == null)
+            if(Status == ProjectileStatus.None)
             {
-                this.transform.position = origin.transform.position;
+                this.transform.position = Origin.transform.position;
             }
         }
     }

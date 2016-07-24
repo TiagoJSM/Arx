@@ -50,6 +50,7 @@
     <Compile Include="Animation\Playables\PlatformerCharacterAnimationPlayable.cs" />
     <Compile Include="Animation\Playables\StateAnimationMixerPlayable.cs" />
     <Compile Include="Behaviours\AnimationDelay.cs" />
+    <Compile Include="Behaviours\BaseRope.cs" />
     <Compile Include="Behaviours\CloneSpriteMaterial.cs" />
     <Compile Include="Behaviours\EnableTrigger.cs" />
     <Compile Include="Behaviours\FootstepPlayer.cs" />

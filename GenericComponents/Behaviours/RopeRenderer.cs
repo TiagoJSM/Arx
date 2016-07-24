@@ -7,12 +7,24 @@ using UnityEngine;
 
 namespace GenericComponents.Behaviours
 {
-    [RequireComponent(typeof(Rope))]
     [RequireComponent(typeof(LineRenderer))]
     public class RopeRenderer : MonoBehaviour
     {
-        private Rope _rope;
+        [SerializeField]
+        private BaseRope _rope;
         private LineRenderer _renderer;
+
+        public BaseRope Rope
+        {
+            get
+            {
+                return _rope;
+            }
+            set
+            {
+                _rope = value;
+            }
+        }
 
         void Awake()
         {
@@ -21,6 +33,10 @@ namespace GenericComponents.Behaviours
         }
         void Update()
         {
+            if(_rope == null)
+            {
+                _renderer.SetVertexCount(0);
+            }
             _renderer.SetVertexCount(_rope.Points.Count());
             _renderer.SetPositions(_rope.Points.Select(p => p.ToVector3()).ToArray());
         }
