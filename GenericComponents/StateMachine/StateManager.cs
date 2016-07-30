@@ -68,6 +68,7 @@ namespace GenericComponents.StateMachine
                 _currentStateContainer.State.OnStateEnter(action);
             }
 
+            //Debug.Log(_currentStateContainer.State.GetType());
             _currentStateContainer.State.Perform(action);
             
         }

@@ -58,6 +58,8 @@ namespace ArxGame.Components
         //    }
         //}
 
+        public bool Attacking { get; private set; }
+
         public int ComboNumber
         {
             get
@@ -94,6 +96,7 @@ namespace ArxGame.Components
         public void DoPrimaryAttack()
         {
             IsCurrentAnimationOver = false;
+            Attacking = true;
             _combatModule.PrimaryAttack();
             _attackAction = AttackType.None;
         }
@@ -112,22 +115,24 @@ namespace ArxGame.Components
         public override void Duck()
         {
             _combatModule.ComboNumber = 0;
+            Attacking = false;
             base.Duck();
         }
 
         public override void Stand()
         {
             _combatModule.ComboNumber = 0;
+            Attacking = false;
             base.Stand();
         }
         protected override void Awake()
         {
             base.Awake();
-            _animationController = GetComponent<PlatformerCharacterAnimationController>();
+            //_animationController = GetComponent<PlatformerCharacterAnimationController>();
             _combatModule = GetComponent<CombatModule>();
-            _stateManager = new PlatformerCharacterStateManager(this, _animationController.rollingDuration);
+            _stateManager = new PlatformerCharacterStateManager(this, 1/*_animationController.rollingDuration*/);
 
-            _combatModule.AnimationController = _animationController;
+            //_combatModule.AnimationController = _animationController;
             _combatModule.OnAttackFinish += OnAttackFinishHandler;
         }
 

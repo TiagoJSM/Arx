@@ -83,6 +83,14 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
+        public float HorizontalSpeed
+        {
+            get
+            {
+                return _rigidBody.velocity.x;
+            }
+        }
+
         public bool GrabbingLedge
         {
             get

@@ -265,10 +265,10 @@ namespace GenericComponents.Helpers
 
         public override void Update()
         {
-            if (_combatComponent.IsCurrentAnimationOver)
-            {
-                _combatComponent.NotifyAttackFinish();
-            }
+            //if (_combatComponent.IsCurrentAnimationOver)
+            //{
+            //    _combatComponent.NotifyAttackFinish();
+            //}
         }
 
         public override void Dispose() { }

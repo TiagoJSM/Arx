@@ -15,7 +15,7 @@ namespace ArxGame.Components
         private const int MAX_COMBOS = 3;
         private const int COMBO_START = 1;
 
-        private AttackType? _comboType;
+        private AttackType _comboType;
         private IWeapon _weapon;
         private IAttackHandler _attackHandler;
 
@@ -78,11 +78,20 @@ namespace ArxGame.Components
             }
         }
 
+        public AttackType ComboType
+        {
+            get
+            {
+                return _comboType;
+            }
+        }
+
         public bool IsCurrentAnimationOver
         {
             get
             {
-                return AnimationController.IsCurrentAnimationOver;
+                return _over;
+                //return AnimationController.IsCurrentAnimationOver;
             }
         }
 
@@ -119,6 +128,7 @@ namespace ArxGame.Components
 
         private void DoAttack(AttackType attackType)
         {
+            Debug.Log("doAttack");
             _comboType = attackType;
             if (attackType == AttackType.None)
             {
@@ -150,6 +160,7 @@ namespace ArxGame.Components
 
         public void NotifyAttackFinish()
         {
+            //_comboType = AttackType.None;
             OnAttackFinish?.Invoke();
         }
 
@@ -158,12 +169,20 @@ namespace ArxGame.Components
             OnChainWeaponThrow?.Invoke();
         }
 
+        bool _over = false;
+        public void AttackIsOverCB()
+        {
+            OnAttackFinish?.Invoke();
+            _over = true;
+        }
+
         void Update()
         {
             if(_attackHandler != null)
             {
                 _attackHandler.Update();
             }
+            _over = false;
         }
     }
 }

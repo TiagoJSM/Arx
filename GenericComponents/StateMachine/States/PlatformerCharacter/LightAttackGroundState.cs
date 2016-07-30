@@ -16,7 +16,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 
         public override void OnStateExit(PlatformerCharacterAction action)
         {
-            base.OnStateEnter(action);
+            base.OnStateExit(action);
             StateController.AttackIsOver();
         }
     }
