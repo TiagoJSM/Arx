@@ -123,5 +123,6 @@ public class ArxAnimationController : MonoBehaviour, IAnimationController {
         WeaponType = _combatModule.WeaponType;
         AttackType = _combatModule.ComboType;
         Attacking = _platformerController.Attacking;
+        Ducking = _platformerController.Ducking;
     }
 }

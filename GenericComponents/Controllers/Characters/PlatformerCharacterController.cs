@@ -20,6 +20,7 @@ namespace GenericComponents.Controllers.Characters
 {
     [RequireComponent(typeof(LedgeChecker))]
     [RequireComponent(typeof(RoofChecker))]
+    [RequireComponent(typeof(Rigidbody2D))]
     public class PlatformerCharacterController : BasePlatformerController
     {
         private bool _grabbingLedge = false;
@@ -33,6 +34,7 @@ namespace GenericComponents.Controllers.Characters
         private Collider2D _detectedLedge;
         private Collider2D _lastGrabbedLedge;
         private bool _ledgeDetected;
+        private bool _ducking;
 
         public float groundMovementForce = 2f;
         public float airMovementForce = 1f;
@@ -88,6 +90,14 @@ namespace GenericComponents.Controllers.Characters
             get
             {
                 return _rigidBody.velocity.x;
+            }
+        }
+
+        public bool Ducking
+        {
+            get
+            {
+                return _ducking;
             }
         }
 
@@ -158,7 +168,7 @@ namespace GenericComponents.Controllers.Characters
 
         public virtual void Duck()
         {
-            //_comboNumber = 0;
+            _ducking = true;
             foreach(var duckCollider in duckingColliders)
             {
                 duckCollider.enabled = true;
@@ -171,7 +181,7 @@ namespace GenericComponents.Controllers.Characters
 
         public virtual void Stand()
         {
-            //_comboNumber = 0;
+            _ducking = false;
             foreach (var duckCollider in duckingColliders)
             {
                 duckCollider.enabled = false;

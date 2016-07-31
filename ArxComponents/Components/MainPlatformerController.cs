@@ -14,12 +14,12 @@ using UnityEngine;
 
 namespace ArxGame.Components
 {
-    [RequireComponent(typeof(PlatformerCharacterAnimationController))]
+    //[RequireComponent(typeof(PlatformerCharacterAnimationController))]
     [RequireComponent(typeof(CombatModule))]
     public class MainPlatformerController : PlatformerCharacterController, IPlatformerCharacterController
     {
         private CombatModule _combatModule;
-        private PlatformerCharacterAnimationController _animationController;
+        //private PlatformerCharacterAnimationController _animationController;
         private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
 
         private float _move;
@@ -49,14 +49,6 @@ namespace ArxGame.Components
         }
 
         public bool IsCurrentAnimationOver { get; private set; }
-
-        //public bool IsCurrentAnimationOver
-        //{
-        //    get
-        //    {
-        //        return _animationController.IsCurrentAnimationOver;
-        //    }
-        //}
 
         public bool Attacking { get; private set; }
 
@@ -128,11 +120,8 @@ namespace ArxGame.Components
         protected override void Awake()
         {
             base.Awake();
-            //_animationController = GetComponent<PlatformerCharacterAnimationController>();
             _combatModule = GetComponent<CombatModule>();
             _stateManager = new PlatformerCharacterStateManager(this, 1/*_animationController.rollingDuration*/);
-
-            //_combatModule.AnimationController = _animationController;
             _combatModule.OnAttackFinish += OnAttackFinishHandler;
         }
 
