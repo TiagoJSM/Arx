@@ -136,11 +136,9 @@ public class NightmareHunterGateAiStateManager : StateManager<INightmareHunterGa
 }
 
 [RequireComponent(typeof(NightmareHunterController))]
-[RequireComponent(typeof(PlatformerCharacterAnimationController))]
 public class NightmareHunterGateLiftAiControl : MonoBehaviour, IPlatformerAICharacterControl, INightmareHunterGateLiftAiControl
 {
     private NightmareHunterGateAiStateManager _aiManager;
-    private PlatformerCharacterAnimationController _animationController;
     private NightmareHunterController _characterController;
 
     public GameObject moveAwayObject;
@@ -152,13 +150,6 @@ public class NightmareHunterGateLiftAiControl : MonoBehaviour, IPlatformerAIChar
     private Vector2? _moveToPosition;
     private float _treshold;
 
-    protected PlatformerCharacterAnimationController AnimationController
-    {
-        get
-        {
-            return _animationController;
-        }
-    }
     protected NightmareHunterController CharacterController
     {
         get
@@ -184,13 +175,10 @@ public class NightmareHunterGateLiftAiControl : MonoBehaviour, IPlatformerAIChar
 
     public void KnockGate()
     {
-        AnimationController.PlayAnimation(knockGateAnimation);
-        //throw new NotImplementedException();
     }
 
     public void AttackTarget()
     {
-        //throw new NotImplementedException();
     }
 
     public void MoveAway()
@@ -200,7 +188,6 @@ public class NightmareHunterGateLiftAiControl : MonoBehaviour, IPlatformerAIChar
 
     public void Die()
     {
-        //throw new NotImplementedException();
     }
 
     public void MoveDirectlyTo(Vector2 position, float treshold)
@@ -218,7 +205,6 @@ public class NightmareHunterGateLiftAiControl : MonoBehaviour, IPlatformerAIChar
     {
         _characterController = GetComponent<NightmareHunterController>();
         _aiManager = new NightmareHunterGateAiStateManager(this);
-        _animationController = GetComponent<PlatformerCharacterAnimationController>();
     }
 
     protected void FixedUpdate()

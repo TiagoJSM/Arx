@@ -19,6 +19,6 @@ public class NightmareHunterGateLiftAnimationController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        _animator.SetBool(GateKock, _controller.HorizontalSpeed != 0);
+        _animator.SetBool(GateKock, _controller.HorizontalSpeed == 0);
     }
 }
