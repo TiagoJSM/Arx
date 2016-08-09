@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace ArxGame.Components
+namespace GenericComponents.Behaviours
 {
     public class CharacterStatus : MonoBehaviour
     {
@@ -27,7 +27,7 @@ namespace ArxGame.Components
         public void Heal(int healPoints)
         {
             health.lifePoints += healPoints;
-            if(health.lifePoints > health.maxLifePoints)
+            if (health.lifePoints > health.maxLifePoints)
             {
                 health.lifePoints = health.maxLifePoints;
             }

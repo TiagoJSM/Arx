@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.Experimental.Director;
 using ArxGame.Components;
+using GenericComponents.Helpers;
 
 public class AttackFinishBehaviour : StateMachineBehaviour {
 
@@ -22,7 +23,7 @@ public class AttackFinishBehaviour : StateMachineBehaviour {
     {
         if(stateInfo.normalizedTime >= 1 && !_notified)
         {
-            animator.gameObject.GetComponent<CombatModule>().AttackIsOverCB();
+            animator.gameObject.GetComponent<ICombatComponent>().NotifyAttackFinish();
             _notified = true;
         }
     }

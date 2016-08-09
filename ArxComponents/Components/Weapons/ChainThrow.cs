@@ -1,4 +1,4 @@
-﻿using ArxGame.Components.EnemyControllers;
+﻿using CommonInterfaces.Controllers;
 using CommonInterfaces.Enums;
 using CommonInterfaces.Weapons;
 using System;
@@ -13,7 +13,7 @@ namespace ArxGame.Components.Weapons
     public class ChainThrow : MonoBehaviour, IChainThrowWeapon
     {
         private float _focusTime;
-        private List<BaseEnemyController> _attackedEnemies;
+        private List<ICharacter> _attackedEnemies;
         private ChainedProjectile _instantiatedHeldProjectile;
 
         public event Action OnAttackFinish;
@@ -52,7 +52,7 @@ namespace ArxGame.Components.Weapons
 
         void Awake()
         {
-            _attackedEnemies = new List<BaseEnemyController>();
+            _attackedEnemies = new List<ICharacter>();
             _instantiatedHeldProjectile = Instantiate(projectile);
             _instantiatedHeldProjectile.Origin = this.gameObject;
             _instantiatedHeldProjectile.transform.parent = null;

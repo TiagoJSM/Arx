@@ -99,11 +99,6 @@ namespace ArxGame.Components
             _attackAction = AttackType.None;
         }
 
-        public void AttackIsOver()
-        {
-            _combatModule.AttackIsOver();
-        }
-
         public override void Duck()
         {
             _combatModule.ComboNumber = 0;

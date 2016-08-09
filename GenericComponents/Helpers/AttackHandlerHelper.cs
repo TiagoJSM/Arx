@@ -263,13 +263,7 @@ namespace GenericComponents.Helpers
             return true;
         }
 
-        public override void Update()
-        {
-            //if (_combatComponent.IsCurrentAnimationOver)
-            //{
-            //    _combatComponent.NotifyAttackFinish();
-            //}
-        }
+        public override void Update() { }
 
         public override void Dispose() { }
     }

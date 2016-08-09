@@ -27,6 +27,5 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         void Roll(float move);
         void DoPrimaryAttack();
         void DoSecundaryAttack();
-        void AttackIsOver();
     }
 }

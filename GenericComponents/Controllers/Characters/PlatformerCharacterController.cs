@@ -24,8 +24,6 @@ namespace GenericComponents.Controllers.Characters
     public class PlatformerCharacterController : BasePlatformerController
     {
         private bool _grabbingLedge = false;
-        [SerializeField]
-        private Direction _direction;
 
         private LedgeChecker _ledgeChecker;
         private RoofChecker _roofChecker;
@@ -44,14 +42,6 @@ namespace GenericComponents.Controllers.Characters
         public Collider2D[] standingColliders;
         public Collider2D[] duckingColliders;
         public float maxRollSpeed = 12.0f;
-
-        public Direction Direction
-        { 
-            get
-            {
-                return _direction;
-            }
-        }
 
         private bool DetectingPreviousGrabbedLedge
         {
@@ -126,7 +116,7 @@ namespace GenericComponents.Controllers.Characters
 
         public void DoMove(float move)
         {
-            _direction = DirectionOfMovement(move, _direction);
+            var direction = DirectionOfMovement(move, Direction);
             var movementForce = IsGrounded ? groundMovementForce : airMovementForce;
 
             if (Math.Abs(move) < 0.5)
@@ -135,10 +125,10 @@ namespace GenericComponents.Controllers.Characters
             }
             else
             {
-                _rigidBody.AddForce(new Vector2(movementForce, 0) * DirectionValue(_direction), ForceMode2D.Impulse);
+                _rigidBody.AddForce(new Vector2(movementForce, 0) * DirectionValue(direction), ForceMode2D.Impulse);
             }
             
-            Flip(_direction);
+            Flip(direction);
         }
 
         public void DoGrabLedge()
@@ -199,14 +189,15 @@ namespace GenericComponents.Controllers.Characters
 
         public void Roll(float move)
         {
-            _direction = DirectionOfMovement(move, _direction);
-            Flip(_direction);
-            var direction = DirectionValue(_direction);
-            _rigidBody.velocity = new Vector2(direction * maxRollSpeed, _rigidBody.velocity.y);
+            var direction = DirectionOfMovement(move, Direction);
+            Flip(direction);
+            var directionValue = DirectionValue(direction);
+            _rigidBody.velocity = new Vector2(directionValue * maxRollSpeed, _rigidBody.velocity.y);
         }
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _rigidBody = GetComponent<Rigidbody2D>();
             _gravityScale = _rigidBody.gravityScale;
             _ledgeChecker = GetComponent<LedgeChecker>();

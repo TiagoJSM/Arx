@@ -1,4 +1,5 @@
 ﻿using CommonInterfaces.Enums;
+using Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,24 @@ using Utils;
 
 namespace GenericComponents.Controllers.Characters
 {
-    public class BasePlatformerController : MonoBehaviour
+    public class BasePlatformerController : CharacterController
     {
         private Collider2D activePlatformCollider;
+
+        //[SerializeField]
+        private Direction _direction;
 
         public Transform groundCheck;
         public LayerMask whatIsGround;
         public float groundCheckRadius = 0.2f;
+
+        public Direction Direction
+        {
+            get
+            {
+                return _direction;
+            }
+        }
 
         void OnCollisionEnter2D(Collision2D other)
         {
@@ -32,6 +44,12 @@ namespace GenericComponents.Controllers.Characters
                 }
             }
             activePlatformCollider = null;
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _direction = DirectionOfMovement(transform.localScale.x, Direction.Left);
         }
 
         void OnCollisionExit2D(Collision2D other)
@@ -52,6 +70,7 @@ namespace GenericComponents.Controllers.Characters
             }
             scale.x *= -1;
             transform.localScale = scale;
+            _direction = direction;
         }
 
         protected Direction DirectionOfMovement(float horizontal, Direction defaultValue)
@@ -61,7 +80,7 @@ namespace GenericComponents.Controllers.Characters
 
         protected float DirectionValue(Direction defaultValue)
         {
-            return defaultValue == Direction.Left ? -1 : 1;
+            return defaultValue.DirectionValue();
         }
 
         protected bool CheckGrounded()

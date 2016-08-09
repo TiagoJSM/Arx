@@ -51,6 +51,7 @@
     <Compile Include="Animation\Playables\StateAnimationMixerPlayable.cs" />
     <Compile Include="Behaviours\AnimationDelay.cs" />
     <Compile Include="Behaviours\BaseRope.cs" />
+    <Compile Include="Behaviours\CharacterStatus.cs" />
     <Compile Include="Behaviours\CloneSpriteMaterial.cs" />
     <Compile Include="Behaviours\EnableTrigger.cs" />
     <Compile Include="Behaviours\FootstepPlayer.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Containers\Health.cs" />
     <Compile Include="Containers\PlatformerCharacterAnimations.cs" />
     <Compile Include="Controllers\Characters\BasePlatformerController.cs" />
+    <Compile Include="Controllers\Characters\CharacterController.cs" />
     <Compile Include="Controllers\Characters\CharacterGrounding.cs" />
     <Compile Include="Controllers\Characters\PlatformerCharacterController.cs" />
     <Compile Include="Controllers\Interaction\Environment\LedgeChecker.cs" />

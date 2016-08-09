@@ -13,6 +13,7 @@ namespace CommonInterfaces.Controllers
         int MaxLifePoints { get; }
         int LifePoints { get; }
 
-        bool Attacked(GameObject attacker, int damage, Vector3? hitPoint);
+        float Attacked(GameObject attacker, int damage, Vector3? hitPoint);
+        void Kill();
     }
 }

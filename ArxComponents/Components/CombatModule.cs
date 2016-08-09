@@ -12,12 +12,15 @@ namespace ArxGame.Components
 {
     public class CombatModule : MonoBehaviour, ICombatComponent
     {
-        private const int MAX_COMBOS = 3;
         private const int COMBO_START = 1;
 
         private AttackType _comboType;
         private IWeapon _weapon;
         private IAttackHandler _attackHandler;
+        private bool _over = false;
+
+        [SerializeField]
+        private int maxCombos = 3;
 
         public GameObject aimingArm;
         public GameObject head;
@@ -91,7 +94,6 @@ namespace ArxGame.Components
             get
             {
                 return _over;
-                //return AnimationController.IsCurrentAnimationOver;
             }
         }
 
@@ -121,14 +123,8 @@ namespace ArxGame.Components
             DoAttack(AttackType.Secundary);
         }
 
-        public void AttackIsOver()
-        {
-            _attackHandler.AttackIsOver();
-        }
-
         private void DoAttack(AttackType attackType)
         {
-            Debug.Log("doAttack");
             _comboType = attackType;
             if (attackType == AttackType.None)
             {
@@ -137,7 +133,7 @@ namespace ArxGame.Components
             else if (attackType == AttackType.Secundary)
             {
                 ComboNumber++;
-                if (ComboNumber > MAX_COMBOS)
+                if (ComboNumber > maxCombos)
                 {
                     ComboNumber = COMBO_START;
                 }
@@ -146,7 +142,7 @@ namespace ArxGame.Components
             else if (attackType == AttackType.Primary)
             {
                 ComboNumber++;
-                if (ComboNumber > MAX_COMBOS)
+                if (ComboNumber > maxCombos)
                 {
                     ComboNumber = COMBO_START;
                 }
@@ -160,20 +156,14 @@ namespace ArxGame.Components
 
         public void NotifyAttackFinish()
         {
-            //_comboType = AttackType.None;
+            _attackHandler.AttackIsOver();
             OnAttackFinish?.Invoke();
+            _over = true;
         }
 
         public void ThrowChainWeapon()
         {
             OnChainWeaponThrow?.Invoke();
-        }
-
-        bool _over = false;
-        public void AttackIsOverCB()
-        {
-            OnAttackFinish?.Invoke();
-            _over = true;
         }
 
         void Update()

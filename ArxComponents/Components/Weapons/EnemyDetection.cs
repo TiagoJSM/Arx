@@ -1,5 +1,4 @@
-﻿using ArxGame.Components.EnemyControllers;
-using CommonInterfaces.Controllers;
+﻿using CommonInterfaces.Controllers;
 using CommonInterfaces.Weapons;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ namespace ArxGame.Components.Weapons
 {
     public abstract class EnemyDetection : MonoBehaviour, ICloseCombatWeapon
     {
-        private List<BaseEnemyController> _attackedEnemies;
+        private List<ICharacter> _attackedEnemies;
 
         public Collider2D detectionCollider;
 
@@ -38,14 +37,14 @@ namespace ArxGame.Components.Weapons
 
         void Awake()
         {
-            _attackedEnemies = new List<BaseEnemyController>();
+            _attackedEnemies = new List<ICharacter>();
             this.enabled = false;
             detectionCollider.enabled = false;
         }
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            var enemy = other.GetComponent<BaseEnemyController>();
+            var enemy = other.GetComponent<ICharacter>();
             if(enemy == null)
             {
                 return;
