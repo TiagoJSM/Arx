@@ -5,7 +5,6 @@ using GenericComponents.Animation.Playables;
 using GenericComponents.Containers;
 using GenericComponents.Controllers.Interaction.Environment;
 using GenericComponents.Enums;
-using GenericComponents.Helpers;
 using GenericComponents.Interfaces.States.PlatformerCharacter;
 using GenericComponents.StateMachine;
 using GenericComponents.StateMachine.States.PlatformerCharacter;
@@ -80,6 +79,14 @@ namespace GenericComponents.Controllers.Characters
             get
             {
                 return _rigidBody.velocity.x;
+            }
+        }
+
+        protected Rigidbody2D Body
+        {
+            get
+            {
+                return _rigidBody;
             }
         }
 
@@ -184,7 +191,7 @@ namespace GenericComponents.Controllers.Characters
 
         public void StayStill()
         {
-            _rigidBody.velocity = new Vector2(0, _rigidBody.velocity.y);
+            _rigidBody.velocity = Vector2.zero;
         }
 
         public void Roll(float move)
@@ -215,6 +222,8 @@ namespace GenericComponents.Controllers.Characters
             //check https://vonlehecreative.wordpress.com/2010/02/02/unity-resource-velocitylimiter/
             var currentMaxSpeed = IsGrounded ? maxRunSpeed : airMaxSpeed;
             _rigidBody.velocity = new Vector2(Mathf.Clamp(_rigidBody.velocity.x, -currentMaxSpeed, currentMaxSpeed), _rigidBody.velocity.y);
+            _rigidBody.rotation = 0;
+            transform.rotation = Quaternion.identity;
         }
 
         void OnDrawGizmosSelected()

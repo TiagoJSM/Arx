@@ -5,6 +5,9 @@ using ArxGame.Components;
 using GenericComponents.StateMachine;
 using System;
 using ArxGame.Components.Weapons;
+using CommonInterfaces.Controllers;
+using System.Collections.Generic;
+using ArxGame.Components.Combat;
 
 public class MeleeEnemyControllerStateManager : StateManager<ICharacter, StateAction>
 {
@@ -32,10 +35,10 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
     private float _move;
     private bool _attack;
     private MeleeEnemyControllerStateManager _stateManager;
-    private EnemyDetection _equippedWeapon;
+    private BaseCloseCombatWeapon _equippedWeapon;
 
     [SerializeField]
-    private EnemyDetection _weaponPrefab;
+    private BaseCloseCombatWeapon _weaponPrefab;
     [SerializeField]
     public GameObject _weaponSocket;
 
@@ -46,6 +49,8 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
             return _attacking;
         }
     }
+
+    public bool Dead { get; private set; }
 
     public void Move(float move)
     {
@@ -61,6 +66,11 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
     {
         _combatModule.PrimaryAttack();
         _attacking = true;
+    }
+
+    public override void Kill()
+    {
+        Dead = true;
     }
 
     protected override void Awake()

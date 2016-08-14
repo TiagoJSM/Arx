@@ -5,11 +5,12 @@ using GenericComponents.Enums;
 using ArxGame.Components;
 using CommonInterfaces.Controllers;
 using System;
+using ArxGame.Components.Combat;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(CombatModule))]
-public class ArxAnimationController : MonoBehaviour, IAnimationController {
+public class ArxAnimationController : MonoBehaviour {
     private readonly int _HorizontalVelocity = Animator.StringToHash("Horizontal Velocity");
     private readonly int _Grounded = Animator.StringToHash("Grounded");
     private readonly int _Ducking = Animator.StringToHash("Ducking");
@@ -90,27 +91,11 @@ public class ArxAnimationController : MonoBehaviour, IAnimationController {
         }
     }
 
-    public bool IsCurrentAnimationOver
-    {
-        get
-        {
-            var clip = _animator.GetCurrentAnimatorClipInfo(0);
-            var state = _animator.GetCurrentAnimatorStateInfo(0);
-            if (state.normalizedTime >= 1)
-            {
-                //Debug.Log(state.normalizedTime);
-            }
-            
-            return state.normalizedTime >= 1;
-        }
-    }
-
     // Use this for initialization
     void Awake () {
         _animator = GetComponent<Animator>();
         _platformerController = GetComponent<MainPlatformerController>();
         _combatModule = GetComponent<CombatModule>();
-        _combatModule.AnimationController = this;
     }
 	
     void Update()

@@ -12,6 +12,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies.Melee_enemy
     {
         private readonly int _HorizontalVelocity = Animator.StringToHash("Velocity");
         private readonly int _Attacking = Animator.StringToHash("Attacking");
+        private readonly int _DeathFront = Animator.StringToHash("Death front");
 
         private Animator _animator;
         private MeleeEnemyController _controller;
@@ -28,6 +29,13 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies.Melee_enemy
             set
             {
                 _animator.SetBool(_Attacking, value);
+            }
+        }
+        private bool DeathFront
+        {
+            set
+            {
+                _animator.SetBool(_DeathFront, value);
             }
         }
 
@@ -57,6 +65,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies.Melee_enemy
         {
             HorizontalVelocity = _controller.HorizontalSpeed;
             Attacking = _controller.Attacking;
+            DeathFront = _controller.Dead;
         }
     }
 }

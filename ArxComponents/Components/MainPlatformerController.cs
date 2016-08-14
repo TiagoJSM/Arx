@@ -1,8 +1,9 @@
 ﻿using ArxGame.Components.AnimationControllers;
+using ArxGame.Components.Combat;
+using CommonInterfaces.Controllers;
 using CommonInterfaces.Weapons;
 using GenericComponents.Controllers.Characters;
 using GenericComponents.Enums;
-using GenericComponents.Helpers;
 using GenericComponents.Interfaces.States.PlatformerCharacter;
 using GenericComponents.StateMachine;
 using GenericComponents.StateMachine.States.PlatformerCharacter;
@@ -18,9 +19,15 @@ namespace ArxGame.Components
     [RequireComponent(typeof(CombatModule))]
     public class MainPlatformerController : PlatformerCharacterController, IPlatformerCharacterController
     {
+        private PhysicsMaterial2D _commonFootMaterial;
         private CombatModule _combatModule;
         //private PlatformerCharacterAnimationController _animationController;
         private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
+
+        [SerializeField]
+        private Collider2D _footCollider;
+        [SerializeField]
+        private PhysicsMaterial2D _iddleFootMaterial;
 
         private float _move;
         private float _vertical;
@@ -112,12 +119,24 @@ namespace ArxGame.Components
             Attacking = false;
             base.Stand();
         }
+
+        public void StartIddle()
+        {
+            Body.drag = 1000;
+        }
+
+        public void StopIddle()
+        {
+            Body.drag = 0;
+        }
+
         protected override void Awake()
         {
             base.Awake();
             _combatModule = GetComponent<CombatModule>();
             _stateManager = new PlatformerCharacterStateManager(this, 1/*_animationController.rollingDuration*/);
             _combatModule.OnAttackFinish += OnAttackFinishHandler;
+            //_combatModule
         }
 
         protected override void FixedUpdate()

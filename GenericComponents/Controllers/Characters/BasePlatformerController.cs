@@ -28,6 +28,14 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
+        protected float GroundContactMaxNormal
+        {
+            get
+            {
+                return 0.5f;
+            }
+        }
+
         void OnCollisionEnter2D(Collision2D other)
         {
             if (activePlatformCollider != null)
@@ -36,9 +44,10 @@ namespace GenericComponents.Controllers.Characters
             }
             foreach (var contact in other.contacts)
             {
-                if (contact.normal.y > 0.5)
+                if (contact.normal.y > GroundContactMaxNormal)
                 {
                     transform.parent = other.transform;
+                    transform.rotation = Quaternion.identity;
                     activePlatformCollider = contact.collider;
                     return;
                 }
@@ -63,11 +72,12 @@ namespace GenericComponents.Controllers.Characters
 
         protected void Flip(Direction direction)
         {
-            var scale = transform.localScale;
-            if ((direction == Direction.Right && scale.x > 0) || (direction == Direction.Left && scale.x < 0))
+            var globalScale = transform.lossyScale;
+            if ((direction == Direction.Right && globalScale.x > 0) || (direction == Direction.Left && globalScale.x < 0))
             {
                 return;
             }
+            var scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
             _direction = direction;

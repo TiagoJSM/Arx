@@ -50,7 +50,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\CombatModule.cs" />
+    <Compile Include="Components\Combat\BaseCombatBehaviour.cs" />
+    <Compile Include="Components\Combat\ChainThrowCombatBehaviour.cs" />
+    <Compile Include="Components\Combat\CloseCombatBehaviour.cs" />
+    <Compile Include="Components\Combat\CombatModule.cs" />
+    <Compile Include="Components\Combat\ShooterCombatBehaviour.cs" />
     <Compile Include="Components\Environment\GrappleRope.cs" />
     <Compile Include="Components\EquipmentController.cs" />
     <Compile Include="Components\MainPlatformerCharacterUserControl.cs" />
@@ -60,6 +64,7 @@
     <Compile Include="Components\TextAlphaMinimumValueTransition.cs" />
     <Compile Include="Components\UiController.cs" />
     <Compile Include="Components\UserControls\PlatformerCharacterUserControl.cs" />
+    <Compile Include="Components\Weapons\BaseCloseCombatWeapon.cs" />
     <Compile Include="Components\Weapons\ChainedProjectile.cs" />
     <Compile Include="Components\Weapons\ChainThrow.cs" />
     <Compile Include="Components\Weapons\EnemyDetection.cs" />
