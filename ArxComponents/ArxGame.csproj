@@ -57,13 +57,11 @@
     <Compile Include="Components\Combat\ShooterCombatBehaviour.cs" />
     <Compile Include="Components\Environment\GrappleRope.cs" />
     <Compile Include="Components\EquipmentController.cs" />
-    <Compile Include="Components\MainPlatformerCharacterUserControl.cs" />
     <Compile Include="Components\MainPlatformerController.cs" />
     <Compile Include="Components\AnimationControllers\PlatformerCharacterAnimationController.cs" />
     <Compile Include="Components\SequencePlatformerCharacterControl.cs" />
     <Compile Include="Components\TextAlphaMinimumValueTransition.cs" />
     <Compile Include="Components\UiController.cs" />
-    <Compile Include="Components\UserControls\PlatformerCharacterUserControl.cs" />
     <Compile Include="Components\Weapons\BaseCloseCombatWeapon.cs" />
     <Compile Include="Components\Weapons\ChainedProjectile.cs" />
     <Compile Include="Components\Weapons\ChainThrow.cs" />
@@ -119,6 +117,7 @@
   <ItemGroup>
     <Folder Include="Components\Ai\" />
     <Folder Include="Components\EnemyControllers\" />
+    <Folder Include="Components\UserControls\" />
     <Folder Include="StateMachine\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

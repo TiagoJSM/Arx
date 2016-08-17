@@ -40,7 +40,7 @@ namespace GenericComponents.Controllers.Interaction
         void Start()
         {
             _canvas = GetComponentInChildren<Canvas>();
-            _scrollRect = GetComponent<ScrollRect>();
+            _scrollRect = GetComponentInChildren<ScrollRect>();
             _scrollRectRectTransform = GetComponent<RectTransform>();
             _contentRectTransform = _scrollRect.content;
             _contentRectTransform.position = new Vector3();

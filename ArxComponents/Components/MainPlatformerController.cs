@@ -2,6 +2,7 @@
 using ArxGame.Components.Combat;
 using CommonInterfaces.Controllers;
 using CommonInterfaces.Weapons;
+using Extensions;
 using GenericComponents.Controllers.Characters;
 using GenericComponents.Enums;
 using GenericComponents.Interfaces.States.PlatformerCharacter;
@@ -28,6 +29,8 @@ namespace ArxGame.Components
         private Collider2D _footCollider;
         [SerializeField]
         private PhysicsMaterial2D _iddleFootMaterial;
+        [SerializeField]
+        private float _rollingDuration = 1;
 
         private float _move;
         private float _vertical;
@@ -72,6 +75,14 @@ namespace ArxGame.Components
             get
             {
                 return _combatModule.WeaponType;
+            }
+        }
+
+        public float RollingDuration
+        {
+            get
+            {
+                return _rollingDuration;
             }
         }
 
@@ -122,7 +133,7 @@ namespace ArxGame.Components
 
         public void StartIddle()
         {
-            Body.drag = 1000;
+            Body.drag = float.MaxValue;
         }
 
         public void StopIddle()
@@ -134,7 +145,7 @@ namespace ArxGame.Components
         {
             base.Awake();
             _combatModule = GetComponent<CombatModule>();
-            _stateManager = new PlatformerCharacterStateManager(this, 1/*_animationController.rollingDuration*/);
+            _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
             _combatModule.OnAttackFinish += OnAttackFinishHandler;
             //_combatModule
         }
@@ -147,11 +158,24 @@ namespace ArxGame.Components
             _move = 0;
             _vertical = 0;
             _jump = false;
+            //LockOnFloor();
         }
 
         private void OnAttackFinishHandler()
         {
             IsCurrentAnimationOver = true;
+        }
+
+        private void LockOnFloor()
+        {
+            var hit = Physics2D.Raycast(this.transform.position, new Vector2(0, -1), 1, whatIsGround);
+            Debug.Log(hit.normal);
+            var currentPosition = this.transform.position;
+            if (hit.collider != null && (currentPosition.y - hit.point.y) > 0.5f)
+            {                
+                this.transform.position = new Vector3(currentPosition.x, hit.point.y, currentPosition.z);
+                Body.position = this.transform.position.ToVector2();
+            }
         }
     }
 }

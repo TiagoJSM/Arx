@@ -75,8 +75,6 @@
     <Compile Include="Controllers\Characters\PlatformerCharacterController.cs" />
     <Compile Include="Controllers\Interaction\Environment\LedgeChecker.cs" />
     <Compile Include="Controllers\Interaction\Environment\RoofChecker.cs" />
-    <Compile Include="Controllers\Interaction\InteractionFinderController.cs" />
-    <Compile Include="Controllers\Interaction\InteractionRadiusController.cs" />
     <Compile Include="Controllers\Interaction\InteractionTriggerController.cs" />
     <Compile Include="Controllers\Interaction\InteractionZoneController.cs" />
     <Compile Include="Controllers\Interaction\SpeechController.cs" />

@@ -132,7 +132,16 @@ namespace GenericComponents.Controllers.Characters
             }
             else
             {
-                _rigidBody.AddForce(new Vector2(movementForce, 0) * DirectionValue(direction), ForceMode2D.Impulse);
+                var hit = Physics2D.Raycast(this.transform.position, new Vector2(0, -1), 1, whatIsGround);
+                var y = 0.0f;
+
+                if (hit.collider != null)
+                {
+                    var normal = hit.normal;
+                    y = -(normal.y * Mathf.Sign(normal.x) * DirectionValue(this.Direction));
+                }
+                
+                _rigidBody.AddForce(new Vector2(movementForce, y) * DirectionValue(direction), ForceMode2D.Impulse);
             }
             
             Flip(direction);

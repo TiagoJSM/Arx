@@ -20,6 +20,7 @@ public class ArxAnimationController : MonoBehaviour {
     private readonly int _ComboCount = Animator.StringToHash("Combo Count");
     private readonly int _WeaponType = Animator.StringToHash("Weapon Type");
     private readonly int _AttackType = Animator.StringToHash("Attack Type");
+    private readonly int _RollingState = Animator.StringToHash("Base Layer.Ducking locomotion.Roll");
 
     private Animator _animator;
     private MainPlatformerController _platformerController;
@@ -97,6 +98,11 @@ public class ArxAnimationController : MonoBehaviour {
         _platformerController = GetComponent<MainPlatformerController>();
         _combatModule = GetComponent<CombatModule>();
     }
+
+    void Start()
+    {
+        //_animator.GetCurrentAnimatorClipInfo(_RollingState)[0].clip. = _platformerController.RollingDuration;
+    }
 	
     void Update()
     {
@@ -109,5 +115,18 @@ public class ArxAnimationController : MonoBehaviour {
         AttackType = _combatModule.ComboType;
         Attacking = _platformerController.Attacking;
         Ducking = _platformerController.Ducking;
+
+        var currentState = _animator.GetCurrentAnimatorStateInfo(0);
+        var c = _animator.GetCurrentAnimatorClipInfo(0)[0];
+        if (currentState.fullPathHash == _RollingState)
+        {
+            Debug.Log(c.clip.name);
+            Debug.Log(c.clip.length / _platformerController.RollingDuration);
+            _animator.speed = c.clip.length / _platformerController.RollingDuration;
+        }
+        else
+        {
+            _animator.speed = 1;
+        }
     }
 }

@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -111,6 +113,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Camera2DFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\ArxAnimationController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\MainPlatformerCharacterUserControl.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterFinder.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Enemies\CommonAiStates.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Enemies\CommonCharacterStates.cs" />
@@ -124,6 +127,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractibleCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\InteractionFinder.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ILedgeGrabber.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ITriggerable2D.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\LedgeDetection\ContactDetector.cs" />
