@@ -14,12 +14,15 @@ public class InteractibleCharacterController : MonoBehaviour {
         _speechController = GetComponentInChildren<SpeechController>();
         _interactionController.OnInteract += OnInteractHandler;
         _interactionController.OnStopInteraction += OnStopInteractionHandler;
-	}
+        _speechController.OnScrollEnd += OnScrollEndHandler;
+
+    }
 
     private void OnInteractHandler(GameObject interactor)
     {
         if (!_speechController.Visible)
         {
+            _speechController.Reset();
             _speechController.Visible = true;
             return;
         }
@@ -27,6 +30,11 @@ public class InteractibleCharacterController : MonoBehaviour {
     }
 
     private void OnStopInteractionHandler()
+    {
+        _speechController.Visible = false;
+    }
+
+    private void OnScrollEndHandler()
     {
         _speechController.Visible = false;
     }

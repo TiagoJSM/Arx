@@ -55,8 +55,12 @@ namespace GenericComponents.Controllers.Interaction
 
         public void ScrollPageDown()
         {
+            if (_speechEnded && OnScrollEnd != null)
+            {
+                OnScrollEnd();
+                return;
+            }
             var speechBubbleHeight = _scrollRectRectTransform.rect.height;
-            var textBubbleHeight = _scrollRect.content.rect.height;
             ScrollDown(speechBubbleHeight);
         }
 
@@ -68,10 +72,6 @@ namespace GenericComponents.Controllers.Interaction
             if (_scrollRect.verticalNormalizedPosition <= 0)
             {
                 _speechEnded = true;
-                if (OnScrollEnd != null)
-                {
-                    OnScrollEnd();
-                }
             }
         }
 
