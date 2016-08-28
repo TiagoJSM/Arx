@@ -120,8 +120,6 @@ public class ArxAnimationController : MonoBehaviour {
         var c = _animator.GetCurrentAnimatorClipInfo(0)[0];
         if (currentState.fullPathHash == _RollingState)
         {
-            Debug.Log(c.clip.name);
-            Debug.Log(c.clip.length / _platformerController.RollingDuration);
             _animator.speed = c.clip.length / _platformerController.RollingDuration;
         }
         else

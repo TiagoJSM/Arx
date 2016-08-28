@@ -59,14 +59,8 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 
             this
                 .From<LightAttackGroundState>()
-                    .To<LightAttackGroundState>((c, a, t) =>
-                        {
-                            if(a.AttackType == AttackType.Primary && c.IsCurrentAnimationOver)
-                            {
-                                
-                            }
-                            return a.AttackType == AttackType.Primary && c.IsCurrentAnimationOver;
-                        })
+                    .To<LightAttackGroundState>((c, a, t) => 
+                        a.AttackType == AttackType.Primary && c.IsCurrentAnimationOver)
                     .To<IddleState>((c, a, t) => 
                         c.IsGrounded && a.Move == 0 && c.IsCurrentAnimationOver)
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && c.IsCurrentAnimationOver);

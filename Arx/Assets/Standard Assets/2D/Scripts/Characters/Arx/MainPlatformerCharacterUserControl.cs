@@ -80,6 +80,9 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     private void Update()
     {
+        var horizontal = Input.GetAxis("Horizontal");
+        var vertical = Input.GetAxis("Vertical");
+
         if (!_jump)
         {
             _jump = Input.GetButtonDown("Jump");
@@ -93,13 +96,6 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
                 interactionTrigger.Interact(this.gameObject);
             }
         }
-    }
-
-    private void FixedUpdate()
-    {
-        //bool crouch = Input.GetKey(KeyCode.LeftControl);
-        var horizontal = Input.GetAxis("Horizontal");
-        var vertical = Input.GetAxis("Vertical");
 
         _characterController.Move(horizontal, vertical, _jump);
 
@@ -109,6 +105,12 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         {
             _characterController.LightAttack();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        //bool crouch = Input.GetKey(KeyCode.LeftControl);
+       
     }
 
     private void LateUpdate()

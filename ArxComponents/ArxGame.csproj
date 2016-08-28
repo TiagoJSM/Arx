@@ -57,8 +57,6 @@
     <Compile Include="Components\Combat\ShooterCombatBehaviour.cs" />
     <Compile Include="Components\Environment\GrappleRope.cs" />
     <Compile Include="Components\EquipmentController.cs" />
-    <Compile Include="Components\MainPlatformerController.cs" />
-    <Compile Include="Components\AnimationControllers\PlatformerCharacterAnimationController.cs" />
     <Compile Include="Components\SequencePlatformerCharacterControl.cs" />
     <Compile Include="Components\TextAlphaMinimumValueTransition.cs" />
     <Compile Include="Components\UiController.cs" />
@@ -116,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Components\Ai\" />
+    <Folder Include="Components\AnimationControllers\" />
     <Folder Include="Components\EnemyControllers\" />
     <Folder Include="Components\UserControls\" />
     <Folder Include="StateMachine\" />

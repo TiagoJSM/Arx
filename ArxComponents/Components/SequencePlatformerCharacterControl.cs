@@ -8,19 +8,19 @@ using UnityEngine;
 
 namespace ArxGame.Components
 {
-    [RequireComponent(typeof(MainPlatformerController))]
-    public class SequencePlatformerCharacterControl : MonoBehaviour
-    {
-        private MainPlatformerController _characterController;
+    //[RequireComponent(typeof(MainPlatformerController))]
+    //public class SequencePlatformerCharacterControl : MonoBehaviour
+    //{
+    //    private MainPlatformerController _characterController;
 
-        public void Move(Direction direction)
-        {
-            _characterController.Move(direction == Direction.Left ? -1 : 1, 0, false);
-        }
+    //    public void Move(Direction direction)
+    //    {
+    //        _characterController.Move(direction == Direction.Left ? -1 : 1, 0, false);
+    //    }
 
-        void Start()
-        {
-            _characterController = this.GetComponent<MainPlatformerController>();
-        }
-    }
+    //    void Start()
+    //    {
+    //        _characterController = this.GetComponent<MainPlatformerController>();
+    //    }
+    //}
 }

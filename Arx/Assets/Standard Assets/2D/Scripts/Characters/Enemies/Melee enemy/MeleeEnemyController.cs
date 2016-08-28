@@ -81,16 +81,17 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
         _combatModule.OnAttackFinish += OnAttackFinishHandler;
     }
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
         _equippedWeapon = Instantiate(_weaponPrefab);
         _equippedWeapon.transform.SetParent(_weaponSocket.transform, false);
         _combatModule.Weapon = _equippedWeapon;
     }
 
-    protected override void FixedUpdate()
+    protected override void Update()
     {
-        base.FixedUpdate();
+        base.Update();
         _stateManager.Perform(new StateAction(_move, _attack));
         _move = 0;
         _attack = false;

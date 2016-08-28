@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using ArxGame.Components.AnimationControllers;
 using CommonInterfaces.Controls;
 using GenericComponents.Interfaces.States;
 using GenericComponents.StateMachine;

@@ -8,28 +8,42 @@ using GenericComponents.Controllers.Characters;
 
 namespace Assets.Standard_Assets._2D.Scripts.Characters
 {
-    public delegate void OnCharacterFound(GenericComponents.Controllers.Characters.BasePlatformerController controller);
+    public delegate void OnCharacterFound(BasePlatformerController controller);
 
     public class CharacterFinder : MonoBehaviour
     {
+        private Collider2D[] _colliderBuffer = new Collider2D[10];
+
         public event OnCharacterFound OnCharacterFound;
 
-        public LayerMask characterLayer;
+        [SerializeField]
+        private Transform _finderAreaP1;
+        [SerializeField]
+        private Transform _finderAreaP2;
+        [SerializeField]
+        private LayerMask _characterLayer;
 
-        void OnTriggerEnter2D(Collider2D collider)
+        void Update()
         {
-            if(OnCharacterFound == null)
+            if (OnCharacterFound == null)
             {
                 return;
             }
-            var controller = collider.GetComponent<GenericComponents.Controllers.Characters.BasePlatformerController>();
-            if (controller == null)
+            var count =
+                Physics2D
+                    .OverlapAreaNonAlloc(
+                        _finderAreaP1.position,
+                        _finderAreaP2.position,
+                        _colliderBuffer,
+                        _characterLayer);
+
+            for (var idx = 0; idx < count; idx++)
             {
-                return;
-            }
-            if (characterLayer.IsInAnyLayer(controller.gameObject))
-            {
-                OnCharacterFound(controller);
+                var controller = _colliderBuffer[idx].GetComponent<BasePlatformerController>();
+                if(controller != null)
+                {
+                    OnCharacterFound(controller);
+                }
             }
         }
     }

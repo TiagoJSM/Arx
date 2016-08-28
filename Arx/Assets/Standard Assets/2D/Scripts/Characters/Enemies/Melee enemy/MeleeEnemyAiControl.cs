@@ -18,7 +18,7 @@ public class MeleeEnemyAiStateManager : StateManager<ICharacterAI, object>
             .To<IddleState>((c, o, t) => c.Target == null);
 
         this.From<AttackTargetState>()
-            .To<FollowState>((c, a, t) => !c.IsTargetInRange);
+            .To<FollowState>((c, a, t) => !c.IsTargetInRange && !c.Attacking);
     }
 }
 
@@ -90,6 +90,7 @@ public class MeleeEnemyAiControl : MonoBehaviour, ICharacterAI
     public void Attack()
     {
         StopActiveCoroutine();
+        _controller.StayStill();
         _controller.Attack();
     }
 
@@ -100,13 +101,8 @@ public class MeleeEnemyAiControl : MonoBehaviour, ICharacterAI
         _startingPosition = this.transform.position;
         _characterFinder.OnCharacterFound += OnCharacterFoundHandler;
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
-    void FixedUpdate()
+    void Update()
     {
         _stateManager.Perform(null);
     }
@@ -152,7 +148,7 @@ public class MeleeEnemyAiControl : MonoBehaviour, ICharacterAI
         while (true)
         {
             _controller.Move(movementDirection.DirectionValue());
-            yield return new WaitForFixedUpdate();
+            yield return null;
             var distance = Vector2.Distance(_startingPosition, this.transform.position);
             var directionOfStartingPoint = (this.transform.position.x - _startingPosition.x) >= 0 ? Direction.Right : Direction.Left;
             if (distance >= _maxDistanceFromStartingPoint && directionOfStartingPoint == movementDirection)
@@ -160,7 +156,6 @@ public class MeleeEnemyAiControl : MonoBehaviour, ICharacterAI
                 movementDirection = movementDirection == Direction.Left ? Direction.Right : Direction.Left;
                 var stopTime = UnityEngine.Random.Range(0, _maxStoppedIddleTime);
                 yield return new WaitForSeconds(stopTime);
-                yield return new WaitForFixedUpdate();
             }
         }
     }
@@ -176,13 +171,12 @@ public class MeleeEnemyAiControl : MonoBehaviour, ICharacterAI
         {
             if (IsTargetInRange)
             {
-                //_target = null;
                 yield break;
             }
             var currentPosition = this.transform.position;
             var xDifference = _target.transform.position.x - currentPosition.x;
             _controller.Move(xDifference);
-            yield return new WaitForFixedUpdate();
+            yield return null;
         }
     }
 }

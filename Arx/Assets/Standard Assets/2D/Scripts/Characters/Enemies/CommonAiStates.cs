@@ -64,6 +64,7 @@ public class AttackTargetState : IState<ICharacterAI, object>
 
     public void OnStateEnter(object action)
     {
+        StateController.StopMoving();
         StateController.Attack();
     }
 
