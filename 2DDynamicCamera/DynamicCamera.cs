@@ -13,7 +13,7 @@ namespace _2DDynamicCamera
     public enum UpdateMode
     {
         FixedUpdate,
-        LateUpdate
+        Update
     }
 
     [RequireComponent(typeof(Camera))]
@@ -164,9 +164,9 @@ namespace _2DDynamicCamera
             }
         }
 
-        private void LateUpdate()
+        private void Update()
         {
-            if(updateMode == UpdateMode.LateUpdate)
+            if(updateMode == UpdateMode.Update)
             {
                 CameraUpdate();
             }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace GenericComponents.Interfaces.States.PlatformerCharacter
 {
@@ -16,6 +17,7 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         bool IsCurrentAnimationOver { get; }
         int ComboNumber { get; }
         WeaponType? WeaponType { get;}
+        bool SlidingDown { get; }
 
         void DoMove(float move);
         void DoGrabLedge();
@@ -29,5 +31,6 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         void DoSecundaryAttack();
         void StartIddle();
         void StopIddle();
+        void FlipToSlideDownDirection();
     }
 }

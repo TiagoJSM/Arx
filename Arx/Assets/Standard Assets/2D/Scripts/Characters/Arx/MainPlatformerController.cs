@@ -132,6 +132,18 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         //Body.drag = 0;
     }
 
+    public void FlipToSlideDownDirection()
+    {
+        if(CharacterController2D.SlopeNormal.x == 0)
+        {
+            return;
+        }
+        Flip(
+            CharacterController2D.SlopeNormal.x > 0 
+            ? CommonInterfaces.Enums.Direction.Right 
+            : CommonInterfaces.Enums.Direction.Left);
+    }
+
     protected override void Awake()
     {
         base.Awake();

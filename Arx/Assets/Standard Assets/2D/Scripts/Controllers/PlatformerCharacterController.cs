@@ -11,6 +11,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlatformerCharacterController : BasePlatformerController
 {
+    private Collider2D _activePlatformCollider;
     private bool _grabbingLedge = false;
     private Vector3 _velocity;
     private float _normalizedHorizontalSpeed = 0;
@@ -81,6 +82,14 @@ public class PlatformerCharacterController : BasePlatformerController
         }
     }
 
+    public bool SlidingDown
+    {
+        get
+        {
+            return _characterController2D.SlidingDown;
+        }
+    }
+
     protected Rigidbody2D Body
     {
         get
@@ -104,6 +113,8 @@ public class PlatformerCharacterController : BasePlatformerController
             return _grabbingLedge;
         }
     }
+
+    protected CharacterController2D CharacterController2D { get { return _characterController2D; } }
 
     public void LedgeDetected(bool detected, Collider2D ledgeCollider)
     {
@@ -129,7 +140,6 @@ public class PlatformerCharacterController : BasePlatformerController
         {
             _normalizedHorizontalSpeed = 0;
         }
-
         Flip(direction);
     }
 
@@ -198,6 +208,7 @@ public class PlatformerCharacterController : BasePlatformerController
         _roofChecker = GetComponent<RoofChecker>();
         _characterController2D = GetComponent<CharacterController2D>();
         _defaultGravity = gravity;
+        _characterController2D.OnFrameAllControllerCollidedEvent += OnAllControllerCollidedEventHandler;
     }
 
     protected virtual void Start()
@@ -222,6 +233,11 @@ public class PlatformerCharacterController : BasePlatformerController
     {   
     }
 
+    protected virtual void OnDestroy()
+    {
+        _characterController2D.OnFrameAllControllerCollidedEvent -= OnAllControllerCollidedEventHandler;
+    }
+
     void OnDrawGizmosSelected()
     {
         base.DrawGizmos();
@@ -236,6 +252,34 @@ public class PlatformerCharacterController : BasePlatformerController
         _characterController2D.move(_velocity * Time.deltaTime);
         // grab our current _velocity to use as a base for all calculations
         _velocity = _characterController2D.velocity;
-        
+    }
+
+    private void OnAllControllerCollidedEventHandler(IEnumerable<RaycastHit2D> hits)
+    {
+        if (_activePlatformCollider != null)
+        {
+            var _stillCollidingWithActivePlatform = hits.Any(h => h.collider == _activePlatformCollider);
+            if (_stillCollidingWithActivePlatform)
+            {
+                return;
+            }
+            transform.parent = null;
+            _activePlatformCollider = null;
+        }
+
+        foreach (var hit in hits)
+        {
+            if (hit.normal.y > GroundContactMaxNormal)
+            {
+                if (transform.parent == hit.collider.transform)
+                {
+                    return;
+                }
+                transform.SetParent(hit.collider.transform);
+                transform.rotation = Quaternion.identity;
+                _activePlatformCollider = hit.collider;
+                return;
+            }
+        }
     }
 }

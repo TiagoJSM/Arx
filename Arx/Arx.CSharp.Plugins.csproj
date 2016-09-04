@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -126,16 +124,19 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Nightmare Hunter\NightmareHunterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Nightmare Hunter\NightmareHunterGateLiftAiControl.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Nightmare Hunter\NightmareHunterGateLiftAnimationController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Shadow Hand\ShadowHandAnimationController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Constants\Tags.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Cutscene Controllers\MainPlatformerControllerCutsceneController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractibleCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\DebugTrigger.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\ContactDetector.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\LedgeChecker.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\RoofChecker.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\InteractionFinder.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ILedgeGrabber.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ITriggerable2D.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\ContactDetector.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\LedgeChecker.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Platformer2DUserControl.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\PlatformerCharacter2D.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Restarter.cs" />

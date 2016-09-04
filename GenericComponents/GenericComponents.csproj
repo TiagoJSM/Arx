@@ -92,6 +92,7 @@
     <Compile Include="StateMachine\States\PlatformerCharacter\LightAttackGroundState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\JumpingState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\PlatformerCharacterAction.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\SlidingDownState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\BasePlatformerCharacterState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\FallingState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\GrabbingLedgeState.cs" />

@@ -20,6 +20,7 @@ public class ArxAnimationController : MonoBehaviour {
     private readonly int _ComboCount = Animator.StringToHash("Combo Count");
     private readonly int _WeaponType = Animator.StringToHash("Weapon Type");
     private readonly int _AttackType = Animator.StringToHash("Attack Type");
+    private readonly int _SlidingDown = Animator.StringToHash("Sliding Down");
     private readonly int _RollingState = Animator.StringToHash("Base Layer.Ducking locomotion.Roll");
 
     private Animator _animator;
@@ -91,6 +92,13 @@ public class ArxAnimationController : MonoBehaviour {
             _animator.SetInteger(_AttackType, (int)value);
         }
     }
+    private bool SlidingDown
+    {
+        set
+        {
+            _animator.SetBool(_SlidingDown, value);
+        }
+    }
 
     // Use this for initialization
     void Awake () {
@@ -115,6 +123,7 @@ public class ArxAnimationController : MonoBehaviour {
         AttackType = _combatModule.ComboType;
         Attacking = _platformerController.Attacking;
         Ducking = _platformerController.Ducking;
+        SlidingDown = _platformerController.SlidingDown;
 
         var currentState = _animator.GetCurrentAnimatorStateInfo(0);
         var c = _animator.GetCurrentAnimatorClipInfo(0)[0];

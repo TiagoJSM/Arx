@@ -26,7 +26,7 @@ namespace AnimatorSequencer.States.MovementStates
         [SerializeField]
         public bool ignoreZ = true;
 
-        protected override void PerformOnStateFixedUpdate()
+        protected override void PerformOnStateUpdate()
         {
             var target = moveEvent.GetPersistentTarget(0) as Component;
             if (target == null)

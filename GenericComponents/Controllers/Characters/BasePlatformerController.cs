@@ -13,7 +13,6 @@ namespace GenericComponents.Controllers.Characters
     {
         private Collider2D activePlatformCollider;
 
-        //[SerializeField]
         private Direction _direction;
 
         public Transform groundCheck;
@@ -36,7 +35,7 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
-        void OnCollisionEnter2D(Collision2D other)
+        /*void OnCollisionEnter2D(Collision2D other)
         {
             if (activePlatformCollider != null)
             {
@@ -53,7 +52,7 @@ namespace GenericComponents.Controllers.Characters
                 }
             }
             activePlatformCollider = null;
-        }
+        }*/
 
         protected override void Awake()
         {
@@ -61,14 +60,14 @@ namespace GenericComponents.Controllers.Characters
             _direction = DirectionOfMovement(transform.localScale.x, Direction.Left);
         }
 
-        void OnCollisionExit2D(Collision2D other)
+        /*void OnCollisionExit2D(Collision2D other)
         {
             if (other.collider == activePlatformCollider)
             {
                 transform.parent = null;
                 activePlatformCollider = null;
             }
-        }
+        }*/
 
         protected void Flip(Direction direction)
         {

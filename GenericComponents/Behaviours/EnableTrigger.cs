@@ -14,6 +14,8 @@ namespace GenericComponents.Behaviours
         public bool onlyOnce;
         public bool valueToSet = true;
 
+        //private SerializableAttribute
+
         void OnTriggerEnter2D(Collider2D other)
         {
             if(onlyOnce && _done)
