@@ -162,16 +162,6 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _jump = false;
     }
 
-    //protected override void FixedUpdate()
-    //{
-    //    base.FixedUpdate();
-    //    var action = new PlatformerCharacterAction(_move, _vertical, _jump, _attackAction);
-    //    _stateManager.Perform(action);
-    //    _move = 0;
-    //    _vertical = 0;
-    //    _jump = false;
-    //}
-
     private void OnAttackFinishHandler()
     {
         IsCurrentAnimationOver = true;

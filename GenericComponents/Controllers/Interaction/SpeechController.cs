@@ -8,15 +8,19 @@ using UnityEngine.UI;
 
 namespace GenericComponents.Controllers.Interaction
 {
-    [RequireComponent(typeof(ScrollRect))]
-    [RequireComponent(typeof(RectTransform))]
     public class SpeechController : TemplateSpeechController
     {
-        private Canvas _canvas;
-        private bool _speechEnded;
-        private RectTransform _scrollRectRectTransform;
-        private RectTransform _contentRectTransform;
+        private readonly int OpenSpeechBubble = Animator.StringToHash("Open Speech Bubble");
+        private readonly int CloseSpeechBubble = Animator.StringToHash("Close Speech Bubble");
+
+        [SerializeField]
+        private RectTransform _speechBubble;
+        [SerializeField]
         private ScrollRect _scrollRect;
+        private RectTransform _content;
+
+        [SerializeField]
+        private Animator _speechAnimator;
         [SerializeField]
         [TextArea(3, 10)]
         private string _text;
@@ -35,44 +39,47 @@ namespace GenericComponents.Controllers.Interaction
             }
         }
 
-        public override bool SpeechEnded { get { return _speechEnded; } }
+        public override bool SpeechEnded
+        {
+            get
+            {
+                var speechBubbleHeight = _speechBubble.rect.height;
+                if (_content.rect.height <= (_content.anchoredPosition.y + speechBubbleHeight))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
 
         void Start()
         {
-            _canvas = GetComponentInChildren<Canvas>();
-            _scrollRect = GetComponentInChildren<ScrollRect>();
-            _scrollRectRectTransform = GetComponent<RectTransform>();
-            _contentRectTransform = _scrollRect.content;
-            _contentRectTransform.position = new Vector3();
+            _content = _scrollRect.content;
+            _content.localPosition = new Vector3();
             Text = _text;
         }
 
         public void Reset()
         {
-            _contentRectTransform.position = new Vector3();
-            _speechEnded = false;
+            _content.localPosition = new Vector3();
         }
 
         public void ScrollPageDown()
         {
-            if (_speechEnded && OnScrollEnd != null)
+            if (SpeechEnded && OnScrollEnd != null)
             {
                 OnScrollEnd();
                 return;
             }
-            var speechBubbleHeight = _scrollRectRectTransform.rect.height;
+            //ToDo: scroll should use coroutine to make it smooth
+            var speechBubbleHeight = _speechBubble.rect.height;
             ScrollDown(speechBubbleHeight);
         }
 
         public void ScrollDown(float scroll)
         {
-            var transformed = _contentRectTransform.anchoredPosition + new Vector2(0, scroll);
-            _contentRectTransform.anchoredPosition = transformed;
-
-            if (_scrollRect.verticalNormalizedPosition <= 0)
-            {
-                _speechEnded = true;
-            }
+            var transformed = _content.anchoredPosition + new Vector2(0, scroll);
+            _content.anchoredPosition = transformed;
         }
 
         public override void Continue()
@@ -80,9 +87,17 @@ namespace GenericComponents.Controllers.Interaction
             ScrollPageDown();
         }
 
+        public void Say(string text)
+        {
+            Reset();
+            Text = text;
+            Visible = true;
+        }
+
         protected override void OnVisibleChange()
         {
-            _canvas.enabled = Visible;
+            var trigger = Visible ? OpenSpeechBubble : CloseSpeechBubble;
+            _speechAnimator.SetTrigger(trigger);
         }
     }
 }

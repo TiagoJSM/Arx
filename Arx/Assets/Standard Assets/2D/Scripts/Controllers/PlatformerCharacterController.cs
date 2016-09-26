@@ -27,11 +27,6 @@ public class PlatformerCharacterController : BasePlatformerController
     private bool _ledgeDetected;
     private bool _ducking;
 
-    public float groundMovementForce = 2f;
-    public float airMovementForce = 1f;
-    public float maxRunSpeed = 6.0f;
-    public float airMaxSpeed = 2.0f;
-    public float jumpForce = 700.0f;
     public BoxCollider2D standingCollider;
     public BoxCollider2D duckingCollider;
     public float maxRollSpeed = 12.0f;
@@ -114,7 +109,7 @@ public class PlatformerCharacterController : BasePlatformerController
         }
     }
 
-    protected CharacterController2D CharacterController2D { get { return _characterController2D; } }
+    public CharacterController2D CharacterController2D { get { return _characterController2D; } }
 
     public void LedgeDetected(bool detected, Collider2D ledgeCollider)
     {
@@ -134,7 +129,6 @@ public class PlatformerCharacterController : BasePlatformerController
     public void DoMove(float move)
     {
         var direction = DirectionOfMovement(move, Direction);
-        var movementForce = IsGrounded ? groundMovementForce : airMovementForce;
         _normalizedHorizontalSpeed = DirectionValue(direction);
         if (Math.Abs(move) < 0.5)
         {
@@ -196,7 +190,6 @@ public class PlatformerCharacterController : BasePlatformerController
         Flip(direction);
         var directionValue = DirectionValue(direction);
         _velocity.x = directionValue * maxRollSpeed;
-        //_rigidBody.velocity = new Vector2(directionValue * maxRollSpeed, _rigidBody.velocity.y);
     }
 
     protected override void Awake()
@@ -224,7 +217,7 @@ public class PlatformerCharacterController : BasePlatformerController
         LedgeDetected(ledgeDetected, collider);
 
         //IsGrounded = CheckGrounded();
-        IsGrounded = _characterController2D.isGrounded;
+        IsGrounded = _characterController2D.isGrounded && CheckGrounded();
         CanStand = !_roofChecker.IsTouchingRoof;
         transform.rotation = Quaternion.identity;
     }

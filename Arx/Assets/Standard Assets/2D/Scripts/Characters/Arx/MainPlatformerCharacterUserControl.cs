@@ -83,6 +83,15 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
 
+        if (vertical > 0)
+        {
+            var teleporter = FindTeleporter();
+            if(teleporter != null)
+            {
+                teleporter.Teleport(this.gameObject);
+            }
+        }
+
         if (!_jump)
         {
             _jump = Input.GetButtonDown("Jump");
@@ -130,6 +139,21 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         {
             OnInventoryItemAdd.Invoke(item);
         }
+    }
+
+    private ITeleporter FindTeleporter()
+    {
+        var collider = 
+            Physics2D
+                .OverlapPointAll(this.transform.position)
+                .FirstOrDefault(c => c.GetComponent<ITeleporter>() != null);
+
+        if(collider == null)
+        {
+            return null;
+        }
+
+        return collider.GetComponent<ITeleporter>();
     }
 }
 

@@ -11,9 +11,9 @@ public class NightmareHunterController : PlatformerCharacterController
         _move = move;
     }
 
-    protected override void FixedUpdate()
+    protected override void Update()
     {
-        base.FixedUpdate();
+        base.Update();
         if (_move != 0)
         {
             DoMove(_move);

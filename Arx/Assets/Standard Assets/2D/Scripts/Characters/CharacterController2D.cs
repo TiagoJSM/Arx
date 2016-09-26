@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using System;
-using System.Collections.Generic;
-
 
 [RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D))]
 public class CharacterController2D : MonoBehaviour
@@ -72,7 +69,7 @@ public class CharacterController2D : MonoBehaviour
     public bool ignoreOneWayPlatformsThisFrame;
 
     [SerializeField]
-    [Range(0.001f, 0.3f)]
+    [Range(0.001f, 2f)]
     float _skinWidth = 0.02f;
 
     /// <summary>
@@ -148,12 +145,18 @@ public class CharacterController2D : MonoBehaviour
     public int totalVerticalRays = 4;
 
 
+    /*
     /// <summary>
     /// this is used to calculate the downward ray that is cast to check for slopes. We use the somewhat arbitrary value 75 degrees
     /// to calculate the length of the ray that checks for slopes.
     /// </summary>
     float _slopeLimitTangent = Mathf.Tan(75f * Mathf.Deg2Rad);
-
+    */
+    /// <summary>
+    /// this is used to calculate the downward ray that is cast to check for slopes. We use the somewhat arbitrary value 89 degrees
+    /// to calculate the length of the ray that checks for slopes.
+    /// </summary>
+    float _slopeLimitTangent = Mathf.Tan(89f * Mathf.Deg2Rad);
 
     [HideInInspector]
     [NonSerialized]
@@ -273,20 +276,22 @@ public class CharacterController2D : MonoBehaviour
 
         primeRaycastOrigins();
 
+        var slidingSlope = default(RaycastHit2D);
         // first, we check for a slope below us before moving
         // only check slopes if we are going down and grounded
         if (deltaMovement.y < 0f && collisionState.wasGroundedLastFrame)
-            handleVerticalSlope(ref deltaMovement);
+            slidingSlope = handleVerticalSlope(ref deltaMovement);
 
         SlidingDown = false;
-        if (_raycastHit)
+        if (slidingSlope)
         {
-            var angle = Vector2.Angle(_raycastHit.normal, Vector2.up);
-            if (angle > slopeLimit)
-            {
-                collisionState.below = true;
-                SlidingDown = true;
-            }
+            var angle = Vector2.Angle(slidingSlope.normal, Vector2.up);
+            //Debug.Log(angle + "  " + _raycastHit.normal);
+            //if (angle > slopeLimit && angle < 90 && _raycastHit.normal.y >= 0)
+            //{ 
+            collisionState.below = true;
+            SlidingDown = true;
+            //}
         }
 
         // now we check movement in the horizontal dir
@@ -350,13 +355,23 @@ public class CharacterController2D : MonoBehaviour
         {
             return;
         }
+
+        var skin = 2f * _skinWidth;
         // figure out the distance between our rays in both directions
         // horizontal
-        var colliderUseableHeight = _boxCollider.size.y * Mathf.Abs(transform.lossyScale.y) - (2f * _skinWidth);
+        var colliderUseableHeight = _boxCollider.size.y * Mathf.Abs(transform.lossyScale.y);
+        if (skin < colliderUseableHeight)
+        {
+            colliderUseableHeight -= skin;
+        }
         _verticalDistanceBetweenRays = colliderUseableHeight / (totalHorizontalRays - 1);
 
         // vertical
-        var colliderUseableWidth = _boxCollider.size.x * Mathf.Abs(transform.lossyScale.x) - (2f * _skinWidth);
+        var colliderUseableWidth = _boxCollider.size.x * Mathf.Abs(transform.lossyScale.x);
+        if(skin < colliderUseableWidth)
+        {
+            colliderUseableWidth -= skin;
+        }
         _horizontalDistanceBetweenRays = colliderUseableWidth / (totalVerticalRays - 1);
     }
 
@@ -575,6 +590,7 @@ public class CharacterController2D : MonoBehaviour
     }
 
 
+    /*
     /// <summary>
     /// checks the center point under the BoxCollider2D for a slope. If it finds one then the deltaMovement is adjusted so that
     /// the player stays grounded and the slopeSpeedModifier is taken into account to speed up movement.
@@ -623,6 +639,91 @@ public class CharacterController2D : MonoBehaviour
                 collisionState.slopeAngle = angle;
             }
         }
+    }
+    */
+
+    /// <summary>
+    /// Checks for a slope. If it finds one then the deltaMovement is adjusted so that
+    /// the player stays grounded and the slopeSpeedModifier is taken into account to speed up movement.
+    /// </summary>
+    /// <returns>If a sliding slope was found.</returns>
+    /// <param name="deltaMovement">Delta movement.</param>
+    private RaycastHit2D handleVerticalSlope(ref Vector3 deltaMovement)
+    {
+        var rayDistance = Mathf.Abs(deltaMovement.y) + _skinWidth;
+        var rayDirection = -Vector2.up;
+        var initialRayOrigin = _raycastOrigins.bottomLeft;
+
+        // apply our horizontal deltaMovement here so that we do our raycast from the actual position we would be in if we had moved
+        initialRayOrigin.x += deltaMovement.x;
+
+        // if we are moving up, we should ignore the layers in oneWayPlatformMask
+        var mask = platformMask;
+
+        var overLimitRaycastFound = default(RaycastHit2D);
+        var slopeRaycast = default(RaycastHit2D);
+        var onlyOverLimitSlopes = true;
+        var ray = default(Vector2);
+
+        for (var i = 0; i < totalVerticalRays; i++)
+        {
+            ray = new Vector2(initialRayOrigin.x + i * _horizontalDistanceBetweenRays, initialRayOrigin.y);
+
+            DrawRay(ray, rayDirection * rayDistance, Color.red);
+            //_raycastHit = Physics2D.Raycast(ray, rayDirection, rayDistance, mask);
+            _raycastHit = Raycast(ray, rayDirection, rayDistance, mask);
+            if (_raycastHit)
+            {
+                // bail out if we have no slope
+                SlopeNormal = _raycastHit.normal;
+                var angle = Vector2.Angle(_raycastHit.normal, Vector2.up);
+                //var down = new Vector2(1 / _raycastHit.normal.x, -(1 / _raycastHit.normal.y));
+
+                if (angle == 0)
+                {
+                    onlyOverLimitSlopes = false;
+                    continue;
+                }
+
+                if (angle > slopeLimit)
+                {
+                    //deltaMovement = down / 10;
+                    overLimitRaycastFound = _raycastHit;
+                    continue;
+                }
+
+                onlyOverLimitSlopes = false;
+                slopeRaycast = _raycastHit;
+                break;
+            }
+        }
+
+        //if only found sliding slope
+        if (onlyOverLimitSlopes && overLimitRaycastFound)
+        {
+            var down = new Vector2(1 / overLimitRaycastFound.normal.x, -(1 / overLimitRaycastFound.normal.y));
+            deltaMovement = down / 10;
+            return overLimitRaycastFound;
+        }
+
+        //if found normal slope
+        if (slopeRaycast)
+        {
+            var isMovingDownSlope = Mathf.Sign(slopeRaycast.normal.x) == Mathf.Sign(deltaMovement.x);
+            var slopeAngle = Vector2.Angle(slopeRaycast.normal, Vector2.up);
+            if (isMovingDownSlope)
+            {
+                // going down we want to speed up in most cases so the slopeSpeedMultiplier curve should be > 1 for negative angles
+                var slopeModifier = slopeSpeedMultiplier.Evaluate(-slopeAngle);
+                // we add the extra downward movement here to ensure we "stick" to the surface below
+                deltaMovement.y += slopeRaycast.point.y - ray.y - skinWidth;
+                deltaMovement.x *= slopeModifier;
+                collisionState.movingDownSlope = true;
+                collisionState.slopeAngle = slopeAngle;
+            }
+        }
+
+        return default(RaycastHit2D);
     }
 
     private RaycastHit2D Raycast(Vector2 origin, Vector2 direction, float distance, int layerMask)

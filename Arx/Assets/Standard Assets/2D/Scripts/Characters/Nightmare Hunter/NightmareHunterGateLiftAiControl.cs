@@ -206,7 +206,7 @@ public class NightmareHunterGateLiftAiControl : MonoBehaviour, IPlatformerAIChar
         _aiManager = new NightmareHunterGateAiStateManager(this);
     }
 
-    protected void FixedUpdate()
+    protected void Update()
     {
         _aiManager.Perform(null);
         if (_moveToPosition == null)
