@@ -5,7 +5,8 @@ using ArxGame.Components;
 using GenericComponents.Helpers;
 using ArxGame.Components.Combat;
 
-public class AttackFinishBehaviour : StateMachineBehaviour {
+public class AttackFinishBehaviour : StateMachineBehaviour
+{
 
     private bool _notified;
 

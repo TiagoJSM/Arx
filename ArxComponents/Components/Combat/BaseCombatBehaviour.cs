@@ -12,8 +12,8 @@ namespace ArxGame.Components.Combat
         public AttackType ComboType { get; protected set; }
         public int ComboNumber { get; set; }
 
-        public abstract void PrimaryAttack();
-        public abstract void SecundaryAttack();
+        public abstract bool PrimaryAttack();
+        public abstract bool SecundaryAttack();
     }
 
     public abstract class BaseGenericCombatBehaviour<TWeapon> : BaseCombatBehaviour

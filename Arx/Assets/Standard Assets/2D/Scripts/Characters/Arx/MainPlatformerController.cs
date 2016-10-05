@@ -96,15 +96,14 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public void DoPrimaryAttack()
     {
-        IsCurrentAnimationOver = false;
-        Attacking = true;
-        _combatModule.PrimaryAttack();
+        Attacking = _combatModule.PrimaryAttack();
+        IsCurrentAnimationOver = !Attacking;
         _attackAction = AttackType.None;
     }
 
     public void DoSecundaryAttack()
     {
-        _combatModule.SecundaryAttack();
+        Attacking = _combatModule.SecundaryAttack();
         _attackAction = AttackType.None;
     }
 

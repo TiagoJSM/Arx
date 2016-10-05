@@ -60,14 +60,16 @@ namespace ArxGame.Components.Combat
             OnAttackFinish?.Invoke();
         }
 
-        public override void PrimaryAttack()
+        public override bool PrimaryAttack()
         {
             DoAttack(AttackType.Primary);
+            return true;
         }
 
-        public override void SecundaryAttack()
+        public override bool SecundaryAttack()
         {
             DoAttack(AttackType.Secundary);
+            return true;
         }
 
         private void DoAttack(AttackType attackType)

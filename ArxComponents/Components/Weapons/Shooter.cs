@@ -1,5 +1,6 @@
 ﻿using CommonInterfaces.Weapons;
 using MathHelper;
+using MathHelper.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,13 +44,11 @@ namespace ArxGame.Components.Weapons
             {
                 return false;
             }
-            var angleInRadians = angleInDegrees * Mathf.Deg2Rad;
-            var direction = new Vector3(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+            var direction = angleInDegrees.GetDirectionVectorFromDegreeAngle();
             var projectile = Instantiate(projectilePrefab);
             projectile.transform.position = this.transform.position;
             projectile.direction = direction;
             RemainingCooldownTime = _cooldown;
-            //_lastShotTime = Time.time;
 
             return true;
         }

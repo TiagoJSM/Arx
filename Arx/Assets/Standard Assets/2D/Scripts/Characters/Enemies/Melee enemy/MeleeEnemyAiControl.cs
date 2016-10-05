@@ -23,15 +23,8 @@ public class MeleeEnemyAiStateManager : StateManager<ICharacterAI, object>
 }
 
 [RequireComponent(typeof(MeleeEnemyController))]
-public class MeleeEnemyAiControl : MonoBehaviour, ICharacterAI
+public class MeleeEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI
 {
-    private Vector3 _startingPosition;
-    private Coroutine _activeCoroutine;
-
-    [SerializeField]
-    private float _maxDistanceFromStartingPoint = 10;
-    [SerializeField]
-    private float _maxStoppedIddleTime = 5;
     [SerializeField]
     private CharacterFinder _characterFinder;
     [SerializeField]
@@ -67,6 +60,14 @@ public class MeleeEnemyAiControl : MonoBehaviour, ICharacterAI
         }
     }
 
+    protected override Direction CurrentDirection
+    {
+        get
+        {
+            return _controller.Direction;
+        }
+    }
+
     public void MoveToTarget()
     {
         FollowTarget();
@@ -95,11 +96,16 @@ public class MeleeEnemyAiControl : MonoBehaviour, ICharacterAI
     }
 
     // Use this for initialization
-    void Awake () {
+    protected override void Awake() {
+        base.Awake();
         _controller = GetComponent<MeleeEnemyController>();
         _stateManager = new MeleeEnemyAiStateManager(this);
-        _startingPosition = this.transform.position;
         _characterFinder.OnCharacterFound += OnCharacterFoundHandler;
+    }
+
+    protected override void Move(float directionValue)
+    {
+        _controller.Move(directionValue);
     }
 
     void Update()
@@ -112,25 +118,9 @@ public class MeleeEnemyAiControl : MonoBehaviour, ICharacterAI
         _characterFinder.OnCharacterFound -= OnCharacterFoundHandler;
     }
 
-    private void IddleMovement()
-    {
-        StopActiveCoroutine();
-        _activeCoroutine = StartCoroutine(IddleMovementCoroutine());
-    }
-
     private void FollowTarget()
     {
-        StopActiveCoroutine();
-        _activeCoroutine = StartCoroutine(FollowTargetCoroutine());
-    }
-
-    private void StopActiveCoroutine()
-    {
-        if(_activeCoroutine != null)
-        {
-            StopCoroutine(_activeCoroutine);
-        }
-        _activeCoroutine = null;
+        SetActiveCoroutine(FollowTargetCoroutine());
     }
 
     private void OnCharacterFoundHandler(GenericComponents.Controllers.Characters.BasePlatformerController controller)
@@ -138,25 +128,6 @@ public class MeleeEnemyAiControl : MonoBehaviour, ICharacterAI
         if(_target == null)
         {
             _target = controller.gameObject;
-        }
-    }
-
-    private IEnumerator IddleMovementCoroutine()
-    {
-        var movementDirection = _controller.Direction;
-
-        while (true)
-        {
-            _controller.Move(movementDirection.DirectionValue());
-            yield return null;
-            var distance = Vector2.Distance(_startingPosition, this.transform.position);
-            var directionOfStartingPoint = (this.transform.position.x - _startingPosition.x) >= 0 ? Direction.Right : Direction.Left;
-            if (distance >= _maxDistanceFromStartingPoint && directionOfStartingPoint == movementDirection)
-            {
-                movementDirection = movementDirection == Direction.Left ? Direction.Right : Direction.Left;
-                var stopTime = UnityEngine.Random.Range(0, _maxStoppedIddleTime);
-                yield return new WaitForSeconds(stopTime);
-            }
         }
     }
 

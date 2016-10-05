@@ -1,5 +1,6 @@
 ﻿using CommonInterfaces.Enums;
 using Extensions;
+using MathHelper.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,11 +40,11 @@ namespace ArxGame.Components.Weapons
             }
         }
 
-        public bool Throw(Direction direction)
+        public bool Throw(float degrees)
         {
             if(_coroutine == null)
             {
-                _coroutine = StartCoroutine(ThrowCoroutine(direction));
+                _coroutine = StartCoroutine(ThrowCoroutine(degrees));
                 return true;
             }
             return false;
@@ -79,11 +80,11 @@ namespace ArxGame.Components.Weapons
             _coroutine = StartCoroutine(ReturnCoroutine());
         }
 
-        private IEnumerator ThrowCoroutine(Direction direction)
+        private IEnumerator ThrowCoroutine(float degrees)
         {
             var throwDuration = duration / 2;
             var elapsedTime = 0f;
-            var movementDirection = direction == Direction.Right ? 1 : -1;
+            var direction = degrees.GetDirectionVectorFromDegreeAngle();
 
             collider.enabled = true;
             Status = ProjectileStatus.Throw;
@@ -96,7 +97,7 @@ namespace ArxGame.Components.Weapons
                     Return();
                     yield break;
                 }
-                this.transform.position = this.transform.position + new Vector3(movementDirection * MovementPerSeconds * Time.deltaTime, 0);
+                this.transform.position = this.transform.position + (direction * MovementPerSeconds * Time.deltaTime);
                 yield return null;
             }
         }
@@ -128,10 +129,10 @@ namespace ArxGame.Components.Weapons
                 return;
             }
             OnTriggerEnter?.Invoke(other, this);
-            //Return();
+            Return();
         }
 
-        void Update()
+        void LateUpdate()
         {
             if(Status == ProjectileStatus.None)
             {

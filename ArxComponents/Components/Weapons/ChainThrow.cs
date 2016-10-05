@@ -40,14 +40,14 @@ namespace ArxGame.Components.Weapons
             _focusTime += Time.deltaTime;
         }
 
-        public void Throw(Direction direction)
+        public void Throw(float degrees)
         {
             if (!ReadyToThrow)
             {
                 return;
             }
             StartAttack();
-            _instantiatedHeldProjectile.Throw(direction);
+            _instantiatedHeldProjectile.Throw(degrees);
         }
 
         void Awake()

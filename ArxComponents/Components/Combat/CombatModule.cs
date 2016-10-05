@@ -43,7 +43,6 @@ namespace ArxGame.Components.Combat
 
                 if (_weapon is IShooterWeapon)
                 {
-                    
                     _activeCombatBehaviour = _shooterCombat;
                     _shooterCombat.Weapon = _weapon as IShooterWeapon;
                     _shooterCombat.enabled = true;
@@ -106,20 +105,22 @@ namespace ArxGame.Components.Combat
             }
         }
 
-        public void PrimaryAttack()
+        public bool PrimaryAttack()
         {
             if(_activeCombatBehaviour != null)
             {
-                _activeCombatBehaviour.PrimaryAttack();
+                return _activeCombatBehaviour.PrimaryAttack();
             }
+            return false;
         }
 
-        public void SecundaryAttack()
+        public bool SecundaryAttack()
         {
             if (_activeCombatBehaviour != null)
             {
-                _activeCombatBehaviour.SecundaryAttack();
+                return _activeCombatBehaviour.SecundaryAttack();
             }
+            return false;
         }
         public void NotifyAttackFinish()
         {

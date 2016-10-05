@@ -12,6 +12,6 @@ namespace CommonInterfaces.Weapons
         bool ReadyToThrow { get; }
         void Spin();
         void FocusThrow();
-        void Throw(Direction direction);
+        void Throw(float degrees);
     }
 }

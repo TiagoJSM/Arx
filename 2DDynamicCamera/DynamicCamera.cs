@@ -7,15 +7,10 @@ using Extensions;
 using _2DDynamicCamera.Interfaces;
 using MathHelper;
 using System.Collections;
+using GenericComponents.Enums;
 
 namespace _2DDynamicCamera
 {
-    public enum UpdateMode
-    {
-        FixedUpdate,
-        Update
-    }
-
     [RequireComponent(typeof(Camera))]
     public class DynamicCamera : MonoBehaviour
     {
@@ -34,7 +29,7 @@ namespace _2DDynamicCamera
         [Range(0, float.MaxValue)]
         public float yBounds;
         public Vector2 offset;
-        public UpdateMode updateMode;
+        public UpdateMode updateMode = UpdateMode.Update;
 
         [SerializeField]
         private Transform _owner;

@@ -22,7 +22,8 @@ public class GrappleShooter : MonoBehaviour {
 	void Update () {
         if (Input.GetButtonDown("Fire1"))
         {
-            _instanciatedGrapple.Throw(Direction.Right);
+
+            _instanciatedGrapple.Throw(0);
         }
 	}
 }

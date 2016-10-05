@@ -53,14 +53,14 @@ namespace ArxGame.Components.Weapons
             throw new NotImplementedException();
         }
 
-        public void Throw(Direction direction)
+        public void Throw(float degrees)
         {
             if (!ReadyToThrow)
             {
                 return;
             }
             StartAttack();
-            _instantiatedHeldProjectile.Throw(direction);
+            _instantiatedHeldProjectile.Throw(degrees);
         }
 
         public void Detatch()

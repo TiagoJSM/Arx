@@ -1,4 +1,5 @@
 ﻿using Extensions;
+using GenericComponents.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,23 @@ namespace GenericComponents.Waypoint
 
     public class WaypointPathController : MonoBehaviour
     {
-        private Vector2[] _pathNodes;
+        private Vector2[] PathNodes
+        {
+            get
+            {
+                return waypointPath.PathNodes.ToArray();
+            }
+        }
 
         private int _pathIdx;
         private Vector2 _overflow;
+
+        [SerializeField]
+        private bool _restartWhenFinish;
+        [SerializeField]
+        private int _initialWaypointTarget;
+        [SerializeField]
+        private UpdateMode _updateMode = UpdateMode.Update;
 
         public StartLocation startLocation = StartLocation.CurrentPosition;
         public float waypointThreasholdRadius = 1.2f;
@@ -29,21 +43,47 @@ namespace GenericComponents.Waypoint
         // Use this for initialization
         void Start()
         {
-            _pathNodes = waypointPath.PathNodes.ToArray();
+            //PathNodes = waypointPath.PathNodes.ToArray();
             if (startLocation == StartLocation.Start)
             {
                 this.transform.position = GetWaypoint().ToVector3();
             }
             else if (startLocation == StartLocation.End)
             {
-                _pathIdx = _pathNodes.Length - 1;
+                _pathIdx = PathNodes.Length - 1;
                 this.transform.position = GetWaypoint().ToVector3();
+            }
+            else if(startLocation == StartLocation.CurrentPosition)
+            {
+                //check if _initialWaypointTarget is out of bounds
+                _pathIdx = Math.Min(PathNodes.Length - 1, _initialWaypointTarget);
             }
         }
 
         void FixedUpdate()
         {
+            if(_updateMode == UpdateMode.FixedUpdate)
+            {
+                UpdateObject();
+            }
+        }
+
+        void Update()
+        {
+            if (_updateMode == UpdateMode.Update)
+            {
+                UpdateObject();
+            }
+        }
+
+        private void UpdateObject()
+        {
             UpdateWaypointIndex();
+            if (_pathIdx == 0 && _restartWhenFinish)
+            {
+                transform.position = PathNodes.First();
+                _pathIdx++;
+            }
             var waypoint = GetWaypoint();
             var normalized = (waypoint - transform.position.ToVector2()).normalized;
             var position = transform.position.ToVector2() + normalized * velocity * Time.fixedDeltaTime;
@@ -63,7 +103,7 @@ namespace GenericComponents.Waypoint
 
         private Vector2 GetWaypoint()
         {
-            return _pathNodes[_pathIdx];
+            return PathNodes[_pathIdx];
         }
 
         private void UpdateWaypointIndex()
@@ -80,7 +120,7 @@ namespace GenericComponents.Waypoint
                 _pathIdx++;
             }
 
-            if (_pathIdx >= _pathNodes.Length)
+            if (_pathIdx >= PathNodes.Length)
             {
                 _pathIdx = 0;
             }

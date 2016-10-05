@@ -89,5 +89,11 @@ namespace MathHelper.Extensions
             }
             return degrees - (turns * FloatUtils.FullDegreeTurn);
         }
+
+        public static Vector3 GetDirectionVectorFromDegreeAngle(this float degrees)
+        {
+            var angleInRadians = degrees * Mathf.Deg2Rad;
+            return new Vector3(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+        }
     }
 }

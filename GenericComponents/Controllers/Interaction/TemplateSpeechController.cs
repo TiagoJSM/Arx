@@ -12,6 +12,7 @@ namespace GenericComponents.Controllers.Interaction
         private bool _visible;
 
         public OnScrollEnd OnScrollEnd;
+        public OnVisibilityChange OnVisibilityChange;
 
         public abstract string Text { get; set; }
 
@@ -27,6 +28,7 @@ namespace GenericComponents.Controllers.Interaction
                 {
                     _visible = value;
                     OnVisibleChange();
+                    OnVisibilityChange(_visible);
                 }
             }
         }

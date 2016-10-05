@@ -74,6 +74,7 @@
     <Compile Include="Controllers\Interaction\SpeechController.cs" />
     <Compile Include="Controllers\Interaction\TemplateSpeechController.cs" />
     <Compile Include="Enums\AttackType.cs" />
+    <Compile Include="Enums\UpdateMode.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Factories\PlayerSpawner.cs" />
     <Compile Include="GroundMaterial.cs" />

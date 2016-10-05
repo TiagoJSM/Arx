@@ -97,8 +97,9 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
         _attack = false;
     }
 
-    void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         _combatModule.OnAttackFinish += OnAttackFinishHandler;
     }
 

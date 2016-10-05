@@ -20,13 +20,13 @@ namespace ArxGame.Components.Combat
 
         public override event Action OnAttackFinish;
 
-        public override void PrimaryAttack()
+        public override bool PrimaryAttack()
         {
             var degrees = GetWeaponAimAngle();
-            Weapon.Shoot(degrees);
+            return Weapon.Shoot(degrees);
         }
 
-        public override void SecundaryAttack()
+        public override bool SecundaryAttack()
         {
             throw new NotImplementedException();
         }

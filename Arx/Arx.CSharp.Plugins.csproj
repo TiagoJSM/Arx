@@ -110,6 +110,7 @@
     <Compile Include="Assets\Standard Assets\2D\Cameras\Scripts\Camera2DAhead.cs" />
     <Compile Include="Assets\Standard Assets\2D\Prefabs\Items\Weapons\GrappleShooter.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\AttackFinishBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\ChainThrowStateBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Camera2DFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\ArxAnimationController.cs" />
@@ -117,6 +118,9 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\MainPlatformerController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterController2D.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterFinder.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\PlatformerCharacterAiControl.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonTalkingCharacter\CommonTalkingCharacterAi.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonTalkingCharacter\CommonTalkingCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\DemoScene.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Enemies\CommonAiStates.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Enemies\CommonCharacterStates.cs" />
