@@ -28,13 +28,15 @@ namespace GenericComponents.Controllers.Interaction
                 {
                     _visible = value;
                     OnVisibleChange();
-                    OnVisibilityChange(_visible);
+                    OnVisibilityChange?.Invoke(_visible);
                 }
             }
         }
         public abstract bool SpeechEnded { get; }
 
-        public abstract void Continue();
+        public abstract void Say(string text);
+        public abstract bool Continue();
+        public abstract void Close();
         protected virtual void OnVisibleChange() { }
     }
 }

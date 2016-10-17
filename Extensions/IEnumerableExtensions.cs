@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Extensions
 {
+    [Serializable]
     public struct Tuple<T1, T2>
     {
         public T1 Item1;

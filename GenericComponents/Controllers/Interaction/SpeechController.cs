@@ -64,16 +64,18 @@ namespace GenericComponents.Controllers.Interaction
             _content.localPosition = new Vector3();
         }
 
-        public void ScrollPageDown()
+        public bool ScrollPageDown()
         {
-            if (SpeechEnded && OnScrollEnd != null)
+            if (SpeechEnded)
             {
-                OnScrollEnd();
-                return;
+                OnScrollEnd?.Invoke();
+                Close();
+                return true;
             }
             //ToDo: scroll should use coroutine to make it smooth
             var speechBubbleHeight = _speechBubble.rect.height;
             ScrollDown(speechBubbleHeight);
+            return false;
         }
 
         public void ScrollDown(float scroll)
@@ -82,16 +84,22 @@ namespace GenericComponents.Controllers.Interaction
             _content.anchoredPosition = transformed;
         }
 
-        public override void Continue()
+        public override bool Continue()
         {
-            ScrollPageDown();
+            return ScrollPageDown();
         }
 
-        public void Say(string text)
+        public override void Say(string text)
         {
             Reset();
             Text = text;
             Visible = true;
+        }
+
+        public override void Close()
+        {
+            Text = string.Empty;
+            Visible = false;
         }
 
         protected override void OnVisibleChange()

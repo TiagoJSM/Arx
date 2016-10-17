@@ -22,16 +22,15 @@ public class InteractibleCharacterController : MonoBehaviour {
     {
         if (!_speechController.Visible)
         {
-            _speechController.Reset();
-            _speechController.Visible = true;
+            _speechController.Say(_speechController.Text);
             return;
         }
-        _speechController.ScrollPageDown();
+        _speechController.Continue();
     }
 
     private void OnStopInteractionHandler()
     {
-        _speechController.Visible = false;
+        _speechController.Close();
     }
 
     private void OnScrollEndHandler()

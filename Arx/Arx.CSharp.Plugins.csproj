@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -287,6 +285,7 @@
     <None Include="Assets\Anima2D\Examples\Shaders\Unlit-Alpha-Cull-off.shader" />
     <None Include="Assets\Anima2D\Readme.txt" />
     <None Include="Assets\Anima2D\Version.txt" />
+    <None Include="Assets\JSON\readme.txt" />
     <None Include="Assets\Plugins\Node_Editor\Resources\LineShader.shader" />
     <None Include="Assets\Standard Assets\2D\Decorators\NodeMesh.shader" />
     <None Include="Assets\Standard Assets\2D\Decorators\SpriteShader.shader" />

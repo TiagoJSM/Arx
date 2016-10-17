@@ -11,6 +11,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
             base.OnStateEnter(action);
+            StateController.StayStill();
             StateController.DoPrimaryAttack();
         }
     }

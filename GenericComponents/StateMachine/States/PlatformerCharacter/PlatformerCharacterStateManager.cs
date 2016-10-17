@@ -15,12 +15,12 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
         {
             this
                 .SetInitialState<IddleState>()
+                    .To<LightAttackGroundState>((c, a, t) => a.AttackType == AttackType.Primary)
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<MovingState>((c, a, t) => a.Move != 0 && c.IsGrounded)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
-                    .To<DuckState>((c, a, t) => a.Vertical < 0 && c.IsGrounded)
-                    .To<LightAttackGroundState>((c, a, t) => a.AttackType == AttackType.Primary);
+                    .To<DuckState>((c, a, t) => a.Vertical < 0 && c.IsGrounded);
 
             this
                 .From<JumpingState>()
@@ -40,6 +40,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
                 .From<MovingState>()
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
+                    .To<LightAttackGroundState>((c, a, t) => a.AttackType == AttackType.Primary)
                     .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0);
 
@@ -56,11 +57,12 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
                     .To<FallingState>((c, a, t) => !c.IsGrounded);
 
             this
-               .From<RollState>()
-                .To<SlidingDownState>((c, a, t) => c.SlidingDown)
-                   .To<DuckState>((c, a, t) => c.IsGrounded && a.Move == 0 && (a.Vertical < 0 || !c.CanStand) && t > rollingDuration)
-                   .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration && c.CanStand)
-                   .To<RollState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > rollingDuration);
+                .From<RollState>()
+                    .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .To<DuckState>((c, a, t) => c.IsGrounded && a.Move == 0 && (a.Vertical < 0 || !c.CanStand) && t > rollingDuration)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration && c.CanStand)
+                    .To<FallingState>((c, a, t) => !c.IsGrounded)
+                    .To<RollState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > rollingDuration);
 
             this
                 .From<LightAttackGroundState>()
