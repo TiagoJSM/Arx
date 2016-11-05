@@ -52,13 +52,6 @@ namespace GenericComponents.Controllers.Interaction
             }
         }
 
-        void Start()
-        {
-            _content = _scrollRect.content;
-            _content.localPosition = new Vector3();
-            Text = _text;
-        }
-
         public void Reset()
         {
             _content.localPosition = new Vector3();
@@ -106,6 +99,24 @@ namespace GenericComponents.Controllers.Interaction
         {
             var trigger = Visible ? OpenSpeechBubble : CloseSpeechBubble;
             _speechAnimator.SetTrigger(trigger);
+        }
+
+        private void LateUpdate()
+        {
+            var globalScale = _speechBubble.transform.lossyScale;
+            //Debug.Log(this.name + " " + globalScale.x);
+            if (globalScale.x < 0)
+            {
+                var localScale = _speechBubble.transform.localScale;
+                _speechBubble.transform.localScale = new Vector3(-localScale.x, localScale.y, localScale.z);
+            }
+        }
+
+        private void Start()
+        {
+            _content = _scrollRect.content;
+            _content.localPosition = new Vector3();
+            Text = _text;
         }
     }
 }

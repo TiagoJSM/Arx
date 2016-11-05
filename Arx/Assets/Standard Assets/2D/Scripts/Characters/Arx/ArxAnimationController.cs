@@ -20,7 +20,9 @@ public class ArxAnimationController : MonoBehaviour {
     private readonly int _ComboCount = Animator.StringToHash("Combo Count");
     private readonly int _WeaponType = Animator.StringToHash("Weapon Type");
     private readonly int _AttackType = Animator.StringToHash("Attack Type");
+    private readonly int _AttackStyle = Animator.StringToHash("Attack Style");
     private readonly int _SlidingDown = Animator.StringToHash("Sliding Down");
+    private readonly int _ChargingAttack = Animator.StringToHash("Charging Attack");
     private readonly int _RollingState = Animator.StringToHash("Base Layer.Ducking locomotion.Roll");
 
     private Animator _animator;
@@ -88,8 +90,14 @@ public class ArxAnimationController : MonoBehaviour {
     {
         set
         {
-            //Attacking = value != AttackType.None;
             _animator.SetInteger(_AttackType, (int)value);
+        }
+    }
+    private AttackStyle AttackStyle
+    {
+        set
+        {
+            _animator.SetInteger(_AttackStyle, (int)value);
         }
     }
     private bool SlidingDown
@@ -97,6 +105,13 @@ public class ArxAnimationController : MonoBehaviour {
         set
         {
             _animator.SetBool(_SlidingDown, value);
+        }
+    }
+    private bool ChargingAttack
+    {
+        set
+        {
+            _animator.SetBool(_ChargingAttack, value);
         }
     }
 
@@ -121,9 +136,11 @@ public class ArxAnimationController : MonoBehaviour {
         ComboCount = _combatModule.ComboNumber;
         WeaponType = _combatModule.WeaponType;
         AttackType = _combatModule.ComboType;
+        AttackStyle = _combatModule.AttackStyle;
         Attacking = _platformerController.Attacking;
         Ducking = _platformerController.Ducking;
         SlidingDown = _platformerController.SlidingDown;
+        ChargingAttack = _platformerController.IsCharging;
 
         var currentState = _animator.GetCurrentAnimatorStateInfo(0);
         var c = _animator.GetCurrentAnimatorClipInfo(0)[0];

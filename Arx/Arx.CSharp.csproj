@@ -134,18 +134,11 @@
     <Compile Include="Assets\Anima2D\Scripts\SpriteMesh.cs" />
     <Compile Include="Assets\Anima2D\Scripts\SpriteMeshInstance.cs" />
     <Compile Include="Assets\Anima2D\Scripts\Vertex.cs" />
-    <Compile Include="Assets\Dialogs\LocalizationConfig.cs" />
-    <Compile Include="Assets\Dialogs\LocalizedTexts.cs" />
-    <Compile Include="Assets\Dialogs\LocalizedUiText.cs" />
-    <Compile Include="Assets\JSON\JSONObject.cs" />
-    <Compile Include="Assets\JSON\JSONTemplates.cs" />
-    <Compile Include="Assets\JSON\VectorTemplates.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Anima2D\Examples\Shaders\Unlit-Alpha-Cull-off.shader" />
     <None Include="Assets\Anima2D\Readme.txt" />
     <None Include="Assets\Anima2D\Version.txt" />
-    <None Include="Assets\JSON\readme.txt" />
     <None Include="Assets\Plugins\Node_Editor\Resources\LineShader.shader" />
     <None Include="Assets\Standard Assets\2D\Decorators\NodeMesh.shader" />
     <None Include="Assets\Standard Assets\2D\Decorators\SpriteShader.shader" />
@@ -240,6 +233,7 @@
     <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Advanced.shader" />
     <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
     <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\WaterInclude.cginc" />
+    <None Include="Assets\Standard Assets\JSON\readme.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />

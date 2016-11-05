@@ -43,7 +43,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies.Melee_enemy
         {
             get
             {
-                var clip = _animator.GetCurrentAnimatorClipInfo(0);
                 var state = _animator.GetCurrentAnimatorStateInfo(0);
                 if (state.normalizedTime >= 1)
                 {

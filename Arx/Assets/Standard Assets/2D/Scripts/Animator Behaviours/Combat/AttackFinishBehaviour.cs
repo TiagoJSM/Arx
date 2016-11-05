@@ -7,7 +7,6 @@ using ArxGame.Components.Combat;
 
 public class AttackFinishBehaviour : StateMachineBehaviour
 {
-
     private bool _notified;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

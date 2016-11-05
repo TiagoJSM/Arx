@@ -97,6 +97,14 @@ namespace ArxGame.Components.Combat
             }
         }
 
+        public AttackStyle AttackStyle
+        {
+            get
+            {
+                return _activeCombatBehaviour != null ? _activeCombatBehaviour.AttackStyle : AttackStyle.None;
+            }
+        }
+
         public bool IsCurrentAnimationOver
         {
             get
@@ -105,23 +113,75 @@ namespace ArxGame.Components.Combat
             }
         }
 
-        public bool PrimaryAttack()
+        public bool PrimaryGroundAttack()
         {
             if(_activeCombatBehaviour != null)
             {
-                return _activeCombatBehaviour.PrimaryAttack();
+                return _activeCombatBehaviour.PrimaryGroundAttack();
             }
             return false;
         }
 
-        public bool SecundaryAttack()
+        public bool SecundaryGroundAttack()
         {
             if (_activeCombatBehaviour != null)
             {
-                return _activeCombatBehaviour.SecundaryAttack();
+                return _activeCombatBehaviour.SecundaryGroundAttack();
             }
             return false;
         }
+        public bool PrimaryAirAttack()
+        {
+            if (_activeCombatBehaviour != null)
+            {
+                return _activeCombatBehaviour.PrimaryAirAttack();
+            }
+            return false;
+        }
+
+        public bool SecundaryAirAttack()
+        {
+            if (_activeCombatBehaviour != null)
+            {
+                return _activeCombatBehaviour.SecundaryAirAttack();
+            }
+            return false;
+        }
+
+        public bool ChargeAttack()
+        {
+            if (_activeCombatBehaviour != null)
+            {
+                return _activeCombatBehaviour.ChargeAttack();
+            }
+            return false;
+        }
+
+        public bool ReleaseChargeAttack()
+        {
+            if (_activeCombatBehaviour != null)
+            {
+                return _activeCombatBehaviour.ReleaseChargeAttack();
+            }
+            return false;
+        }
+
+        public void StartDiveAttack()
+        {
+            if (_activeCombatBehaviour != null)
+            {
+                _activeCombatBehaviour.StartDiveAttack();
+            }
+        }
+
+        public void EndDiveAttack()
+        {
+            if (_activeCombatBehaviour != null)
+            {
+                _activeCombatBehaviour.EndDiveAttack();
+            }
+        }
+
         public void NotifyAttackFinish()
         {
             OnAttackFinish?.Invoke();

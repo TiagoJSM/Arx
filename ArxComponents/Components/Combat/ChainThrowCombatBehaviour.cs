@@ -46,14 +46,33 @@ namespace ArxGame.Components.Combat
         }
         public override event Action OnAttackFinish;
 
-        public override bool PrimaryAttack()
+        public override bool PrimaryGroundAttack()
         {
             return !_performingAnimation;
         }
 
-        public override bool SecundaryAttack()
+        public override bool SecundaryGroundAttack()
         {
             return !_performingAnimation;
+        }
+        public override bool PrimaryAirAttack()
+        {
+            return !_performingAnimation;
+        }
+
+        public override bool SecundaryAirAttack()
+        {
+            return !_performingAnimation;
+        }
+
+        public override bool ChargeAttack()
+        {
+            return !_performingAnimation;
+        }
+
+        public override bool ReleaseChargeAttack()
+        {
+            return true;
         }
 
         public void ThrowChain()

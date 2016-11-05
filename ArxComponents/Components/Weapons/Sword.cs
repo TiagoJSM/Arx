@@ -18,6 +18,8 @@ namespace ArxGame.Components.Weapons
         private int _lightCombo3Damage;
         [SerializeField]
         private int _strongComboDamage;
+        [SerializeField]
+        private int _diveDamage;
 
         public Sword()
         {
@@ -33,6 +35,11 @@ namespace ArxGame.Components.Weapons
         public override void StrongAttack(IEnumerable<ICharacter> targets, GameObject attacker)
         {
             DealDamage(_strongComboDamage, targets, attacker);
+        }
+
+        public override void DiveAttack(IEnumerable<ICharacter> targets, GameObject attacker)
+        {
+            DealDamage(_diveDamage, targets, attacker);
         }
 
         private int GetLightAttackDamage(int comboCount)

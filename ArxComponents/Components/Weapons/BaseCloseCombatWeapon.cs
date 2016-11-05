@@ -14,6 +14,7 @@ namespace ArxGame.Components.Weapons
 
         public abstract void LightAttack(int comboCount, IEnumerable<ICharacter> targets, GameObject attacker);
         public abstract void StrongAttack(IEnumerable<ICharacter> targets, GameObject attacker);
+        public abstract void DiveAttack(IEnumerable<ICharacter> targets, GameObject attacker);
 
         protected void DealDamage(int damage, IEnumerable<ICharacter> targets, GameObject attacker)
         {

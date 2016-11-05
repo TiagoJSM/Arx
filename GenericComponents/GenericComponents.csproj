@@ -69,10 +69,9 @@
     <Compile Include="Controllers\Characters\CharacterController.cs" />
     <Compile Include="Controllers\Characters\CharacterGrounding.cs" />
     <Compile Include="Controllers\Characters\PlatformerCharacterController.cs" />
-    <Compile Include="Controllers\Interaction\InteractionTriggerController.cs" />
-    <Compile Include="Controllers\Interaction\InteractionZoneController.cs" />
     <Compile Include="Controllers\Interaction\SpeechController.cs" />
     <Compile Include="Controllers\Interaction\TemplateSpeechController.cs" />
+    <Compile Include="Enums\AttackStyle.cs" />
     <Compile Include="Enums\AttackType.cs" />
     <Compile Include="Enums\UpdateMode.cs" />
     <Compile Include="Events.cs" />
@@ -89,11 +88,15 @@
     <Compile Include="NodePath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachine\StateManager.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\ChargeAttackState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\DuckState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\LightAttackGroundState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\LightAirAttackState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\LightGroundAttackState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\JumpingState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\PlatformerCharacterAction.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\ReleaseChargeAttackState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\SlidingDownState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\StrongGroundAttackState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\BasePlatformerCharacterState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\FallingState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\GrabbingLedgeState.cs" />
@@ -104,6 +107,7 @@
     <Compile Include="StateMachine\States\PlatformerCharacter\RollState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\DuckingState.cs" />
     <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\StandingState.cs" />
+    <Compile Include="StateMachine\States\PlatformerCharacter\StrongAirAttackState.cs" />
     <Compile Include="StateMachine\StateTransition.cs" />
     <Compile Include="StateMachine\TransitionConfiguration.cs" />
     <Compile Include="TeleporterSpawner.cs" />

@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -107,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\2D\Cameras\Scripts\Camera2DAhead.cs" />
     <Compile Include="Assets\Standard Assets\2D\Prefabs\Items\Weapons\GrappleShooter.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\AirSlashCombatStateBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\AttackFinishBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\ChainThrowStateBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Camera2DFollow.cs" />
@@ -132,7 +135,9 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Constants\Tags.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Cutscene Controllers\MainPlatformerControllerCutsceneController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractibleCharacterController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractiveDialog.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\SpeakersAttribute.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\DebugTrigger.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\ContactDetector.cs" />
@@ -180,6 +185,9 @@
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\TouchPad.cs" />
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\VirtualInput.cs" />
     <Compile Include="Assets\Standard Assets\DataStructures\Tuple.cs" />
+    <Compile Include="Assets\Standard Assets\Dialogs\LocalizationConfig.cs" />
+    <Compile Include="Assets\Standard Assets\Dialogs\LocalizedTexts.cs" />
+    <Compile Include="Assets\Standard Assets\Dialogs\LocalizedUiText.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Antialiasing.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Bloom.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\BloomAndFlares.cs" />
@@ -229,6 +237,9 @@
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterTile.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\Vector2Extensions.cs" />
+    <Compile Include="Assets\Standard Assets\JSON\JSONObject.cs" />
+    <Compile Include="Assets\Standard Assets\JSON\JSONTemplates.cs" />
+    <Compile Include="Assets\Standard Assets\JSON\VectorTemplates.cs" />
     <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\AfterburnerPhysicsForce.cs" />
     <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\ExplosionFireAndDebris.cs" />
     <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\ExplosionPhysicsForce.cs" />
@@ -285,7 +296,6 @@
     <None Include="Assets\Anima2D\Examples\Shaders\Unlit-Alpha-Cull-off.shader" />
     <None Include="Assets\Anima2D\Readme.txt" />
     <None Include="Assets\Anima2D\Version.txt" />
-    <None Include="Assets\JSON\readme.txt" />
     <None Include="Assets\Plugins\Node_Editor\Resources\LineShader.shader" />
     <None Include="Assets\Standard Assets\2D\Decorators\NodeMesh.shader" />
     <None Include="Assets\Standard Assets\2D\Decorators\SpriteShader.shader" />
@@ -380,6 +390,7 @@
     <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Advanced.shader" />
     <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
     <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\WaterInclude.cginc" />
+    <None Include="Assets\Standard Assets\JSON\readme.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />

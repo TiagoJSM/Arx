@@ -64,7 +64,7 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
 
     public void DoAttack()
     {
-        _combatModule.PrimaryAttack();
+        _combatModule.PrimaryGroundAttack();
         _attacking = true;
     }
 

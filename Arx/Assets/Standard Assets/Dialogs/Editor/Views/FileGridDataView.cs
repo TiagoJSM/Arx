@@ -156,8 +156,9 @@ public static class FileGridDataView
         {
             var localized = ScriptableObject.CreateInstance<LocalizedTexts>();
             var sheet = context.ExcelFile.Sheets[_selectedSheet];
+            var filename = context.ExcelFile.Sheets[_selectedSheet].Name;
             PopulateLocalizedTexts(localized, sheet);
-            AssetDatabase.CreateAsset(localized, path + "/Localized Texts.asset");
+            AssetDatabase.CreateAsset(localized, path + "/" + filename + ".asset");
         }
         GUI.enabled = true;
     }
@@ -173,7 +174,7 @@ public static class FileGridDataView
                 Language = header,
                 Localizations = new LocalizedText()
                 {
-                    localization = keys.Select((key, rowIdx) =>
+                    translation = keys.Select((key, rowIdx) =>
                     {
                         return new Translation()
                         {

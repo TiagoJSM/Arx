@@ -7,11 +7,13 @@ using UnityEngine;
 using GenericComponents.Controllers.Interaction;
 
 [RequireComponent(typeof(SpeechController))]
+[RequireComponent(typeof(InteractibleCharacterController))]
 [RequireComponent(typeof(CommonTalkingCharacterController))]
 public class CommonTalkingCharacterAi : PlatformerCharacterAiControl
 {
-    private SpeechController _speechController;
+    private InteractibleCharacterController _interactiveCharacter;
     private CommonTalkingCharacterController _controller;
+    private bool _previousIsInteracting;
 
     protected override Direction CurrentDirection
     {
@@ -24,10 +26,9 @@ public class CommonTalkingCharacterAi : PlatformerCharacterAiControl
     protected override void Awake()
     {
         base.Awake();
-        _speechController = GetComponent<SpeechController>();
+        _interactiveCharacter = GetComponent<InteractibleCharacterController>();
         _controller = GetComponent<CommonTalkingCharacterController>();
-
-        _speechController.OnVisibilityChange += OnVisibilityChangeHandler;
+        _previousIsInteracting = _interactiveCharacter.IsInteracting;
     }
 
     protected override void Move(float directionValue)
@@ -40,14 +41,16 @@ public class CommonTalkingCharacterAi : PlatformerCharacterAiControl
         IddleMovement();
     }
 
-    private void OnDestroy()
+    private void Update()
     {
-        _speechController.OnVisibilityChange -= OnVisibilityChangeHandler;
-    }
+        if(_previousIsInteracting == _interactiveCharacter.IsInteracting)
+        {
+            return;
+        }
 
-    private void OnVisibilityChangeHandler(bool visible)
-    {
-        if (visible)
+        _previousIsInteracting = _interactiveCharacter.IsInteracting;
+
+        if (_interactiveCharacter.IsInteracting)
         {
             StopActiveCoroutine();
         }

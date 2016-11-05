@@ -6,13 +6,12 @@ using System.Text;
 
 namespace GenericComponents.StateMachine.States.PlatformerCharacter
 {
-    public class LightAttackGroundState : BasePlatformerCharacterState
+    public class LightAirAttackState : BasePlatformerCharacterState
     {
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
             base.OnStateEnter(action);
-            StateController.StayStill();
-            StateController.DoPrimaryAttack();
+            StateController.DoPrimaryAirAttack();
         }
     }
 }

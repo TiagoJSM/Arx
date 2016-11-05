@@ -11,5 +11,6 @@ namespace CommonInterfaces.Weapons
     {
         void StrongAttack(IEnumerable<ICharacter> targets, GameObject attacker);
         void LightAttack(int comboCount, IEnumerable<ICharacter> targets, GameObject attacker);
+        void DiveAttack(IEnumerable<ICharacter> targets, GameObject attacker);
     }
 }

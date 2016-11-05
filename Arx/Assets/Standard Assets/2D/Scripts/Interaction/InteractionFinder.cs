@@ -14,9 +14,6 @@ public class InteractionFinder : MonoBehaviour
 
     public IInteractionTriggerController GetInteractionTrigger()
     {
-        var res = Physics2D
-                .OverlapAreaAll(_interactionAreaP1.position, _interactionAreaP2.position);
-
         var interactionTriggerCollider =
             Physics2D
                 .OverlapAreaAll(_interactionAreaP1.position, _interactionAreaP2.position)

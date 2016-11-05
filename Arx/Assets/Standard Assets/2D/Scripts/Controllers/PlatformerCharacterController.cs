@@ -21,7 +21,6 @@ public class PlatformerCharacterController : BasePlatformerController
     private RoofChecker _roofChecker;
     private Rigidbody2D _rigidBody;
     private CharacterController2D _characterController2D;
-    private float _gravityScale;
     private Collider2D _detectedLedge;
     private Collider2D _lastGrabbedLedge;
     private bool _ledgeDetected;
@@ -108,6 +107,9 @@ public class PlatformerCharacterController : BasePlatformerController
             return _grabbingLedge;
         }
     }
+
+    public Vector2 VelocityMultiplier { get; protected set; }
+    public IEnumerable<RaycastHit2D> FrameHits { get; private set; }
 
     public CharacterController2D CharacterController2D { get { return _characterController2D; } }
 
@@ -196,12 +198,12 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         base.Awake();
         _rigidBody = GetComponent<Rigidbody2D>();
-        _gravityScale = _rigidBody.gravityScale;
         _ledgeChecker = GetComponent<LedgeChecker>();
         _roofChecker = GetComponent<RoofChecker>();
         _characterController2D = GetComponent<CharacterController2D>();
         _defaultGravity = gravity;
         _characterController2D.OnFrameAllControllerCollidedEvent += OnAllControllerCollidedEventHandler;
+        VelocityMultiplier = Vector2.one;
     }
 
     protected virtual void Start()
@@ -239,8 +241,13 @@ public class PlatformerCharacterController : BasePlatformerController
     private void ApplyMovement()
     {
         var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
-        _velocity.x = Mathf.Lerp(_velocity.x, _normalizedHorizontalSpeed * runSpeed, Time.deltaTime * smoothedMovementFactor);
-        _velocity.y += gravity * Time.deltaTime;
+        _velocity.x = 
+            Mathf.Lerp(
+                _velocity.x, 
+                _normalizedHorizontalSpeed * runSpeed * VelocityMultiplier.x, 
+                Time.deltaTime * smoothedMovementFactor);
+
+        _velocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
 
         _characterController2D.move(_velocity * Time.deltaTime);
         // grab our current _velocity to use as a base for all calculations
@@ -249,6 +256,7 @@ public class PlatformerCharacterController : BasePlatformerController
 
     private void OnAllControllerCollidedEventHandler(IEnumerable<RaycastHit2D> hits)
     {
+        FrameHits = hits;
         if (_activePlatformCollider != null)
         {
             var _stillCollidingWithActivePlatform = hits.Any(h => h.collider == _activePlatformCollider);

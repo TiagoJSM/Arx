@@ -49,7 +49,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
     }
 
-    public bool IsCurrentAnimationOver { get; private set; }
+    public bool IsAttackOver { get; private set; }
 
     public bool Attacking { get; private set; }
 
@@ -77,6 +77,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
     }
 
+    public bool IsCharging { get; private set; }
+
     public void Move(float move, float vertical, bool jump)
     {
         _move = move;
@@ -94,17 +96,56 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _attackAction = AttackType.Secundary;
     }
 
-    public void DoPrimaryAttack()
+    public void ChargeAttack()
     {
-        Attacking = _combatModule.PrimaryAttack();
-        IsCurrentAnimationOver = !Attacking;
+        IsCharging = true;
+        _attackAction = AttackType.Primary;
+    }
+
+    public void ReleaseChargeAttack()
+    {
+        IsCharging = false;
         _attackAction = AttackType.None;
     }
 
-    public void DoSecundaryAttack()
+    public void DoPrimaryGroundAttack()
     {
-        Attacking = _combatModule.SecundaryAttack();
+        Attacking = _combatModule.PrimaryGroundAttack();
+        IsAttackOver = !Attacking;
         _attackAction = AttackType.None;
+    }
+
+    public void DoSecundaryGroundAttack()
+    {
+        Attacking = _combatModule.SecundaryGroundAttack();
+        IsAttackOver = !Attacking;
+        _attackAction = AttackType.None;
+    }
+
+    public void DoPrimaryAirAttack()
+    {
+        Attacking = _combatModule.PrimaryAirAttack();
+        IsAttackOver = !Attacking;
+        _attackAction = AttackType.None;
+    }
+
+    public void DoSecundaryAirAttack()
+    {
+        Attacking = _combatModule.SecundaryAirAttack();
+        IsAttackOver = !Attacking;
+        _attackAction = AttackType.None;
+    }
+
+    public void DoChargeAttack()
+    {
+        Attacking = _combatModule.ChargeAttack();
+        IsAttackOver = !Attacking;
+        _attackAction = AttackType.None;
+    }
+
+    public void DoReleaseChargeAttack()
+    {
+        _combatModule.ReleaseChargeAttack();
     }
 
     public override void Duck()
@@ -121,15 +162,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         base.Stand();
     }
 
-    public void StartIddle()
-    {
-        //Body.drag = float.MaxValue;
-    }
-
-    public void StopIddle()
-    {
-        //Body.drag = 0;
-    }
+    public void StartIddle() { }
+    public void StopIddle() { }
 
     public void FlipToSlideDownDirection()
     {
@@ -141,6 +175,19 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
             CharacterController2D.SlopeNormal.x > 0 
             ? CommonInterfaces.Enums.Direction.Right 
             : CommonInterfaces.Enums.Direction.Left);
+    }
+
+    public void AirSlash()
+    {
+        VelocityMultiplier = new Vector3(VelocityMultiplier.x, VelocityMultiplier.y * 4f);
+        _combatModule.StartDiveAttack();
+    }
+
+    public void StopAirSlash()
+    {
+        VelocityMultiplier = Vector2.one;
+        _combatModule.EndDiveAttack();
+        OnAttackFinishHandler();
     }
 
     protected override void Awake()
@@ -163,6 +210,6 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     private void OnAttackFinishHandler()
     {
-        IsCurrentAnimationOver = true;
+        IsAttackOver = true;
     }
 }

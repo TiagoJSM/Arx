@@ -20,15 +20,14 @@ namespace ArxGame.Components.Combat
 
         public override event Action OnAttackFinish;
 
-        public override bool PrimaryAttack()
+        public override bool PrimaryGroundAttack()
         {
-            var degrees = GetWeaponAimAngle();
-            return Weapon.Shoot(degrees);
+            return PrimaryAttack();
         }
 
-        public override bool SecundaryAttack()
+        public override bool PrimaryAirAttack()
         {
-            throw new NotImplementedException();
+            return PrimaryAttack();
         }
 
         void Awake()
@@ -36,11 +35,17 @@ namespace ArxGame.Components.Combat
             this.enabled = false;
         }
 
-        void Update()
+        private void Update()
         {
             AimAtTarget(head, headLookLimit);
             AimAtTarget(aimingArm, aimLimit);
             OnAttackFinish?.Invoke();
+        }
+
+        private bool PrimaryAttack()
+        {
+            var degrees = GetWeaponAimAngle();
+            return Weapon.Shoot(degrees);
         }
 
         private float AimAtTargetRotation(float limit)

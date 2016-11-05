@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using CommonInterfaces.Controllers.Interaction;
 
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(ItemFinderController))]
@@ -20,6 +21,18 @@ using UnityEngine;
 [RequireComponent(typeof(EquipmentController))]
 public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber, IItemOwner, IPlayerControl
 {
+    private enum InputAction
+    {
+        None,
+        AttackButtonDown,
+        ChargingAttack
+    }
+
+    private const float MinAttackChargeTime = 0.2f;
+
+    private InputAction _currentInputAction = InputAction.None;
+    private float _attackButtonDownTime;
+
     private MainPlatformerController _characterController;
     private ItemFinderController _itemFinderController;
     private InventoryComponent _inventoryComponent;
@@ -28,11 +41,15 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     private EquipmentController _equipmentController;
     private HudManager _hud;
     private bool _jump;
+    private Vector3 _interactionPosition;
+    private IInteractionTriggerController _currentInteraction;
 
     [SerializeField]
     private InteractionFinder interactionFinder;
     [SerializeField]
     private GameObject HudPrefab;
+    [SerializeField]
+    private float _stopInteractionDistance = 3f;
 
     public event OnInventoryAdd OnInventoryItemAdd;
     public event OnInventoryRemove OnInventoryItemRemove;
@@ -97,29 +114,13 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
             _jump = Input.GetButtonDown("Jump");
         }
 
-        if (Input.GetButtonDown("Interact"))
-        {
-            var interactionTrigger = interactionFinder.GetInteractionTrigger();
-            if(interactionTrigger != null)
-            {
-                interactionTrigger.Interact(this.gameObject);
-            }
-        }
+        HandleInteraction();
 
         _characterController.Move(horizontal, vertical, _jump);
 
         _jump = false;
 
-        if (Input.GetButtonDown("Fire1"))
-        {
-            _characterController.LightAttack();
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        //bool crouch = Input.GetKey(KeyCode.LeftControl);
-       
+        HandleAttack();
     }
 
     private void LateUpdate()
@@ -129,6 +130,32 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
             return;
         }
         _uiController.Toggle();
+    }
+
+    private void HandleInteraction()
+    {
+        var distanceFromInteractionPoint = Vector3.Distance(_interactionPosition, transform.position);
+        if (distanceFromInteractionPoint > _stopInteractionDistance && _currentInteraction != null)
+        {
+            _currentInteraction.StopInteraction();
+            _currentInteraction = null;
+            return;
+        }
+
+        if (!Input.GetButtonDown("Interact"))
+        {
+            return;
+        }
+        if (_currentInteraction == null)
+        {
+            _currentInteraction = interactionFinder.GetInteractionTrigger();
+            _interactionPosition = transform.position;
+        }
+
+        if (_currentInteraction != null)
+        {
+            _currentInteraction.Interact(this.gameObject);
+        }
     }
 
     private void OnInventoryItemFoundHandler(IInventoryItem item)
@@ -154,6 +181,56 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         }
 
         return collider.GetComponent<ITeleporter>();
+    }
+
+    private void HandleAttack()
+    {
+        switch (_currentInputAction)
+        {
+            case InputAction.None: NoneAttackState(); break;
+            case InputAction.AttackButtonDown: AttackButtonDownState(); break;
+            case InputAction.ChargingAttack: ChargingAttackState(); break;
+        }
+    }
+
+    private void NoneAttackState()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            _attackButtonDownTime = 0;
+            _currentInputAction = InputAction.AttackButtonDown;
+        }
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            _characterController.StrongAttack();
+        }
+    }
+
+    private void AttackButtonDownState()
+    {
+        _attackButtonDownTime += Time.deltaTime;
+        if(_attackButtonDownTime > MinAttackChargeTime)
+        {
+            _characterController.ChargeAttack();
+            _currentInputAction = InputAction.ChargingAttack;
+            return;
+        }
+
+        if (Input.GetButtonUp("Fire1"))
+        {
+            _characterController.LightAttack();
+            _currentInputAction = InputAction.None;
+        }
+    }
+
+    private void ChargingAttackState()
+    {
+        if (Input.GetButtonUp("Fire1"))
+        {
+            _characterController.ReleaseChargeAttack();
+            _currentInputAction = InputAction.None;
+        }
     }
 }
 

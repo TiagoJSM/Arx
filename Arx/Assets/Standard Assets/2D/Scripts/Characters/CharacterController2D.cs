@@ -285,13 +285,8 @@ public class CharacterController2D : MonoBehaviour
         SlidingDown = false;
         if (slidingSlope)
         {
-            var angle = Vector2.Angle(slidingSlope.normal, Vector2.up);
-            //Debug.Log(angle + "  " + _raycastHit.normal);
-            //if (angle > slopeLimit && angle < 90 && _raycastHit.normal.y >= 0)
-            //{ 
             collisionState.below = true;
             SlidingDown = true;
-            //}
         }
 
         // now we check movement in the horizontal dir

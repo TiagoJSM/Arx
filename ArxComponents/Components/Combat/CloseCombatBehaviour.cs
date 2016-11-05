@@ -2,6 +2,7 @@
 using CommonInterfaces.Weapons;
 using GenericComponents.Enums;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,9 @@ namespace ArxGame.Components.Combat
     {
         private const int COMBO_START = 1;
 
+        private List<ICharacter> _charactersAttackedOnDive;
+        private Coroutine _diveAttackDetector;
+
         [SerializeField]
         private int maxCombos = 3;
         [SerializeField]
@@ -20,9 +24,18 @@ namespace ArxGame.Components.Combat
         [SerializeField]
         private Transform _attackAreaP2;
         [SerializeField]
+        private Transform _diveAttackAreaP1;
+        [SerializeField]
+        private Transform _diveAttackAreaP2;
+        [SerializeField]
         private LayerMask _enemyLayer;
 
         public override event Action OnAttackFinish;
+
+        public CloseCombatBehaviour()
+        {
+            _charactersAttackedOnDive = new List<ICharacter>();
+        }
 
         void Awake()
         {
@@ -37,13 +50,7 @@ namespace ArxGame.Components.Combat
 
         public void DoDamage()
         {
-            var enemiesInRange = 
-                Physics2D
-                    .OverlapAreaAll(_attackAreaP1.position, _attackAreaP2.position, _enemyLayer)
-                    .Select(c => c.GetComponent<ICharacter>())
-                    .Where(c => c != null)
-                    .Distinct()
-                    .ToArray();
+            var enemiesInRange = GetCharactersInRange(_attackAreaP1.position, _attackAreaP2.position, _enemyLayer);
 
             if (ComboType == AttackType.Primary)
             {
@@ -55,32 +62,72 @@ namespace ArxGame.Components.Combat
             }
         }
 
+        public void StartSlashAttack()
+        {
+            //ToDo
+        }
+
+        public void FinishSlashAttack()
+        {
+            //ToDo
+        }
+
+        public override void StartDiveAttack()
+        {
+            base.StartDiveAttack();
+            _diveAttackDetector = StartCoroutine(DiveAttackDetector());
+        }
+
+        public override void EndDiveAttack()
+        {
+            base.StartDiveAttack();
+            if(_diveAttackDetector != null)
+            {
+                StopCoroutine(_diveAttackDetector);
+                _diveAttackDetector = null;
+            }
+        }
+
         public void NotifyAttackFinish()
         {
             OnAttackFinish?.Invoke();
         }
 
-        public override bool PrimaryAttack()
+        public override bool PrimaryGroundAttack()
         {
-            DoAttack(AttackType.Primary);
+            DoGroundAttack(AttackType.Primary);
             return true;
         }
 
-        public override bool SecundaryAttack()
+        public override bool SecundaryGroundAttack()
         {
-            DoAttack(AttackType.Secundary);
+            DoGroundAttack(AttackType.Secundary);
             return true;
         }
 
-        private void DoAttack(AttackType attackType)
+        public override bool PrimaryAirAttack()
+        {
+            DoAirAttack(AttackType.Primary);
+            return true;
+        }
+
+        public override bool SecundaryAirAttack()
+        {
+            DoAirAttack(AttackType.Secundary);
+            return true;
+        }
+
+        private void DoGroundAttack(AttackType attackType)
         {
             ComboType = attackType;
             if (attackType == AttackType.None)
             {
                 ComboNumber = 0;
+                AttackStyle = AttackStyle.None;
             }
             else if (attackType == AttackType.Secundary)
             {
+                AttackStyle = AttackStyle.Ground;
                 ComboNumber++;
                 if (ComboNumber > maxCombos)
                 {
@@ -89,11 +136,37 @@ namespace ArxGame.Components.Combat
             }
             else if (attackType == AttackType.Primary)
             {
+                AttackStyle = AttackStyle.Ground;
                 ComboNumber++;
                 if (ComboNumber > maxCombos)
                 {
                     ComboNumber = COMBO_START;
                 }
+            }
+        }
+
+        private void DoAirAttack(AttackType attackType)
+        {
+            ComboType = attackType;
+            if (attackType == AttackType.None)
+            {
+                ComboNumber = 0;
+                AttackStyle = AttackStyle.None;
+            }
+            else
+            {
+                ComboNumber = COMBO_START;
+                AttackStyle = AttackStyle.Aerial;
+            }
+        }
+
+        private IEnumerator DiveAttackDetector()
+        {
+            while (true)
+            {
+                var enemiesInRange = GetCharactersInRange(_diveAttackAreaP1.position, _diveAttackAreaP2.position, _enemyLayer);
+                Weapon.DiveAttack(enemiesInRange, this.gameObject);
+                yield return null;
             }
         }
     }

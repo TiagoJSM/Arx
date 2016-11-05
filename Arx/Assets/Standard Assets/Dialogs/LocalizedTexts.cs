@@ -22,26 +22,39 @@ public class Translation
 public class LocalizedText
 {
     [SerializeField]
-    public Translation[] localization = new Translation[0];
+    public Translation[] translation = new Translation[0];
 
     public string this[string textKey]
     {
         get
         { 
-            if(localization == null)
+            if(translation == null)
             {
                 return null;
             }
 
-            for(var idx = 0; idx < localization.Length; idx++)
+            for(var idx = 0; idx < translation.Length; idx++)
             {
-                if(localization[idx].Key == textKey)
+                if(translation[idx].Key == textKey)
                 {
-                    return localization[idx].Translated;
+                    return translation[idx].Translated;
                 }
             }
 
             return null;
+        }
+    }
+
+    public string this[int idx]
+    {
+        get
+        {
+            if (translation == null)
+            {
+                return null;
+            }
+
+            return translation[idx].Translated;
         }
     }
 }
@@ -71,6 +84,25 @@ public class LocalizedTexts : ScriptableObject
         }
     }
 
+    public string this[int idx]
+    {
+        get
+        {
+            var currentLang = LocalizationConfig.CurrentLanguage;
+            var text = GetLocalizedText(currentLang, idx);
+            if (text == null && LocalizationConfig.CurrentLanguage != LocalizationConfig.DefaultLanguage)
+            {
+                text = GetLocalizedText(LocalizationConfig.DefaultLanguage, idx);
+            }
+            if (text != null)
+            {
+                return text;
+            }
+            Debug.Log("Translation not found for conversation index " + idx);
+            return null;
+        }
+    }
+
     private string GetLocalizedText(string language, string textKey)
     {
         for(var idx = 0; idx < localizations.Length; idx++)
@@ -83,5 +115,18 @@ public class LocalizedTexts : ScriptableObject
 
         return null;
     }
-    
+
+    private string GetLocalizedText(string language, int dialogIdx)
+    {
+        for (var idx = 0; idx < localizations.Length; idx++)
+        {
+            if (localizations[idx].Language == language)
+            {
+                return localizations[idx].Localizations[dialogIdx];
+            }
+        }
+
+        return null;
+    }
+
 }

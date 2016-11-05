@@ -22,10 +22,6 @@ public class WaypointPathController : MonoBehaviour {
 	void FixedUpdate () {
         UpdateWaypointIndex();
         var normalized = (GetWaypoint().gameObject.transform.position.ToVector2() - _rigidbody.position).normalized;
-        var position = _rigidbody.position + normalized * velocity * Time.deltaTime;
-        //_rigidbody.MovePosition(position);
-        //transform.position = _rigidbody.position + normalized * velocity * Time.deltaTime;
-        //_rigidbody.position = _rigidbody.position + normalized * velocity * Time.deltaTime;
         _platformTransform.position = _rigidbody.position + normalized * velocity * Time.deltaTime;
 	}
 

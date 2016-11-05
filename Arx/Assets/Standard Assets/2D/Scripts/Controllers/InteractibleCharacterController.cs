@@ -2,39 +2,69 @@
 using System.Collections;
 using CommonInterfaces.Controllers.Interaction;
 using GenericComponents.Controllers.Interaction;
+using CommonInterfaces;
+using System;
 
-public class InteractibleCharacterController : MonoBehaviour {
-
-    private IInteractionTriggerController _interactionController;
+public class InteractibleCharacterController : MonoBehaviour, IInteractionTriggerController
+{
     private SpeechController _speechController;
+    private int _dialogIdx;
 
-	void Start () 
+    [Speakers]
+    [SerializeField]
+    private InteractiveDialog _dialog;
+
+    public event OnInteract OnInteract;
+    public event OnStopInteraction OnStopInteraction;
+
+    public bool IsInteracting
     {
-        _interactionController = GetComponentInChildren<IInteractionTriggerController>();
-        _speechController = GetComponentInChildren<SpeechController>();
-        _interactionController.OnInteract += OnInteractHandler;
-        _interactionController.OnStopInteraction += OnStopInteractionHandler;
-        _speechController.OnScrollEnd += OnScrollEndHandler;
-
+        get
+        {
+            return _speechController != null;
+        }
     }
 
-    private void OnInteractHandler(GameObject interactor)
+    public void Interact(GameObject interactor)
     {
-        if (!_speechController.Visible)
+        if(_speechController == null)
         {
-            _speechController.Say(_speechController.Text);
+            Speak();
             return;
         }
         _speechController.Continue();
     }
 
-    private void OnStopInteractionHandler()
+    public void StopInteraction()
     {
-        _speechController.Close();
+        if(_speechController != null)
+        {
+            _speechController.Close();
+            _speechController.OnScrollEnd -= OnScrollEndHandler;
+            _speechController = null;
+        }
+        _dialogIdx = 0;
+    }
+
+    private void Speak()
+    {
+        var context = _dialog.GetDialogContext(_dialogIdx);
+        _speechController = context.First;
+        _speechController.OnScrollEnd += OnScrollEndHandler;
+        _speechController.Say(context.Second);
     }
 
     private void OnScrollEndHandler()
     {
-        _speechController.Visible = false;
+        _speechController.Close();
+        _speechController.OnScrollEnd -= OnScrollEndHandler;
+        _speechController = null;
+        _dialogIdx++;
+        if(_dialogIdx >= _dialog.DialogsCount)
+        {
+            _dialogIdx = 0;
+            return;
+        }
+        Speak();
     }
 }
