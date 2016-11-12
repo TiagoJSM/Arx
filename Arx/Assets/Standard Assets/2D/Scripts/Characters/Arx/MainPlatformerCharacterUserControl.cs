@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using CommonInterfaces.Controllers.Interaction;
+using MathHelper;
+using MathHelper.Extensions;
 
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(ItemFinderController))]
@@ -50,6 +52,8 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     private GameObject HudPrefab;
     [SerializeField]
     private float _stopInteractionDistance = 3f;
+    [SerializeField]
+    private GameObject _aimingArm;
 
     public event OnInventoryAdd OnInventoryItemAdd;
     public event OnInventoryRemove OnInventoryItemRemove;
@@ -114,6 +118,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
             _jump = Input.GetButtonDown("Jump");
         }
 
+        SetAimAngle();
         HandleInteraction();
 
         _characterController.Move(horizontal, vertical, _jump);
@@ -121,6 +126,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         _jump = false;
 
         HandleAttack();
+        SwitchActiveWeapon();
     }
 
     private void LateUpdate()
@@ -193,6 +199,34 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         }
     }
 
+    private void SwitchActiveWeapon()
+    {
+        if (_characterController.Attacking)
+        {
+            return;
+        }
+        if (Input.GetButtonDown("SetWeaponSocket1"))
+        {
+            _equipmentController.ActiveWeaponSocket = WeaponSocket.Weapon1;
+            PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
+        }
+        else if (Input.GetButtonDown("SetWeaponSocket2"))
+        {
+            _equipmentController.ActiveWeaponSocket = WeaponSocket.Weapon2;
+            PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
+        }
+        else if (Input.GetButtonDown("SetWeaponSocket3"))
+        {
+            _equipmentController.ActiveWeaponSocket = WeaponSocket.Weapon3;
+            PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
+        }
+        else if (Input.GetButtonDown("SetWeaponSocket4"))
+        {
+            _equipmentController.ActiveWeaponSocket = WeaponSocket.Weapon4;
+            PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
+        }
+    }
+
     private void NoneAttackState()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -231,6 +265,14 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
             _characterController.ReleaseChargeAttack();
             _currentInputAction = InputAction.None;
         }
+    }
+
+    private void SetAimAngle()
+    {
+        var center = _aimingArm.transform.position;
+        var aimPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var degrees = FloatUtils.AngleBetween(center, aimPosition).ReduceToSingleTurn();
+        _characterController.AimAngle = degrees;
     }
 }
 

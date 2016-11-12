@@ -548,7 +548,7 @@ public class CharacterController2D : MonoBehaviour
         {
             var ray = new Vector2(initialRayOrigin.x + i * _horizontalDistanceBetweenRays, initialRayOrigin.y);
 
-            DrawRay(ray, rayDirection * rayDistance, Color.red);
+            //DrawRay(ray, rayDirection * rayDistance, Color.red);
             //_raycastHit = Physics2D.Raycast(ray, rayDirection, rayDistance, mask);
             _raycastHit = Raycast(ray, rayDirection, rayDistance, mask);
             if (_raycastHit)
@@ -585,13 +585,13 @@ public class CharacterController2D : MonoBehaviour
     }
 
 
-    /*
+    
     /// <summary>
     /// checks the center point under the BoxCollider2D for a slope. If it finds one then the deltaMovement is adjusted so that
     /// the player stays grounded and the slopeSpeedModifier is taken into account to speed up movement.
     /// </summary>
     /// <param name="deltaMovement">Delta movement.</param>
-    private void handleVerticalSlope(ref Vector3 deltaMovement)
+    /*private RaycastHit2D handleVerticalSlope(ref Vector3 deltaMovement)
     {
         // slope check from the center of our collider
         var centerOfCollider = (_raycastOrigins.bottomLeft.x + _raycastOrigins.bottomRight.x) * 0.5f;
@@ -613,12 +613,12 @@ public class CharacterController2D : MonoBehaviour
             var down = new Vector2(1 / _raycastHit.normal.x, -(1/_raycastHit.normal.y));
             
             if (angle == 0)
-                return;
+                return default(RaycastHit2D);
 
             if(angle > slopeLimit)
             {
                 deltaMovement = down / 10;
-                return;
+                return default(RaycastHit2D);
             }
 
             // we are moving down the slope if our normal and movement direction are in the same x direction
@@ -634,8 +634,9 @@ public class CharacterController2D : MonoBehaviour
                 collisionState.slopeAngle = angle;
             }
         }
-    }
-    */
+        return default(RaycastHit2D);
+    }*/
+    
 
     /// <summary>
     /// Checks for a slope. If it finds one then the deltaMovement is adjusted so that
@@ -645,7 +646,7 @@ public class CharacterController2D : MonoBehaviour
     /// <param name="deltaMovement">Delta movement.</param>
     private RaycastHit2D handleVerticalSlope(ref Vector3 deltaMovement)
     {
-        var rayDistance = Mathf.Abs(deltaMovement.y) + _skinWidth;
+        var rayDistance = Mathf.Abs(deltaMovement.y) + _skinWidth * 2;
         var rayDirection = -Vector2.up;
         var initialRayOrigin = _raycastOrigins.bottomLeft;
 
@@ -665,14 +666,13 @@ public class CharacterController2D : MonoBehaviour
             ray = new Vector2(initialRayOrigin.x + i * _horizontalDistanceBetweenRays, initialRayOrigin.y);
 
             DrawRay(ray, rayDirection * rayDistance, Color.red);
-            //_raycastHit = Physics2D.Raycast(ray, rayDirection, rayDistance, mask);
+
             _raycastHit = Raycast(ray, rayDirection, rayDistance, mask);
             if (_raycastHit)
             {
                 // bail out if we have no slope
                 SlopeNormal = _raycastHit.normal;
                 var angle = Vector2.Angle(_raycastHit.normal, Vector2.up);
-                //var down = new Vector2(1 / _raycastHit.normal.x, -(1 / _raycastHit.normal.y));
 
                 if (angle == 0)
                 {
@@ -692,6 +692,7 @@ public class CharacterController2D : MonoBehaviour
                 break;
             }
         }
+
 
         //if only found sliding slope
         if (onlyOverLimitSlopes && overLimitRaycastFound)

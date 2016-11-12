@@ -8,6 +8,7 @@ using CommonInterfaces.Controllers;
 
 namespace ArxGame.Components.Weapons
 {
+    [CreateAssetMenu(fileName = "Sword", menuName = "Weapons/Create Sword Weapon", order = 1)]
     public class Sword : BaseCloseCombatWeapon
     {
         [SerializeField]

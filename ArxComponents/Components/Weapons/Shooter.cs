@@ -9,13 +9,16 @@ using UnityEngine;
 
 namespace ArxGame.Components.Weapons
 {
-    public class Shooter : MonoBehaviour, IShooterWeapon
+    [CreateAssetMenu(fileName = "Shooter", menuName = "Weapons/Create Shooter Weapon", order = 1)]
+    public class Shooter : BaseWeapon, IShooterWeapon
     {
-        //private float _lastShotTime;
+        private float _lastShotTime;
+
         [SerializeField]
         private float _cooldown = 1;
+        [SerializeField]
+        private int _damage = 10;
 
-        public Transform t;
         public Projectile projectilePrefab;
 
         public event Action OnCooldownFinish;
@@ -28,17 +31,25 @@ namespace ArxGame.Components.Weapons
             }
         }
 
-        public float RemainingCooldownTime { get; private set; }
-
-        public WeaponType WeaponType
+        public float RemainingCooldownTime
         {
             get
             {
-                return WeaponType.Shoot;
+                var elapsed = Time.time - _lastShotTime;
+                if(elapsed > _cooldown)
+                {
+                    return 0;
+                }
+                return _cooldown - elapsed;
             }
         }
 
-        public bool Shoot(float angleInDegrees)
+        public Shooter()
+        {
+            WeaponType = WeaponType.Shoot;
+        }
+
+        public bool Shoot(float angleInDegrees, LayerMask enemyLayer, GameObject attacker)
         {
             if(InCooldown)
             {
@@ -46,30 +57,14 @@ namespace ArxGame.Components.Weapons
             }
             var direction = angleInDegrees.GetDirectionVectorFromDegreeAngle();
             var projectile = Instantiate(projectilePrefab);
-            projectile.transform.position = this.transform.position;
+            projectile.transform.position = this.RightHandSocket.transform.position;
             projectile.direction = direction;
-            RemainingCooldownTime = _cooldown;
+            projectile.Attacker = attacker;
+            projectile.EnemyLayer = enemyLayer;
+            projectile.Damage = _damage;
+            _lastShotTime = Time.time;
 
             return true;
-        }
-
-        void Awake()
-        {
-            //_lastShotTime = Time.time - _cooldown;
-        }
-
-        void Update()
-        {
-            if (!InCooldown)
-            {
-                return;
-            }
-            //var elapsed = Time.time - _lastShotTime;
-            RemainingCooldownTime =  Mathf.Max(RemainingCooldownTime - Time.deltaTime, 0);
-            if (!InCooldown)
-            {
-                OnCooldownFinish?.Invoke();
-            }
         }
     }
 }

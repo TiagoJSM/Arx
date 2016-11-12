@@ -241,17 +241,19 @@ public class PlatformerCharacterController : BasePlatformerController
     private void ApplyMovement()
     {
         var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
-        _velocity.x = 
-            Mathf.Lerp(
-                _velocity.x, 
-                _normalizedHorizontalSpeed * runSpeed * VelocityMultiplier.x, 
-                Time.deltaTime * smoothedMovementFactor);
+        //_velocity.x = 
+        //    Mathf.Lerp(
+        //        _velocity.x, 
+        //        _normalizedHorizontalSpeed * runSpeed * VelocityMultiplier.x, 
+        //        Time.deltaTime * smoothedMovementFactor);
 
+        _velocity.x = _normalizedHorizontalSpeed * runSpeed * VelocityMultiplier.x;
         _velocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
 
         _characterController2D.move(_velocity * Time.deltaTime);
         // grab our current _velocity to use as a base for all calculations
         _velocity = _characterController2D.velocity;
+        //Debug.Log(_velocity);
     }
 
     private void OnAllControllerCollidedEventHandler(IEnumerable<RaycastHit2D> hits)

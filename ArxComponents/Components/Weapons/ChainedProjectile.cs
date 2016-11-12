@@ -1,4 +1,5 @@
-﻿using CommonInterfaces.Enums;
+﻿using CommonInterfaces.Controllers;
+using CommonInterfaces.Enums;
 using Extensions;
 using MathHelper.Extensions;
 using System;
@@ -23,6 +24,9 @@ namespace ArxGame.Components.Weapons
         public event Action<Collider2D, ChainedProjectile> OnTriggerEnter;
 
         private Coroutine _coroutine;
+        private LayerMask _enemyLayer;
+        private GameObject _attacker;
+        private int _damage;
 
         public float threshold;
         public float duration = 10;
@@ -40,9 +44,13 @@ namespace ArxGame.Components.Weapons
             }
         }
 
-        public bool Throw(float degrees)
+        public bool Throw(float degrees, LayerMask enemyLayer, GameObject attacker, int damage)
         {
-            if(_coroutine == null)
+            _enemyLayer = enemyLayer;
+            _attacker = attacker;
+            _damage = damage;
+
+            if (_coroutine == null)
             {
                 _coroutine = StartCoroutine(ThrowCoroutine(degrees));
                 return true;
@@ -109,6 +117,7 @@ namespace ArxGame.Components.Weapons
             while (true)
             {
                 var direction = (Origin.transform.position - this.transform.localPosition).normalized;
+                Debug.Log("return direction: " + direction);
                 this.transform.position = this.transform.position + direction * MovementPerSeconds * Time.deltaTime;
                 if (Vector3.Distance(this.transform.localPosition, Origin.transform.position) < threshold)
                 {
@@ -118,7 +127,8 @@ namespace ArxGame.Components.Weapons
                     OnAttackFinish?.Invoke();
                     yield break;
                 }
-                yield return null;
+                //yield return null;
+                yield return new WaitForEndOfFrame();
             }
         }
 
@@ -128,6 +138,16 @@ namespace ArxGame.Components.Weapons
             {
                 return;
             }
+            if (!_enemyLayer.IsInAnyLayer(other.gameObject))
+            {
+                return;
+            }
+            var character = other.gameObject.GetComponent<ICharacter>();
+            if (character == null)
+            {
+                return;
+            }
+            character.Attacked(_attacker, _damage, null);
             OnTriggerEnter?.Invoke(other, this);
             Return();
         }

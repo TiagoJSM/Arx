@@ -97,7 +97,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
             this
                 .From<LightAirAttackState>()
                     .To<LightAirAttackState>((c, a, t) =>
-                        a.AttackType == AttackType.Primary && c.IsAttackOver && c.WeaponType != null)
+                        a.AttackType == AttackType.Primary && c.IsAttackOver && c.WeaponType != null && !c.IsGrounded)
                     .To<IddleState>((c, a, t) =>
                         c.IsGrounded && a.Move == 0 && c.IsAttackOver)
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && c.IsAttackOver)

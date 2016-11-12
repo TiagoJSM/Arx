@@ -80,7 +80,7 @@ namespace ArxGame.Components.Combat
 
         public override void EndDiveAttack()
         {
-            base.StartDiveAttack();
+            base.EndDiveAttack();
             if(_diveAttackDetector != null)
             {
                 StopCoroutine(_diveAttackDetector);

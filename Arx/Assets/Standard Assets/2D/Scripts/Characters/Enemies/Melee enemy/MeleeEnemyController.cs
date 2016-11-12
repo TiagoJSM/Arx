@@ -35,7 +35,7 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
     private float _move;
     private bool _attack;
     private MeleeEnemyControllerStateManager _stateManager;
-    private BaseCloseCombatWeapon _equippedWeapon;
+    private GameObject _equippedWeapon;
 
     [SerializeField]
     private BaseCloseCombatWeapon _weaponPrefab;
@@ -84,9 +84,9 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
     protected override void Start()
     {
         base.Start();
-        _equippedWeapon = Instantiate(_weaponPrefab);
+        _equippedWeapon = Instantiate(_weaponPrefab.RightHandWeapon);
         _equippedWeapon.transform.SetParent(_weaponSocket.transform, false);
-        _combatModule.Weapon = _equippedWeapon;
+        _combatModule.Weapon = _weaponPrefab;
     }
 
     protected override void Update()

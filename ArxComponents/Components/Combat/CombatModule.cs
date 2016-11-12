@@ -113,6 +113,8 @@ namespace ArxGame.Components.Combat
             }
         }
 
+        public float AimAngle { get; set; }
+
         public bool PrimaryGroundAttack()
         {
             if(_activeCombatBehaviour != null)
@@ -202,6 +204,10 @@ namespace ArxGame.Components.Combat
         void Update()
         {
             _over = false;
+            if (_activeCombatBehaviour != null)
+            {
+                _activeCombatBehaviour.AimAngle = AimAngle;
+            }
         }
     }
 }

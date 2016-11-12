@@ -8,10 +8,8 @@ using UnityEngine;
 
 namespace ArxGame.Components.Weapons
 {
-    public abstract class BaseCloseCombatWeapon : MonoBehaviour, ICloseCombatWeapon
+    public abstract class BaseCloseCombatWeapon : BaseWeapon, ICloseCombatWeapon
     {
-        public WeaponType WeaponType { get; protected set; }
-
         public abstract void LightAttack(int comboCount, IEnumerable<ICharacter> targets, GameObject attacker);
         public abstract void StrongAttack(IEnumerable<ICharacter> targets, GameObject attacker);
         public abstract void DiveAttack(IEnumerable<ICharacter> targets, GameObject attacker);

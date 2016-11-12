@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace CommonInterfaces.Weapons
 {
@@ -12,6 +13,6 @@ namespace CommonInterfaces.Weapons
         bool ReadyToThrow { get; }
         void Spin();
         void FocusThrow();
-        void Throw(float degrees);
+        void Throw(float degrees, LayerMask enemyLayer, GameObject attacker);
     }
 }

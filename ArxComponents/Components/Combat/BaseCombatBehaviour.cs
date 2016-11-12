@@ -13,6 +13,7 @@ namespace ArxGame.Components.Combat
         public AttackType ComboType { get; protected set; }
         public int ComboNumber { get; set; }
         public AttackStyle AttackStyle { get; protected set; }
+        public float AimAngle { get; set; }
 
         public virtual bool PrimaryGroundAttack() { return false; }
         public virtual bool SecundaryGroundAttack() { return false; }

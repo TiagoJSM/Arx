@@ -17,7 +17,6 @@ using UnityEngine;
 public class MainPlatformerController : PlatformerCharacterController, IPlatformerCharacterController
 {
     private CombatModule _combatModule;
-
     private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
 
     [SerializeField]
@@ -78,6 +77,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     }
 
     public bool IsCharging { get; private set; }
+
+    public float AimAngle { get; set; }
 
     public void Move(float move, float vertical, bool jump)
     {
@@ -201,6 +202,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     protected override void Update()
     {
         base.Update();
+        _combatModule.AimAngle = AimAngle;
         var action = new PlatformerCharacterAction(_move, _vertical, _jump, _attackAction);
         _stateManager.Perform(action);
         _move = 0;

@@ -41,6 +41,48 @@ namespace ArxGame.Components.Weapons
             }
         }
 
+        public GameObject LeftHandWeapon
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public GameObject RightHandWeapon
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public GameObject LeftHandSocket
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public GameObject RightHandSocket
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public event Action OnAttackFinish;
 
         public void Spin()
@@ -53,14 +95,14 @@ namespace ArxGame.Components.Weapons
             throw new NotImplementedException();
         }
 
-        public void Throw(float degrees)
+        public void Throw(float degrees, LayerMask enemyLayer, GameObject attacker)
         {
             if (!ReadyToThrow)
             {
                 return;
             }
             StartAttack();
-            _instantiatedHeldProjectile.Throw(degrees);
+            _instantiatedHeldProjectile.Throw(degrees, enemyLayer, attacker, 0);
         }
 
         public void Detatch()

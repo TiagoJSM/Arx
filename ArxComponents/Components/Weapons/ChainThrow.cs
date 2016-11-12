@@ -10,25 +10,41 @@ using UnityEngine;
 
 namespace ArxGame.Components.Weapons
 {
-    public class ChainThrow : MonoBehaviour, IChainThrowWeapon
+    [CreateAssetMenu(fileName = "ChainThrow", menuName = "Weapons/Create Chain Throw Weapon", order = 1)]
+    public class ChainThrow : BaseWeapon, IChainThrowWeapon
     {
         private float _focusTime;
         private List<ICharacter> _attackedEnemies;
         private ChainedProjectile _instantiatedHeldProjectile;
 
+        [SerializeField]
+        private int _damage;
+
+        private ChainedProjectile InstantiatedHeldProjectile
+        {
+            get
+            {
+                if(_instantiatedHeldProjectile == null)
+                {
+                    _instantiatedHeldProjectile = Instantiate(projectile);
+                    _instantiatedHeldProjectile.Origin = this.RightHandSocket;
+                    _instantiatedHeldProjectile.transform.parent = null;
+                    _instantiatedHeldProjectile.OnAttackFinish += OnAttackFinishHandler;
+                }
+                return _instantiatedHeldProjectile;
+            }
+        }
+
         public event Action OnAttackFinish;
 
         public ChainedProjectile projectile;
 
-        public WeaponType WeaponType
-        {
-            get
-            {
-                return WeaponType.ChainedProjectile;
-            }
-        }
+        public bool ReadyToThrow { get { return InstantiatedHeldProjectile.Status == ProjectileStatus.None; } }
 
-        public bool ReadyToThrow { get { return _instantiatedHeldProjectile.Status == ProjectileStatus.None; } }
+        public ChainThrow()
+        {
+            WeaponType = WeaponType.ChainedProjectile;
+        }
 
         public void Spin()
         {
@@ -40,23 +56,27 @@ namespace ArxGame.Components.Weapons
             _focusTime += Time.deltaTime;
         }
 
-        public void Throw(float degrees)
+        public void Throw(float degrees, LayerMask enemyLayer, GameObject attacker)
         {
             if (!ReadyToThrow)
             {
                 return;
             }
             StartAttack();
-            _instantiatedHeldProjectile.Throw(degrees);
+            InstantiatedHeldProjectile.Throw(degrees, enemyLayer, attacker, _damage);
         }
 
         void Awake()
         {
             _attackedEnemies = new List<ICharacter>();
-            _instantiatedHeldProjectile = Instantiate(projectile);
-            _instantiatedHeldProjectile.Origin = this.gameObject;
-            _instantiatedHeldProjectile.transform.parent = null;
-            _instantiatedHeldProjectile.OnAttackFinish += OnAttackFinishHandler;
+        }
+
+        void OnDestroy()
+        {
+            if(_instantiatedHeldProjectile != null)
+            {
+                _instantiatedHeldProjectile.OnAttackFinish -= OnAttackFinishHandler;
+            }
         }
 
         private void OnAttackFinishHandler()
@@ -66,6 +86,7 @@ namespace ArxGame.Components.Weapons
 
         private void StartAttack()
         {
+            _instantiatedHeldProjectile.Reset();
             _focusTime = 0;
         }
 

@@ -23,7 +23,7 @@ public class GrappleShooter : MonoBehaviour {
         if (Input.GetButtonDown("Fire1"))
         {
 
-            _instanciatedGrapple.Throw(0);
+            _instanciatedGrapple.Throw(0, default(LayerMask), null);
         }
 	}
 }

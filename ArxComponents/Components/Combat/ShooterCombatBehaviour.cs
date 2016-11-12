@@ -11,6 +11,9 @@ namespace ArxGame.Components.Combat
 {
     public class ShooterCombatBehaviour : BaseGenericCombatBehaviour<IShooterWeapon>
     {
+        [SerializeField]
+        private LayerMask _enemyLayer;
+
         public GameObject aimingArm;
         public GameObject head;
         [Range(0, 90)]
@@ -35,7 +38,7 @@ namespace ArxGame.Components.Combat
             this.enabled = false;
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             AimAtTarget(head, headLookLimit);
             AimAtTarget(aimingArm, aimLimit);
@@ -44,24 +47,23 @@ namespace ArxGame.Components.Combat
 
         private bool PrimaryAttack()
         {
+            AimAtTarget(aimingArm, aimLimit);
             var degrees = GetWeaponAimAngle();
-            return Weapon.Shoot(degrees);
+            return Weapon.Shoot(degrees, _enemyLayer, this.gameObject);
         }
 
         private float AimAtTargetRotation(float limit)
         {
-            var center = aimingArm.transform.position;
-            var aimPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var inverted = (aimingArm.transform.lossyScale.x < 0) || (aimingArm.transform.lossyScale.y < 0);
 
             var rotation = default(float);
             if (!inverted)
             {
-                rotation = FloatUtils.AngleBetween(center, aimPosition);
+                rotation = AimAngle;
             }
             else
             {
-                rotation = (-FloatUtils.AngleBetween(center, aimPosition) + 180);
+                rotation = (-AimAngle) + 180;
             }
             if (rotation > 180)
             {
@@ -79,13 +81,10 @@ namespace ArxGame.Components.Combat
 
         private float GetWeaponAimAngle()
         {
-            var center = aimingArm.transform.position;
-            var aimPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var degrees = FloatUtils.AngleBetween(center, aimPosition).ReduceToSingleTurn();
+            var degrees = AimAngle;
             var radians = degrees * Mathf.Deg2Rad;
             var quadrant = radians.GetQuadrant();
 
-            //ToDo: direction should be provided by ICombatComponent
             var inverted = (aimingArm.transform.lossyScale.x < 0) || (aimingArm.transform.lossyScale.y < 0);
 
             if (!inverted)

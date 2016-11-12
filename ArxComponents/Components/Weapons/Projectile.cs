@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommonInterfaces.Controllers;
+using Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,10 @@ namespace ArxGame.Components.Weapons
         public float speed;
         public float lifetime = 4;
 
+        public LayerMask EnemyLayer { get; set; }
+        public int Damage { get; set; }
+        public GameObject Attacker { get; set; }
+
         void Update()
         {
             this.transform.position += direction * speed;
@@ -22,8 +28,22 @@ namespace ArxGame.Components.Weapons
             }
         }
 
-        void OnTriggerEnter2D()
+        void OnTriggerEnter2D(Collider2D other)
         {
+            if (other.isTrigger)
+            {
+                return;
+            }
+            if (!EnemyLayer.IsInAnyLayer(other.gameObject))
+            {
+                return;
+            }
+            var character = other.gameObject.GetComponent<ICharacter>();
+            if(character == null)
+            {
+                return;
+            }
+            character.Attacked(Attacker, Damage, null);
             Destroy(this.gameObject);
         }
     }
