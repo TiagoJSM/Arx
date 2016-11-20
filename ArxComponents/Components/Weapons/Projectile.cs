@@ -20,7 +20,7 @@ namespace ArxGame.Components.Weapons
 
         void Update()
         {
-            this.transform.position += direction * speed;
+            this.transform.position += direction * (speed * Time.deltaTime);
             lifetime -= Time.deltaTime;
             if(lifetime <= 0)
             {

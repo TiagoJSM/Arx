@@ -31,5 +31,8 @@ namespace ArxGame.Components.Weapons
         }
         public GameObject LeftHandSocket { get; set; }
         public GameObject RightHandSocket { get; set; }
+
+        public virtual void Equipped() { }
+        public virtual void Unequipped() { }
     }
 }

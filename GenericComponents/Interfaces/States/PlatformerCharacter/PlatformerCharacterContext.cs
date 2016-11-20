@@ -20,6 +20,7 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         bool SlidingDown { get; }
         IEnumerable<RaycastHit2D> FrameHits { get; }
         bool IsCharging { get; }
+        bool RopeFound { get; }
 
         void DoMove(float move);
         void DoGrabLedge();
@@ -39,5 +40,8 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         void StopAirSlash();
         void DoChargeAttack();
         void DoReleaseChargeAttack();
+        void GrabRope();
+        void LetGoRope();
+        void MoveOnRope(float horizontal, float vertical);
     }
 }

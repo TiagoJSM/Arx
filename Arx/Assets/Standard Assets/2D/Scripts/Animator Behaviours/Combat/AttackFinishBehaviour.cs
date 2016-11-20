@@ -22,7 +22,7 @@ public class AttackFinishBehaviour : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(stateInfo.normalizedTime >= 1 && !_notified)
+        if (stateInfo.normalizedTime >= 1 && !_notified)
         {
             animator.gameObject.GetComponent<CloseCombatBehaviour>().NotifyAttackFinish();
             _notified = true;

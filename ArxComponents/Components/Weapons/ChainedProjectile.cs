@@ -117,7 +117,6 @@ namespace ArxGame.Components.Weapons
             while (true)
             {
                 var direction = (Origin.transform.position - this.transform.localPosition).normalized;
-                Debug.Log("return direction: " + direction);
                 this.transform.position = this.transform.position + direction * MovementPerSeconds * Time.deltaTime;
                 if (Vector3.Distance(this.transform.localPosition, Origin.transform.position) < threshold)
                 {
@@ -127,7 +126,6 @@ namespace ArxGame.Components.Weapons
                     OnAttackFinish?.Invoke();
                     yield break;
                 }
-                //yield return null;
                 yield return new WaitForEndOfFrame();
             }
         }

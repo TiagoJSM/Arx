@@ -67,11 +67,14 @@ public class EquipmentController : MonoBehaviour
         if (_equippedWeaponVisual != null)
         {
             Destroy(_equippedWeaponVisual);
+            _equippedWeapon.Unequipped();
         }
+
         _equippedWeapon = UnityEngine.Object.Instantiate(weaponObject as UnityEngine.Object) as IWeapon;
         _equippedWeapon.RightHandSocket = _weaponSocket;
         _equippedWeaponVisual = Instantiate(_equippedWeapon.RightHandWeapon);
         _equippedWeaponVisual.transform.SetParent(_weaponSocket.transform, false);
+        _equippedWeapon.Equipped();
     }
 
     private IWeapon GetWeaponAt(WeaponSocket socket)

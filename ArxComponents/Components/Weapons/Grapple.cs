@@ -110,6 +110,9 @@ namespace ArxGame.Components.Weapons
             _attached = false;
         }
 
+        public virtual void Equipped() { }
+        public virtual void Unequipped() { }
+
         private void StartAttack()
         {
             _attached = false;

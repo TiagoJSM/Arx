@@ -2,11 +2,13 @@
 using CommonInterfaces.Controllers;
 using CommonInterfaces.Weapons;
 using Extensions;
+using GenericComponents.Behaviours;
 using GenericComponents.Controllers.Characters;
 using GenericComponents.Enums;
 using GenericComponents.Interfaces.States.PlatformerCharacter;
 using GenericComponents.StateMachine;
 using GenericComponents.StateMachine.States.PlatformerCharacter;
+using MathHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +21,21 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private CombatModule _combatModule;
     private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
 
+    private Rope _rope;
+    private RopePart _currentRopePart;
+
     [SerializeField]
     private float _rollingDuration = 1;
+    [SerializeField]
+    private float _maxRopeHorizontalForce = 20;
+    [SerializeField]
+    private float _ropeVerticalSpeed = 4;
 
     private float _move;
     private float _vertical;
     private bool _jump;
+    private bool _roll;
+    private bool _grabRope;
 
     private AttackType _attackAction;
 
@@ -80,11 +91,15 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public float AimAngle { get; set; }
 
-    public void Move(float move, float vertical, bool jump)
+    public bool RopeFound { get { return _rope != null; } }
+
+    public void Move(float move, float vertical, bool jump, bool roll, bool grabRope)
     {
         _move = move;
         _vertical = vertical;
         _jump = jump;
+        _roll = roll;
+        _grabRope = grabRope;
     }
 
     public void LightAttack()
@@ -191,27 +206,77 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         OnAttackFinishHandler();
     }
 
+    public void GrabRope()
+    {
+        if (_rope == null)
+        {
+            return;
+        }
+        ApplyMovementAndGravity = false;
+        _currentRopePart = _rope.GetRopePartAt(this.transform.position);
+        this.gameObject.transform.parent = _currentRopePart.transform;
+    }
+
+    public void LetGoRope()
+    {
+        this.gameObject.transform.parent = null;
+        _currentRopePart = null;
+        ApplyMovementAndGravity = true;
+    }
+
+    public void MoveOnRope(float horizontal, float vertical)
+    {
+        //_currentRopePart = _rope.GetRopePartAt(this.transform.position);
+        var closestSegment = _rope.GetClosestRopeSegment(this.transform.position);
+        this.gameObject.transform.parent = _currentRopePart.transform;
+        this.gameObject.transform.position =
+            FloatUtils.ClosestPointOnLine(closestSegment.Value.P1, closestSegment.Value.P2, this.transform.position);
+        this.gameObject.transform.rotation = _currentRopePart.transform.rotation;
+
+        if (Mathf.Abs(vertical) > 0.01)
+        {
+            var move = new Vector3(0, _ropeVerticalSpeed * Time.deltaTime * Mathf.Sign(vertical));
+            this.transform.localPosition += move;
+        }
+        if (Mathf.Abs(horizontal) > 0.01)
+        {
+            _currentRopePart.PhysicsRopePart.AddForce(new Vector2(_maxRopeHorizontalForce * Math.Sign(horizontal), 0));
+        }
+    }
+
     protected override void Awake()
     {
         base.Awake();
         _combatModule = GetComponent<CombatModule>();
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
         _combatModule.OnAttackFinish += OnAttackFinishHandler;
+        CharacterController2D.onTriggerEnterEvent += OnTriggerEnterEventHandler;
     }
 
     protected override void Update()
     {
         base.Update();
         _combatModule.AimAngle = AimAngle;
-        var action = new PlatformerCharacterAction(_move, _vertical, _jump, _attackAction);
+        var action = new PlatformerCharacterAction(_move, _vertical, _jump, _roll, _attackAction, _grabRope);
         _stateManager.Perform(action);
         _move = 0;
         _vertical = 0;
         _jump = false;
+        _roll = false;
     }
 
     private void OnAttackFinishHandler()
     {
         IsAttackOver = true;
+    }
+
+    private void OnTriggerEnterEventHandler(Collider2D collider)
+    {
+        var rope = collider.gameObject.GetComponent<Rope>();
+        if (rope == null)
+        {
+            return;
+        }
+        _rope = rope;
     }
 }

@@ -32,6 +32,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     private const float MinAttackChargeTime = 0.2f;
 
+    private bool _grabRopePressed;
     private InputAction _currentInputAction = InputAction.None;
     private float _attackButtonDownTime;
 
@@ -42,7 +43,6 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     private UiController _uiController;
     private EquipmentController _equipmentController;
     private HudManager _hud;
-    private bool _jump;
     private Vector3 _interactionPosition;
     private IInteractionTriggerController _currentInteraction;
 
@@ -103,6 +103,9 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     {
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
+        var roll = Input.GetButton("Jump");
+        var grabRope = Input.GetButtonDown("GrabRope") || GamepadGrabRope();
+        var jump = Input.GetButtonDown("Jump");
 
         if (vertical > 0)
         {
@@ -113,17 +116,10 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
             }
         }
 
-        if (!_jump)
-        {
-            _jump = Input.GetButtonDown("Jump");
-        }
-
         SetAimAngle();
         HandleInteraction();
 
-        _characterController.Move(horizontal, vertical, _jump);
-
-        _jump = false;
+        _characterController.Move(horizontal, vertical, jump, roll, grabRope);
 
         HandleAttack();
         SwitchActiveWeapon();
@@ -205,22 +201,22 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         {
             return;
         }
-        if (Input.GetButtonDown("SetWeaponSocket1"))
+        if (Input.GetButtonDown("SetWeaponSocket1") || Input.GetAxis("SetWeaponSocket1") > 0)
         {
             _equipmentController.ActiveWeaponSocket = WeaponSocket.Weapon1;
             PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
         }
-        else if (Input.GetButtonDown("SetWeaponSocket2"))
+        else if (Input.GetButtonDown("SetWeaponSocket2") || Input.GetAxis("SetWeaponSocket2") > 0)
         {
             _equipmentController.ActiveWeaponSocket = WeaponSocket.Weapon2;
             PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
         }
-        else if (Input.GetButtonDown("SetWeaponSocket3"))
+        else if (Input.GetButtonDown("SetWeaponSocket3") || Input.GetAxis("SetWeaponSocket3") > 0)
         {
             _equipmentController.ActiveWeaponSocket = WeaponSocket.Weapon3;
             PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
         }
-        else if (Input.GetButtonDown("SetWeaponSocket4"))
+        else if (Input.GetButtonDown("SetWeaponSocket4") || Input.GetAxis("SetWeaponSocket4") > 0)
         {
             _equipmentController.ActiveWeaponSocket = WeaponSocket.Weapon4;
             PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
@@ -269,10 +265,41 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     private void SetAimAngle()
     {
-        var center = _aimingArm.transform.position;
-        var aimPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var degrees = FloatUtils.AngleBetween(center, aimPosition).ReduceToSingleTurn();
-        _characterController.AimAngle = degrees;
+        var data = InputManager.GetInputData();
+
+        if(data.InputSource == InputSource.KBM)
+        {
+            var center = _aimingArm.transform.position;
+            var aimPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var degrees = FloatUtils.AngleBetween(center, aimPosition).ReduceToSingleTurn();
+            _characterController.AimAngle = degrees;
+        }
+        else if(data.InputSource == InputSource.WIN_XBOX)
+        {
+            var x = Input.GetAxis("Aim Analog X");
+            var y = Input.GetAxis("Aim Analog Y");
+            var angle = Vector2.Angle(Vector2.right, new Vector2(x, y));
+            if(y < 0)
+            {
+                angle = 360 - angle;
+            }
+            _characterController.AimAngle = angle;
+        }
+    }
+
+    private bool GamepadGrabRope()
+    {
+        if (_grabRopePressed && Input.GetAxis("GrabRope") < 0.5f)
+        {
+            _grabRopePressed = false;
+            return false;
+        }
+        if(!_grabRopePressed && Input.GetAxis("GrabRope") > 0.5f)
+        {
+            _grabRopePressed = true;
+            return true;
+        }
+        return false;
     }
 }
 

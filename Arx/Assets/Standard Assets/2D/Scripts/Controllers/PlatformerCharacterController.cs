@@ -108,10 +108,17 @@ public class PlatformerCharacterController : BasePlatformerController
         }
     }
 
+    public bool ApplyMovementAndGravity { get; set; }
+
     public Vector2 VelocityMultiplier { get; protected set; }
     public IEnumerable<RaycastHit2D> FrameHits { get; private set; }
 
     public CharacterController2D CharacterController2D { get { return _characterController2D; } }
+
+    public PlatformerCharacterController()
+    {
+        ApplyMovementAndGravity = true;
+    }
 
     public void LedgeDetected(bool detected, Collider2D ledgeCollider)
     {
@@ -189,9 +196,9 @@ public class PlatformerCharacterController : BasePlatformerController
     public void Roll(float move)
     {
         var direction = DirectionOfMovement(move, Direction);
+        _normalizedHorizontalSpeed = DirectionValue(direction);
         Flip(direction);
-        var directionValue = DirectionValue(direction);
-        _velocity.x = directionValue * maxRollSpeed;
+        //_velocity.x = directionValue * maxRollSpeed;
     }
 
     protected override void Awake()
@@ -213,7 +220,10 @@ public class PlatformerCharacterController : BasePlatformerController
 
     protected virtual void Update()
     {
-        ApplyMovement();
+        if (ApplyMovementAndGravity)
+        {
+            ApplyMovement();
+        }
         Collider2D collider;
         var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
         LedgeDetected(ledgeDetected, collider);

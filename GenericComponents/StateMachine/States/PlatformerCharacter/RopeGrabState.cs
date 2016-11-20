@@ -6,21 +6,23 @@ using System.Text;
 
 namespace GenericComponents.StateMachine.States.PlatformerCharacter
 {
-    public class LightAirAttackState : BasePlatformerCharacterState
+    public class RopeGrabState : BasePlatformerCharacterState
     {
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
             base.OnStateEnter(action);
-            StateController.DoPrimaryAirAttack();
+            StateController.GrabRope();
         }
 
         public override void Perform(PlatformerCharacterAction action)
         {
             base.Perform(action);
-            if (StateController.IsGrounded)
-            {
-                StateController.StayStill();
-            }
+            StateController.MoveOnRope(action.Move, action.Vertical);
+        }
+        public override void OnStateExit(PlatformerCharacterAction action)
+        {
+            base.OnStateExit(action);
+            StateController.LetGoRope();
         }
     }
 }

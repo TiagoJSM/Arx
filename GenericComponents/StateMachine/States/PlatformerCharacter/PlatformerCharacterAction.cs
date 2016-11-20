@@ -11,18 +11,24 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
         public float Move { get; private set; }
         public float Vertical { get; private set; }
         public bool Jump { get; private set; }
+        public bool Roll { get; private set; }
         public AttackType AttackType { get; private set; }
+        public bool GrabRope { get; private set; }
 
         public PlatformerCharacterAction(
             float move, 
             float vertical, 
             bool jump,
-            AttackType attackType)
+            bool roll,
+            AttackType attackType,
+            bool grabRope)
         {
             Move = move;
             Vertical = vertical;
             Jump = jump;
+            Roll = roll;
             AttackType = attackType;
+            GrabRope = grabRope;
         }
     }
 }

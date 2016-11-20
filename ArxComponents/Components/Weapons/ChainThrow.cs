@@ -66,6 +66,15 @@ namespace ArxGame.Components.Weapons
             InstantiatedHeldProjectile.Throw(degrees, enemyLayer, attacker, _damage);
         }
 
+        public override void Unequipped()
+        {
+            if(_instantiatedHeldProjectile == null)
+            {
+                Destroy(_instantiatedHeldProjectile.gameObject);
+                _instantiatedHeldProjectile = null;
+            }
+        }
+
         void Awake()
         {
             _attackedEnemies = new List<ICharacter>();

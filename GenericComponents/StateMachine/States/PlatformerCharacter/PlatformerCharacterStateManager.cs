@@ -37,7 +37,8 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
-                    .To<IddleState>((c, a, t) => c.IsGrounded && t > 0.5);
+                    .To<IddleState>((c, a, t) => c.IsGrounded && t > 0.5)
+                    .To<RopeGrabState>((c, a, t) => c.RopeFound && a.GrabRope);
 
             this
                 .From<FallingState>()
@@ -46,7 +47,8 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
-                    .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0);
+                    .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0)
+                    .To<RopeGrabState>((c, a, t) => c.RopeFound && a.GrabRope);
 
             this
                 .From<MovingState>()
@@ -66,7 +68,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
             this
                 .From<DuckState>()
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
-                    .To<RollState>((c, a, t) => c.IsGrounded && a.Move != 0)
+                    .To<RollState>((c, a, t) => c.IsGrounded && a.Roll)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Vertical >= 0 && c.CanStand)
                     .To<FallingState>((c, a, t) => !c.IsGrounded);
 
@@ -74,9 +76,10 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
                 .From<RollState>()
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<DuckState>((c, a, t) => c.IsGrounded && a.Move == 0 && (a.Vertical < 0 || !c.CanStand) && t > rollingDuration)
-                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration && c.CanStand)
                     .To<FallingState>((c, a, t) => !c.IsGrounded)
-                    .To<RollState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > rollingDuration);
+                    .To<RollState>((c, a, t) => c.IsGrounded && a.Roll && t > rollingDuration)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration && c.CanStand)
+                    .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > rollingDuration && c.CanStand);
 
             this
                 .From<LightGroundAttackState>()
@@ -125,6 +128,10 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
                     .To<MovingState>((c, a, t) => a.Move != 0 && c.IsGrounded && !c.SlidingDown)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && !c.SlidingDown)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && !c.SlidingDown);
+
+            this.
+                From<RopeGrabState>()
+                    .To<FallingState>((c, a, t) => a.GrabRope);
         }
     }
 }

@@ -22,5 +22,8 @@ namespace CommonInterfaces.Weapons
         GameObject RightHandWeapon { get; }
         GameObject LeftHandSocket { get; set; }
         GameObject RightHandSocket { get; set; }
+
+        void Equipped();
+        void Unequipped();
     }
 }

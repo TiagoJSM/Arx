@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using GenericComponents.Enums;
 
 namespace ArxGame.Components.Combat
 {
@@ -50,20 +51,36 @@ namespace ArxGame.Components.Combat
 
         public override bool PrimaryGroundAttack()
         {
+            if (!_performingAnimation)
+            {
+                AttackStyle = AttackStyle.Ground;
+            }
             return !_performingAnimation;
         }
 
         public override bool SecundaryGroundAttack()
         {
+            if (!_performingAnimation)
+            {
+                AttackStyle = AttackStyle.Ground;
+            }
             return !_performingAnimation;
         }
         public override bool PrimaryAirAttack()
         {
+            if (!_performingAnimation)
+            {
+                AttackStyle = AttackStyle.Aerial;
+            }
             return !_performingAnimation;
         }
 
         public override bool SecundaryAirAttack()
         {
+            if (!_performingAnimation)
+            {
+                AttackStyle = AttackStyle.Aerial;
+            }
             return !_performingAnimation;
         }
 
