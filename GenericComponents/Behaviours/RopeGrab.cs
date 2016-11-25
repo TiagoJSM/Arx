@@ -63,7 +63,7 @@ namespace GenericComponents.Behaviours
                 return;
             }
             _rope = rope;
-            //var contact = collision.contacts.First();
+
             _currentRopePart = _rope.GetRopePartAt(this.transform.position);
             this.gameObject.transform.parent = _currentRopePart.transform;
             _originalGravityScale = _body.gravityScale;

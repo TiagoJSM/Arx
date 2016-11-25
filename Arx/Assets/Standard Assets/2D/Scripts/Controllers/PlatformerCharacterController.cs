@@ -137,13 +137,7 @@ public class PlatformerCharacterController : BasePlatformerController
 
     public void DoMove(float move)
     {
-        var direction = DirectionOfMovement(move, Direction);
-        _normalizedHorizontalSpeed = DirectionValue(direction);
-        if (Math.Abs(move) < 0.5)
-        {
-            _normalizedHorizontalSpeed = 0;
-        }
-        Flip(direction);
+        DoMove(move, true);
     }
 
     public void DoGrabLedge()
@@ -198,7 +192,20 @@ public class PlatformerCharacterController : BasePlatformerController
         var direction = DirectionOfMovement(move, Direction);
         _normalizedHorizontalSpeed = DirectionValue(direction);
         Flip(direction);
-        //_velocity.x = directionValue * maxRollSpeed;
+    }
+
+    protected void DoMove(float move, bool setDirectionToMovement)
+    {
+        var direction = DirectionOfMovement(move, Direction);
+        _normalizedHorizontalSpeed = DirectionValue(direction);
+        if (Math.Abs(move) < 0.5)
+        {
+            _normalizedHorizontalSpeed = 0;
+        }
+        if (setDirectionToMovement)
+        {
+            Flip(direction);
+        }
     }
 
     protected override void Awake()
@@ -228,7 +235,6 @@ public class PlatformerCharacterController : BasePlatformerController
         var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
         LedgeDetected(ledgeDetected, collider);
 
-        //IsGrounded = CheckGrounded();
         IsGrounded = _characterController2D.isGrounded && CheckGrounded();
         CanStand = !_roofChecker.IsTouchingRoof;
         transform.rotation = Quaternion.identity;

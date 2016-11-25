@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,12 +10,44 @@ public enum InputSource
     WIN_XBOX            //xbox controller on windows
 }
 
+public enum DeviceButton
+{
+    PrimaryAttack,
+    SecundaryAttack,
+    Jump,
+    Interact,
+    InGameMenu,
+    SetWeaponSocket1,
+    SetWeaponSocket2,
+    SetWeaponSocket3,
+    SetWeaponSocket4,
+    AimWeapon,
+    ShootWeapon
+}
+
+public enum DeviceAxis
+{
+    Movement,
+    AimAnalog,
+}
+
+public interface IInputDevice
+{
+    bool MouseSupport { get; }
+
+    bool GetButtonDown(DeviceButton button);
+    bool GetButton(DeviceButton button);
+    bool GetButtonUp(DeviceButton button);
+    Vector2 GetAxis(DeviceAxis axis);
+}
+
 public static class InputManager
 {
     private static KeyCode[] _keyboardMouseKeys;
     private static KeyCode[] _gamepadKeys;
 
     private static InputSource? _currentSource;
+    private static IInputDevice _currentDevice;
 
     static InputManager()
     {
@@ -25,11 +56,26 @@ public static class InputManager
         _gamepadKeys = values.Where(key => key >= KeyCode.JoystickButton0 && key <= KeyCode.JoystickButton10).ToArray();
     }
 
-    public static InputData GetInputData(InputSource? definedSource = null)
+    public static IInputDevice GetInputDevice(InputSource? definedSource = null)
     {
-        _currentSource = GetCurrentInputSource(definedSource);
+        var currentInput = GetCurrentInputSource(definedSource);
+        if(_currentSource == currentInput)
+        {
+            _currentSource = InputSource.KBM;
+            return new KeyboardDevice();
+        }
+        if (currentInput != null)
+        {
+            _currentSource = currentInput;
+        }
 
-        return new InputData(_currentSource);
+        switch (_currentSource)
+        {
+            case InputSource.KBM:       return new KeyboardDevice();
+            case InputSource.WIN_XBOX:  return new WindowsXboxGamepad();
+        }
+
+        return null;
     }
 
     private static bool IsKeyboardMouseInput()
@@ -41,7 +87,7 @@ public static class InputManager
                 return true;
             }
         }
-        if(Input.GetAxis("X Mouse") != 0 || Input.GetAxis("Y Mouse") != 0)
+        if(Input.GetAxis("XMouse") != 0 || Input.GetAxis("YMouse") != 0)
         {
             return true;
         }
@@ -84,15 +130,5 @@ public static class InputManager
         }
 
         return null;
-    }
-}
-
-public class InputData
-{
-    public InputSource? InputSource { get; private set; }
-
-    public InputData(InputSource? inputSource)
-    {
-        InputSource = inputSource;
     }
 }

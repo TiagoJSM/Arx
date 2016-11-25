@@ -16,6 +16,7 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
         {
             this
                 .SetInitialState<IddleState>()
+                    .To<MovingAimState>((c, a, t) => c.IsGrounded && a.Aiming && IsAimableWeapon(c))
                     .To<LightGroundAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null)
                     .To<StrongGroundAttackState>((c, a, t) => a.AttackType == AttackType.Secundary && c.WeaponType != null)
                     .To<ChargeAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null && c.IsCharging)
@@ -27,33 +28,57 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 
             this
                 .From<JumpingState>()
-                    .To<LightAirAttackState>((c, a, t) => 
-                        a.AttackType == AttackType.Primary && 
-                        c.WeaponType != null && 
-                        c.WeaponType.Value == WeaponType.Sword)
-                    .To<StrongAirAttackState>((c, a, t) => 
-                        a.AttackType == AttackType.Secundary && 
-                        c.WeaponType != null)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .To<FallingAimState>((c, a, t) => !c.IsGrounded && a.Aiming && IsAimableWeapon(c))
+                    .To<LightAirAttackState>((c, a, t) =>
+                        a.AttackType == AttackType.Primary &&
+                        c.WeaponType != null &&
+                        c.WeaponType.Value == WeaponType.Sword)
+                    .To<StrongAirAttackState>((c, a, t) =>
+                        a.AttackType == AttackType.Secundary &&
+                        c.WeaponType != null)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<IddleState>((c, a, t) => c.IsGrounded && t > 0.5)
-                    .To<RopeGrabState>((c, a, t) => c.RopeFound && a.GrabRope);
+                    .To<RopeGrabState>((c, a, t) => c.RopeFound);
+
+            this
+                .From<JumpingAimState>()
+                    .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .To<FallingAimState>((c, a, t) => !c.IsGrounded && a.Aiming && IsAimableWeapon(c))
+                    .To<FallingState>((c, a, t) => !c.IsGrounded)
+                    .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && t > 0.5)
+                    .To<RopeGrabState>((c, a, t) => c.RopeFound);
 
             this
                 .From<FallingState>()
+                    .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .To<FallingAimState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && a.Aiming && IsAimableWeapon(c))
                     .To<LightAirAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null)
                     .To<StrongAirAttackState>((c, a, t) => a.AttackType == AttackType.Secundary && c.WeaponType != null)
-                    .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
+                    .To<MovingAimState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && IsAimableWeapon(c))
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0)
-                    .To<RopeGrabState>((c, a, t) => c.RopeFound && a.GrabRope);
+                    .To<RopeGrabState>((c, a, t) => c.RopeFound);
+
+            this
+                .From<FallingAimState>()
+                    .To<LightAirAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null)
+                    .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
+                    .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && !a.Aiming)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
+                    .To<MovingAimState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && IsAimableWeapon(c))
+                    .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0)
+                    .To<RopeGrabState>((c, a, t) => c.RopeFound);
 
             this
                 .From<MovingState>()
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
+                    .To<MovingAimState>((c, a, t) => a.Aiming && IsAimableWeapon(c) && c.IsGrounded)
                     .To<LightGroundAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null)
                     .To<StrongGroundAttackState>((c, a, t) => a.AttackType == AttackType.Secundary && c.WeaponType != null)
                     .To<ChargeAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null && c.IsCharging)
@@ -131,7 +156,24 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
 
             this.
                 From<RopeGrabState>()
-                    .To<FallingState>((c, a, t) => a.GrabRope);
+                    .To<FallingState>((c, a, t) => a.ReleaseRope)
+                    .To<JumpingState>((c, a, t) => a.Jump);
+
+            this.
+                From<MovingAimState>()
+                .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
+                .To<MovingState>((c, a, t) => !a.Aiming && IsAimableWeapon(c) && c.IsGrounded)
+                .To<LightGroundAttackState>((c, a, t) => a.Shoot && c.WeaponType != null)
+                .To<StrongGroundAttackState>((c, a, t) => a.AttackType == AttackType.Secundary && c.WeaponType != null)
+                .To<ChargeAttackState>((c, a, t) => a.Shoot && c.WeaponType != null && c.IsCharging)
+                .To<JumpingAimState>((c, a, t) => a.Jump && c.IsGrounded && a.Aiming && IsAimableWeapon(c))
+                .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded);
+        }
+
+        private bool IsAimableWeapon(IPlatformerCharacterController controller)
+        {
+            return controller.WeaponType == WeaponType.Shoot || controller.WeaponType == WeaponType.ChainedProjectile;
         }
     }
 }

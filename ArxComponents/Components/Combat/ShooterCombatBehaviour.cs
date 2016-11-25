@@ -42,14 +42,15 @@ namespace ArxGame.Components.Combat
         {
             AimAtTarget(head, headLookLimit);
             AimAtTarget(aimingArm, aimLimit);
-            OnAttackFinish?.Invoke();
+            //OnAttackFinish?.Invoke();
         }
 
         private bool PrimaryAttack()
         {
             AimAtTarget(aimingArm, aimLimit);
             var degrees = GetWeaponAimAngle();
-            return Weapon.Shoot(degrees, _enemyLayer, this.gameObject);
+            Weapon.Shoot(degrees, _enemyLayer, this.gameObject);
+            return false;
         }
 
         private float AimAtTargetRotation(float limit)

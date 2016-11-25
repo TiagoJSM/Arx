@@ -68,7 +68,7 @@ namespace ArxGame.Components.Weapons
 
         public override void Unequipped()
         {
-            if(_instantiatedHeldProjectile == null)
+            if(_instantiatedHeldProjectile != null)
             {
                 Destroy(_instantiatedHeldProjectile.gameObject);
                 _instantiatedHeldProjectile = null;

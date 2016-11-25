@@ -1,4 +1,5 @@
-﻿using CommonInterfaces.Weapons;
+﻿using CommonInterfaces.Enums;
+using CommonInterfaces.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,5 +44,7 @@ namespace GenericComponents.Interfaces.States.PlatformerCharacter
         void GrabRope();
         void LetGoRope();
         void MoveOnRope(float horizontal, float vertical);
+        void DoAimingMove(float move);
+        void SetDirectionToAimDirection();
     }
 }

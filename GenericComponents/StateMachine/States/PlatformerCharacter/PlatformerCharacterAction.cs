@@ -13,7 +13,9 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
         public bool Jump { get; private set; }
         public bool Roll { get; private set; }
         public AttackType AttackType { get; private set; }
-        public bool GrabRope { get; private set; }
+        public bool ReleaseRope { get; private set; }
+        public bool Shoot { get; private set; }
+        public bool Aiming { get; private set; }
 
         public PlatformerCharacterAction(
             float move, 
@@ -21,14 +23,18 @@ namespace GenericComponents.StateMachine.States.PlatformerCharacter
             bool jump,
             bool roll,
             AttackType attackType,
-            bool grabRope)
+            bool releaseRope,
+            bool aiming,
+            bool shoot)
         {
             Move = move;
             Vertical = vertical;
             Jump = jump;
             Roll = roll;
             AttackType = attackType;
-            GrabRope = grabRope;
+            ReleaseRope = releaseRope;
+            Aiming = aiming;
+            Shoot = shoot;
         }
     }
 }

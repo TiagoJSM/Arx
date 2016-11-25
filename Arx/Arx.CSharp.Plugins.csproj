@@ -239,7 +239,8 @@
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterTile.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\Vector2Extensions.cs" />
-    <Compile Include="Assets\Standard Assets\InputManagement\Gamepad.cs" />
+    <Compile Include="Assets\Standard Assets\InputManagement\KeyboardDevice.cs" />
+    <Compile Include="Assets\Standard Assets\InputManagement\WindowsXboxGamepad.cs" />
     <Compile Include="Assets\Standard Assets\InputManagement\InputManager.cs" />
     <Compile Include="Assets\Standard Assets\JSON\JSONObject.cs" />
     <Compile Include="Assets\Standard Assets\JSON\JSONTemplates.cs" />

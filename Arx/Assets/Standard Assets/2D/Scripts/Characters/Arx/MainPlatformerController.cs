@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using CommonInterfaces.Enums;
 
 [RequireComponent(typeof(CombatModule))]
 public class MainPlatformerController : PlatformerCharacterController, IPlatformerCharacterController
@@ -35,7 +36,9 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private float _vertical;
     private bool _jump;
     private bool _roll;
-    private bool _grabRope;
+    private bool _releaseRope;
+    private bool _aiming;
+    private bool _shoot;
 
     private AttackType _attackAction;
 
@@ -93,13 +96,14 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public bool RopeFound { get { return _rope != null; } }
 
-    public void Move(float move, float vertical, bool jump, bool roll, bool grabRope)
+    public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming)
     {
         _move = move;
         _vertical = vertical;
         _jump = jump;
         _roll = roll;
-        _grabRope = grabRope;
+        _releaseRope = releaseRope;
+        _aiming = aiming;
     }
 
     public void LightAttack()
@@ -122,6 +126,11 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     {
         IsCharging = false;
         _attackAction = AttackType.None;
+    }
+
+    public void Shoot()
+    {
+        _shoot = true;
     }
 
     public void DoPrimaryGroundAttack()
@@ -212,6 +221,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         {
             return;
         }
+
         ApplyMovementAndGravity = false;
         _currentRopePart = _rope.GetRopePartAt(this.transform.position);
         this.gameObject.transform.parent = _currentRopePart.transform;
@@ -221,12 +231,12 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     {
         this.gameObject.transform.parent = null;
         _currentRopePart = null;
+        _rope = null;
         ApplyMovementAndGravity = true;
     }
 
     public void MoveOnRope(float horizontal, float vertical)
     {
-        //_currentRopePart = _rope.GetRopePartAt(this.transform.position);
         var closestSegment = _rope.GetClosestRopeSegment(this.transform.position);
         this.gameObject.transform.parent = _currentRopePart.transform;
         this.gameObject.transform.position =
@@ -244,6 +254,23 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
     }
 
+    public void DoAimingMove(float move)
+    {
+        base.DoMove(move, false);
+    }
+
+    public void SetDirectionToAimDirection()
+    {
+        if((AimAngle >= 0 && AimAngle <= 90) || (AimAngle <= 360 && AimAngle >= 270))
+        {
+            Flip(Direction.Right);
+        }
+        else
+        {
+            Flip(Direction.Left);
+        }
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -257,12 +284,14 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     {
         base.Update();
         _combatModule.AimAngle = AimAngle;
-        var action = new PlatformerCharacterAction(_move, _vertical, _jump, _roll, _attackAction, _grabRope);
+        var action = new PlatformerCharacterAction(_move, _vertical, _jump, _roll, _attackAction, _releaseRope, _aiming, _shoot);
         _stateManager.Perform(action);
         _move = 0;
         _vertical = 0;
         _jump = false;
         _roll = false;
+        _aiming = false;
+        _shoot = false;
     }
 
     private void OnAttackFinishHandler()
@@ -272,11 +301,17 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     private void OnTriggerEnterEventHandler(Collider2D collider)
     {
+        if (!collider.IsTouching(CharacterController2D.BoxCollider2D))
+        {
+            return;
+        }
+
         var rope = collider.gameObject.GetComponent<Rope>();
         if (rope == null)
         {
             return;
         }
+
         _rope = rope;
     }
 }

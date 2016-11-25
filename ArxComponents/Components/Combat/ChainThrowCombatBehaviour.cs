@@ -60,11 +60,12 @@ namespace ArxGame.Components.Combat
 
         public override bool SecundaryGroundAttack()
         {
-            if (!_performingAnimation)
+            /*if (!_performingAnimation)
             {
                 AttackStyle = AttackStyle.Ground;
             }
-            return !_performingAnimation;
+            return !_performingAnimation;*/
+            return false;
         }
         public override bool PrimaryAirAttack()
         {
@@ -77,11 +78,12 @@ namespace ArxGame.Components.Combat
 
         public override bool SecundaryAirAttack()
         {
-            if (!_performingAnimation)
+            /*if (!_performingAnimation)
             {
                 AttackStyle = AttackStyle.Aerial;
             }
-            return !_performingAnimation;
+            return !_performingAnimation;*/
+            return false;
         }
 
         public override bool ChargeAttack()
