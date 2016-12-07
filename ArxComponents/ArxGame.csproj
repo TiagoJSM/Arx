@@ -50,11 +50,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\Combat\BaseCombatBehaviour.cs" />
-    <Compile Include="Components\Combat\ChainThrowCombatBehaviour.cs" />
-    <Compile Include="Components\Combat\CloseCombatBehaviour.cs" />
-    <Compile Include="Components\Combat\CombatModule.cs" />
-    <Compile Include="Components\Combat\ShooterCombatBehaviour.cs" />
     <Compile Include="Components\Environment\GrappleRope.cs" />
     <Compile Include="Components\SequencePlatformerCharacterControl.cs" />
     <Compile Include="Components\TextAlphaMinimumValueTransition.cs" />

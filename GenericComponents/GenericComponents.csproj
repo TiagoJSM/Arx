@@ -81,38 +81,13 @@
     <Compile Include="Interfaces\IPath.cs" />
     <Compile Include="Interfaces\States\IState.cs" />
     <Compile Include="Interfaces\IStateFactory.cs" />
-    <Compile Include="Interfaces\States\PlatformerCharacter\PlatformerCharacterContext.cs" />
     <Compile Include="Managers\CheckpointManager.cs" />
     <Compile Include="Managers\LevelManager.cs" />
     <Compile Include="Managers\Singleton.cs" />
     <Compile Include="NodePath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachine\StateManager.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\ChargeAttackState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\DuckState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\FallingAimState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\JumpingAimState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\LightAirAttackState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\LightGroundAttackState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\JumpingState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\MovingAimState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\PlatformerCharacterAction.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\ReleaseChargeAttackState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\RopeGrabState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\SlidingDownState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\StrongGroundAttackState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\AimingState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\BasePlatformerCharacterState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\FallingState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\GrabbingLedgeState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\IddleState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\MovingState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\PlatformerCharacterStateManager.cs" />
     <Compile Include="StateMachine\StateContainer.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\RollState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\DuckingState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\TemplateStates\StandingState.cs" />
-    <Compile Include="StateMachine\States\PlatformerCharacter\StrongAirAttackState.cs" />
     <Compile Include="StateMachine\StateTransition.cs" />
     <Compile Include="StateMachine\TransitionConfiguration.cs" />
     <Compile Include="TeleporterSpawner.cs" />
@@ -146,6 +121,7 @@
   <ItemGroup>
     <Folder Include="Animation\" />
     <Folder Include="Controllers\Interaction\Environment\" />
+    <Folder Include="Interfaces\States\PlatformerCharacter\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,6 +1,9 @@
-﻿using CommonInterfaces.Controllers;
+﻿using ArxGame.Components.Environment;
+using CommonInterfaces.Controllers;
 using CommonInterfaces.Enums;
 using CommonInterfaces.Weapons;
+using Extensions;
+using GenericComponents.Behaviours;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +19,8 @@ namespace ArxGame.Components.Weapons
         private float _focusTime;
         private List<ICharacter> _attackedEnemies;
         private ChainedProjectile _instantiatedHeldProjectile;
+        private LayerMask _enemyLayer;
+        private LayerMask _wallLayer;     
 
         [SerializeField]
         private int _damage;
@@ -30,12 +35,14 @@ namespace ArxGame.Components.Weapons
                     _instantiatedHeldProjectile.Origin = this.RightHandSocket;
                     _instantiatedHeldProjectile.transform.parent = null;
                     _instantiatedHeldProjectile.OnAttackFinish += OnAttackFinishHandler;
+                    _instantiatedHeldProjectile.OnTriggerEnter += OnTriggerEnterHandler;
                 }
                 return _instantiatedHeldProjectile;
             }
         }
 
         public event Action OnAttackFinish;
+        public event Action<Collider2D, ChainedProjectile, Vector3> OnTriggerEnter;
 
         public ChainedProjectile projectile;
 
@@ -46,24 +53,28 @@ namespace ArxGame.Components.Weapons
             WeaponType = WeaponType.ChainedProjectile;
         }
 
-        public void Spin()
-        {
-            StartAttack();
-        }
-
         public void FocusThrow()
         {
             _focusTime += Time.deltaTime;
         }
 
-        public void Throw(float degrees, LayerMask enemyLayer, GameObject attacker)
+        public void Throw(float degrees)
         {
             if (!ReadyToThrow)
             {
                 return;
             }
             StartAttack();
-            InstantiatedHeldProjectile.Throw(degrees, enemyLayer, attacker, _damage);
+            InstantiatedHeldProjectile.Throw(degrees, _damage);
+        }
+
+        public void Reset()
+        {
+            if(_instantiatedHeldProjectile != null)
+            {
+                _instantiatedHeldProjectile.Reset();
+                _instantiatedHeldProjectile.gameObject.SetActive(false);
+            }
         }
 
         public override void Unequipped()
@@ -95,7 +106,8 @@ namespace ArxGame.Components.Weapons
 
         private void StartAttack()
         {
-            _instantiatedHeldProjectile.Reset();
+            InstantiatedHeldProjectile.gameObject.SetActive(true);
+            InstantiatedHeldProjectile.Reset();
             _focusTime = 0;
         }
 
@@ -103,6 +115,15 @@ namespace ArxGame.Components.Weapons
         {
             _attackedEnemies.Clear();
             OnAttackFinish?.Invoke();
+            InstantiatedHeldProjectile.gameObject.SetActive(false);
+        }        
+
+        private void OnTriggerEnterHandler(Collider2D other, ChainedProjectile projectile, Vector3 position)
+        {
+            if(OnTriggerEnter != null)
+            {
+                OnTriggerEnter(other, projectile, position);
+            }
         }
     }
 }

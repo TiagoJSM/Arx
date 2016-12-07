@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine.Experimental.Director;
 using ArxGame.Components;
 using GenericComponents.Helpers;
-using ArxGame.Components.Combat;
 
 public class AttackFinishBehaviour : StateMachineBehaviour
 {

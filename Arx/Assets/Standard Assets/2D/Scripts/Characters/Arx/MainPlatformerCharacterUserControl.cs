@@ -60,15 +60,6 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     public event OnInventoryRemove OnInventoryItemRemove;
     public event OnKill OnKill;
 
-    private bool AimableWeaponEquipped
-    {
-        get
-        {
-            var weaponType = _characterController.WeaponType;
-            return weaponType == WeaponType.ChainedProjectile || weaponType == WeaponType.Shoot;
-        }
-    }
-
     public MainPlatformerController PlatformerCharacterController
     {
         get
@@ -106,7 +97,9 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     {
         _itemFinderController.OnInventoryItemFound += OnInventoryItemFoundHandler;
         _hud = Instantiate(HudPrefab).GetComponent<HudManager>();
-        PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
+        PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
+        PlatformerCharacterController.ShooterWeapon = _equipmentController.EquippedShooterWeapon;
+        PlatformerCharacterController.ChainThrowWeapon = _equipmentController.EquippedChainThrowWeapon;
     }
 
     private void Update()
@@ -118,11 +111,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         var roll = inputDevice.GetButton(DeviceButton.Jump);
         var jump = inputDevice.GetButtonDown(DeviceButton.Jump);
         var releaseRope = inputDevice.GetButtonDown(DeviceButton.Interact);
-        var aiming = false;
-        if (AimableWeaponEquipped)
-        {
-            aiming = inputDevice.GetButton(DeviceButton.AimWeapon);
-        }
+        var aiming = inputDevice.GetButton(DeviceButton.AimWeapon);
 
         if (vertical > 0)
         {
@@ -225,41 +214,40 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         }
         var setWeapon1 = inputDevice.GetButtonDown(DeviceButton.SetWeaponSocket1);
         var setWeapon2 = inputDevice.GetButtonDown(DeviceButton.SetWeaponSocket2);
-        var setWeapon3 = inputDevice.GetButtonDown(DeviceButton.SetWeaponSocket3);
-        var setWeapon4 = inputDevice.GetButtonDown(DeviceButton.SetWeaponSocket4);
 
         if (setWeapon1)
         {
-            _equipmentController.ActiveWeaponSocket = WeaponSocket.Weapon1;
-            PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
+            _equipmentController.ActiveCloseCombatSocket = WeaponSocket.ClosedCombarWeapon1;
+            PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
         }
         else if (setWeapon2)
         {
-            _equipmentController.ActiveWeaponSocket = WeaponSocket.Weapon2;
-            PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
-        }
-        else if (setWeapon3)
-        {
-            _equipmentController.ActiveWeaponSocket = WeaponSocket.Weapon3;
-            PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
-        }
-        else if (setWeapon4)
-        {
-            _equipmentController.ActiveWeaponSocket = WeaponSocket.Weapon4;
-            PlatformerCharacterController.Weapon = _equipmentController.EquippedWeapon;
+            _equipmentController.ActiveCloseCombatSocket = WeaponSocket.ClosedCombatWeapon2;
+            PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
         }
     }
 
     private void NoneAttackState(IInputDevice inputDevice)
     {
+        var aiming = inputDevice.GetButton(DeviceButton.AimWeapon);
+
+        if (aiming)
+        {
+            var shoot = inputDevice.GetButtonDown(DeviceButton.ShootWeapon);
+            var @throw = inputDevice.GetButtonDown(DeviceButton.Throw);
+            if (shoot)
+            {
+                _characterController.Shoot();
+            }
+            else if (@throw)
+            {
+                _characterController.Throw();
+            }
+            return;
+        }
+
         var primary = inputDevice.GetButtonDown(DeviceButton.PrimaryAttack);
         var secundary = inputDevice.GetButtonDown(DeviceButton.SecundaryAttack);
-
-        if (AimableWeaponEquipped)
-        {
-            primary = inputDevice.GetButtonDown(DeviceButton.ShootWeapon);
-            secundary = inputDevice.GetButtonDown(DeviceButton.AimWeapon);
-        }
 
         if (primary)
         {
@@ -283,31 +271,17 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
             return;
         }
 
-        if (AimableWeaponEquipped)
+        var primary = inputDevice.GetButtonUp(DeviceButton.PrimaryAttack);
+        if (primary)
         {
-            var shoot = inputDevice.GetButtonUp(DeviceButton.ShootWeapon);
-            if (shoot)
-            {
-                _characterController.Shoot();
-                _currentInputAction = InputAction.None;
-            }
-        }
-        else
-        {
-            var primary = inputDevice.GetButtonUp(DeviceButton.PrimaryAttack);
-            if (primary)
-            {
-                _characterController.LightAttack();
-                _currentInputAction = InputAction.None;
-            }
+            _characterController.LightAttack();
+            _currentInputAction = InputAction.None;
         }
     }
 
     private void ChargingAttackState(IInputDevice inputDevice)
     {
-        var primary = AimableWeaponEquipped
-            ? inputDevice.GetButtonUp(DeviceButton.ShootWeapon)
-            : inputDevice.GetButtonUp(DeviceButton.PrimaryAttack);
+        var primary = inputDevice.GetButtonUp(DeviceButton.PrimaryAttack);
 
         if (primary)
         {

@@ -11,8 +11,8 @@ namespace CommonInterfaces.Weapons
     {
         event Action OnAttackFinish;
         bool ReadyToThrow { get; }
-        void Spin();
+
         void FocusThrow();
-        void Throw(float degrees, LayerMask enemyLayer, GameObject attacker);
+        void Throw(float degrees);
     }
 }

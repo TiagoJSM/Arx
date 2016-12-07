@@ -25,5 +25,27 @@ namespace Extensions
 
             return bodies;
         }
+
+        public static IEnumerable<HingeJoint2D> GetChainedHingeJoints(this HingeJoint2D joint)
+        {
+            var joints = new List<HingeJoint2D>();
+
+            while (true)
+            {
+                joints.Add(joint);
+                if (joint.connectedBody == null)
+                {
+                    break;
+                }
+                joint = joint.connectedBody.GetComponent<HingeJoint2D>();
+                if(joint == null)
+                {
+                    break;
+                }
+            }
+
+            return joints;
+        }
+
     }
 }

@@ -5,7 +5,7 @@ using CommonInterfaces.Enums;
 
 [RequireComponent(typeof(HingeJoint2D))]
 public class GrappleShooter : MonoBehaviour {
-    private Grapple _instanciatedGrapple;
+    /*private Grapple _instanciatedGrapple;
     private HingeJoint2D _hingeJoint;
 
     public Grapple grapplePrefab;
@@ -25,5 +25,5 @@ public class GrappleShooter : MonoBehaviour {
 
             _instanciatedGrapple.Throw(0, default(LayerMask), null);
         }
-	}
+	}*/
 }

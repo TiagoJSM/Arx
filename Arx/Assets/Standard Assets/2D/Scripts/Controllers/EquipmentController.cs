@@ -8,31 +8,34 @@ using UnityEngine;
 
 public enum WeaponSocket
 {
-    Weapon1,
-    Weapon2,
-    Weapon3,
-    Weapon4,
+    ClosedCombarWeapon1,
+    ClosedCombatWeapon2,
 }
 
 public class EquipmentController : MonoBehaviour
 {
-    private GameObject _equippedWeaponVisual;
-    private IWeapon _equippedWeapon;
+    private GameObject _equippedCloseCombatWeaponVisual;
+    private GameObject _equippedShooterWeaponVisual;
+    private GameObject _equippedThrowWeaponVisual;
+
+    private ICloseCombatWeapon _equippedCloseCombatWeapon;
+    private IShooterWeapon _equippedShooterWeapon;
+    private ChainThrow _equippedChainThrowWeapon;
 
     [SerializeField]
-    private BaseWeapon _weapon1;
+    private BaseCloseCombatWeapon _closeCombatWeapon1;
     [SerializeField]
-    private BaseWeapon _weapon2;
+    private BaseCloseCombatWeapon _closeCombatWeapon2;
     [SerializeField]
-    private BaseWeapon _weapon3;
+    private Shooter _shooter;
     [SerializeField]
-    private BaseWeapon _weapon4;
+    private ChainThrow _chainThrow;
     [SerializeField]
     private WeaponSocket _equippedWeaponIndex;
     [SerializeField]
     private GameObject _weaponSocket;
 
-    public WeaponSocket ActiveWeaponSocket
+    public WeaponSocket ActiveCloseCombatSocket
     {
         get
         {
@@ -45,56 +48,90 @@ public class EquipmentController : MonoBehaviour
                 return;
             }
             _equippedWeaponIndex = value;
-            EquipWeaponFromActiveSocket();
+            EquipCloseCombatWeapon();
         }
     }
 
-    public IWeapon EquippedWeapon
+    public ICloseCombatWeapon EquippedCloseCombatWeapon
     {
         get
         {
-            return _equippedWeapon;
+            return _equippedCloseCombatWeapon;
+        }
+    }
+
+    public IShooterWeapon EquippedShooterWeapon
+    {
+        get
+        {
+            return _equippedShooterWeapon;
+        }
+    }
+
+    public ChainThrow EquippedChainThrowWeapon
+    {
+        get
+        {
+            return _equippedChainThrowWeapon;
         }
     }
 
     void Awake()
     {
-        EquipWeaponFromActiveSocket();
+        EquipCloseCombatWeapon();
+        EquipShooterWeapon(_shooter);
+        EquipChainThrowWeapon(_chainThrow);
     }
 
-    private void EquipWeapon(IWeapon weaponObject)
+    private void EquipCloseCombatWeapon(ICloseCombatWeapon weaponObject)
     {
-        if (_equippedWeaponVisual != null)
+        _equippedCloseCombatWeapon = EquipWeapon(weaponObject, _equippedCloseCombatWeapon, ref _equippedCloseCombatWeaponVisual);
+    }
+
+    private void EquipShooterWeapon(IShooterWeapon weaponObject)
+    {
+        _equippedShooterWeapon = EquipWeapon(weaponObject, _equippedShooterWeapon, ref _equippedShooterWeaponVisual);
+    }
+
+    private void EquipChainThrowWeapon(ChainThrow weaponObject)
+    {
+        _equippedChainThrowWeapon = EquipWeapon(weaponObject, _equippedChainThrowWeapon, ref _equippedThrowWeaponVisual);
+    }
+
+    private TWeapon EquipWeapon<TWeapon>(TWeapon weaponObject, TWeapon equipedWeapon, ref GameObject weaponVisual) 
+        where TWeapon : class, IWeapon
+    {
+        if (weaponVisual != null)
         {
-            Destroy(_equippedWeaponVisual);
-            _equippedWeapon.Unequipped();
+            Destroy(weaponVisual);
+            equipedWeapon.Unequipped();
         }
 
-        _equippedWeapon = UnityEngine.Object.Instantiate(weaponObject as UnityEngine.Object) as IWeapon;
-        _equippedWeapon.RightHandSocket = _weaponSocket;
-        _equippedWeaponVisual = Instantiate(_equippedWeapon.RightHandWeapon);
-        _equippedWeaponVisual.transform.SetParent(_weaponSocket.transform, false);
-        _equippedWeapon.Equipped();
+        equipedWeapon = UnityEngine.Object.Instantiate(weaponObject as UnityEngine.Object) as TWeapon;
+        equipedWeapon.RightHandSocket = _weaponSocket;
+        weaponVisual = Instantiate(equipedWeapon.RightHandWeapon);
+        weaponVisual.transform.SetParent(_weaponSocket.transform, false);
+        equipedWeapon.Equipped();
+
+        return equipedWeapon;
     }
 
-    private IWeapon GetWeaponAt(WeaponSocket socket)
+    private ICloseCombatWeapon GetWeaponAt(WeaponSocket socket)
     {
         switch (socket)
         {
-            case WeaponSocket.Weapon1: return _weapon1;
-            case WeaponSocket.Weapon2: return _weapon2;
-            case WeaponSocket.Weapon3: return _weapon3;
-            case WeaponSocket.Weapon4: return _weapon4;
+            case WeaponSocket.ClosedCombarWeapon1: return _closeCombatWeapon1;
+            case WeaponSocket.ClosedCombatWeapon2: return _closeCombatWeapon2;
         }
         return null;
     }
 
-    private void EquipWeaponFromActiveSocket()
+    private void EquipCloseCombatWeapon()
     {
         var weapon = GetWeaponAt(_equippedWeaponIndex);
         if (weapon != null)
         {
-            EquipWeapon(weapon);
+            EquipCloseCombatWeapon(weapon);
         }
     }
 }

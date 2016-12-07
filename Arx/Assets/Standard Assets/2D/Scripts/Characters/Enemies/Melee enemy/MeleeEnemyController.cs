@@ -7,7 +7,6 @@ using System;
 using ArxGame.Components.Weapons;
 using CommonInterfaces.Controllers;
 using System.Collections.Generic;
-using ArxGame.Components.Combat;
 
 public class MeleeEnemyControllerStateManager : StateManager<ICharacter, StateAction>
 {
@@ -86,7 +85,7 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
         base.Start();
         _equippedWeapon = Instantiate(_weaponPrefab.RightHandWeapon);
         _equippedWeapon.transform.SetParent(_weaponSocket.transform, false);
-        _combatModule.Weapon = _weaponPrefab;
+        _combatModule.CloseCombatWeapon = _weaponPrefab;
     }
 
     protected override void Update()

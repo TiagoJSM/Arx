@@ -1,6 +1,8 @@
-﻿using CommonInterfaces.Controllers;
+﻿using ArxGame.Components.Environment;
+using CommonInterfaces.Controllers;
 using CommonInterfaces.Enums;
 using Extensions;
+using GenericComponents.Behaviours;
 using MathHelper.Extensions;
 using System;
 using System.Collections;
@@ -21,17 +23,17 @@ namespace ArxGame.Components.Weapons
     public class ChainedProjectile : MonoBehaviour
     {
         public event Action OnAttackFinish;
-        public event Action<Collider2D, ChainedProjectile> OnTriggerEnter;
+        public event Action<Collider2D, ChainedProjectile, Vector3> OnTriggerEnter;
 
         private Coroutine _coroutine;
-        private LayerMask _enemyLayer;
-        private GameObject _attacker;
         private int _damage;
+        private bool _attached;
+        private Collider2D _collider;
 
         public float threshold;
         public float duration = 10;
         public float distance = 20;
-        public Collider2D collider;
+        
 
         public GameObject Origin { get; set; }
         public ProjectileStatus Status { get; private set; }
@@ -44,14 +46,14 @@ namespace ArxGame.Components.Weapons
             }
         }
 
-        public bool Throw(float degrees, LayerMask enemyLayer, GameObject attacker, int damage)
+        public bool Throw(float degrees, int damage)
         {
-            _enemyLayer = enemyLayer;
-            _attacker = attacker;
             _damage = damage;
 
             if (_coroutine == null)
             {
+                _attached = false;
+                this.gameObject.SetActive(true);
                 _coroutine = StartCoroutine(ThrowCoroutine(degrees));
                 return true;
             }
@@ -75,11 +77,11 @@ namespace ArxGame.Components.Weapons
                 _coroutine = null;
             }
             Status = ProjectileStatus.None;
-            collider.enabled = false;
+            _collider.enabled = false;
             this.transform.position = Origin.transform.position;
         }
 
-        private void Return()
+        public void Return()
         {
             if(_coroutine != null)
             {
@@ -94,7 +96,7 @@ namespace ArxGame.Components.Weapons
             var elapsedTime = 0f;
             var direction = degrees.GetDirectionVectorFromDegreeAngle();
 
-            collider.enabled = true;
+            _collider.enabled = true;
             Status = ProjectileStatus.Throw;
 
             while (true)
@@ -122,7 +124,7 @@ namespace ArxGame.Components.Weapons
                 {
                     _coroutine = null;
                     Status = ProjectileStatus.None;
-                    collider.enabled = false;
+                    _collider.enabled = false;
                     OnAttackFinish?.Invoke();
                     yield break;
                 }
@@ -130,27 +132,23 @@ namespace ArxGame.Components.Weapons
             }
         }
 
-        void OnTriggerEnter2D(Collider2D other)
+        
+
+        private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.isTrigger)
             {
                 return;
             }
-            if (!_enemyLayer.IsInAnyLayer(other.gameObject))
-            {
-                return;
-            }
-            var character = other.gameObject.GetComponent<ICharacter>();
-            if (character == null)
-            {
-                return;
-            }
-            character.Attacked(_attacker, _damage, null);
-            OnTriggerEnter?.Invoke(other, this);
-            Return();
+            OnTriggerEnter?.Invoke(other, this, this.transform.position);
         }
 
-        void LateUpdate()
+        private void Awake()
+        {
+            _collider = GetComponent<Collider2D>();
+        }
+
+        private void LateUpdate()
         {
             if(Status == ProjectileStatus.None)
             {

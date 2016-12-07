@@ -16,6 +16,7 @@ public class PlatformerCharacterController : BasePlatformerController
     private Vector3 _velocity;
     private float _normalizedHorizontalSpeed = 0;
     private float _defaultGravity;
+    private bool _detectPlatform = true;
 
     private LedgeChecker _ledgeChecker;
     private RoofChecker _roofChecker;
@@ -108,7 +109,23 @@ public class PlatformerCharacterController : BasePlatformerController
         }
     }
 
-    public bool ApplyMovementAndGravity { get; set; }
+    public bool ApplyMovementAndGravity { get; protected set; }
+    public bool SteadyRotation { get; protected set; }
+    public bool DetectPlatform
+    {
+        get
+        {
+            return _detectPlatform;
+        }
+        protected set
+        {
+            _detectPlatform = value;
+            if (!_detectPlatform)
+            {
+                _activePlatformCollider = null;
+            }
+        }
+    }
 
     public Vector2 VelocityMultiplier { get; protected set; }
     public IEnumerable<RaycastHit2D> FrameHits { get; private set; }
@@ -118,6 +135,7 @@ public class PlatformerCharacterController : BasePlatformerController
     public PlatformerCharacterController()
     {
         ApplyMovementAndGravity = true;
+        SteadyRotation = true;
     }
 
     public void LedgeDetected(bool detected, Collider2D ledgeCollider)
@@ -184,7 +202,7 @@ public class PlatformerCharacterController : BasePlatformerController
     public void StayStill()
     {
         _normalizedHorizontalSpeed = 0;
-        _velocity = Vector2.zero;
+        _velocity = new Vector2(0, _velocity.y);
     }
 
     public void Roll(float move)
@@ -237,7 +255,10 @@ public class PlatformerCharacterController : BasePlatformerController
 
         IsGrounded = _characterController2D.isGrounded && CheckGrounded();
         CanStand = !_roofChecker.IsTouchingRoof;
-        transform.rotation = Quaternion.identity;
+        if (SteadyRotation)
+        {
+            transform.rotation = Quaternion.identity;
+        }
     }
 
     protected virtual void FixedUpdate()
@@ -274,6 +295,10 @@ public class PlatformerCharacterController : BasePlatformerController
 
     private void OnAllControllerCollidedEventHandler(IEnumerable<RaycastHit2D> hits)
     {
+        if (!DetectPlatform)
+        {
+            return;
+        }
         FrameHits = hits;
         if (_activePlatformCollider != null)
         {

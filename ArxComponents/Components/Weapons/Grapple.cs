@@ -11,7 +11,7 @@ using GenericComponents.Behaviours;
 
 namespace ArxGame.Components.Weapons
 {
-    public class Grapple : MonoBehaviour, IGrapple
+    /*public class Grapple : MonoBehaviour, IGrapple
     {
         private ChainedProjectile _instantiatedHeldProjectile;
         private bool _attached;
@@ -95,14 +95,14 @@ namespace ArxGame.Components.Weapons
             throw new NotImplementedException();
         }
 
-        public void Throw(float degrees, LayerMask enemyLayer, GameObject attacker)
+        private void Throw(float degrees, LayerMask enemyLayer, LayerMask wallMask, GameObject attacker)
         {
             if (!ReadyToThrow)
             {
                 return;
             }
             StartAttack();
-            _instantiatedHeldProjectile.Throw(degrees, enemyLayer, attacker, 0);
+            _instantiatedHeldProjectile.Throw(degrees, attacker, 0);
         }
 
         public void Detatch()
@@ -179,12 +179,12 @@ namespace ArxGame.Components.Weapons
             _instantiatedHeldProjectile.Origin = this.gameObject;
             _instantiatedHeldProjectile.transform.parent = null;
             _instantiatedHeldProjectile.OnAttackFinish += AttackFinishedHandler;
-            _instantiatedHeldProjectile.OnTriggerEnter += OnTriggerEnterHandler;
+            //_instantiatedHeldProjectile.OnTriggerEnter += OnTriggerEnterHandler;
         }
 
         protected void AttackFinishedHandler()
         {
             OnAttackFinish?.Invoke();
         }
-    }
+    }*/
 }

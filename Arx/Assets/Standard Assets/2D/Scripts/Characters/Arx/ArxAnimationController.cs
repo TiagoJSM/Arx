@@ -5,7 +5,6 @@ using GenericComponents.Enums;
 using ArxGame.Components;
 using CommonInterfaces.Controllers;
 using System;
-using ArxGame.Components.Combat;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(MainPlatformerController))]
@@ -24,6 +23,8 @@ public class ArxAnimationController : MonoBehaviour {
     private readonly int _SlidingDown = Animator.StringToHash("Sliding Down");
     private readonly int _ChargingAttack = Animator.StringToHash("Charging Attack");
     private readonly int _RollingState = Animator.StringToHash("Base Layer.Ducking locomotion.Roll");
+    private readonly int _GrabbingRope = Animator.StringToHash("Grabbing Rope"); 
+    private readonly int _RopeClimbDirection = Animator.StringToHash("Rope Climb Direction");
 
     private Animator _animator;
     private MainPlatformerController _platformerController;
@@ -114,6 +115,20 @@ public class ArxAnimationController : MonoBehaviour {
             _animator.SetBool(_ChargingAttack, value);
         }
     }
+    private bool GrabbingRope
+    {
+        set
+        {
+            _animator.SetBool(_GrabbingRope, value);
+        }
+    }
+    private float RopeClimbDirection
+    {
+        set
+        {
+            _animator.SetFloat(_RopeClimbDirection, value);
+        }
+    }
 
     // Use this for initialization
     void Awake () {
@@ -141,6 +156,8 @@ public class ArxAnimationController : MonoBehaviour {
         Ducking = _platformerController.Ducking;
         SlidingDown = _platformerController.SlidingDown;
         ChargingAttack = _platformerController.IsCharging;
+        GrabbingRope = _platformerController.RopeFound;
+        RopeClimbDirection = _platformerController.RopeClimbDirection;
 
         var currentState = _animator.GetCurrentAnimatorStateInfo(0);
         var c = _animator.GetCurrentAnimatorClipInfo(0)[0];

@@ -115,8 +115,35 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Camera2DFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\ArxAnimationController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\IPlatformerCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\MainPlatformerCharacterUserControl.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\MainPlatformerController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ChargeAttackState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\DuckState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\FallingAimState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\FallingState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\GrabbingLedgeState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\GrappledState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\IddleState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\JumpingAimState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\JumpingState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\LightAirAttackState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\LightGroundAttackState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\MovingAimState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\MovingState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\PlatformerCharacterAction.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\PlatformerCharacterStateManager.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ReleaseChargeAttackState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\RollState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\RopeGrabState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\SlidingDownState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\StrongAirAttackState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\StrongGroundAttackState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\AimingState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\BasePlatformerCharacterState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\DuckingState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\StandingState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ThrowState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterController2D.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterFinder.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\PlatformerCharacterAiControl.cs" />
@@ -132,6 +159,11 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Nightmare Hunter\NightmareHunterGateLiftAiControl.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Nightmare Hunter\NightmareHunterGateLiftAnimationController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Shadow Hand\ShadowHandAnimationController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\BaseCombatBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\ChainThrowCombatBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\CloseCombatBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\CombatModule.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\ShooterCombatBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Constants\Tags.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Cutscene Controllers\MainPlatformerControllerCutsceneController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\EquipmentController.cs" />
@@ -417,5 +449,6 @@
     <None Include="Assets\Universal Sound FX\#Game Genre References\Shoot em Up.txt" />
     <None Include="Assets\Universal Sound FX\#version_history.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

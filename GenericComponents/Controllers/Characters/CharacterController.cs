@@ -45,6 +45,14 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
+        public GameObject CharacterGameObject
+        {
+            get
+            {
+                return gameObject;
+            }
+        }
+
         public virtual float Attacked(GameObject attacker, int damage, Vector3? hitPoint)
         {
             _status.Damage(damage);
@@ -58,6 +66,17 @@ namespace GenericComponents.Controllers.Characters
         public virtual void Kill()
         {
             Destroy(this.gameObject);
+        }
+
+        public virtual bool StartGrappled(GameObject grapple)
+        {
+            this.transform.SetParent(grapple.transform);
+            return true;
+        }
+
+        public void EndGrappled()
+        {
+            this.transform.SetParent(null);
         }
 
         protected virtual void Awake()

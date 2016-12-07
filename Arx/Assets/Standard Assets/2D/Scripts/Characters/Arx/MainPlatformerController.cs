@@ -1,13 +1,10 @@
-﻿using ArxGame.Components.Combat;
-using CommonInterfaces.Controllers;
+﻿using CommonInterfaces.Controllers;
 using CommonInterfaces.Weapons;
 using Extensions;
 using GenericComponents.Behaviours;
 using GenericComponents.Controllers.Characters;
 using GenericComponents.Enums;
-using GenericComponents.Interfaces.States.PlatformerCharacter;
 using GenericComponents.StateMachine;
-using GenericComponents.StateMachine.States.PlatformerCharacter;
 using MathHelper;
 using System;
 using System.Collections.Generic;
@@ -15,6 +12,10 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using CommonInterfaces.Enums;
+using Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine;
+using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
+using ArxGame.Components.Weapons;
+using ArxGame.Components.Environment;
 
 [RequireComponent(typeof(CombatModule))]
 public class MainPlatformerController : PlatformerCharacterController, IPlatformerCharacterController
@@ -31,6 +32,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private float _maxRopeHorizontalForce = 20;
     [SerializeField]
     private float _ropeVerticalSpeed = 4;
+    [SerializeField]
+    private float _grappleRopeGrabHeightOffset = -6;
 
     private float _move;
     private float _vertical;
@@ -39,6 +42,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private bool _releaseRope;
     private bool _aiming;
     private bool _shoot;
+    private bool _throw;
 
     private AttackType _attackAction;
 
@@ -50,15 +54,39 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
     }
 
-    public IWeapon Weapon
+    public ICloseCombatWeapon CloseCombatWeapon
     {
         get
         {
-            return _combatModule.Weapon;
+            return _combatModule.CloseCombatWeapon;
         }
         set
         {
-            _combatModule.Weapon = value;
+            _combatModule.CloseCombatWeapon = value;
+        }
+    }
+
+    public IShooterWeapon ShooterWeapon
+    {
+        get
+        {
+            return _combatModule.ShooterWeapon;
+        }
+        set
+        {
+            _combatModule.ShooterWeapon = value;
+        }
+    }
+
+    public ChainThrow ChainThrowWeapon
+    {
+        get
+        {
+            return _combatModule.ChainThrowWeapon;
+        }
+        set
+        {
+            _combatModule.ChainThrowWeapon = value;
         }
     }
 
@@ -95,6 +123,10 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     public float AimAngle { get; set; }
 
     public bool RopeFound { get { return _rope != null; } }
+
+    public float RopeClimbDirection { get; private set; }
+
+    public GrappleRope GrappleRope { get { return _combatModule.GrappleRope; } }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming)
     {
@@ -223,7 +255,9 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
 
         ApplyMovementAndGravity = false;
+        SteadyRotation = false;
         _currentRopePart = _rope.GetRopePartAt(this.transform.position);
+        var p = _rope.GetRopePartRigidBodyAt(this.transform.position);
         this.gameObject.transform.parent = _currentRopePart.transform;
     }
 
@@ -233,10 +267,13 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _currentRopePart = null;
         _rope = null;
         ApplyMovementAndGravity = true;
+        SteadyRotation = true;
     }
 
     public void MoveOnRope(float horizontal, float vertical)
     {
+        RopeClimbDirection = 0;
+
         var closestSegment = _rope.GetClosestRopeSegment(this.transform.position);
         this.gameObject.transform.parent = _currentRopePart.transform;
         this.gameObject.transform.position =
@@ -247,6 +284,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         {
             var move = new Vector3(0, _ropeVerticalSpeed * Time.deltaTime * Mathf.Sign(vertical));
             this.transform.localPosition += move;
+            RopeClimbDirection = vertical > 0 ? 1 : -1;
         }
         if (Mathf.Abs(horizontal) > 0.01)
         {
@@ -271,6 +309,62 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
     }
 
+    public void DoShoot()
+    {
+        _combatModule.Shoot();
+    }
+
+    public void Aim(bool aim)
+    {
+        _combatModule.Aiming = aim;
+    }
+
+    public void Throw()
+    {
+        _throw = true;
+    }
+
+    public void DoThrow()
+    {
+        _combatModule.Throw();
+        IsAttackOver = false;
+    }
+
+    public void GrabGrapple()
+    {
+        ApplyMovementAndGravity = false;
+        SteadyRotation = false;
+        DetectPlatform = false;
+        // ChainThrowCombatBehaviour does the bellow line, 
+        //but we still need to do it here, since it may be invalided by hit detection parenting
+        this.transform.parent = _combatModule.GrappleRope.RopeEnd.gameObject.transform;
+        this.transform.localPosition = new Vector3(0, _grappleRopeGrabHeightOffset);
+    }
+
+    public void MoveOnGrapple(float horizontal, float vertical)
+    {
+        if (Mathf.Abs(horizontal) > 0.01)
+        {
+            var body = _combatModule.GrappleRope.RopeEnd.GetComponent<Rigidbody2D>();
+            body.AddForce(new Vector2(_maxRopeHorizontalForce * Math.Sign(horizontal), 0));
+        }
+        if (Mathf.Abs(vertical) > 0.01)
+        {
+            _combatModule.ClimbGrapple(vertical, _ropeVerticalSpeed);
+            //var move = new Vector3(0, _ropeVerticalSpeed * Time.deltaTime * Mathf.Sign(vertical));
+            //this.transform.localPosition += move;
+        }
+    }
+
+    public void ReleaseGrapple()
+    {
+        _combatModule.ReleaseGrapple();
+        this.transform.localRotation = Quaternion.identity;
+        ApplyMovementAndGravity = true;
+        SteadyRotation = true;
+        DetectPlatform = true;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -283,8 +377,9 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     protected override void Update()
     {
         base.Update();
+
         _combatModule.AimAngle = AimAngle;
-        var action = new PlatformerCharacterAction(_move, _vertical, _jump, _roll, _attackAction, _releaseRope, _aiming, _shoot);
+        var action = new PlatformerCharacterAction(_move, _vertical, _jump, _roll, _attackAction, _releaseRope, _aiming, _shoot, _throw);
         _stateManager.Perform(action);
         _move = 0;
         _vertical = 0;
@@ -292,6 +387,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _roll = false;
         _aiming = false;
         _shoot = false;
+        _throw = false;
     }
 
     private void OnAttackFinishHandler()

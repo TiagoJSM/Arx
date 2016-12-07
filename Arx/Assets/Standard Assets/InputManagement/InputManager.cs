@@ -19,10 +19,9 @@ public enum DeviceButton
     InGameMenu,
     SetWeaponSocket1,
     SetWeaponSocket2,
-    SetWeaponSocket3,
-    SetWeaponSocket4,
     AimWeapon,
-    ShootWeapon
+    ShootWeapon,
+    Throw
 }
 
 public enum DeviceAxis
@@ -59,14 +58,15 @@ public static class InputManager
     public static IInputDevice GetInputDevice(InputSource? definedSource = null)
     {
         var currentInput = GetCurrentInputSource(definedSource);
-        if(_currentSource == currentInput)
-        {
-            _currentSource = InputSource.KBM;
-            return new KeyboardDevice();
-        }
+        
         if (currentInput != null)
         {
             _currentSource = currentInput;
+        }
+        
+        if(_currentSource == null)
+        {
+            _currentSource = InputSource.KBM;
         }
 
         switch (_currentSource)

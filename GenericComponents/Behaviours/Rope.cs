@@ -38,7 +38,7 @@ namespace GenericComponents.Behaviours
 
                 var pointTotalDistance = distanceTo1 + distanceTo2;
                 var difference = pointTotalDistance - ropeDistance;
-                if (/*difference < 0.01f && */minDifference > difference) //ToDo: don't hardcode this
+                if (minDifference > difference)
                 {
                     body = segment.Item2;
                     minDifference = difference;
@@ -72,7 +72,7 @@ namespace GenericComponents.Behaviours
 
                 var pointTotalDistance = distanceTo1 + distanceTo2;
                 var difference = pointTotalDistance - ropeDistance;
-                if (/*difference < 0.01f && */minDifference > difference) //ToDo: don't hardcode this
+                if (minDifference > difference) //ToDo: don't hardcode this
                 {
                     tuple = segment;
                     minDifference = difference;
