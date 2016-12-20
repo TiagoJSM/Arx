@@ -1,4 +1,5 @@
 ﻿using ArxGame.Components.Environment;
+using Assets.Standard_Assets._2D.Scripts.EnvironmentDetection;
 using CommonInterfaces.Weapons;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         bool IsCharging { get; }
         bool RopeFound { get; }
         GrappleRope GrappleRope { get; }
+        Pushable Pushable { get; }
 
         void DoMove(float move);
         void DoGrabLedge();
@@ -53,5 +55,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void GrabGrapple();
         void MoveOnGrapple(float horizontal, float vertical);
         void ReleaseGrapple();
+        void Push();
     }
 }

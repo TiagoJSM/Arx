@@ -87,6 +87,7 @@ public static class FileSelectionView
                 return new ExcelSheet()
                 {
                     Name = sheet.properties.title,
+                    Url = GoogleApi.GetUrlForValuesInSheet(context.Token, fileId, sheetName),
                     Data = sheetValues
                 };
             })

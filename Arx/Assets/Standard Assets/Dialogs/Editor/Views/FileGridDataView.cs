@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Standard_Assets.Dialogs.Editor.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -165,28 +166,8 @@ public static class FileGridDataView
 
     private static void PopulateLocalizedTexts(LocalizedTexts localized, ExcelSheet sheet)
     {
-        localized.localizations = sheet.Headers.Select((header, languageIdx) =>
-        {
-            var keys = sheet.Values.Select(value => value[0]).ToArray();
-
-            return new LanguageGroup()
-            {
-                Language = header,
-                Localizations = new LocalizedText()
-                {
-                    translation = keys.Select((key, rowIdx) =>
-                    {
-                        return new Translation()
-                        {
-                            Key = key,
-                            Translated = sheet.GetRow(rowIdx)[languageIdx]
-                        };
-                    })
-                    .ToArray()
-                }
-            };
-        })
-        .ToArray();
+        localized.sheetUrl = sheet.Url;
+        localized.PopulateWith(sheet);
     }
 
     private static void UpdateButton(IDialogEditorContext context)

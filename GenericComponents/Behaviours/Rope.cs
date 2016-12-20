@@ -25,6 +25,18 @@ namespace GenericComponents.Behaviours
             }
         }
 
+        public Joint2D RopeEnd
+        {
+            get
+            {
+                return _ropeEnd;
+            }
+            set
+            {
+                _ropeEnd = value;
+            }
+        }
+
         public Rigidbody2D GetRopePartRigidBodyAt(Vector2 point)
         {
             var segmentPairs = _bodies.ToPairs();
@@ -106,6 +118,22 @@ namespace GenericComponents.Behaviours
         void FixedUpdate()
         {
             UpdateCollider();
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            var joints = GetComponentsInChildren<Joint2D>().Where(j => j.enabled).ToArray();
+            var pairs = joints.Select(j => j.transform).ToPairs();
+            foreach(var pair in pairs)
+            {
+                Gizmos.DrawLine(pair.Item1.transform.position, pair.Item2.transform.position);
+            }
+            foreach (var joint in joints)
+            {
+                Gizmos.DrawSphere(joint.transform.position, 0.5f);
+            }
+            
         }
 
         private void AddRopeParts()

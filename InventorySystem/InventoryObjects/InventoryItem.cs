@@ -11,8 +11,6 @@ namespace InventorySystem.InventoryObjects
     {
         [SerializeField]
         private string _name;
-        [SerializeField]
-        private string _id;
 
         public bool canDiscard;
         public bool canStack;
@@ -25,11 +23,7 @@ namespace InventorySystem.InventoryObjects
         {
             get
             {
-                return _id;
-            }
-            set
-            {
-                _id = value;
+                return this.GetInstanceID().ToString();
             }
         }
 

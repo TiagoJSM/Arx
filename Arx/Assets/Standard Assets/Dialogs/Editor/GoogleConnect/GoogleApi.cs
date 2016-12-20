@@ -52,9 +52,19 @@ public static class GoogleApi
         return Get<GetSheetsServiceModel>(string.Format(GetSheetsUrl, fileId, token));
     }
 
+    public static string GetUrlForValuesInSheet(string token, string fileId, string sheetId)
+    {
+        return string.Format(GetValuesInSheetUrl, fileId, sheetId, token);
+    }
+
     public static string[][] GetValuesInSheet(string token, string fileId, string sheetId)
     {
-        var data = GetData(string.Format(GetValuesInSheetUrl, fileId, sheetId, token));
+        return GetValuesInSheet(GetUrlForValuesInSheet(token, fileId, sheetId));
+    }
+
+    public static string[][] GetValuesInSheet(string url)
+    {
+        var data = GetData(url);
         var jObject = JSONObject.Create(data);
         var fieldObject = jObject.GetField("values");
         return fieldObject.list.Select(jObj =>
@@ -62,8 +72,6 @@ public static class GoogleApi
             return jObj.list.Select(val => val.str).ToArray();
         })
         .ToArray();
-        
-        //return Get<GetValuesInSheetServiceModel>(string.Format(GetValuesInSheetUrl, fileId, sheetId, token));
     }
 
     private static TData Get<TData>(

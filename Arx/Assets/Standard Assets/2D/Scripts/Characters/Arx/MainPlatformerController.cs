@@ -16,6 +16,8 @@ using Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
 using ArxGame.Components.Weapons;
 using ArxGame.Components.Environment;
+using Assets.Standard_Assets._2D.Scripts.EnvironmentDetection;
+using Assets.Standard_Assets._2D.Scripts.Helpers;
 
 [RequireComponent(typeof(CombatModule))]
 public class MainPlatformerController : PlatformerCharacterController, IPlatformerCharacterController
@@ -26,6 +28,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private Rope _rope;
     private RopePart _currentRopePart;
 
+    private Pushable _pushable;
+
     [SerializeField]
     private float _rollingDuration = 1;
     [SerializeField]
@@ -34,6 +38,12 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private float _ropeVerticalSpeed = 4;
     [SerializeField]
     private float _grappleRopeGrabHeightOffset = -6;
+    [SerializeField]
+    private float _objectPushForce = 1;
+    [SerializeField]
+    private Transform _pushableAreaP1;
+    [SerializeField]
+    private Transform _pushableAreaP2;
 
     private float _move;
     private float _vertical;
@@ -127,6 +137,14 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     public float RopeClimbDirection { get; private set; }
 
     public GrappleRope GrappleRope { get { return _combatModule.GrappleRope; } }
+
+    public Pushable Pushable
+    {
+        get
+        {
+            return _pushable;
+        }
+    }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming)
     {
@@ -365,6 +383,16 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         DetectPlatform = true;
     }
 
+    public void Push()
+    {
+        if(Mathf.Abs(HorizontalSpeed) < 0.01)
+        {
+            return;
+        }
+        var sign = Math.Sign(HorizontalSpeed);
+        _pushable.Push(sign * _objectPushForce);
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -378,6 +406,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     {
         base.Update();
 
+        _pushable = FindPushables();
         _combatModule.AimAngle = AimAngle;
         var action = new PlatformerCharacterAction(_move, _vertical, _jump, _roll, _attackAction, _releaseRope, _aiming, _shoot, _throw);
         _stateManager.Perform(action);
@@ -388,6 +417,18 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _aiming = false;
         _shoot = false;
         _throw = false;
+    }
+
+    private Pushable FindPushables()
+    {
+        if(_pushableAreaP1 == null || _pushableAreaP2 == null)
+        {
+            return null;
+        }
+        return 
+            Physics2DHelpers
+                .OverlapAreaAll<Pushable>(_pushableAreaP1.position, _pushableAreaP2.position)
+                .FirstOrDefault();
     }
 
     private void OnAttackFinishHandler()

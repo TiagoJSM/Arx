@@ -36,7 +36,7 @@ namespace Anima2D
 #if UNITY_5_3
 				mColors.Add(Color.HSVToRGB(hue, 1f, 1f));
 #else
-				mColors.Add(EditorGUIUtility.HSVToRGB(hue, 1f, 1f));
+				mColors.Add(Color.HSVToRGB(hue, 1f, 1f));
 
 #endif
 			}

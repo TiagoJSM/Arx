@@ -32,7 +32,6 @@ namespace InventorySystemEditors
             _topButtonMenus.OnNew += OnNewHandler;
             _topButtonMenus.OnOpenFile += OnOpenItemHandler;
             //OnMouseUp += OnMouseUpHandler;
-            NewItemScreen();
         }
 
         protected override void DoOnGui()
@@ -51,6 +50,11 @@ namespace InventorySystemEditors
             GUILayout.EndVertical();
             //GUI.EndScrollView();
             GUILayout.EndScrollView();
+        }
+
+        private void Awake()
+        {
+            NewItemScreen();
         }
 
         private void OnNewHandler()

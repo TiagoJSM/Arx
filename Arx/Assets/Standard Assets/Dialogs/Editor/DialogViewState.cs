@@ -8,6 +8,7 @@ public enum DialogViewState
     ConnectView,
     CodeRequestView,
     FileSelectionView,
-    FileGridDataView
+    FileGridDataView,
+    AssetsUpdateView
 }
 

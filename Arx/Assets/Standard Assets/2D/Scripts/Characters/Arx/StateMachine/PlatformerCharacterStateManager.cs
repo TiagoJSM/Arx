@@ -79,12 +79,13 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                 .From<MovingState>()
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
-                    .To<LightGroundAttackState>((c, a, t) =>a.AttackType == AttackType.Primary)
+                    .To<LightGroundAttackState>((c, a, t) => a.AttackType == AttackType.Primary)
                     .To<StrongGroundAttackState>((c, a, t) => a.AttackType == AttackType.Secundary)
                     .To<MovingAimState>((c, a, t) => a.Aiming && c.IsGrounded)
                     .To<ChargeAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null && c.IsCharging)
                     .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
-                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0);
+                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
+                    .To<PushState>((c, a, t) => c.IsGrounded && c.Pushable != null && a.Move != 0);
 
             this
                 .From<GrabbingLedgeState>()
@@ -180,6 +181,14 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                 From<GrappledState>()
                     .To<FallingState>((c, a, t) => a.ReleaseRope)
                     .To<JumpingState>((c, a, t) => a.Jump);
+
+            this
+                .From<PushState>()
+                    .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
+                    .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
+                    .To<MovingState>((c, a, t) => c.IsGrounded && c.Pushable == null && a.Move != 0);
         }
     }
 }

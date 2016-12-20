@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Standard_Assets.Dialogs.Editor.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,8 @@ public class DialogEditorWindow : EditorWindow, IDialogEditorContext
             { DialogViewState.ConnectView, ConnectToGoogleApiView.OnGui },
             { DialogViewState.CodeRequestView, CodeRequestView.OnGui },
             { DialogViewState.FileSelectionView, FileSelectionView.OnGui },
-            { DialogViewState.FileGridDataView, FileGridDataView.OnGui }
+            { DialogViewState.FileGridDataView, FileGridDataView.OnGui },
+            { DialogViewState.AssetsUpdateView, AssetsUpdateView.OnGui }
         };
 
     public DialogEditorWindow()
@@ -107,7 +109,8 @@ public class DialogEditorWindow : EditorWindow, IDialogEditorContext
                 "Connect to service",
                 "Set code",
                 "View file list",
-                "Selected file"
+                "Selected file",
+                "Assets update view"
             });
 
         if(toolBarButton != ViewState)

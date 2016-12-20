@@ -64,6 +64,7 @@ public class LocalizedTexts : ScriptableObject
 {
     [SerializeField]
     public LanguageGroup[] localizations = new LanguageGroup[0];
+    public string sheetUrl;
 
     public string this[string textKey]
     {

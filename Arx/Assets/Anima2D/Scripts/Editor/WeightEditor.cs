@@ -311,7 +311,7 @@ namespace Anima2D
 
 		void EatMouseInput(Rect rect)
 		{
-			int controlID = GUIUtility.GetControlID(new GUIContent("Weight tool"), FocusType.Native, windowRect);
+			int controlID = GUIUtility.GetControlID(new GUIContent("Weight tool"), FocusType.Passive, windowRect);
 			
 			switch (Event.current.GetTypeForControl(controlID))
 			{

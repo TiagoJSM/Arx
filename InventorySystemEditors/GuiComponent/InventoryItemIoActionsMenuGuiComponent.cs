@@ -49,7 +49,6 @@ namespace InventorySystemEditors.GuiComponent
             {
                 return;
             }
-            item.Id = AssetDatabase.AssetPathToGUID(path);
             AssetDatabase.SaveAssets();
         }
     }
