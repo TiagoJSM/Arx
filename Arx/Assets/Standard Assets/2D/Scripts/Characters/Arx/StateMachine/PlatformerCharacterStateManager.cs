@@ -54,6 +54,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<FallingState>()
+                    .To<DamagedAndMovedState>((c, a, t) => c.SafeSpot.HasValue)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<FallingAimState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && a.Aiming)
                     .To<LightAirAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null)
@@ -77,6 +78,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<MovingState>()
+                    .To<DamagedAndMovedState>((c, a, t) => c.SafeSpot.HasValue)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<LightGroundAttackState>((c, a, t) => a.AttackType == AttackType.Primary)
@@ -189,6 +191,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
                     .To<MovingState>((c, a, t) => c.IsGrounded && c.Pushable == null && a.Move != 0);
+
+            this
+                .From<DamagedAndMovedState>()
+                    .To<IddleState>((c, a, t) => c.SafeSpot == null);
         }
     }
 }

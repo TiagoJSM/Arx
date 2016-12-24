@@ -49,6 +49,7 @@
     <Compile Include="Extensions\LineSegment2DExtensions.cs" />
     <Compile Include="FloatUtils.cs" />
     <Compile Include="LaGrande.cs" />
+    <Compile Include="MathfUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

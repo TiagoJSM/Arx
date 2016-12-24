@@ -58,9 +58,14 @@
     <Compile Include="FloatExtensionsTests.cs" />
     <Compile Include="FloatUtilsTests.cs" />
     <Compile Include="LineSegment2DExtensionsTests.cs" />
+    <Compile Include="MathfUtilsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Arx\Arx.csproj">
+      <Project>{F044C09C-1088-9E33-3FC9-5F903059F8AC}</Project>
+      <Name>Arx</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{de006f2e-b5dd-4ad1-8be3-f147e2f6286e}</Project>
       <Name>Extensions</Name>

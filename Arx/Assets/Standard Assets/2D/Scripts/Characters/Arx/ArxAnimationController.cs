@@ -5,6 +5,7 @@ using GenericComponents.Enums;
 using ArxGame.Components;
 using CommonInterfaces.Controllers;
 using System;
+using InventorySystem.InventoryObjects;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(MainPlatformerController))]

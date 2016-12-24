@@ -9,7 +9,7 @@ namespace InventorySystem
 {
     public class Inventory : IInventory
     {
-        private Dictionary<string, InventoryItems> _inventoryItems;
+        private Dictionary<int, InventoryItems> _inventoryItems;
         private IItemOwner _owner;
 
         public IEnumerable<InventoryItems> InventoryItems
@@ -22,7 +22,7 @@ namespace InventorySystem
 
         public Inventory(IItemOwner owner)
         {
-            _inventoryItems = new Dictionary<string, InventoryItems>();
+            _inventoryItems = new Dictionary<int, InventoryItems>();
             _owner = owner;
         }
 

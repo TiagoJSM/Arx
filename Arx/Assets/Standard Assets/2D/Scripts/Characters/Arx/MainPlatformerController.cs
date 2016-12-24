@@ -18,6 +18,7 @@ using ArxGame.Components.Weapons;
 using ArxGame.Components.Environment;
 using Assets.Standard_Assets._2D.Scripts.EnvironmentDetection;
 using Assets.Standard_Assets._2D.Scripts.Helpers;
+using System.Collections;
 
 [RequireComponent(typeof(CombatModule))]
 public class MainPlatformerController : PlatformerCharacterController, IPlatformerCharacterController
@@ -27,8 +28,10 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     private Rope _rope;
     private RopePart _currentRopePart;
-
+    private float _horizontalRopeMovement;
+    private Coroutine _moveInParabolaCoroutine;
     private Pushable _pushable;
+    private Vector3? _safeSpot;
 
     [SerializeField]
     private float _rollingDuration = 1;
@@ -145,6 +148,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
             return _pushable;
         }
     }
+
+    public Vector3? SafeSpot { get { return _safeSpot; } }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming)
     {
@@ -275,7 +280,6 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         ApplyMovementAndGravity = false;
         SteadyRotation = false;
         _currentRopePart = _rope.GetRopePartAt(this.transform.position);
-        var p = _rope.GetRopePartRigidBodyAt(this.transform.position);
         this.gameObject.transform.parent = _currentRopePart.transform;
     }
 
@@ -303,11 +307,14 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
             var move = new Vector3(0, _ropeVerticalSpeed * Time.deltaTime * Mathf.Sign(vertical));
             this.transform.localPosition += move;
             RopeClimbDirection = vertical > 0 ? 1 : -1;
+            return; //or we climb or we balance on the rope
         }
-        if (Mathf.Abs(horizontal) > 0.01)
+
+        _horizontalRopeMovement = Mathf.Abs(horizontal) > 0.01f ? _maxRopeHorizontalForce * Math.Sign(horizontal) : 0;
+        /*else if (Mathf.Abs(horizontal) > 0.01)
         {
             _currentRopePart.PhysicsRopePart.AddForce(new Vector2(_maxRopeHorizontalForce * Math.Sign(horizontal), 0));
-        }
+        }*/
     }
 
     public void DoAimingMove(float move)
@@ -393,6 +400,33 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _pushable.Push(sign * _objectPushForce);
     }
 
+    public void StartMovingToSafeSpot()
+    {
+        ApplyMovementAndGravity = false;
+        var y = Mathf.Max(_safeSpot.Value.y, this.transform.position.y) + 2;
+        var x = (_safeSpot.Value.x + this.transform.position.x) / 2;
+        _moveInParabolaCoroutine = 
+            StartCoroutine(
+                MoveInParabola(
+                    this.transform.position,
+                    _safeSpot.Value,
+                    new Vector2(x, y),
+                    1,
+                    ArrivedToSafeSpot));
+    }
+
+    public void StopMovingToSafeSpot()
+    {
+        ApplyMovementAndGravity = true;
+        StopCoroutine(_moveInParabolaCoroutine);
+        _moveInParabolaCoroutine = null;
+    }
+
+    public void Hit(Vector3 safeSpot)
+    {
+        _safeSpot = safeSpot;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -417,6 +451,15 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _aiming = false;
         _shoot = false;
         _throw = false;
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        if(_currentRopePart != null && _horizontalRopeMovement != 0)
+        {
+            _currentRopePart.PhysicsRopePart.AddForce(new Vector2(_horizontalRopeMovement, 0));
+        }
     }
 
     private Pushable FindPushables()
@@ -450,5 +493,10 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
 
         _rope = rope;
+    }
+
+    private void ArrivedToSafeSpot()
+    {
+        _safeSpot = null;
     }
 }

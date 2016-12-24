@@ -1,5 +1,7 @@
 ﻿using GenericComponents.Controllers.Characters;
+using MathHelper;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -224,6 +226,27 @@ public class PlatformerCharacterController : BasePlatformerController
         {
             Flip(direction);
         }
+        
+    }
+
+    protected IEnumerator MoveInParabola(
+        Vector2 start, 
+        Vector2 end, 
+        Vector2 other, 
+        float timeInSeconds,
+        Action onFinish)
+    {
+        var parabola = MathfUtils.GetParabola(start, end, other);
+
+        var elapsed = 0f;
+        while(elapsed < timeInSeconds)
+        {
+            var position = MathfUtils.QuadraticInterpolation(start.x, end.x, parabola, elapsed / timeInSeconds);
+            this.transform.position = new Vector3(position.x, position.y, this.transform.position.z);
+            yield return null;
+            elapsed += Time.deltaTime;
+        }
+        onFinish();
     }
 
     protected override void Awake()
@@ -290,7 +313,6 @@ public class PlatformerCharacterController : BasePlatformerController
         _characterController2D.move(_velocity * Time.deltaTime);
         // grab our current _velocity to use as a base for all calculations
         _velocity = _characterController2D.velocity;
-        //Debug.Log(_velocity);
     }
 
     private void OnAllControllerCollidedEventHandler(IEnumerable<RaycastHit2D> hits)

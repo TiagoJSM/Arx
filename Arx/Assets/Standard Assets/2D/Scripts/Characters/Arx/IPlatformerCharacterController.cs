@@ -25,6 +25,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         bool RopeFound { get; }
         GrappleRope GrappleRope { get; }
         Pushable Pushable { get; }
+        Vector3? SafeSpot { get; }
 
         void DoMove(float move);
         void DoGrabLedge();
@@ -56,5 +57,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void MoveOnGrapple(float horizontal, float vertical);
         void ReleaseGrapple();
         void Push();
+        void StartMovingToSafeSpot();
+        void StopMovingToSafeSpot();
     }
 }

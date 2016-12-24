@@ -7,7 +7,7 @@ namespace CommonInterfaces.Inventory
 {
     public interface IInventoryItem
     {
-        string Id { get; }
+        int Id { get; }
         string Name { get; set; }
         IItemOwner Owner { get; set; }
     }
