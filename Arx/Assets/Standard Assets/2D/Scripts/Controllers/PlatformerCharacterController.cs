@@ -218,15 +218,17 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         var direction = DirectionOfMovement(move, Direction);
         _normalizedHorizontalSpeed = DirectionValue(direction);
-        if (Math.Abs(move) < 0.5)
+        if (Math.Abs(move) < 0.2)
         {
             _normalizedHorizontalSpeed = 0;
         }
-        if (setDirectionToMovement)
+        else
         {
-            Flip(direction);
-        }
-        
+            if (setDirectionToMovement)
+            {
+                Flip(direction);
+            }
+        }        
     }
 
     protected IEnumerator MoveInParabola(
@@ -313,6 +315,7 @@ public class PlatformerCharacterController : BasePlatformerController
         _characterController2D.move(_velocity * Time.deltaTime);
         // grab our current _velocity to use as a base for all calculations
         _velocity = _characterController2D.velocity;
+       
     }
 
     private void OnAllControllerCollidedEventHandler(IEnumerable<RaycastHit2D> hits)

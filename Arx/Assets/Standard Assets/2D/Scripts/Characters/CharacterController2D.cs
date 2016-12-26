@@ -125,7 +125,9 @@ public class CharacterController2D : MonoBehaviour
     /// </summary>
     /// <value>The slope limit.</value>
     [Range(0f, 90f)]
-    public float slopeLimit = 30f;
+    public float slopeMinLimit = 50f;
+    [SerializeField]
+    private float slopeSlidingVelocity = 5;
 
     /// <summary>
     /// the threshold in the change in vertical movement between frames that constitutes jumping
@@ -300,7 +302,7 @@ public class CharacterController2D : MonoBehaviour
         // move then update our state
         deltaMovement.z = 0;
         transform.Translate(deltaMovement, Space.World);
-
+        
         // only calculate velocity if we have a non-zero deltaTime
         if (Time.deltaTime > 0f)
             velocity = deltaMovement / Time.deltaTime;
@@ -325,6 +327,7 @@ public class CharacterController2D : MonoBehaviour
         }
 
         ignoreOneWayPlatformsThisFrame = false;
+        
     }
 
 
@@ -475,7 +478,7 @@ public class CharacterController2D : MonoBehaviour
             return false;
 
         // if we can walk on slopes and our angle is small enough we need to move up
-        if (angle < slopeLimit)
+        if (angle < slopeMinLimit)
         {
             // we only need to adjust the deltaMovement if we are not jumping
             // TODO: this uses a magic number which isn't ideal! The alternative is to have the user pass in if there is a jump this frame
@@ -680,9 +683,9 @@ public class CharacterController2D : MonoBehaviour
                     continue;
                 }
 
-                if (angle > slopeLimit)
+                
+                if (angle > slopeMinLimit && angle < 80f)
                 {
-                    //deltaMovement = down / 10;
                     overLimitRaycastFound = _raycastHit;
                     continue;
                 }
@@ -693,21 +696,21 @@ public class CharacterController2D : MonoBehaviour
             }
         }
 
-
         //if only found sliding slope
         if (onlyOverLimitSlopes && overLimitRaycastFound)
         {
             var down = new Vector2(1 / overLimitRaycastFound.normal.x, -(1 / overLimitRaycastFound.normal.y));
-            deltaMovement = down / 10;
+            deltaMovement = down * slopeSlidingVelocity * Time.deltaTime;
             return overLimitRaycastFound;
         }
 
+        //BUG HERE
         //if found normal slope
         if (slopeRaycast)
         {
             var isMovingDownSlope = Mathf.Sign(slopeRaycast.normal.x) == Mathf.Sign(deltaMovement.x);
             var slopeAngle = Vector2.Angle(slopeRaycast.normal, Vector2.up);
-            if (isMovingDownSlope)
+            if (isMovingDownSlope && slopeAngle <= slopeMinLimit)
             {
                 // going down we want to speed up in most cases so the slopeSpeedMultiplier curve should be > 1 for negative angles
                 var slopeModifier = slopeSpeedMultiplier.Evaluate(-slopeAngle);

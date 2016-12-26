@@ -12,7 +12,9 @@ public class KeyboardDevice : IInputDevice
     {
         if(axis == DeviceAxis.Movement)
         {
-            return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            var horizontal = Input.GetAxis("Horizontal");
+            var xMove = Math.Abs(horizontal) > 0.15f ? 1 : 0;
+            return new Vector2(Math.Sign(horizontal) * xMove, Input.GetAxis("Vertical"));
         }
 
         return Vector2.zero;
