@@ -17,16 +17,56 @@ public class LedgeChecker : MonoBehaviour
     private Transform _detectionBoxP2;
     [SerializeField]
     [Range(0, 1)]
-    private float _detectionBoxSplit = 0.5f;
+    private float _detectionBoxVerticalSplit = 0.5f;
+    [SerializeField]
+    [Range(0, 1)]
+    private float _ledgeDetectorWidthPercentage = 0.5f;
     [SerializeField]
     private LayerMask _whatIsGround;
+
+    public float LedgeDetectorWidth
+    {
+        get
+        {
+            var width = _detectionBoxP2.position.x - _detectionBoxP1.position.x;
+            return width * _ledgeDetectorWidthPercentage;
+        }
+    }
+
+    public float LedgeDetectorHeight
+    {
+        get
+        {
+            var height = _detectionBoxP2.position.y - _detectionBoxP1.position.y;
+            return height * _detectionBoxVerticalSplit;
+        }
+    }
 
     public Vector2 LedgeDetectorUpperBound
     {
         get
         {
             var height = _detectionBoxP2.position.y - _detectionBoxP1.position.y;
-            return new Vector2(_detectionBoxP2.position.x, _detectionBoxP1.position.y + (height * _detectionBoxSplit));
+            return new Vector2(
+                _detectionBoxP1.position.x + LedgeDetectorWidth,
+                _detectionBoxP1.position.y + LedgeDetectorHeight);
+        }
+    }
+
+    public float FreeSpaceWidth
+    {
+        get
+        {
+            return _detectionBoxP2.position.x - _detectionBoxP1.position.x;
+        }
+    }
+
+    public float FreeSpaceHeight
+    {
+        get
+        {
+            var height = _detectionBoxP2.position.y - _detectionBoxP1.position.y;
+            return height * (1 - _detectionBoxVerticalSplit);
         }
     }
 
@@ -34,8 +74,7 @@ public class LedgeChecker : MonoBehaviour
     {
         get
         {
-            var height = _detectionBoxP2.position.y - _detectionBoxP1.position.y;
-            return new Vector2(_detectionBoxP1.position.x, _detectionBoxP1.position.y + (height * _detectionBoxSplit));
+            return new Vector2(_detectionBoxP1.position.x, _detectionBoxP1.position.y + LedgeDetectorHeight);
         }
     }
 
@@ -90,16 +129,16 @@ public class LedgeChecker : MonoBehaviour
         var freeSpaceLowerBound = FreeSpaceLowerBound;
 
         Gizmos.color = Color.red;
-
-        var width = ledgeDetectorUpperBound.x - _detectionBoxP1.position.x;
-        var height = LedgeDetectorUpperBound.y - _detectionBoxP1.position.y;
+        //var width = ledgeDetectorUpperBound.x - _detectionBoxP1.position.x;
+        //var height = LedgeDetectorUpperBound.y - _detectionBoxP1.position.y;
         Gizmos.DrawWireCube(
-            new Vector2(_detectionBoxP1.position.x + width / 2, _detectionBoxP1.position.y + height / 2),
-            new Vector2(width, height));
+            new Vector2(_detectionBoxP1.position.x + LedgeDetectorWidth / 2, _detectionBoxP1.position.y + LedgeDetectorHeight / 2),
+            new Vector2(LedgeDetectorWidth, LedgeDetectorHeight));
 
-        height = _detectionBoxP2.position.y - freeSpaceLowerBound.y;
+        Gizmos.color = Color.green;
+        //var height = _detectionBoxP2.position.y - freeSpaceLowerBound.y;
         Gizmos.DrawWireCube(
-            new Vector2(_detectionBoxP2.position.x - width / 2, _detectionBoxP2.position.y - height / 2),
-            new Vector2(width, height));
+            new Vector2(FreeSpaceLowerBound.x + FreeSpaceWidth / 2, FreeSpaceLowerBound.y + FreeSpaceHeight / 2),
+            new Vector2(FreeSpaceWidth, FreeSpaceHeight));
     }
 }
