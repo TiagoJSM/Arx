@@ -71,6 +71,25 @@ namespace GenericComponents.Behaviours
             return _jointBodyToRopePart[body];
         }
 
+        public float GetRopeSizeEndingIn(Vector2 point)
+        {
+            var body = GetRopePartRigidBodyAt(point);
+            if(body == null)
+            {
+                return 0;
+            }
+            var bodyIdx = _bodies.IndexOf(body);
+            var remainingBodies = _bodies.Count - bodyIdx;
+            if(remainingBodies <= 0)
+            {
+                return 0;
+            }
+            var bodies = _bodies.GetRange(bodyIdx, remainingBodies);
+            var bodyPairs = bodies.ToPairs();
+            return bodyPairs.Sum(p => Vector2.Distance(p.Item1.transform.position, p.Item2.transform.position)) + 
+                Vector2.Distance(point, bodies[0].transform.position);
+        }
+
         public LineSegment2D? GetClosestRopeSegment(Vector2 point)
         {
             var segmentPairs = _bodies.ToPairs();

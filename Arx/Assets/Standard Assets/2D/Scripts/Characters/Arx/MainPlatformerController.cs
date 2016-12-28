@@ -40,6 +40,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     [SerializeField]
     private float _ropeVerticalSpeed = 4;
     [SerializeField]
+    private float _minimumDistanceFromRopeOrigin = 1;
+    [SerializeField]
     private float _grappleRopeGrabHeightOffset = -6;
     [SerializeField]
     private float _objectPushForce = 1;
@@ -305,16 +307,20 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         if (Mathf.Abs(vertical) > 0.01)
         {
             var move = new Vector3(0, _ropeVerticalSpeed * Time.deltaTime * Mathf.Sign(vertical));
-            this.transform.localPosition += move;
-            RopeClimbDirection = vertical > 0 ? 1 : -1;
-            return; //or we climb or we balance on the rope
+            var size = _rope.GetRopeSizeEndingIn(this.transform.position);
+            var sizeAfterMove = size - move.y;
+
+            if(CanClimpRope(sizeAfterMove, vertical))
+            {
+                this.transform.localPosition += move;
+                _currentRopePart = _rope.GetRopePartAt(this.transform.position);
+                this.gameObject.transform.parent = _currentRopePart.transform;
+                RopeClimbDirection = vertical > 0 ? 1 : -1;
+                return; //or we climb or we balance on the rope
+            }
         }
 
         _horizontalRopeMovement = Mathf.Abs(horizontal) > 0.01f ? _maxRopeHorizontalForce * Math.Sign(horizontal) : 0;
-        /*else if (Mathf.Abs(horizontal) > 0.01)
-        {
-            _currentRopePart.PhysicsRopePart.AddForce(new Vector2(_maxRopeHorizontalForce * Math.Sign(horizontal), 0));
-        }*/
     }
 
     public void DoAimingMove(float move)
@@ -498,5 +504,16 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private void ArrivedToSafeSpot()
     {
         _safeSpot = null;
+    }
+
+    private bool CanClimpRope(float ropeSizeAfterMove, float verticalMovement)
+    {
+        //if character is moving down movement is ok
+        if(verticalMovement < 0)
+        {
+            return true;
+        }
+        //character can only move up if its at a distance from the rope top
+        return _minimumDistanceFromRopeOrigin <= ropeSizeAfterMove;
     }
 }

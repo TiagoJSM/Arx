@@ -26,26 +26,6 @@ namespace ArxGame.Components.Environment
             }
         }
 
-        public float RopeSize
-        {
-            get
-            {
-                var ropePoints = Points;
-                if (ropePoints.Length < 2)
-                {
-                    return 0;
-                }
-                var size = 0f;
-                var previousPoint = ropePoints[0];
-                for (var idx = 1; idx < ropePoints.Length; idx++)
-                {
-                    size += Vector2.Distance(previousPoint, ropePoints[idx]);
-                    previousPoint = ropePoints[idx];
-                }
-                return size;
-            }
-        }
-
         public HingeJoint2D RopeEnd
         {
             get

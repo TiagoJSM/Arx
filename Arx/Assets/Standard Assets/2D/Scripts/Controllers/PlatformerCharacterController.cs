@@ -19,6 +19,7 @@ public class PlatformerCharacterController : BasePlatformerController
     private float _normalizedHorizontalSpeed = 0;
     private float _defaultGravity;
     private bool _detectPlatform = true;
+    private bool _applyMovementAndGravity;
 
     private LedgeChecker _ledgeChecker;
     private RoofChecker _roofChecker;
@@ -111,7 +112,21 @@ public class PlatformerCharacterController : BasePlatformerController
         }
     }
 
-    public bool ApplyMovementAndGravity { get; protected set; }
+    public bool ApplyMovementAndGravity
+    {
+        get
+        {
+            return _applyMovementAndGravity;
+        }
+        protected set
+        {
+            _applyMovementAndGravity = value;
+            if (!_applyMovementAndGravity)
+            {
+                _velocity = Vector2.zero;
+            }
+        }
+    }
     public bool SteadyRotation { get; protected set; }
     public bool DetectPlatform
     {
@@ -303,11 +318,6 @@ public class PlatformerCharacterController : BasePlatformerController
     private void ApplyMovement()
     {
         var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
-        //_velocity.x = 
-        //    Mathf.Lerp(
-        //        _velocity.x, 
-        //        _normalizedHorizontalSpeed * runSpeed * VelocityMultiplier.x, 
-        //        Time.deltaTime * smoothedMovementFactor);
 
         _velocity.x = _normalizedHorizontalSpeed * runSpeed * VelocityMultiplier.x;
         _velocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
