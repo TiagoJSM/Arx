@@ -12,6 +12,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
     {
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
+            StateController.StayStill();
             StateController.DoGrabLedge();
         }
 

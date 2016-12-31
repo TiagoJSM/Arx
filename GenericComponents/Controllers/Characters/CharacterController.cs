@@ -13,13 +13,7 @@ namespace GenericComponents.Controllers.Characters
     {
         private CharacterStatus _status;
 
-        public virtual bool CanBeAttacked
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool CanBeAttacked { get; protected set; }
 
         public virtual bool IsEnemy
         {

@@ -32,6 +32,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private Coroutine _moveInParabolaCoroutine;
     private Pushable _pushable;
     private Vector3? _safeSpot;
+    private Vector3? _hitPointThisFrame;
 
     [SerializeField]
     private float _rollingDuration = 1;
@@ -152,6 +153,20 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     }
 
     public Vector3? SafeSpot { get { return _safeSpot; } }
+
+    public bool AttackedThisFrame { get; private set; }
+
+    bool IPlatformerCharacterController.CanBeAttacked
+    {
+        get
+        {
+            return base.CanBeAttacked;
+        }
+        set
+        {
+            base.CanBeAttacked = value;
+        }
+    }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming)
     {
@@ -433,6 +448,35 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _safeSpot = safeSpot;
     }
 
+    public void LaunchCharacter(bool up = true)
+    {
+        if (up)
+        {
+            JumpUp();
+        }
+        float horizontalMovement = 0;
+        if (_hitPointThisFrame != null)
+        {
+            horizontalMovement = Math.Sign(transform.position.x - _hitPointThisFrame.Value.x);
+        }
+        DoMove(horizontalMovement, false);
+    }
+
+    public override float Attacked(GameObject attacker, int damage, Vector3? hitPoint)
+    {
+        var damageTaken = base.Attacked(attacker, damage, hitPoint);
+        if(damageTaken > 0)
+        {
+            AttackedThisFrame = true;
+            _hitPointThisFrame = hitPoint;
+            if (_hitPointThisFrame == null)
+            {
+                _hitPointThisFrame = attacker.transform.position;
+            }
+        }
+        return damageTaken;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -440,6 +484,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
         _combatModule.OnAttackFinish += OnAttackFinishHandler;
         CharacterController2D.onTriggerEnterEvent += OnTriggerEnterEventHandler;
+        CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
     }
 
     protected override void Update()
@@ -457,6 +502,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _aiming = false;
         _shoot = false;
         _throw = false;
+        AttackedThisFrame = false;
+        _hitPointThisFrame = null;
     }
 
     protected override void FixedUpdate()
@@ -499,6 +546,14 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
 
         _rope = rope;
+    }
+
+    private void OnTriggerExitEventHandler(Collider2D collider)
+    {
+        if(_rope != null && _rope.gameObject == collider.gameObject)
+        {
+            _rope = null;
+        }
     }
 
     private void ArrivedToSafeSpot()

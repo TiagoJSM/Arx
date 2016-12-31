@@ -43,7 +43,7 @@ namespace ArxGame.Components.Weapons
             {
                 return;
             }
-            character.Attacked(Attacker, Damage, null);
+            character.Attacked(Attacker, Damage, this.transform.position);
             Destroy(this.gameObject);
         }
     }
