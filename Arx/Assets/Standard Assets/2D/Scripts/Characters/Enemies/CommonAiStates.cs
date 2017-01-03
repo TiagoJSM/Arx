@@ -15,64 +15,55 @@ public interface ICharacterAI
     void Attack();
 }
 
-public class FollowState : IState<ICharacterAI, object>
+public abstract class BaseAiState<TAi> : IState<TAi, object> where TAi : ICharacterAI
 {
-    public ICharacterAI StateController { get; set; }
+    public TAi StateController { get; set; }
     public float TimeInState { get; set; }
 
-    public void OnStateEnter(object action)
+    public virtual void OnStateEnter(object action)
     {
     }
 
-    public void OnStateExit(object action)
+    public virtual void OnStateExit(object action)
+    {
+    }
+
+    public virtual void Perform(object action)
+    {
+    }
+}
+
+public class FollowState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
+{
+    public override void OnStateExit(object action)
     {
         StateController.StopMoving();
     }
 
-    public void Perform(object action)
+    public override void Perform(object action)
     {
         StateController.MoveToTarget();
     }
 }
 
-public class IddleState : IState<ICharacterAI, object>
+public class IddleState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
 {
-    public ICharacterAI StateController { get; set; }
-
-    public float TimeInState { get; set; }
-
-    public void OnStateEnter(object action)
+    public override void OnStateEnter(object action)
     {
         StateController.StartIddle();
     }
 
-    public void OnStateExit(object action)
+    public override void OnStateExit(object action)
     {
         StateController.StopIddle();
     }
-
-    public void Perform(object action)
-    {
-    }
 }
 
-public class AttackTargetState : IState<ICharacterAI, object>
+public class AttackTargetState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
 {
-    public ICharacterAI StateController { get; set; }
-
-    public float TimeInState { get; set; }
-
-    public void OnStateEnter(object action)
+    public override void OnStateEnter(object action)
     {
         StateController.StopMoving();
         StateController.Attack();
-    }
-
-    public void OnStateExit(object action)
-    {
-    }
-
-    public void Perform(object action)
-    {
     }
 }

@@ -10,15 +10,15 @@ public class MeleeEnemyAiStateManager : StateManager<ICharacterAI, object>
 {
     public MeleeEnemyAiStateManager(ICharacterAI controller) : base(controller)
     {
-        this.SetInitialState<IddleState>()
-            .To<FollowState>((c, o, t) => c.Target != null);
+        this.SetInitialState<IddleState<ICharacterAI>>()
+            .To<FollowState<ICharacterAI>>((c, o, t) => c.Target != null);
 
-        this.From<FollowState>()
-            .To<AttackTargetState>((c, a, t) => c.IsTargetInRange)
-            .To<IddleState>((c, o, t) => c.Target == null);
+        this.From<FollowState<ICharacterAI>>()
+            .To<AttackTargetState<ICharacterAI>>((c, a, t) => c.IsTargetInRange)
+            .To<IddleState<ICharacterAI>>((c, o, t) => c.Target == null);
 
-        this.From<AttackTargetState>()
-            .To<FollowState>((c, a, t) => !c.IsTargetInRange && !c.Attacking);
+        this.From<AttackTargetState<ICharacterAI>>()
+            .To<FollowState<ICharacterAI>>((c, a, t) => !c.IsTargetInRange && !c.Attacking);
     }
 }
 

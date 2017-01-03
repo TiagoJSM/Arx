@@ -21,8 +21,7 @@ namespace GenericComponents.StateMachine
         }
 
         public TransitionConfiguration<TStateController, TAction> To<TState>(
-            Func<TStateController, TAction, float, bool> condition) 
-            where TState : class, IState<TStateController, TAction>, new()
+            Func<TStateController, TAction, float, bool> condition) where TState : class, IState<TStateController, TAction>, new()
         {
             var stateContainer = _factory.GetContainer<TState>();
             _state.Transitions.Add(new StateTransition<TStateController, TAction>(stateContainer, condition));

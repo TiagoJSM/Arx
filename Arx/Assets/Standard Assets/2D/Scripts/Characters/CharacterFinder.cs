@@ -46,5 +46,25 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters
                 }
             }
         }
+
+        private void OnDrawGizmosSelected()
+        {
+            if(_finderAreaP1 == null || _finderAreaP2 == null)
+            {
+                return;
+            }
+            var p1Transform = _finderAreaP1.transform;
+            var p2Transform = _finderAreaP2.transform;
+            var center = new Vector2(
+                (p2Transform.position.x + p1Transform.position.x) / 2,
+                (p2Transform.position.y + p1Transform.position.y) / 2);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireCube(
+                center,
+                new Vector2(
+                    Math.Abs(p2Transform.position.x - p1Transform.position.x), 
+                    Math.Abs(p2Transform.position.y - p1Transform.position.y)));
+        }
     }
 }

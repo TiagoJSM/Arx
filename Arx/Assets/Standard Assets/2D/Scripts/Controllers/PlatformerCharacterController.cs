@@ -30,6 +30,9 @@ public class PlatformerCharacterController : BasePlatformerController
     private bool _ledgeDetected;
     private bool _ducking;
 
+    [SerializeField]
+    private bool _constantVelocity = false;
+
     public BoxCollider2D standingCollider;
     public BoxCollider2D duckingCollider;
     public float maxRollSpeed = 12.0f;
@@ -141,6 +144,18 @@ public class PlatformerCharacterController : BasePlatformerController
             {
                 _activePlatformCollider = null;
             }
+        }
+    }
+
+    public Vector2 Velocity
+    {
+        get
+        {
+            return _velocity;
+        }
+        protected set
+        {
+            _velocity = value;
         }
     }
 
@@ -319,8 +334,13 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
 
-        _velocity.x = _normalizedHorizontalSpeed * runSpeed * VelocityMultiplier.x;
-        _velocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
+        //if velocity is not constant we apply gravity and multipliers, etc
+        //otherwise we apply velocity with DoMove(float move, float ySpeed)
+        if (!_constantVelocity)
+        {
+            _velocity.x = _normalizedHorizontalSpeed * runSpeed * VelocityMultiplier.x;
+            _velocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
+        }
 
         _characterController2D.move(_velocity * Time.deltaTime);
         // grab our current _velocity to use as a base for all calculations

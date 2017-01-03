@@ -1,4 +1,5 @@
-﻿using CommonInterfaces.Enums;
+﻿using Assets.Standard_Assets._2D.Scripts.Characters.CommonAiBehaviour;
+using CommonInterfaces.Enums;
 using Extensions;
 using System;
 using System.Collections;
@@ -7,10 +8,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public abstract class PlatformerCharacterAiControl : MonoBehaviour
+public abstract class PlatformerCharacterAiControl : BaseCharacterAiController
 {
     private Vector3 _startingPosition;
-    private Coroutine _activeCoroutine;
 
     [SerializeField]
     private float _maxDistanceFromStartingPoint = 10;
@@ -29,21 +29,6 @@ public abstract class PlatformerCharacterAiControl : MonoBehaviour
     protected void IddleMovement()
     {
         SetActiveCoroutine(IddleMovementCoroutine());
-    }
-
-    protected void SetActiveCoroutine(IEnumerator coroutine)
-    {
-        StopActiveCoroutine();
-        _activeCoroutine = StartCoroutine(coroutine);
-    }
-
-    protected void StopActiveCoroutine()
-    {
-        if (_activeCoroutine != null)
-        {
-            StopCoroutine(_activeCoroutine);
-        }
-        _activeCoroutine = null;
     }
 
     private IEnumerator IddleMovementCoroutine()
