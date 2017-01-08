@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Extensions;
-using UnityEditor;
 
 namespace _2DDynamicCamera.Zones.Target
 {
@@ -59,8 +58,7 @@ namespace _2DDynamicCamera.Zones.Target
 
         private void DrawTarget()
         {
-            var size = HandleUtility.GetHandleSize(Center) / 3f;
-            DrawArrow.ForGizmo(Center.ToVector2(), relativeTarget, Color.red, size, 40f);
+            DrawArrow.ForGizmo(Center.ToVector2(), relativeTarget, Color.red, 1f, 40f);
         }
     }
 }

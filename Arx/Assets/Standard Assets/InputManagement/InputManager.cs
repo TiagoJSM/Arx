@@ -21,7 +21,8 @@ public enum DeviceButton
     SetWeaponSocket2,
     AimWeapon,
     ShootWeapon,
-    Throw
+    Throw,
+    Vertical
 }
 
 public enum DeviceAxis

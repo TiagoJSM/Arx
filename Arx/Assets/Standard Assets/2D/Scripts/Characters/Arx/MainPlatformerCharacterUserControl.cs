@@ -112,8 +112,9 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         var jump = inputDevice.GetButtonDown(DeviceButton.Jump);
         var releaseRope = inputDevice.GetButtonDown(DeviceButton.Interact);
         var aiming = inputDevice.GetButton(DeviceButton.AimWeapon);
+        var teleport = inputDevice.GetButtonDown(DeviceButton.Vertical);
 
-        if (vertical > 0)
+        if (teleport)
         {
             var teleporter = FindTeleporter();
             if(teleporter != null)
