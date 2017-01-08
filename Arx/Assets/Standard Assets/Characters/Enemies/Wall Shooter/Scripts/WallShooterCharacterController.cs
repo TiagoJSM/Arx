@@ -15,6 +15,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Wall_Shooter.Scripts
         private Projectile _projectilePrefab;
         [SerializeField]
         private LayerMask _enemyLayer;
+        [SerializeField]
+        private Transform _projectileSpawnPosition;
 
         public void Shoot()
         {
@@ -24,8 +26,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Wall_Shooter.Scripts
             var cross = Vector3.Cross(Vector2.right, transformed);
             angle = cross.z < 0 ? 360f - angle : angle;
             var direction = angle.GetDirectionVectorFromDegreeAngle();
-            var projectile = Instantiate(_projectilePrefab);
-            projectile.transform.position = this.transform.position;
+            var position = _projectileSpawnPosition != null ? _projectileSpawnPosition.position : transform.position;
+            var projectile = Instantiate(_projectilePrefab, position, Quaternion.identity);
             projectile.direction = direction;
             projectile.Attacker = this.gameObject;
             projectile.EnemyLayer = _enemyLayer;

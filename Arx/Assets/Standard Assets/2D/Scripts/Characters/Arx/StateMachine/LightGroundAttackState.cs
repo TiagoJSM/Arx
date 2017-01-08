@@ -11,8 +11,14 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
             base.OnStateEnter(action);
-            StateController.StayStill();
+            StateController.DoMove(action.Move);
             StateController.DoPrimaryGroundAttack();
+        }
+
+        public override void OnStateExit(PlatformerCharacterAction action)
+        {
+            base.OnStateExit(action);
+            StateController.AttackStateDone();
         }
     }
 }

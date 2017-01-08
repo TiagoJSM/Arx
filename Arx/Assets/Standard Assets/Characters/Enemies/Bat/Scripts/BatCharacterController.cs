@@ -57,6 +57,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
         {
             base.Awake();
             Velocity = _movementVelocity;
+            MovementDirection = Vector2.zero;
             CharacterController2D.onTriggerEnterEvent += OnTriggerEnterEventHandler;
         }
 

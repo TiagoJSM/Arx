@@ -32,6 +32,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Interaction
                 return;
             }
 
+            _animator.enabled = true;
             _animator.Play(_animationStateName);
             _played = true;
         }

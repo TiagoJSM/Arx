@@ -13,6 +13,8 @@ namespace ArxGame.Components.Weapons
         public Vector3 direction;
         public float speed;
         public float lifetime = 4;
+        [SerializeField]
+        private LayerMask _colliderLayer;
 
         public LayerMask EnemyLayer { get; set; }
         public int Damage { get; set; }
@@ -32,6 +34,11 @@ namespace ArxGame.Components.Weapons
         {
             if (other.isTrigger)
             {
+                return;
+            }
+            if (_colliderLayer.IsInAnyLayer(other.gameObject))
+            {
+                Destroy(this.gameObject);
                 return;
             }
             if (!EnemyLayer.IsInAnyLayer(other.gameObject))

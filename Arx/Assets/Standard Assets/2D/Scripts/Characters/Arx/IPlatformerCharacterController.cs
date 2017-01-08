@@ -62,5 +62,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void StartMovingToSafeSpot();
         void StopMovingToSafeSpot();
         void LaunchCharacter(bool up = true);
+        void AttackStateDone();
     }
 }

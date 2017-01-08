@@ -22,11 +22,24 @@ namespace _2DDynamicCameraEditors.Editors
 
         void OnSceneGUI()
         {
-            NewTargetZone.Position =
+            Handles.color = Color.yellow;
+            var point = NewTargetZone.Position;
+            var size = HandleUtility.GetHandleSize(point) / 5f;
+            Handles.DrawSolidArc(point, new Vector3(0, 0, -1), Vector3.right, 360, size);
+            var translated =
                 Handles
-                    .PositionHandle(
-                        NewTargetZone.Position,
-                        Quaternion.identity);
+                    .FreeMoveHandle(
+                        point,
+                        Quaternion.identity,
+                        size,
+                        Vector3.zero,
+                        Handles.RectangleCap);
+
+            if(point != translated)
+            {
+                Undo.RecordObject(target, "Move camera target");
+                NewTargetZone.Position = translated;
+            }
         }
     }
 }

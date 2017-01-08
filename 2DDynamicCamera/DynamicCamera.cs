@@ -64,6 +64,19 @@ namespace _2DDynamicCamera
             }
         }
 
+        private Vector2 CurrentDamping
+        {
+            get
+            {
+                if (_targets.Any())
+                {
+                    var targetDamping = _targets.Last().Damping;
+                    return targetDamping == null ? new Vector2(xDamping, yDamping) : targetDamping.Value;
+                }
+                return new Vector2(xDamping, yDamping);
+            }
+        }
+
         private float OffsetZ
         {
             get
@@ -199,8 +212,9 @@ namespace _2DDynamicCamera
                 return;
             }
 
-            var x = Mathf.SmoothDamp(cameraPositionRelative.x, 0, ref _currentXVelocity, xDamping);
-            var y = Mathf.SmoothDamp(cameraPositionRelative.y, 0, ref _currentYVelocity, yDamping);
+            var damping = CurrentDamping;
+            var x = Mathf.SmoothDamp(cameraPositionRelative.x, 0, ref _currentXVelocity, damping.x);
+            var y = Mathf.SmoothDamp(cameraPositionRelative.y, 0, ref _currentYVelocity, damping.y);
 
             if (!_targetTransition)
             {

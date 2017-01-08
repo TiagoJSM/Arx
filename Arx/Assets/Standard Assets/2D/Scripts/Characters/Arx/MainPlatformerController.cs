@@ -207,6 +207,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public void DoPrimaryGroundAttack()
     {
+        VelocityMultiplier = new Vector2(0.4f, VelocityMultiplier.y);
         Attacking = _combatModule.PrimaryGroundAttack();
         IsAttackOver = !Attacking;
         _attackAction = AttackType.None;
@@ -443,9 +444,10 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _moveInParabolaCoroutine = null;
     }
 
-    public void Hit(Vector3 safeSpot)
+    public void Hit(GameObject cause, Vector3 safeSpot, int damage)
     {
         _safeSpot = safeSpot;
+        base.Attacked(cause, damage, null);
     }
 
     public void LaunchCharacter(bool up = true)
@@ -460,6 +462,11 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
             horizontalMovement = Math.Sign(transform.position.x - _hitPointThisFrame.Value.x);
         }
         DoMove(horizontalMovement, false);
+    }
+
+    public void AttackStateDone()
+    {
+        VelocityMultiplier = Vector2.one;
     }
 
     public override float Attacked(GameObject attacker, int damage, Vector3? hitPoint)
