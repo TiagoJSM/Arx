@@ -154,9 +154,6 @@
     <Reference Include="Parallax">
       <HintPath>Assets\Parallax.dll</HintPath>
     </Reference>
-    <Reference Include="QuestSystem">
-      <HintPath>Assets\QuestSystem.dll</HintPath>
-    </Reference>
     <Reference Include="Terrain">
       <HintPath>Assets\Terrain.dll</HintPath>
     </Reference>
@@ -183,9 +180,6 @@
     </Reference>
     <Reference Include="InventorySystemEditors">
       <HintPath>Assets\Editor\InventorySystemEditors.dll</HintPath>
-    </Reference>
-    <Reference Include="QuestSystemEditors">
-      <HintPath>Assets\Editor\QuestSystemEditors.dll</HintPath>
     </Reference>
     <Reference Include="TerrainEditors">
       <HintPath>Assets\Editor\TerrainEditors.dll</HintPath>
@@ -220,7 +214,16 @@
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\Views\FileGridDataView.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\Views\FileSelectionView.cs" />
     <Compile Include="Assets\Standard Assets\JSON\Editor\JSONChecker.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\Editor\Events.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\Editor\GuiComponent\ConditionGuiComponent.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\Editor\GuiComponent\QuestGuiComponent.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\Editor\GuiComponent\QuestIoActionsMenuGuiComponent.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\Editor\QuestEditor.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\Editor\Utils\ContextMenuUtils.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\Editor\Windows\ConditionWindow.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\Editor\Windows\QuestEditorWindow.cs" />
     <Compile Include="Assets\Standard Assets\Ropes\Editor\RopeWizard.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\Editor\ExposeProperties.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Anima2D\Examples\Shaders\Unlit-Alpha-Cull-off.shader" />

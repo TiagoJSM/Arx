@@ -27,8 +27,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathHelperTests", "..\MathH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parallax", "..\Parallax\Parallax.csproj", "{548D7763-0403-40E1-940A-40F85846A796}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestSystemEditors", "..\QuestSystemEditors\QuestSystemEditors.csproj", "{3D8C740B-E664-4FBA-ABA8-568487F025FF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrainEditors", "..\TerrainEditors\TerrainEditors.csproj", "{1CEEB013-AF49-494B-B009-E1F07E11D4C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "..\Utils\Utils.csproj", "{4B1BD451-4F17-42BF-AC8D-5EEA64D7CDE7}"
@@ -50,8 +48,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonInterfaces", "..\CommonInterfaces\CommonInterfaces.csproj", "{70CD1F80-87F4-4A17-B701-DE961BBC798C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventorySystem", "..\InventorySystem\InventorySystem.csproj", "{C1F6D5B7-2F63-4183-94B1-D1FDEFEF9F4B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestSystem", "..\QuestSystem\QuestSystem.csproj", "{7B14C9D3-DC8C-427F-9B4C-22F409959393}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArxGame", "..\ArxComponents\ArxGame.csproj", "{01F1485D-749C-4E36-AA72-2F8FDAF95017}"
 EndProject
@@ -117,10 +113,6 @@ Global
 		{548D7763-0403-40E1-940A-40F85846A796}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{548D7763-0403-40E1-940A-40F85846A796}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{548D7763-0403-40E1-940A-40F85846A796}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D8C740B-E664-4FBA-ABA8-568487F025FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D8C740B-E664-4FBA-ABA8-568487F025FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D8C740B-E664-4FBA-ABA8-568487F025FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D8C740B-E664-4FBA-ABA8-568487F025FF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1CEEB013-AF49-494B-B009-E1F07E11D4C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1CEEB013-AF49-494B-B009-E1F07E11D4C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CEEB013-AF49-494B-B009-E1F07E11D4C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -165,10 +157,6 @@ Global
 		{C1F6D5B7-2F63-4183-94B1-D1FDEFEF9F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1F6D5B7-2F63-4183-94B1-D1FDEFEF9F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1F6D5B7-2F63-4183-94B1-D1FDEFEF9F4B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B14C9D3-DC8C-427F-9B4C-22F409959393}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B14C9D3-DC8C-427F-9B4C-22F409959393}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B14C9D3-DC8C-427F-9B4C-22F409959393}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B14C9D3-DC8C-427F-9B4C-22F409959393}.Release|Any CPU.Build.0 = Release|Any CPU
 		{01F1485D-749C-4E36-AA72-2F8FDAF95017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{01F1485D-749C-4E36-AA72-2F8FDAF95017}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01F1485D-749C-4E36-AA72-2F8FDAF95017}.Release|Any CPU.ActiveCfg = Release|Any CPU

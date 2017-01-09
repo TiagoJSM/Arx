@@ -4,8 +4,6 @@ using CommonInterfaces.Controllers;
 using CommonInterfaces.Inventory;
 using InventorySystem;
 using InventorySystem.Controllers;
-using QuestSystem;
-using QuestSystem.QuestStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +13,8 @@ using CommonInterfaces.Controllers.Interaction;
 using MathHelper;
 using MathHelper.Extensions;
 using CommonInterfaces.Weapons;
+using Assets.Standard_Assets.QuestSystem.QuestStructures;
+using Assets.Standard_Assets.QuestSystem;
 
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(ItemFinderController))]

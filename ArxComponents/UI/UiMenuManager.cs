@@ -1,5 +1,4 @@
 ﻿using InventorySystem;
-using QuestSystem.QuestStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +16,7 @@ namespace ArxGame.UI
         public GameObject questSection;
 
         public InventoryComponent inventoryComponent;
-        public QuestLogComponent questLogComponent;
+        //public QuestLogComponent questLogComponent;
 
         public void SetInventorySection(bool toggle)
         {

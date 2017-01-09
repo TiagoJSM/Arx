@@ -46,7 +46,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="C.cs" />
     <Compile Include="GuiComponent\ConditionGuiComponent.cs" />
     <Compile Include="GuiComponent\QuestGuiComponent.cs" />
     <Compile Include="Events.cs" />
@@ -66,10 +65,6 @@
     <ProjectReference Include="..\GenericComponents\GenericComponents.csproj">
       <Project>{5ed6d708-beb5-4f23-9f44-f8a491a42f84}</Project>
       <Name>GenericComponents</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\QuestSystem\QuestSystem.csproj">
-      <Project>{7b14c9d3-dc8c-427f-9b4c-22f409959393}</Project>
-      <Name>QuestSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{4b1bd451-4f17-42bf-ac8d-5eea64d7cde7}</Project>

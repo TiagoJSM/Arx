@@ -13,8 +13,10 @@ namespace GenericComponents.Behaviours
     public abstract class SerializedScriptableObject : ScriptableObject, ISerializationCallbackReceiver
     {
         [SerializeField]
+        [HideInInspector]
         private StrObjDict serializedObjects = new StrObjDict();
         [SerializeField]
+        [HideInInspector]
         private StrStrDict serializedStrings = new StrStrDict();
         private BinaryFormatter serializer = new BinaryFormatter();
 
