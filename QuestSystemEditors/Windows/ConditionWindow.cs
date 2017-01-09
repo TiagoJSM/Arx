@@ -11,11 +11,11 @@ namespace QuestSystemEditors.Windows
 {
     public class ConditionWindow : BaseWindow
     {
-        public Condition Condition { get; private set; }
+        public ICondition Condition { get; private set; }
 
         public OnClick OnClick;
 
-        public ConditionWindow(Condition condition)
+        public ConditionWindow(ICondition condition)
         {
             Condition = condition;
             Title = "Condition";

@@ -22,6 +22,7 @@ namespace QuestSystemEditors
         private List<BaseGuiComponent> _components;
         
         private Vector2 _scrollPosition;
+        private string _questSearch;
 
         private Quest _quest;
 
@@ -37,18 +38,26 @@ namespace QuestSystemEditors
             _topButtonMenus.OnNew += OnNewHandler;
             _topButtonMenus.OnOpenFile += OnOpenQuestHandler;
             OnMouseUp += OnMouseUpHandler;
-            NewQuestScreen();
         }
 
         protected override void DoOnGui()
         {
             _topButtonMenus.OnGui();
             
-            _scrollPosition = GUI.BeginScrollView(new Rect(0, 0, position.width, position.height), _scrollPosition, new Rect(0, 0, 1000, 1000));
-            GUILayout.BeginVertical();
-            DrawGuiComponents(_components);
-            GUILayout.EndVertical();
-            GUI.EndScrollView();
+            
+            EditorGUILayout.BeginHorizontal();
+
+            QuestListPanel();
+            EditorGUILayout.Separator();
+            QuestForm();
+
+            EditorGUILayout.EndHorizontal();
+            
+        }
+
+        private void Awake()
+        {
+            NewQuestScreen();
         }
 
         private void OnMouseUpHandler(MouseButton button, Vector2 position)
@@ -68,10 +77,10 @@ namespace QuestSystemEditors
             {
                 return;
             }
-            var condition = ScriptableObject.CreateInstance(type) as Condition;
+            var condition = Activator.CreateInstance(type) as ICondition;//ScriptableObject.CreateInstance(type) as Condition;
             _quest.conditions.Add(condition);
-            var conditionComponent = new ConditionGuiComponent(condition);
-            _components.Add(conditionComponent);
+            /*var conditionComponent = new ConditionGuiComponent(condition);
+            _components.Add(conditionComponent);*/
         }
 
         private void OnNewHandler()
@@ -92,6 +101,7 @@ namespace QuestSystemEditors
         private void NewQuestScreen()
         {
             var quest = ScriptableObject.CreateInstance<Quest>();
+            quest.questId = Guid.NewGuid().ToString();
             LoadedQuestScreen(quest);
         }
 
@@ -99,12 +109,62 @@ namespace QuestSystemEditors
         {
             _quest = quest;
             _topButtonMenus.Object = _quest;
+            _topButtonMenus.OnNew += OnNewHandler;
             _components = new List<BaseGuiComponent>() { new QuestGuiComponent(_quest) };
-            foreach (var condition in _quest.conditions)
+            /*foreach (var condition in _quest.conditions)
             {
                 var conditionComponent = new ConditionGuiComponent(condition);
                 _components.Add(conditionComponent);
+            }*/
+        }
+
+        private void QuestListPanel()
+        {
+            EditorGUILayout.BeginVertical();
+            _questSearch = EditorGUILayout.TextField(_questSearch);
+            EditorGUILayout.Separator();
+            var quests = GetQuests(_questSearch);
+            foreach(var quest in quests)
+            {
+
+                EditorGUILayout.LabelField(quest.questName);
             }
+            EditorGUILayout.EndVertical();
+        }
+
+        private List<Quest> GetQuests(string name)
+        {
+            var quests = FindAssetsByType<Quest>();
+            if (string.IsNullOrEmpty(name))
+            {
+                return quests;
+            }
+            return quests.Where(q => q.questName.ToLower().Contains(name.ToLower())).ToList();
+        }
+
+        private void QuestForm()
+        {
+            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+            EditorGUILayout.BeginVertical();
+            DrawGuiComponents(_components);
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndScrollView();
+        }
+
+        public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
+        {
+            var assets = new List<T>();
+            var guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
+            for (int i = 0; i < guids.Length; i++)
+            {
+                var assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+                var asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+                if (asset != null)
+                {
+                    assets.Add(asset);
+                }
+            }
+            return assets;
         }
     }
 }

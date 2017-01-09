@@ -39,7 +39,7 @@ namespace CommonEditors.GuiComponents.GuiComponents.GuiComponents
 
         public override void OnGui()
         {
-            GUILayout.BeginHorizontal();
+            EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("New"))
             {
                 Path = null;
@@ -97,7 +97,7 @@ namespace CommonEditors.GuiComponents.GuiComponents.GuiComponents
                     }
                 }
             }
-            GUILayout.EndHorizontal();
+            EditorGUILayout.EndHorizontal();
         }
 
         protected virtual void AfterCreatingAsset(UnityEngine.Object obj, string path)

@@ -1,4 +1,5 @@
-﻿using CommonEditors.GuiComponents.GuiComponents.GuiComponents;
+﻿using CommonEditors.GuiComponents.GuiComponents.CustomEditors;
+using CommonEditors.GuiComponents.GuiComponents.GuiComponents;
 using QuestSystem.QuestStructures;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,10 @@ namespace QuestSystemEditors.Components
             Quest.name = GUILayout.TextField(Quest.name);
             GUILayout.Label("Quest description");
             Quest.description = GUILayout.TextArea(Quest.description, GUILayout.Height(30));
+
+            var editor = Editor.CreateEditor(Quest, typeof(EditorWithoutScript));
+            editor.OnInspectorGUI();
+
         }
     }
 }

@@ -75,9 +75,7 @@ namespace InventorySystemEditors
         private void NewItemScreen()
         {
             var item = ScriptableObject.CreateInstance(_topButtonMenus.SelectedInventoryType) as InventoryItem;
-            var items = FindAssetsByType<InventoryItem>().ToArray();
-            var id = items.Length != 0 ? items.Max(i => i.Id) + 1 : 1;
-            item.Id = id;
+            item.Id = Guid.NewGuid().ToString();
             LoadedItemScreen(item);
         }
 
@@ -86,11 +84,6 @@ namespace InventorySystemEditors
             _item = item;
             _topButtonMenus.Object = _item;
             _components = new List<BaseGuiComponent>() { };
-            /*foreach (var condition in _quest.conditions)
-            {
-                var conditionComponent = new ConditionGuiComponent(condition);
-                _components.Add(conditionComponent);
-            }*/
         }
 
         public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object

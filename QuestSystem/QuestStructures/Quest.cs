@@ -4,37 +4,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using CommonInterfaces.Inventory;
 using QuestSystem.Conditions;
+using GenericComponents.Behaviours;
 
 namespace QuestSystem.QuestStructures
 {
     [Serializable]
-	public class Quest : ScriptableObject, IEquatable<Quest>
+	public class Quest : SerializedScriptableObject, IEquatable<Quest>
 	{
         public bool Active { get; set; }
 
-		public string name;
+        public string questId;
+		public string questName;
 		public string description;
-		public List<Condition> conditions;
+        public List<ICondition> conditions;
 
         public QuestStatus QuestStatus 
         {
             get
             {
-                if (!Active)
+                /*if (!Active)
                 {
                     return QuestStatus.Inactive;
                 }
                 if (conditions.All(c => c.Complete))
                 {
                     return QuestStatus.Complete;
-                }
+                }*/
                 return QuestStatus.Active;
             }
         }
 
         public Quest()
         {
-            conditions = new List<Condition>();
+            conditions = new List<ICondition>();
+            //cond = new ICondTest[] { new OnEnemyKilledCondition() };
         }
 
 		public void Killed(GameObject obj)
@@ -61,9 +64,10 @@ namespace QuestSystem.QuestStructures
 			}
 		}
 
-		private IEnumerable<Condition> GetIncompleteConditions()
+		private IEnumerable<ICondition> GetIncompleteConditions()
 		{
-			return conditions.Where(c => !c.Complete);
+            return null;
+			//return conditions.Where(c => !c.Complete);
 		}
 
         public override bool Equals(object obj)

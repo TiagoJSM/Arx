@@ -63,6 +63,10 @@
       <Project>{e3a4d66e-8b19-4b41-9861-7bb62c514f18}</Project>
       <Name>CommonEditors</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GenericComponents\GenericComponents.csproj">
+      <Project>{5ed6d708-beb5-4f23-9f44-f8a491a42f84}</Project>
+      <Name>GenericComponents</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QuestSystem\QuestSystem.csproj">
       <Project>{7b14c9d3-dc8c-427f-9b4c-22f409959393}</Project>
       <Name>QuestSystem</Name>

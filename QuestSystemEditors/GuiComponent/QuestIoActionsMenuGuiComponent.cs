@@ -1,8 +1,11 @@
 ﻿using CommonEditors.GuiComponents.GuiComponents.GuiComponents;
+using QuestSystem.QuestStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEditor;
+using UnityEngine;
 
 namespace QuestSystemEditors.GuiComponent
 {
@@ -17,6 +20,17 @@ namespace QuestSystemEditors.GuiComponent
                 obj)
         {
 
+        }
+
+        protected override void AfterCreatingAsset(UnityEngine.Object obj, string path)
+        {
+            base.AfterCreatingAsset(obj, path);
+            /*var quest = obj as Quest;
+            foreach(var condition in quest.conditions)
+            {
+                AssetDatabase.AddObjectToAsset(condition, quest);
+            }
+            AssetDatabase.SaveAssets();*/
         }
     }
 }

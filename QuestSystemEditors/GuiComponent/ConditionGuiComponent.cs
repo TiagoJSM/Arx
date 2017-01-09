@@ -14,9 +14,9 @@ namespace QuestSystemEditors.GuiComponent
         private const string FoldoutTextTemplate = "Condition - {0}";
         private bool showQuest = true;
 
-        public Condition Condition { get; private set; }
+        public ICondition Condition { get; private set; }
 
-        public ConditionGuiComponent(Condition condition)
+        public ConditionGuiComponent(ICondition condition)
         {
             Condition = condition;
         }

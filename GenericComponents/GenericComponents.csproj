@@ -61,6 +61,7 @@
     <Compile Include="Behaviours\RopeGrab.cs" />
     <Compile Include="Behaviours\RopePart.cs" />
     <Compile Include="Behaviours\RopeRenderer.cs" />
+    <Compile Include="Behaviours\SerializedScriptableObject.cs" />
     <Compile Include="Builders\BuilderDataContext.cs" />
     <Compile Include="Builders\SegmentBuilder.cs" />
     <Compile Include="Containers\Health.cs" />

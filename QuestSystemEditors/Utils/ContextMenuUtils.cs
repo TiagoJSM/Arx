@@ -16,7 +16,7 @@ namespace QuestSystemEditors.Utils
         public static GenericMenu GetcontextMenuForQuestEditor(GenericMenu.MenuFunction2 menuFunc)
         {
             GenericMenu menu = new GenericMenu();
-            var conditions = IntrospectionUtils.GetAllCompatibleTypes<Condition>();
+            var conditions = IntrospectionUtils.GetAllCompatibleTypes<ICondition>();
             foreach (var condition in conditions)
             {
                 menu.AddItem(
