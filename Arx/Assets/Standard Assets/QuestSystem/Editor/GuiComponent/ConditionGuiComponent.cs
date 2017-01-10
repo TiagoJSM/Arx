@@ -34,13 +34,6 @@ namespace Assets.Standard_Assets.QuestSystem.Editor.GuiComponent
                 ExposeFields.Expose(fields);
             }
             EditorGUI.indentLevel = currentIdentLevel;
-            /*var editor = UnityEditor.Editor.CreateEditor(Condition, typeof(EditorWithoutScript));
-            showQuest = EditorGUILayout.InspectorTitlebar(showQuest, editor.target);
-            if (!showQuest)
-            {
-                return;
-            }
-            editor.OnInspectorGUI();*/
         }
     }
 }

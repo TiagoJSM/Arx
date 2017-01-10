@@ -5,6 +5,7 @@ using UnityEngine;
 using CommonInterfaces.Inventory;
 using GenericComponents.Behaviours;
 using Assets.Standard_Assets.QuestSystem.Conditions;
+using Assets.Standard_Assets.QuestSystem.Tasks;
 
 namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 {
@@ -19,19 +20,20 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
         [TextArea(3, 3)]
 		public string description;
         public List<ICondition> conditions;
+        public List<ITask> tasks;
 
         public QuestStatus QuestStatus 
         {
             get
             {
-                /*if (!Active)
+                if (!Active)
                 {
                     return QuestStatus.Inactive;
                 }
-                if (conditions.All(c => c.Complete))
+                if (tasks.All(c => c.Complete))
                 {
                     return QuestStatus.Complete;
-                }*/
+                }
                 return QuestStatus.Active;
             }
         }
@@ -39,10 +41,10 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
         public Quest()
         {
             conditions = new List<ICondition>();
-            //cond = new ICondTest[] { new OnEnemyKilledCondition() };
+            tasks = new List<ITask>();
         }
 
-		public void Killed(GameObject obj)
+		/*public void Killed(GameObject obj)
 		{
 			foreach (var condition in GetIncompleteConditions()) 
 			{
@@ -64,12 +66,11 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 			{
                 condition.InventoryItemRemoved(item);
 			}
-		}
+		}*/
 
 		private IEnumerable<ICondition> GetIncompleteConditions()
 		{
-            return null;
-			//return conditions.Where(c => !c.Complete);
+			return conditions.Where(c => !c.Complete);
 		}
 
         public override bool Equals(object obj)

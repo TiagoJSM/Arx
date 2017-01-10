@@ -15,9 +15,9 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
             _quests = new Dictionary<string, Quest>();
 			_subscriber = subscriber;
 
-			_subscriber.OnKill += OnKillHandler;
+			/*_subscriber.OnKill += OnKillHandler;
             _subscriber.OnInventoryItemAdd += OnInventoryItemAddHandler;
-			_subscriber.OnInventoryItemRemove += OnInventoryItemRemoveHandler;
+			_subscriber.OnInventoryItemRemove += OnInventoryItemRemoveHandler;*/
 		}
 
         public void AssignQuest(Quest quest)
@@ -44,7 +44,7 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
             return null;
         }
 
-		private void OnKillHandler(GameObject obj)
+		/*private void OnKillHandler(GameObject obj)
 		{
 			foreach (var quest in _quests.Values) 
 			{
@@ -66,7 +66,7 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 			{
                 quest.InventoryItemRemoved(item);
 			}
-		}
+		}*/
 	}
 }
 

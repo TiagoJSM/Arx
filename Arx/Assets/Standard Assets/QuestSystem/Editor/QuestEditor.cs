@@ -3,6 +3,7 @@ using Assets.Standard_Assets.QuestSystem.Editor.Components;
 using Assets.Standard_Assets.QuestSystem.Editor.GuiComponent;
 using Assets.Standard_Assets.QuestSystem.Editor.Utils;
 using Assets.Standard_Assets.QuestSystem.QuestStructures;
+using Assets.Standard_Assets.QuestSystem.Tasks;
 using CommonEditors;
 using CommonEditors.GuiComponents;
 using CommonEditors.GuiComponents.GuiComponents.GuiComponents;
@@ -19,7 +20,9 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
     {
         private static int NO_SELECTED_QUEST = -1;
 
-        private List<BaseGuiComponent> _components;
+        private QuestGuiComponent _questComponent;
+        private List<TaskGuiComponent> _taskComponents;
+        private List<ConditionGuiComponent> _conditionComponents;
         private Quest _selectedQuest = null;
         private Vector2 _scrollPosition;
         private string _questSearch;
@@ -64,7 +67,7 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
 
         private void OnMouseUpHandler(MouseButton button, Vector2 position)
         {
-            if (button != MouseButton.Right)
+            if (button != MouseButton.Right || _quest == null)
             {
                 return;
             }
@@ -72,17 +75,27 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
             toolsMenu.ShowAsContext();
         }
 
-        private void AddConditonWindow(object conditionType)
+        private void AddConditonWindow(object data)
         {
-            var type = conditionType as Type;
+            var type = data as Type;
             if(type == null)
             {
                 return;
             }
-            var condition = Activator.CreateInstance(type) as ICondition;
-            _quest.conditions.Add(condition);
-            var conditionComponent = new ConditionGuiComponent(condition);
-            _components.Add(conditionComponent);
+            if (typeof(ICondition).IsAssignableFrom(type))
+            {
+                var condition = Activator.CreateInstance(type) as ICondition;
+                _quest.conditions.Add(condition);
+                var conditionComponent = new ConditionGuiComponent(condition);
+                _conditionComponents.Add(conditionComponent);
+            }
+            else if (typeof(ITask).IsAssignableFrom(type))
+            {
+                var task = Activator.CreateInstance(type) as ITask;
+                _quest.tasks.Add(task);
+                var taskComponent = new TaskGuiComponent(task);
+                _taskComponents.Add(taskComponent);
+            }
         }
 
         private void OnNewHandler()
@@ -120,11 +133,19 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
         private void LoadedQuestScreen(Quest quest)
         {
             _quest = quest;
-            _components = new List<BaseGuiComponent>() { new QuestGuiComponent(_quest) };
+            _questComponent = new QuestGuiComponent(_quest);
+            _taskComponents = new List<TaskGuiComponent>();
+            _conditionComponents = new List<ConditionGuiComponent>();
+
+            foreach (var task in _quest.tasks)
+            {
+                var taskComponent = new TaskGuiComponent(task);
+                _taskComponents.Add(taskComponent);
+            }
             foreach (var condition in _quest.conditions)
             {
                 var conditionComponent = new ConditionGuiComponent(condition);
-                _components.Add(conditionComponent);
+                _conditionComponents.Add(conditionComponent);
             }
         }
 
@@ -143,7 +164,7 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
                 1,
                 GUILayout.ExpandWidth(true));
             
-            if(newSelected != selected && newSelected >= 0)
+            if (newSelected != selected && newSelected >= 0)
             {
                 _selectedQuest = quests[newSelected];
                 LoadedQuestScreen(_selectedQuest);
@@ -168,9 +189,11 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
             EditorGUILayout.BeginVertical();
 
             if (_quest != null)
-            {
-                DrawGuiComponents(_components);
-                if (_components.Count == 1)
+            {;
+                DrawGuiComponents(new QuestGuiComponent[] { _questComponent });
+                DrawGuiComponents(_taskComponents.ToArray());
+                DrawGuiComponents(_conditionComponents.ToArray());
+                if (!_conditionComponents.Any() && !_taskComponents.Any())
                 {
                     EditorGUILayout.LabelField("Right click to add elements");
                 }
