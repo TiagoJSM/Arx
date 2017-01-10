@@ -17,9 +17,10 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
 {
     public class QuestEditor : ExtendedEditorWindow
     {
-        private QuestIoActionsMenuGuiComponent _topButtonMenus;
+        private static int NO_SELECTED_QUEST = -1;
+
         private List<BaseGuiComponent> _components;
-        
+        private Quest _selectedQuest = null;
         private Vector2 _scrollPosition;
         private string _questSearch;
 
@@ -33,17 +34,17 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
 
         public QuestEditor()
         {
-            _topButtonMenus = new QuestIoActionsMenuGuiComponent();
-            _topButtonMenus.OnNew += OnNewHandler;
-            _topButtonMenus.OnOpenFile += OnOpenQuestHandler;
             OnMouseUp += OnMouseUpHandler;
         }
 
         protected override void DoOnGui()
         {
-            _topButtonMenus.OnGui();
+            EditorGUILayout.BeginHorizontal();
+
+            NewQuestButton();
             
-            
+            EditorGUILayout.EndHorizontal();
+
             EditorGUILayout.BeginHorizontal();
 
             QuestListPanel();
@@ -51,12 +52,14 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
             QuestForm();
 
             EditorGUILayout.EndHorizontal();
-            
         }
 
-        private void Awake()
+        private void NewQuestButton()
         {
-            NewQuestScreen();
+            if (GUILayout.Button("New Quest"))
+            {
+                NewQuestScreen();
+            }
         }
 
         private void OnMouseUpHandler(MouseButton button, Vector2 position)
@@ -76,7 +79,7 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
             {
                 return;
             }
-            var condition = Activator.CreateInstance(type) as ICondition;//ScriptableObject.CreateInstance(type) as Condition;
+            var condition = Activator.CreateInstance(type) as ICondition;
             _quest.conditions.Add(condition);
             var conditionComponent = new ConditionGuiComponent(condition);
             _components.Add(conditionComponent);
@@ -99,16 +102,24 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
 
         private void NewQuestScreen()
         {
-            var quest = ScriptableObject.CreateInstance<Quest>();
-            quest.questId = Guid.NewGuid().ToString();
-            LoadedQuestScreen(quest);
+            var path = EditorUtility.SaveFilePanelInProject(
+                                "Save quest",
+                                null,
+                                "asset",
+                                "Please enter a file name to save the quest to");
+            if (!string.IsNullOrEmpty(path))
+            {
+                var quest = ScriptableObject.CreateInstance<Quest>();
+                quest.questId = Guid.NewGuid().ToString();
+                LoadedQuestScreen(quest);
+                AssetDatabase.CreateAsset(quest, path);
+                _selectedQuest = quest;
+            }
         }
 
         private void LoadedQuestScreen(Quest quest)
         {
             _quest = quest;
-            _topButtonMenus.Object = _quest;
-            _topButtonMenus.OnNew += OnNewHandler;
             _components = new List<BaseGuiComponent>() { new QuestGuiComponent(_quest) };
             foreach (var condition in _quest.conditions)
             {
@@ -119,15 +130,25 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
 
         private void QuestListPanel()
         {
-            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical(GUILayout.Width(300));
+            EditorGUILayout.LabelField("Quests");
             _questSearch = EditorGUILayout.TextField(_questSearch);
             EditorGUILayout.Separator();
             var quests = GetQuests(_questSearch);
-            foreach(var quest in quests)
-            {
+            var selected = _selectedQuest == null ? NO_SELECTED_QUEST : quests.IndexOf(_selectedQuest);
 
-                EditorGUILayout.LabelField(quest.questName);
+            var newSelected = GUILayout.SelectionGrid(
+                selected,
+                quests.Select(f => new GUIContent(f.questName)).ToArray(),
+                1,
+                GUILayout.ExpandWidth(true));
+            
+            if(newSelected != selected && newSelected >= 0)
+            {
+                _selectedQuest = quests[newSelected];
+                LoadedQuestScreen(_selectedQuest);
             }
+            
             EditorGUILayout.EndVertical();
         }
 
@@ -146,10 +167,13 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             EditorGUILayout.BeginVertical();
 
-            DrawGuiComponents(_components);
-            if (_components.Count == 1)
+            if (_quest != null)
             {
-                EditorGUILayout.LabelField("Right click to add elements");
+                DrawGuiComponents(_components);
+                if (_components.Count == 1)
+                {
+                    EditorGUILayout.LabelField("Right click to add elements");
+                }
             }
                         
             EditorGUILayout.EndVertical();

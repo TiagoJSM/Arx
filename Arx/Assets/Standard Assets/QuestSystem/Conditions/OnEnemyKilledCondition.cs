@@ -10,6 +10,7 @@ namespace Assets.Standard_Assets.QuestSystem.Conditions
     [Serializable]
     public class OnEnemyKilledCondition : ICondition
     {
+        public int killc;
         public int killCount { get; set; }
 
         public string ConditionName { get; set; }

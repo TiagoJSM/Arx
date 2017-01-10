@@ -13,6 +13,7 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 	{
         public bool Active { get; set; }
 
+        [HideInInspector]
         public string questId;
 		public string questName;
         [TextArea(3, 3)]

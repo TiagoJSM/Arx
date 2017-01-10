@@ -30,8 +30,8 @@ namespace Assets.Standard_Assets.QuestSystem.Editor.GuiComponent
             if (_showCondition)
             {
                 EditorGUI.indentLevel++;
-                var properties = ExposeProperties.GetProperties(Condition);
-                ExposeProperties.Expose(properties);
+                var fields = ExposeFields.GetFields(Condition);
+                ExposeFields.Expose(fields);
             }
             EditorGUI.indentLevel = currentIdentLevel;
             /*var editor = UnityEditor.Editor.CreateEditor(Condition, typeof(EditorWithoutScript));
