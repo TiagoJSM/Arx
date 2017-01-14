@@ -44,7 +44,21 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
             tasks = new List<ITask>();
         }
 
-		/*public void Killed(GameObject obj)
+        public TTask GetTask<TTask>(string name = null) where TTask : ITask
+        {
+            return
+                GetTasks<TTask>()
+                    .Where(task => name == null || task.TaskName == name).FirstOrDefault();
+        }
+
+        public IEnumerable<TTask> GetTasks<TTask>() where TTask : ITask
+        {
+            return
+                tasks
+                    .OfType<TTask>();
+        }
+
+        /*public void Killed(GameObject obj)
 		{
 			foreach (var condition in GetIncompleteConditions()) 
 			{
@@ -68,7 +82,7 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 			}
 		}*/
 
-		private IEnumerable<ICondition> GetIncompleteConditions()
+        private IEnumerable<ICondition> GetIncompleteConditions()
 		{
 			return conditions.Where(c => !c.Complete);
 		}
@@ -85,7 +99,7 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 
         public bool Equals(Quest other)
         {
-            return this.name.Equals(other.name);
+            return this.questId.Equals(other.questId);
         }
     }
 }

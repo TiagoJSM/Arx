@@ -15,6 +15,9 @@ public class CommonTalkingCharacterAi : PlatformerCharacterAiControl
     private CommonTalkingCharacterController _controller;
     private bool _previousIsInteracting;
 
+    [SerializeField]
+    private bool _moveInIddle = true;
+
     protected override Direction CurrentDirection
     {
         get
@@ -38,7 +41,10 @@ public class CommonTalkingCharacterAi : PlatformerCharacterAiControl
 
     private void Start()
     {
-        IddleMovement();
+        if (_moveInIddle)
+        {
+            IddleMovement();
+        }
     }
 
     private void Update()
@@ -54,9 +60,10 @@ public class CommonTalkingCharacterAi : PlatformerCharacterAiControl
         {
             StopActiveCoroutine();
         }
-        else
+        else if(_moveInIddle)
         {
             IddleMovement();
         }
     }
+
 }

@@ -8,12 +8,43 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 {
     public class QuestLogComponent : MonoBehaviour
     {
-        private QuestLog _questLog;
+        private QuestDatabase _instanciatedQuests;
+
+        [SerializeField]
+        private QuestDatabase _quests;
+        //private QuestLog _questLog;
         
-        void Start()
+        public Quest GetQuest(string id)
+        {
+            return _instanciatedQuests.GetQuest(id);
+        }
+
+        public bool HasQuestActive(string id)
+        {
+            var quest = GetQuest(id);
+            return quest.QuestStatus == QuestStatus.Active;
+        }
+
+        public bool HasQuestActive(Quest quest)
+        {
+            return HasQuestActive(quest.questId);
+        }
+
+        public void GiveQuest(Quest quest)
+        {
+            quest = _instanciatedQuests.GetQuest(quest.questId);
+            quest.Active = true;
+        }
+
+        private void Awake()
+        {
+            _instanciatedQuests = _quests.Clone();
+        }
+
+        private void Start()
         {
             var subscriber = this.gameObject.GetComponent<IQuestSubscriber>();
-            _questLog = new QuestLog(subscriber);
+            //_questLog = new QuestLog(subscriber);
         }
     }
 }

@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Behaviours\AnimationDelay.cs" />
     <Compile Include="Behaviours\BaseRope.cs" />
+    <Compile Include="Behaviours\CharacterIdentity.cs" />
     <Compile Include="Behaviours\CharacterStatus.cs" />
     <Compile Include="Behaviours\CloneSpriteMaterial.cs" />
     <Compile Include="Behaviours\EnableTrigger.cs" />

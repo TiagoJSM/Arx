@@ -11,7 +11,7 @@ namespace Assets.Standard_Assets.QuestSystem
 		event OnInventoryRemove OnInventoryItemRemove;
 
         void AssignQuest(Quest quest);
-        bool HasQuest(Quest quest);
+        bool HasQuestActive(Quest quest);
         Quest GetQuest(string name);
 	}
 }

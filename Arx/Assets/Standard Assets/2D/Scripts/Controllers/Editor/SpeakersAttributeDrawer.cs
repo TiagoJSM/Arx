@@ -11,6 +11,7 @@ public class SpeakersAttributeDrawer : PropertyDrawer
 {
     private const string SpeakersPath = "_speakers";
     private const string ConversationPath = "_conversation";
+    private const string InteractersSpeakingPath = "_interactersSpeaking";
 
     private SpeakersAttribute _attributeValue = null;
 
@@ -51,7 +52,7 @@ public class SpeakersAttributeDrawer : PropertyDrawer
             return base.GetPropertyHeight(property, label);
         }
         var localizedTextPropertyHeight = EditorGUIUtility.singleLineHeight;
-        var heightPerKey = EditorGUIUtility.singleLineHeight * 4;
+        var heightPerKey = EditorGUIUtility.singleLineHeight * 5;
         return (keys.Length * heightPerKey) + localizedTextPropertyHeight;
     }
 
@@ -62,6 +63,7 @@ public class SpeakersAttributeDrawer : PropertyDrawer
         EditorGUI.PropertyField(localizedtextsPosition, localizedTextsProp);
 
         var speakersProperty = property.FindPropertyRelative(SpeakersPath);
+        var interactersSpeakingProperty = property.FindPropertyRelative(InteractersSpeakingPath);
         var baseSpeakerPosition = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight, position.width, EditorGUIUtility.singleLineHeight);
 
         var keys = GetKeys(property);
@@ -72,9 +74,16 @@ public class SpeakersAttributeDrawer : PropertyDrawer
         }
 
         speakersProperty.arraySize = keys.Length;
+        interactersSpeakingProperty.arraySize = keys.Length;
 
         for (var idx = 0; idx < speakersProperty.arraySize; idx++)
         {
+            var interactorConfig = interactersSpeakingProperty.GetArrayElementAtIndex(idx);
+            EditorGUI.PropertyField(baseSpeakerPosition, interactorConfig, new GUIContent("Interactor's speech"));
+            baseSpeakerPosition.y += SpeakerFieldHeight;
+            baseSpeakerPosition.height = EditorGUIUtility.singleLineHeight;
+
+            GUI.enabled = !interactorConfig.boolValue;
             EditorGUI.PropertyField(baseSpeakerPosition, speakersProperty.GetArrayElementAtIndex(idx), new GUIContent("Speaker " + (idx + 1)));
             baseSpeakerPosition.y += SpeakerFieldHeight;
             baseSpeakerPosition.height = SpeechTextHeight;

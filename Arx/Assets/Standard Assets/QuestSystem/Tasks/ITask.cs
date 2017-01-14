@@ -8,5 +8,6 @@ namespace Assets.Standard_Assets.QuestSystem.Tasks
     public interface ITask
     {
         bool Complete { get; }
+        string TaskName { get; }
     }
 }

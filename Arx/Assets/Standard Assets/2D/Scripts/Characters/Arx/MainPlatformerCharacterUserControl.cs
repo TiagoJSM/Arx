@@ -70,17 +70,17 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     public void AssignQuest(Quest quest)
     {
-        throw new NotImplementedException();
+        _questLogComponent.GiveQuest(quest);
     }
 
-    public Quest GetQuest(string name)
+    public Quest GetQuest(string id)
     {
-        throw new NotImplementedException();
+        return _questLogComponent.GetQuest(id);
     }
 
-    public bool HasQuest(Quest quest)
+    public bool HasQuestActive(Quest quest)
     {
-        throw new NotImplementedException();
+        return _questLogComponent.HasQuestActive(quest);
     }
 
     private void Awake()

@@ -1,4 +1,5 @@
 ﻿using CommonInterfaces.Controllers.Interaction;
+using GenericComponents.Behaviours;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,14 @@ namespace GenericComponents.Controllers.Interaction
         private readonly int CloseSpeechBubble = Animator.StringToHash("Close Speech Bubble");
 
         [SerializeField]
+        private CharacterIdentity _name;
+        [SerializeField]
         private RectTransform _speechBubble;
         [SerializeField]
         private ScrollRect _scrollRect;
         private RectTransform _content;
+        [SerializeField]
+        private Text _nameText;
 
         [SerializeField]
         private Animator _speechAnimator;
@@ -117,6 +122,12 @@ namespace GenericComponents.Controllers.Interaction
             _content = _scrollRect.content;
             _content.localPosition = new Vector3();
             Text = _text;
+            _nameText.text = string.Empty;
+            if (_name != null)
+            {
+                _nameText.text = _name.Name;
+            }
+            
         }
     }
 }

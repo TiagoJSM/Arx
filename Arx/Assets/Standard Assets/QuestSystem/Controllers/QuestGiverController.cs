@@ -1,4 +1,5 @@
-﻿using Assets.Standard_Assets.QuestSystem.QuestStructures;
+﻿using Assets.Standard_Assets._2D.Scripts.Controllers;
+using Assets.Standard_Assets.QuestSystem.QuestStructures;
 using CommonInterfaces.Controllers.Interaction;
 using GenericComponents.Controllers.Interaction;
 using System;
@@ -9,95 +10,71 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets.QuestSystem.Controllers
 {
+    [RequireComponent(typeof(InteractibleCharacterController))]
     public class QuestGiverController : MonoBehaviour
     {
-        private IInteractionTriggerController _interactionTriggerController;
-        private SpeechController _speechController;
-        private GameObject _interactor;
+        private InteractibleCharacterController _interactible;
+        private IQuestSubscriber _questSubscriber;
 
         [SerializeField]
-        [TextArea(3, 10)]
-        private string _questExplanationDialog;
+        private InteractiveDialogComponent _questExplanationDialog;
         [SerializeField]
-        [TextArea(3, 10)]
-        private string _duringQuestDialog;
+        private InteractiveDialogComponent _duringQuestDialog;
         [SerializeField]
-        [TextArea(3, 10)]
-        private string _afterQuestDialog;
+        private InteractiveDialogComponent _afterQuestDialog;
 
         public Quest quest;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
-            _interactionTriggerController = gameObject.GetComponent<IInteractionTriggerController>();
-            _speechController = GetComponentInChildren<SpeechController>();
-            _interactionTriggerController.OnInteract += OnInteractHandler;
-            _interactionTriggerController.OnStopInteraction += OnStopInteractionHandler;
-            _speechController.OnScrollEnd += OnScrollEndHandler;
+            _interactible = GetComponent<InteractibleCharacterController>();
+            _interactible.OnInteractionComplete += GiveQuest;
         }
 
-        public void AssignQuestToSubscriber(IQuestSubscriber subscriber)
+        private void AssignQuestToSubscriber(IQuestSubscriber subscriber)
         {
-            if (subscriber.HasQuest(quest))
+            if (subscriber.HasQuestActive(quest))
             {
                 return;
             }
             subscriber.AssignQuest(quest);
         }
 
-        private void OnInteractHandler(GameObject interactor)
+        private void Update()
         {
-            if (_interactor != null)
-            {
-                _interactor = interactor;
-            }
-            if (!_speechController.Visible)
-            {
-                SetAppropriateText(interactor);
-                _speechController.Reset();
-                _speechController.Visible = true;
-                return;
-            }
-            _speechController.ScrollPageDown();
-        }
-
-        private void OnStopInteractionHandler()
-        {
-            _speechController.Visible = false;
-            _interactor = null;
-        }
-
-        private void OnScrollEndHandler()
-        {
-            var questSubscriber = _interactor.GetComponent<IQuestSubscriber>();
-            if (questSubscriber != null)
-            {
-                AssignQuestToSubscriber(questSubscriber);
-            }
-            _interactionTriggerController.StopInteraction();
+            var questSubscriber = FindObjectOfType<QuestLogComponent>();
+            SetAppropriateText(questSubscriber.gameObject);
         }
 
         private void SetAppropriateText(GameObject interactor)
         {
-            var questSubscriber = interactor.GetComponent<IQuestSubscriber>();
-            if (questSubscriber == null)
+            _questSubscriber = interactor.GetComponent<IQuestSubscriber>();
+            if (_questSubscriber == null)
             {
-                _speechController.Text = _questExplanationDialog;
+                _interactible.Dialog = _questExplanationDialog;
                 return;
             }
-            var subscriberQuest = questSubscriber.GetQuest(quest.name);
+            var subscriberQuest = _questSubscriber.GetQuest(quest.questId);
             if (subscriberQuest.QuestStatus == QuestStatus.Inactive)
             {
-                _speechController.Text = _questExplanationDialog;
+                _interactible.Dialog = _questExplanationDialog;
                 return;
             }
             if (subscriberQuest.QuestStatus == QuestStatus.Active)
             {
-                _speechController.Text = _duringQuestDialog;
+                _interactible.Dialog = _duringQuestDialog;
                 return;
             }
-            _speechController.Text = _afterQuestDialog;
+            _interactible.Dialog = _afterQuestDialog;
+        }
+
+        private void GiveQuest()
+        {
+            if (_questSubscriber != null)
+            {
+                AssignQuestToSubscriber(_questSubscriber);
+            }
         }
     }
 }

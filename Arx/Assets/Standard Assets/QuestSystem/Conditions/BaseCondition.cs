@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets.QuestSystem.Conditions
 {
+    [Serializable]
     public abstract class BaseCondition : ICondition
     {
         public string conditionName;

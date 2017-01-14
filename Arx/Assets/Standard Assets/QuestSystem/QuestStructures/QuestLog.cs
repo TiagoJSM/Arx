@@ -26,18 +26,18 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
             {
                 return;
             }
-            _quests.Add(quest.name, quest);
+            _quests.Add(quest.questId, quest);
         }
 
         public bool HasQuest(Quest quest)
         {
-            return _quests.ContainsKey(quest.name);
+            return _quests.ContainsKey(quest.questId);
         }
 
-        public Quest GetQuest(string name)
+        public Quest GetQuest(string id)
         {
             Quest quest;
-            if (_quests.TryGetValue(name, out quest))
+            if (_quests.TryGetValue(id, out quest))
             {
                 return quest;
             }
