@@ -159,6 +159,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\DuckingState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\StandingState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ThrowState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\UiController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterController2D.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterFinder.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\BaseCharacterAiController.cs" />
@@ -319,6 +320,7 @@
     <Compile Include="Assets\Standard Assets\QuestSystem\Conditions\BaseCondition.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Conditions\ICondition.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Conditions\OnEnemyKilledCondition.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\CompleteTaskOnInteract.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\QuestGiverController.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\ToggleOnTaskActive.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\EditorProperties\TaskSelector.cs" />
@@ -332,6 +334,15 @@
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\BaseTask.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\ITask.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\SettableTask.cs" />
+    <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\CharacterStatusManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\HudManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\QuestSectionManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\TaskItemManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\In Game Menu\Scripts\UiMenuManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\Quest Section\Scripts\QuestDescriptionManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\Quest Section\Scripts\QuestItemManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\Quest Section\Scripts\QuestListManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\Quest Section\Scripts\QuestSection.cs" />
     <Compile Include="Assets\Standard Assets\Utility\ActivateTrigger.cs" />
     <Compile Include="Assets\Standard Assets\Utility\AutoMobileShaderSwitch.cs" />
     <Compile Include="Assets\Standard Assets\Utility\AutoMoveAndRotate.cs" />

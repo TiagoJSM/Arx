@@ -12,6 +12,8 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
         [SerializeField]
         private Quest[] _quests;
 
+        public Quest[] Quests { get { return _quests; } }
+
         public bool HasQuest(string id)
         {
             return _quests.Any(quest => quest.questId == id);

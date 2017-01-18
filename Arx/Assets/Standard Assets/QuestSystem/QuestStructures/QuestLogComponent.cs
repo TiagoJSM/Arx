@@ -36,6 +36,11 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
             quest.Active = true;
         }
 
+        public Quest[] GetQuests()
+        {
+            return _instanciatedQuests.Quests;
+        }
+
         private void Awake()
         {
             _instanciatedQuests = _quests.Clone();

@@ -15,6 +15,8 @@ using MathHelper.Extensions;
 using CommonInterfaces.Weapons;
 using Assets.Standard_Assets.QuestSystem.QuestStructures;
 using Assets.Standard_Assets.QuestSystem;
+using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
+using Assets.Standard_Assets.UI.HUD.Scripts;
 
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(ItemFinderController))]
@@ -91,6 +93,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         _questLogComponent = GetComponent<QuestLogComponent>();
         _equipmentController = GetComponent<EquipmentController>();
         _uiController = GetComponent<UiController>();
+        _uiController.OnActiveQuestSelected += OnActiveQuestSelectedHandler;
     }
 
     private void Start()
@@ -311,6 +314,11 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
             }
             _characterController.AimAngle = angle;
         }
+    }
+
+    private void OnActiveQuestSelectedHandler(Quest quest)
+    {
+        _hud.ActiveQuest = quest;
     }
 }
 

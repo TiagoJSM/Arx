@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Standard_Assets.QuestSystem.QuestStructures;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,12 +7,15 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ArxGame.UI
+namespace Assets.Standard_Assets.UI.HUD.Scripts
 {
     public class HudManager : MonoBehaviour
     {
         private Coroutine _currentToast;
         private Queue<IEnumerator> _toastQueue;
+
+        [SerializeField]
+        private QuestSectionManager _questSection;
 
         public GameObject toastPanel;
         public Text toastText;
@@ -38,6 +42,18 @@ namespace ArxGame.UI
             }
         }
 
+        public Quest ActiveQuest
+        {
+            get
+            {
+                return _questSection.ActiveQuest;
+            }
+            set
+            {
+                _questSection.ActiveQuest = value;
+            }
+        }
+
         public void Awake()
         {
             _toastQueue = new Queue<IEnumerator>();
@@ -46,7 +62,7 @@ namespace ArxGame.UI
 
         public void Toast(string text, float duration)
         {
-            if(_currentToast == null)
+            if (_currentToast == null)
             {
                 _currentToast = StartCoroutine(ToastCoroutine(text, duration));
             }

@@ -1,4 +1,7 @@
 ﻿using ArxGame.UI;
+using Assets.Standard_Assets.QuestSystem.QuestStructures;
+using Assets.Standard_Assets.UI.In_Game_Menu.Scripts;
+using Assets.Standard_Assets.UI.Quest_Section.Scripts;
 using CommonInterfaces.UI;
 using InventorySystem;
 using System;
@@ -7,15 +10,19 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace ArxGame.Components
+namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
 {
     [RequireComponent(typeof(InventoryComponent))]
+    [RequireComponent(typeof(QuestLogComponent))]
     public class UiController : MonoBehaviour, IUiController
     {
-        private GameObject _inGameMenu;
+        private UiMenuManager _inGameMenu;
         private InventoryComponent _inventoryComponent;
+        private QuestLogComponent _questLogComponent;
 
-        public GameObject inGameMenuPrefab;
+        public UiMenuManager inGameMenuPrefab;
+
+        public event OnQuestSelected OnActiveQuestSelected;
 
         public bool IsMenuOn
         {
@@ -32,8 +39,9 @@ namespace ArxGame.Components
                 return;
             }
             _inGameMenu = Instantiate(inGameMenuPrefab);
-            var menu = _inGameMenu.GetComponent<UiMenuManager>();
-            menu.inventoryComponent = _inventoryComponent;
+            _inGameMenu.inventoryComponent = _inventoryComponent;
+            _inGameMenu.questLogComponent = _questLogComponent;
+            _inGameMenu.OnSetActiveQuest += OnSetActiveQuestHandler;
         }
 
         public void TurnOff()
@@ -42,7 +50,8 @@ namespace ArxGame.Components
             {
                 return;
             }
-            Destroy(_inGameMenu);
+            _inGameMenu.OnSetActiveQuest -= OnSetActiveQuestHandler;
+            Destroy(_inGameMenu.gameObject);
             _inGameMenu = null;
         }
 
@@ -61,6 +70,15 @@ namespace ArxGame.Components
         void Start()
         {
             _inventoryComponent = GetComponent<InventoryComponent>();
+            _questLogComponent = GetComponent<QuestLogComponent>();
+        }
+
+        private void OnSetActiveQuestHandler(Quest quest)
+        {
+            if(OnActiveQuestSelected != null)
+            {
+                OnActiveQuestSelected(quest);
+            }
         }
     }
 }
