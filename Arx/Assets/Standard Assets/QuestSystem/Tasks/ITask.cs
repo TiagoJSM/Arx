@@ -9,5 +9,6 @@ namespace Assets.Standard_Assets.QuestSystem.Tasks
     {
         bool Complete { get; }
         string TaskName { get; }
+        string TaskDescription { get; }
     }
 }

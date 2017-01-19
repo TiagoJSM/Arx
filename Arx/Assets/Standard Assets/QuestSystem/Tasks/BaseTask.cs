@@ -13,5 +13,6 @@ namespace Assets.Standard_Assets.QuestSystem.Tasks
 
         public string TaskName { get { return taskName; } }
         public abstract bool Complete { get; }
+        public abstract string TaskDescription { get; }
     }
 }
