@@ -14,6 +14,8 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
 
         [SerializeField]
         private Text _taskDescription;
+        [SerializeField]
+        private Image _completion;
 
         public ITask Task
         {
@@ -26,6 +28,11 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
                 _task = value;
                 _taskDescription.text = _task.TaskDescription;
             }
+        }
+
+        private void Update()
+        {
+            _completion.color = _task.Complete ? Color.green : Color.red;
         }
     }
 }

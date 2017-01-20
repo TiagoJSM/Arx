@@ -219,6 +219,7 @@
     <Compile Include="Assets\Standard Assets\QuestSystem\Editor\GuiComponent\ConditionGuiComponent.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Editor\GuiComponent\QuestGuiComponent.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Editor\GuiComponent\QuestIoActionsMenuGuiComponent.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\Editor\GuiComponent\RewardProviderGuiComponent.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Editor\GuiComponent\TaskGuiComponent.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Editor\QuestEditor.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Editor\Utils\ContextMenuUtils.cs" />

@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEditorInternal;
+using Assets.Standard_Assets.QuestSystem.QuestStructures;
 
 namespace Assets.Standard_Assets.Utility.Editor
 {
@@ -46,8 +48,6 @@ namespace Assets.Standard_Assets.Utility.Editor
                     case SerializedPropertyType.Vector3:
                         field.SetValue(EditorGUILayout.Vector3Field(field.Name, (Vector3)field.GetValue(), emptyOptions));
                         break;
-
-
 
                     case SerializedPropertyType.Enum:
                         field.SetValue(EditorGUILayout.EnumPopup(field.Name, (Enum)field.GetValue(), emptyOptions));
@@ -156,6 +156,15 @@ namespace Assets.Standard_Assets.Utility.Editor
 
     public abstract class BaseField
     {
+        protected System.Object m_Instance;
+
+        public System.Object Instance { get { return m_Instance; } }
+
+        public BaseField(System.Object _instance)
+        {
+            m_Instance = _instance;
+        }
+
         public abstract SerializedPropertyType Type { get; }
         public abstract string Name { get; }
 
@@ -220,7 +229,6 @@ namespace Assets.Standard_Assets.Utility.Editor
 
     public class Field : BaseField
     {
-        System.Object m_Instance;
         FieldInfo m_Info;
         SerializedPropertyType m_Type;
 
@@ -241,8 +249,8 @@ namespace Assets.Standard_Assets.Utility.Editor
         }
 
         public Field(System.Object instance, FieldInfo info, SerializedPropertyType type)
+            : base(instance)
         {
-            m_Instance = instance;
             m_Info = info;
             m_Type = type;
         }
@@ -266,7 +274,6 @@ namespace Assets.Standard_Assets.Utility.Editor
 
     public class PropertyField : BaseField
     {
-        System.Object m_Instance;
         PropertyInfo m_Info;
         SerializedPropertyType m_Type;
 
@@ -290,6 +297,7 @@ namespace Assets.Standard_Assets.Utility.Editor
         }
 
         public PropertyField(System.Object instance, PropertyInfo info, SerializedPropertyType type)
+            : base(instance)
         {
 
             m_Instance = instance;

@@ -69,7 +69,7 @@ namespace Assets.Standard_Assets.QuestSystem.Controllers
             _interactible.Dialog = _afterQuestDialog;
         }
 
-        private void GiveQuest()
+        private void GiveQuest(GameObject interctor)
         {
             if (_questSubscriber != null)
             {

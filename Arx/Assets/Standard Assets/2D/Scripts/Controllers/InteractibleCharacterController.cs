@@ -17,7 +17,7 @@ public class InteractibleCharacterController : MonoBehaviour, IInteractionTrigge
 
     public event OnInteract OnInteract;
     public event OnStopInteraction OnStopInteraction;
-    public event Action OnInteractionComplete;
+    public event OnInteract OnInteractionComplete;
 
     public bool IsInteracting
     {
@@ -36,6 +36,10 @@ public class InteractibleCharacterController : MonoBehaviour, IInteractionTrigge
     public void Interact(GameObject interactor)
     {
         _interactor = interactor;
+        if(OnInteract != null)
+        {
+            OnInteract(interactor);
+        }
         if (_speechController == null)
         {
             Speak(interactor);
@@ -79,7 +83,7 @@ public class InteractibleCharacterController : MonoBehaviour, IInteractionTrigge
             _dialogIdx = 0;
             if(OnInteractionComplete != null)
             {
-                OnInteractionComplete();
+                OnInteractionComplete(_interactor);
             }
             return;
         }

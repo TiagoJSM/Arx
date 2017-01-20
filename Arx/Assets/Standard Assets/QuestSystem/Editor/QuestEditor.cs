@@ -3,6 +3,7 @@ using Assets.Standard_Assets.QuestSystem.Editor.Components;
 using Assets.Standard_Assets.QuestSystem.Editor.GuiComponent;
 using Assets.Standard_Assets.QuestSystem.Editor.Utils;
 using Assets.Standard_Assets.QuestSystem.QuestStructures;
+using Assets.Standard_Assets.QuestSystem.RewardProviders;
 using Assets.Standard_Assets.QuestSystem.Tasks;
 using CommonEditors;
 using CommonEditors.GuiComponents;
@@ -23,6 +24,7 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
         private QuestGuiComponent _questComponent;
         private List<TaskGuiComponent> _taskComponents;
         private List<ConditionGuiComponent> _conditionComponents;
+        private List<RewardProviderGuiComponent> _rewardProviderComponents;
         private Quest _selectedQuest = null;
         private Vector2 _scrollPosition;
         private string _questSearch;
@@ -38,6 +40,24 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
         public QuestEditor()
         {
             OnMouseUp += OnMouseUpHandler;
+        }
+
+        public void RemoveRewardProvider(RewardProviderGuiComponent rewardProviderGuiComponent)
+        {
+            _rewardProviderComponents.Remove(rewardProviderGuiComponent);
+            _quest.rewardProviders.Remove(rewardProviderGuiComponent.RewardProvider);
+        }
+
+        public void RemoveCondition(ConditionGuiComponent conditionGuiComponent)
+        {
+            _conditionComponents.Remove(conditionGuiComponent);
+            _quest.conditions.Remove(conditionGuiComponent.Condition);
+        }
+
+        public void RemoveTask(TaskGuiComponent taskGuiComponent)
+        {
+            _taskComponents.Remove(taskGuiComponent);
+            _quest.tasks.Remove(taskGuiComponent.Task);
         }
 
         protected override void DoOnGui()
@@ -86,15 +106,22 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
             {
                 var condition = Activator.CreateInstance(type) as ICondition;
                 _quest.conditions.Add(condition);
-                var conditionComponent = new ConditionGuiComponent(condition);
+                var conditionComponent = new ConditionGuiComponent(condition, this);
                 _conditionComponents.Add(conditionComponent);
             }
             else if (typeof(ITask).IsAssignableFrom(type))
             {
                 var task = Activator.CreateInstance(type) as ITask;
                 _quest.tasks.Add(task);
-                var taskComponent = new TaskGuiComponent(task);
+                var taskComponent = new TaskGuiComponent(task, this);
                 _taskComponents.Add(taskComponent);
+            }
+            else if (typeof(IRewardProvider).IsAssignableFrom(type))
+            {
+                var provider = Activator.CreateInstance(type) as IRewardProvider;
+                _quest.rewardProviders.Add(provider);
+                var rewardProviderComponent = new RewardProviderGuiComponent(provider, this);
+                _rewardProviderComponents.Add(rewardProviderComponent);
             }
         }
 
@@ -136,17 +163,23 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
             _questComponent = new QuestGuiComponent(_quest);
             _taskComponents = new List<TaskGuiComponent>();
             _conditionComponents = new List<ConditionGuiComponent>();
+            _rewardProviderComponents = new List<RewardProviderGuiComponent>();
 
             foreach (var task in _quest.tasks)
             {
-                var taskComponent = new TaskGuiComponent(task);
+                var taskComponent = new TaskGuiComponent(task, this);
                 _taskComponents.Add(taskComponent);
             }
             foreach (var condition in _quest.conditions)
             {
-                var conditionComponent = new ConditionGuiComponent(condition);
+                var conditionComponent = new ConditionGuiComponent(condition, this);
                 _conditionComponents.Add(conditionComponent);
             }
+            foreach (var rewardProvider in _quest.rewardProviders)
+            {
+                var rewardProviderComponent = new RewardProviderGuiComponent(rewardProvider, this);
+                _rewardProviderComponents.Add(rewardProviderComponent);
+            }            
         }
 
         private void QuestListPanel()
@@ -189,10 +222,11 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
             EditorGUILayout.BeginVertical();
 
             if (_quest != null)
-            {;
+            {
                 DrawGuiComponents(new QuestGuiComponent[] { _questComponent });
                 DrawGuiComponents(_taskComponents.ToArray());
                 DrawGuiComponents(_conditionComponents.ToArray());
+                DrawGuiComponents(_rewardProviderComponents.ToArray());
                 if (!_conditionComponents.Any() && !_taskComponents.Any())
                 {
                     EditorGUILayout.LabelField("Right click to add elements");

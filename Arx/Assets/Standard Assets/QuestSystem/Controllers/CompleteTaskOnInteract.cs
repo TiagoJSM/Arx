@@ -30,6 +30,10 @@ namespace Assets.Standard_Assets.QuestSystem.Controllers
             var questLog = interactor.GetComponent<QuestLogComponent>();
             var quest = questLog.GetQuest(_taskSelector.Quest.questId);
             var task = quest.GetTask<SettableTask>(_taskSelector.TaskName);
+            if (task.Complete)
+            {
+                return;
+            }
             task.SetComplete();
         }
     }

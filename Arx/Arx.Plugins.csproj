@@ -326,6 +326,7 @@
     <Compile Include="Assets\Standard Assets\QuestSystem\Conditions\OnEnemyKilledCondition.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\CompleteTaskOnInteract.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\QuestGiverController.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\QuestRewarderController.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\ToggleOnTaskActive.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\EditorProperties\TaskSelector.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Events.cs" />
@@ -335,6 +336,8 @@
     <Compile Include="Assets\Standard Assets\QuestSystem\QuestStructures\QuestLog.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\QuestStructures\QuestLogComponent.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\QuestStructures\QuestStatus.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\RewardProviders\IRewardProvider.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\RewardProviders\QuestRewardProvider.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\BaseTask.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\ITask.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\SettableTask.cs" />

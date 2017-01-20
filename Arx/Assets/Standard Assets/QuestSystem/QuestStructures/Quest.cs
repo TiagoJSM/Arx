@@ -6,12 +6,16 @@ using CommonInterfaces.Inventory;
 using GenericComponents.Behaviours;
 using Assets.Standard_Assets.QuestSystem.Conditions;
 using Assets.Standard_Assets.QuestSystem.Tasks;
+using Assets.Standard_Assets.QuestSystem.RewardProviders;
 
 namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 {
     [Serializable]
 	public class Quest : SerializedScriptableObject, IEquatable<Quest>
 	{
+        [SerializeField]
+        private bool _autocomplete;
+
         public bool Active { get; set; }
 
         [HideInInspector]
@@ -21,6 +25,7 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 		public string description;
         public List<ICondition> conditions;
         public List<ITask> tasks;
+        public List<IRewardProvider> rewardProviders;
 
         public QuestStatus QuestStatus 
         {
@@ -42,6 +47,7 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
         {
             conditions = new List<ICondition>();
             tasks = new List<ITask>();
+            rewardProviders = new List<IRewardProvider>();
         }
 
         public TTask GetTask<TTask>(string name = null) where TTask : ITask
@@ -58,29 +64,10 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
                     .OfType<TTask>();
         }
 
-        /*public void Killed(GameObject obj)
-		{
-			foreach (var condition in GetIncompleteConditions()) 
-			{
-				condition.Killed (obj);
-			}
-		}
+        public void GiveReward()
+        {
 
-		public void InventoryItemAdded(IInventoryItem item)
-		{
-			foreach (var condition in GetIncompleteConditions()) 
-			{
-				condition.InventoryItemAdded (item);
-			}
-		}
-
-        public void InventoryItemRemoved(IInventoryItem item)
-		{
-			foreach (var condition in GetIncompleteConditions()) 
-			{
-                condition.InventoryItemRemoved(item);
-			}
-		}*/
+        }
 
         private IEnumerable<ICondition> GetIncompleteConditions()
 		{

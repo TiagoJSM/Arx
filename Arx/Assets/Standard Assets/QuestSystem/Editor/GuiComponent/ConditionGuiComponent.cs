@@ -1,4 +1,5 @@
 ﻿using Assets.Standard_Assets.QuestSystem.Conditions;
+using Assets.Standard_Assets.QuestSystem.QuestStructures;
 using Assets.Standard_Assets.Utility.Editor;
 using CommonEditors.GuiComponents.GuiComponents.CustomEditors;
 using CommonEditors.GuiComponents.GuiComponents.GuiComponents;
@@ -15,12 +16,14 @@ namespace Assets.Standard_Assets.QuestSystem.Editor.GuiComponent
     {
         private const string FoldoutTextTemplate = "Condition - {0}";
         private bool _showCondition = true;
+        private QuestEditor _questEditor;
 
         public ICondition Condition { get; private set; }
 
-        public ConditionGuiComponent(ICondition condition)
+        public ConditionGuiComponent(ICondition condition, QuestEditor questEditor)
         {
             Condition = condition;
+            _questEditor = questEditor;
         }
 
         public override void OnGui()
@@ -34,6 +37,10 @@ namespace Assets.Standard_Assets.QuestSystem.Editor.GuiComponent
                 ExposeFields.Expose(fields);
             }
             EditorGUI.indentLevel = currentIdentLevel;
+            if (GUILayout.Button("Remove"))
+            {
+                _questEditor.RemoveCondition(this);
+            }
         }
     }
 }

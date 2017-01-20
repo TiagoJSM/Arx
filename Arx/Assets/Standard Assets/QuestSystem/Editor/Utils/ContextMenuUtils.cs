@@ -1,4 +1,5 @@
 ﻿using Assets.Standard_Assets.QuestSystem.Conditions;
+using Assets.Standard_Assets.QuestSystem.RewardProviders;
 using Assets.Standard_Assets.QuestSystem.Tasks;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,17 @@ namespace Assets.Standard_Assets.QuestSystem.Editor.Utils
     {
         private const string AddConditionTemplate = "Add condition/{0}";
         private const string AddTaskTemplate = "Add task/{0}";
+        private const string AddRewardProviderTemplate = "Add reward provider/{0}";
 
         public static GenericMenu GetcontextMenuForQuestEditor(GenericMenu.MenuFunction2 menuFunc)
         {
             var menu = new GenericMenu();
             var tasks = IntrospectionUtils.GetAllCompatibleTypes<ITask>();
-            AddSubMenuItems(menu, tasks, AddConditionTemplate, menuFunc);
+            AddSubMenuItems(menu, tasks, AddTaskTemplate, menuFunc);
             var conditions = IntrospectionUtils.GetAllCompatibleTypes<ICondition>();
             AddSubMenuItems(menu, conditions, AddConditionTemplate, menuFunc);
+            var rewardProvider = IntrospectionUtils.GetAllCompatibleTypes<IRewardProvider>();
+            AddSubMenuItems(menu, rewardProvider, AddRewardProviderTemplate, menuFunc);
             return menu;
         }
 
