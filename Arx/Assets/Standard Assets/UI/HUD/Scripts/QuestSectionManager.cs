@@ -40,6 +40,8 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
                 return;
             }
 
+            RemoveCurrentSelectedQuest();
+
             this.gameObject.SetActive(true);
             _title.text = _activeQuest.questName;
             var tasks = _activeQuest.tasks;
@@ -49,6 +51,11 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
                 prefab.Task = tasks[idx];
                 prefab.transform.parent = _taskList.transform;
             }
+        }
+
+        private void RemoveCurrentSelectedQuest()
+        {
+            _taskList.transform.DetachChildren();
         }
     }
 }

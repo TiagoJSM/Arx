@@ -35,10 +35,10 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
             for(var idx = 0; idx < transform.childCount; idx++)
             {
                 var child = transform.GetChild(idx);
-                child.transform.parent = null;
                 var itemManager = child.GetComponent<QuestItemManager>();
                 itemManager.OnQuestSelected -= OnQuestSelectedHandler;
             }
+            transform.DetachChildren();
         }
 
         private void OnQuestSelectedHandler(Quest quest)
