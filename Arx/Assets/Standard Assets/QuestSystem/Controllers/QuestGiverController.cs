@@ -61,7 +61,8 @@ namespace Assets.Standard_Assets.QuestSystem.Controllers
                 _interactible.Dialog = _questExplanationDialog;
                 return;
             }
-            if (subscriberQuest.QuestStatus == QuestStatus.Active)
+            var tasksComplete = subscriberQuest.AllTasksComplete;
+            if (subscriberQuest.QuestStatus == QuestStatus.Active && !tasksComplete)
             {
                 _interactible.Dialog = _duringQuestDialog;
                 return;

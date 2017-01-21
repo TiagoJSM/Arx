@@ -30,17 +30,17 @@ namespace ArxGame.Components.Weapons
         public override void LightAttack(int comboCount, IEnumerable<ICharacter> targets, GameObject attacker)
         {
             var damage = GetLightAttackDamage(comboCount);
-            DealDamage(damage, targets, attacker);
+            DealDamage(damage, targets, attacker, DamageType.Sword, AttackTypeDetail.GroundLight, comboCount);
         }
 
-        public override void StrongAttack(IEnumerable<ICharacter> targets, GameObject attacker)
+        public override void StrongAttack(int comboCount, IEnumerable<ICharacter> targets, GameObject attacker)
         {
-            DealDamage(_strongComboDamage, targets, attacker);
+            DealDamage(_strongComboDamage, targets, attacker, DamageType.Sword, AttackTypeDetail.GroundStrong, comboCount);
         }
 
         public override void DiveAttack(IEnumerable<ICharacter> targets, GameObject attacker)
         {
-            DealDamage(_diveDamage, targets, attacker);
+            DealDamage(_diveDamage, targets, attacker, DamageType.Sword, AttackTypeDetail.AirStrong);
         }
 
         private int GetLightAttackDamage(int comboCount)

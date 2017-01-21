@@ -47,7 +47,13 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
-        public virtual float Attacked(GameObject attacker, int damage, Vector3? hitPoint)
+        public virtual float Attacked(
+            GameObject attacker, 
+            int damage, 
+            Vector3? hitPoint,
+            DamageType damageType,
+            AttackTypeDetail attackType = AttackTypeDetail.Generic,
+            int comboNumber = 1)
         {
             _status.Damage(damage);
             if (_status.HealthDepleted)

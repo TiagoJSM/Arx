@@ -54,7 +54,7 @@ namespace ArxGame.Components.Weapons
                 return;
             }
             _attackedEnemies.Add(enemy);
-            enemy.Attacked(Owner, 10, null);
+            enemy.Attacked(Owner, 10, null, DamageType.Sword, AttackTypeDetail.Generic);
         }
 
         private void StartAttack()

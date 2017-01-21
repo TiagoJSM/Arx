@@ -55,7 +55,7 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
         }
         else if (ComboType == AttackType.Secundary)
         {
-            Weapon.StrongAttack(enemiesInRange, this.gameObject);
+            Weapon.StrongAttack(ComboNumber, enemiesInRange, this.gameObject);
         }
     }
 

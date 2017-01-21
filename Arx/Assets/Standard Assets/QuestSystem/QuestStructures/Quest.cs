@@ -15,8 +15,9 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 	{
         [SerializeField]
         private bool _autocomplete;
-
-        public bool Active { get; set; }
+        [SerializeField]
+        [HideInInspector]
+        private QuestStatus _questStatus;
 
         [HideInInspector]
         public string questId;
@@ -31,15 +32,19 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
         {
             get
             {
-                if (!Active)
-                {
-                    return QuestStatus.Inactive;
-                }
-                if (tasks.All(c => c.Complete))
-                {
-                    return QuestStatus.Complete;
-                }
-                return QuestStatus.Active;
+                return _questStatus;
+            }
+            private set
+            {
+                _questStatus = value;
+            }
+        }
+
+        public bool AllTasksComplete
+        {
+            get
+            {
+                return tasks.All(c => c.Complete);
             }
         }
 
@@ -48,6 +53,13 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
             conditions = new List<ICondition>();
             tasks = new List<ITask>();
             rewardProviders = new List<IRewardProvider>();
+        }
+
+        public ITask GetTask(string name = null)
+        {
+            return
+                GetTasks<ITask>()
+                    .Where(task => name == null || task.TaskName == name).FirstOrDefault();
         }
 
         public TTask GetTask<TTask>(string name = null) where TTask : ITask
@@ -64,9 +76,31 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
                     .OfType<TTask>();
         }
 
-        public void GiveReward()
+        public void Activate()
         {
+            QuestStatus = QuestStatus.Active;
+        }
 
+        public void Complete()
+        {
+            QuestStatus = QuestStatus.Complete;
+            GiveReward();
+        }
+
+        private void Awake()
+        {
+            for(var idx = 0; idx < tasks.Count; idx++)
+            {
+                tasks[idx].OnTaskComplete += OnTaskCompleteHandler;
+            }
+        }
+
+        private void GiveReward()
+        {
+            for(var idx = 0; idx < rewardProviders.Count; idx++)
+            {
+                rewardProviders[idx].GiveReward();
+            }
         }
 
         private IEnumerable<ICondition> GetIncompleteConditions()
@@ -87,6 +121,14 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
         public bool Equals(Quest other)
         {
             return this.questId.Equals(other.questId);
+        }
+
+        private void OnTaskCompleteHandler(ITask task)
+        {
+            if (_autocomplete && AllTasksComplete)
+            {
+                Complete();
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Extensions;
+﻿using CommonInterfaces.Controllers;
+using Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,11 +32,11 @@ namespace Assets.Standard_Assets._2D.Scripts.Hazards
 
             if(_safeSpot != null)
             {
-                controller.Hit(gameObject, _safeSpot.position, _damage);
+                controller.Hit(gameObject, _safeSpot.position, _damage, DamageType.Environment);
             }
             else
             {
-                controller.Attacked(gameObject, _damage, transform.position);
+                controller.Attacked(gameObject, _damage, transform.position, DamageType.Environment);
             }
         }
     }

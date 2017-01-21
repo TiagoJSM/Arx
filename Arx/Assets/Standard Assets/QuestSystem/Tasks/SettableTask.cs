@@ -23,9 +23,15 @@ namespace Assets.Standard_Assets.QuestSystem.Tasks
             }
         }
 
+        public override event OnTaskComplete OnTaskComplete;
+
         public void SetComplete()
         {
             _complete = true;
+            if(OnTaskComplete != null)
+            {
+                OnTaskComplete(this);
+            }
         }
     }
 }

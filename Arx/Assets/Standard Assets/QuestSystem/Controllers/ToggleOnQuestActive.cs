@@ -1,6 +1,4 @@
-﻿using Assets.Standard_Assets.QuestSystem.Attributes;
-using Assets.Standard_Assets.QuestSystem.EditorProperties;
-using Assets.Standard_Assets.QuestSystem.QuestStructures;
+﻿using Assets.Standard_Assets.QuestSystem.QuestStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets.QuestSystem.Controllers
 {
-    public class ToggleOnTaskActive : MonoBehaviour
+    public class ToggleOnQuestActive : MonoBehaviour
     {
         private QuestLogComponent _questLog;
 
@@ -17,9 +15,8 @@ namespace Assets.Standard_Assets.QuestSystem.Controllers
         private bool activate;
         [SerializeField]
         private GameObject _target;
-        [TaskSelector]
         [SerializeField]
-        private TaskSelector _taskSelector;
+        private Quest _quest;
 
         private void Awake()
         {
@@ -29,9 +26,8 @@ namespace Assets.Standard_Assets.QuestSystem.Controllers
 
         private void CheckQuestStatus()
         {
-            var quest = _questLog.GetQuest(_taskSelector.Quest.questId);
-            var task = quest.GetTask(_taskSelector.TaskName);
-            if (task.Complete)
+            var quest = _questLog.GetQuest(_quest.questId);
+            if (quest.QuestStatus == QuestStatus.Active)
             {
                 gameObject.SetActive(activate);
             }

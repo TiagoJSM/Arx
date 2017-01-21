@@ -33,7 +33,7 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
         public void GiveQuest(Quest quest)
         {
             quest = _instanciatedQuests.GetQuest(quest.questId);
-            quest.Active = true;
+            quest.Activate();
         }
 
         public Quest[] GetQuests()
@@ -49,7 +49,6 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
         private void Start()
         {
             var subscriber = this.gameObject.GetComponent<IQuestSubscriber>();
-            //_questLog = new QuestLog(subscriber);
         }
     }
 }

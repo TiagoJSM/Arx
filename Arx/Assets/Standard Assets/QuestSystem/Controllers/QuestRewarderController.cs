@@ -17,13 +17,17 @@ namespace Assets.Standard_Assets.QuestSystem.Controllers
 
         private void Awake()
         {
+            _interactible = GetComponent<InteractibleCharacterController>();
             _interactible.OnInteractionComplete += GiveReward;
         }
 
         private void GiveReward(GameObject interactor)
         {
             var quest = interactor.GetComponent<QuestLogComponent>().GetQuest(_quest.questId);
-            quest.GiveReward();
+            if (quest.AllTasksComplete)
+            {
+                quest.Complete();
+            }
         }
     }
 }

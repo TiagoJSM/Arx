@@ -118,11 +118,27 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
             }
             else if (typeof(IRewardProvider).IsAssignableFrom(type))
             {
-                var provider = Activator.CreateInstance(type) as IRewardProvider;
-                _quest.rewardProviders.Add(provider);
-                var rewardProviderComponent = new RewardProviderGuiComponent(provider, this);
-                _rewardProviderComponents.Add(rewardProviderComponent);
+                HandleAddRewardProvider(type);
             }
+        }
+
+        private void HandleAddRewardProvider(Type providerType)
+        {
+            IRewardProvider provider;
+            if (typeof(ScriptableObject).IsAssignableFrom(providerType))
+            {
+                provider = ScriptableObject.CreateInstance(providerType) as IRewardProvider;
+                var path = AssetDatabase.GetAssetPath(_quest);
+                AssetDatabase.AddObjectToAsset(provider as ScriptableObject, path);
+            }
+            else
+            {
+                provider = Activator.CreateInstance(providerType) as IRewardProvider;
+            }
+            
+            _quest.rewardProviders.Add(provider);
+            var rewardProviderComponent = new RewardProviderGuiComponent(provider, this);
+            _rewardProviderComponents.Add(rewardProviderComponent);
         }
 
         private void OnNewHandler()

@@ -6,6 +6,24 @@ using UnityEngine;
 
 namespace CommonInterfaces.Controllers
 {
+    public enum DamageType
+    {
+        Sword,
+        Fist,
+        Shoot,
+        ChainedProjectile,
+        BodyAttack,
+        Environment
+    }
+
+    public enum AttackTypeDetail
+    {
+        Generic,
+        GroundLight,
+        GroundStrong,
+        AirStrong
+    }
+
     public interface ICharacter
     {
         bool CanBeAttacked { get; }
@@ -14,7 +32,13 @@ namespace CommonInterfaces.Controllers
         int LifePoints { get; }
         GameObject CharacterGameObject { get; }
 
-        float Attacked(GameObject attacker, int damage, Vector3? hitPoint);
+        float Attacked(
+            GameObject attacker, 
+            int damage, 
+            Vector3? hitPoint, 
+            DamageType damageType,
+            AttackTypeDetail attackType = AttackTypeDetail.Generic,
+            int comboNumber = 1);
         bool StartGrappled(GameObject grapple);
         void EndGrappled();
         void Kill();

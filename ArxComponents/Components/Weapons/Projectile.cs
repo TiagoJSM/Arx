@@ -50,7 +50,7 @@ namespace ArxGame.Components.Weapons
             {
                 return;
             }
-            character.Attacked(Attacker, Damage, this.transform.position);
+            character.Attacked(Attacker, Damage, this.transform.position, DamageType.Shoot);
             Destroy(this.gameObject);
         }
     }

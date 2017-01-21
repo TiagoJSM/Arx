@@ -444,10 +444,10 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _moveInParabolaCoroutine = null;
     }
 
-    public void Hit(GameObject cause, Vector3 safeSpot, int damage)
+    public void Hit(GameObject cause, Vector3 safeSpot, int damage, DamageType damageType)
     {
         _safeSpot = safeSpot;
-        base.Attacked(cause, damage, null);
+        base.Attacked(cause, damage, null, damageType);
     }
 
     public void LaunchCharacter(bool up = true)
@@ -469,9 +469,15 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         VelocityMultiplier = Vector2.one;
     }
 
-    public override float Attacked(GameObject attacker, int damage, Vector3? hitPoint)
+    public override float Attacked(
+        GameObject attacker, 
+        int damage, 
+        Vector3? hitPoint,
+        DamageType damageType,
+        AttackTypeDetail attackType = AttackTypeDetail.Generic,
+        int comboNumber = 1)
     {
-        var damageTaken = base.Attacked(attacker, damage, hitPoint);
+        var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType, comboNumber);
         if(damageTaken > 0)
         {
             AttackedThisFrame = true;
