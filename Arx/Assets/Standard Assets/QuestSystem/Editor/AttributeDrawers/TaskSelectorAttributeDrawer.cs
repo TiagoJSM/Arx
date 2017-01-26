@@ -14,15 +14,20 @@ namespace Assets.Standard_Assets.QuestSystem.Editor.AttributeDrawers
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUIUtility.singleLineHeight * 2;
+            return EditorGUIUtility.singleLineHeight * 3;
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            
             var questProperty = property.FindPropertyRelative("_quest");
             var taskNameProperty = property.FindPropertyRelative("_taskName");
 
             var editorPosition = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+            EditorGUI.LabelField(editorPosition, property.displayName);
+
+            EditorGUI.indentLevel++;
+            editorPosition.y += EditorGUIUtility.singleLineHeight;
             EditorGUI.PropertyField(editorPosition, questProperty);
 
             var quest = questProperty.objectReferenceValue as Quest;

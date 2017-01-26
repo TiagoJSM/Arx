@@ -9,6 +9,9 @@ namespace GenericComponents.Behaviours
 {
     public class CharacterStatus : MonoBehaviour
     {
+        [SerializeField]
+        private bool _immortal;
+
         public Health health;
 
         public bool HealthDepleted
@@ -21,6 +24,10 @@ namespace GenericComponents.Behaviours
 
         public void Damage(int damagePoints)
         {
+            if (_immortal)
+            {
+                return;
+            }
             health.lifePoints -= damagePoints;
         }
 
