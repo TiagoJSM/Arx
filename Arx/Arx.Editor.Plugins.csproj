@@ -197,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Editor\SpeakersAttributeDrawer.cs" />
+    <Compile Include="Assets\Standard Assets\Common\Editor\AttributeDrawers\SelectedSceneAttributeDrawer.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\DialogEditorWindow.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\DialogViewState.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\GoogleConnect\GoogleApi.cs" />

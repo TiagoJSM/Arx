@@ -135,7 +135,7 @@ public class LedgeChecker : MonoBehaviour
             new Vector2(_detectionBoxP1.position.x + LedgeDetectorWidth / 2, _detectionBoxP1.position.y + LedgeDetectorHeight / 2),
             new Vector2(LedgeDetectorWidth, LedgeDetectorHeight));
 
-        Gizmos.color = Color.green;
+        Gizmos.color = Color.blue;
         //var height = _detectionBoxP2.position.y - freeSpaceLowerBound.y;
         Gizmos.DrawWireCube(
             new Vector2(FreeSpaceLowerBound.x + FreeSpaceWidth / 2, FreeSpaceLowerBound.y + FreeSpaceHeight / 2),

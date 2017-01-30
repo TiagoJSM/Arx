@@ -80,7 +80,7 @@ namespace MathHelper.Extensions
         public static float ReduceToSingleTurn(this float degrees)
         {
             var turns = (int)(degrees / FloatUtils.FullDegreeTurn);
-            
+
             if(degrees < 0)
             {
                 turns = -turns;

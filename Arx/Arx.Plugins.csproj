@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\2D\Cameras\Scripts\Camera2DAhead.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Platforms\Hinge Platform\Scripts\HingePlatformController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Prefabs\Items\Weapons\GrappleShooter.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\AirSlashCombatStateBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\AttackFinishBehaviour.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Spawners\SingleCharacterSpawn.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\BaseTeleportToPosition.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\ITeleporter.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\TeleportToLevel.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\TeleportToPositionOnTrigger.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\TeleportToPositionOnUse.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\TriggerDetector.cs" />
@@ -241,6 +243,8 @@
     <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\AICharacterControl.cs" />
     <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonCharacter.cs" />
     <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonUserControl.cs" />
+    <Compile Include="Assets\Standard Assets\Common\Attributes\SceneFieldAttribute.cs" />
+    <Compile Include="Assets\Standard Assets\Common\SceneField.cs" />
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\AxisTouchButton.cs" />
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\ButtonHandler.cs" />
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\CrossPlatformInputManager.cs" />
@@ -328,6 +332,7 @@
     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\CompleteTaskOnInteract.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\QuestGiverController.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\QuestRewarderController.cs" />
+    <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\SetStateOnQuestStatus.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\ToggleOnQuestActive.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\ToggleOnTaskActive.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\EditorProperties\TaskSelector.cs" />

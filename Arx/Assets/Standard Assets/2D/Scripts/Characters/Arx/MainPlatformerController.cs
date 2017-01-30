@@ -563,7 +563,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     private void OnTriggerExitEventHandler(Collider2D collider)
     {
-        if(_rope != null && _rope.gameObject == collider.gameObject)
+        if (_rope != null && _rope.gameObject == collider.gameObject)
         {
             _rope = null;
         }
