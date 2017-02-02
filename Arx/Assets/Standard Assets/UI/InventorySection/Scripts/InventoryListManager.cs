@@ -1,5 +1,5 @@
-﻿using CommonInterfaces.Inventory;
-using InventorySystem.InventoryObjects;
+﻿using Assets.Standard_Assets.InventorySystem.InventoryObjects;
+using CommonInterfaces.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ArxGame.UI
+namespace Assets.Standard_Assets.UI.InventorySection.Scripts
 {
     public class InventoryListManager : MonoBehaviour
     {
@@ -32,7 +32,7 @@ namespace ArxGame.UI
         private void OnClickHandler(IInventoryItem item)
         {
             var inventoryItem = item as InventoryItem;
-            if(inventoryItem == null)
+            if (inventoryItem == null)
             {
                 return;
             }

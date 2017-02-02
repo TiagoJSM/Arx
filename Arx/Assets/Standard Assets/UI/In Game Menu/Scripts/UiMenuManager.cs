@@ -1,7 +1,7 @@
-﻿using ArxGame.UI;
+﻿using Assets.Standard_Assets.InventorySystem;
 using Assets.Standard_Assets.QuestSystem.QuestStructures;
+using Assets.Standard_Assets.UI.InventorySection.Scripts;
 using Assets.Standard_Assets.UI.Quest_Section.Scripts;
-using InventorySystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;

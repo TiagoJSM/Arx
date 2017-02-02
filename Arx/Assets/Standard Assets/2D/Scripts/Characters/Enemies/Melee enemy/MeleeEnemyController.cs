@@ -5,8 +5,8 @@ using ArxGame.Components;
 using GenericComponents.StateMachine;
 using System;
 using ArxGame.Components.Weapons;
-using CommonInterfaces.Controllers;
 using System.Collections.Generic;
+using Assets.Standard_Assets._2D.Scripts.Characters.Enemies;
 
 public class MeleeEnemyControllerStateManager : StateManager<ICharacter, StateAction>
 {

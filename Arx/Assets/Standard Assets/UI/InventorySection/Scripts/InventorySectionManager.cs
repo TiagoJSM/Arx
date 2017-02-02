@@ -1,13 +1,12 @@
-﻿using CommonInterfaces.Inventory;
-using InventorySystem;
-using InventorySystem.InventoryObjects;
+﻿using Assets.Standard_Assets.InventorySystem;
+using CommonInterfaces.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace ArxGame.UI
+namespace Assets.Standard_Assets.UI.InventorySection.Scripts
 {
     public class InventorySectionManager : MonoBehaviour, IItemOwner
     {

@@ -1,5 +1,5 @@
-﻿using CommonInterfaces.Inventory;
-using InventorySystem.InventoryObjects;
+﻿using Assets.Standard_Assets.InventorySystem.InventoryObjects;
+using CommonInterfaces.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace ArxGame.UI
+namespace Assets.Standard_Assets.UI.InventorySection.Scripts
 {
     public class InventoryItemManager : MonoBehaviour, IPointerClickHandler
     {
@@ -30,7 +30,7 @@ namespace ArxGame.UI
         {
             if (eventData.clickCount == 1)
             {
-                if(OnClick != null)
+                if (OnClick != null)
                 {
                     OnClick(InventoryItems.Item);
                 }

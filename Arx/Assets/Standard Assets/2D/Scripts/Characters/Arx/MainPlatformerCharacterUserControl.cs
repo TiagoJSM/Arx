@@ -1,9 +1,6 @@
 ﻿using ArxGame.Components;
-using ArxGame.UI;
 using CommonInterfaces.Controllers;
 using CommonInterfaces.Inventory;
-using InventorySystem;
-using InventorySystem.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +14,8 @@ using Assets.Standard_Assets.QuestSystem.QuestStructures;
 using Assets.Standard_Assets.QuestSystem;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
 using Assets.Standard_Assets.UI.HUD.Scripts;
+using Assets.Standard_Assets.InventorySystem.Controllers;
+using Assets.Standard_Assets.InventorySystem;
 
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(ItemFinderController))]

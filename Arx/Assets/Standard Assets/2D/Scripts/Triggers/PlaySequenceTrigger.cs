@@ -1,14 +1,12 @@
-﻿using InventorySystem;
+﻿using AnimatorSequencer;
+using Assets.Standard_Assets.InventorySystem.Triggers;
+using CommonInterfaces.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UnityEngine;
-using CommonInterfaces.Inventory;
-using AnimatorSequencer;
-using InventorySystem.Triggers;
 
-namespace ArxGame.Triggers
+namespace Assets.Standard_Assets._2D.Scripts.Triggers
 {
     public class PlaySequenceTrigger : ItemUseTrigger
     {

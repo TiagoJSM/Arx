@@ -69,15 +69,15 @@
     <Compile Include="LevelManagers\DreamingBeyondImaginationManager.cs" />
     <Compile Include="LevelManagers\MainMenu\MainMenuManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Triggers\PlaySequenceTrigger.cs" />
-    <Compile Include="UI\InventoryItemManager.cs" />
-    <Compile Include="UI\InventoryListManager.cs" />
-    <Compile Include="UI\InventorySectionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnimatorSequencer\AnimatorSequencer.csproj">
       <Project>{5D0EC744-EA21-4B83-8576-CE7F86275DC8}</Project>
       <Name>AnimatorSequencer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Arx\Arx.Plugins.csproj">
+      <Project>{1ED791E0-EF06-576D-40DC-28E8874D619B}</Project>
+      <Name>Arx.Plugins</Name>
     </ProjectReference>
     <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">
       <Project>{70cd1f80-87f4-4a17-b701-de961bbc798c}</Project>
@@ -91,10 +91,6 @@
       <Project>{5ed6d708-beb5-4f23-9f44-f8a491a42f84}</Project>
       <Name>GenericComponents</Name>
     </ProjectReference>
-    <ProjectReference Include="..\InventorySystem\InventorySystem.csproj">
-      <Project>{c1f6d5b7-2f63-4183-94b1-d1fdefef9f4b}</Project>
-      <Name>InventorySystem</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MathHelper\MathHelper.csproj">
       <Project>{3703e408-e0fa-4d51-94c5-4caec5d609d8}</Project>
       <Name>MathHelper</Name>
@@ -106,6 +102,8 @@
     <Folder Include="Components\EnemyControllers\" />
     <Folder Include="Components\UserControls\" />
     <Folder Include="StateMachine\" />
+    <Folder Include="Triggers\" />
+    <Folder Include="UI\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

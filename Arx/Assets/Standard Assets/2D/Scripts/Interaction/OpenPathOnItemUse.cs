@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CommonInterfaces.Inventory;
-using InventorySystem.Triggers;
 using UnityEngine;
+using Assets.Standard_Assets.InventorySystem.Triggers;
 
 namespace Assets.Standard_Assets._2D.Scripts.Interaction
 {

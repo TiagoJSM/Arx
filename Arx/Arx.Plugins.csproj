@@ -52,9 +52,6 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -69,9 +66,6 @@
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Purchasing">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VR">
       <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
@@ -99,9 +93,6 @@
     </Reference>
     <Reference Include="GenericComponents">
       <HintPath>Assets\GenericComponents.dll</HintPath>
-    </Reference>
-    <Reference Include="InventorySystem">
-      <HintPath>Assets\InventorySystem.dll</HintPath>
     </Reference>
     <Reference Include="MathHelper">
       <HintPath>Assets\MathHelper.dll</HintPath>
@@ -215,9 +206,11 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\BaseTeleportToPosition.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\ITeleporter.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\TeleportToLevel.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\TeleportToLevelOnUse.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\TeleportToPositionOnTrigger.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\TeleportToPositionOnUse.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\TriggerDetector.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Triggers\PlaySequenceTrigger.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Waypoint.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\WaypointPath.cs" />
     <Compile Include="Assets\Standard Assets\Cameras\Scripts\AbstractTargetFollower.cs" />
@@ -312,6 +305,17 @@
     <Compile Include="Assets\Standard Assets\InputManagement\InputManager.cs" />
     <Compile Include="Assets\Standard Assets\InputManagement\KeyboardDevice.cs" />
     <Compile Include="Assets\Standard Assets\InputManagement\WindowsXboxGamepad.cs" />
+    <Compile Include="Assets\Standard Assets\InventorySystem\Controllers\ItemFinderController.cs" />
+    <Compile Include="Assets\Standard Assets\InventorySystem\Controllers\ItemUseFinderController.cs" />
+    <Compile Include="Assets\Standard Assets\InventorySystem\Events.cs" />
+    <Compile Include="Assets\Standard Assets\InventorySystem\Inventory.cs" />
+    <Compile Include="Assets\Standard Assets\InventorySystem\InventoryComponent.cs" />
+    <Compile Include="Assets\Standard Assets\InventorySystem\InventoryItemPickable.cs" />
+    <Compile Include="Assets\Standard Assets\InventorySystem\InventoryObjects\ExtendedInventoryItem.cs" />
+    <Compile Include="Assets\Standard Assets\InventorySystem\InventoryObjects\InventoryItem.cs" />
+    <Compile Include="Assets\Standard Assets\InventorySystem\InventoryObjects\InventoryItems.cs" />
+    <Compile Include="Assets\Standard Assets\InventorySystem\InventoryObjects\QuestInventoryItem.cs" />
+    <Compile Include="Assets\Standard Assets\InventorySystem\Triggers\ItemUseTrigger.cs" />
     <Compile Include="Assets\Standard Assets\JSON\JSONObject.cs" />
     <Compile Include="Assets\Standard Assets\JSON\JSONTemplates.cs" />
     <Compile Include="Assets\Standard Assets\JSON\VectorTemplates.cs" />
@@ -353,6 +357,9 @@
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\QuestSectionManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\TaskItemManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\In Game Menu\Scripts\UiMenuManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\InventorySection\Scripts\InventoryItemManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\InventorySection\Scripts\InventoryListManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\InventorySection\Scripts\InventorySectionManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\Quest Section\Scripts\QuestDescriptionManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\Quest Section\Scripts\QuestItemManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\Quest Section\Scripts\QuestListManager.cs" />
