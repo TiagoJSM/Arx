@@ -12,12 +12,13 @@ namespace Assets.Standard_Assets.InventorySystem.InventoryObjects
         [SerializeField]
         private string _name;
         [SerializeField]
+        [HideInInspector]
         private string _id;
 
         public bool canDiscard;
         public bool canStack;
         public int maximumStack;
-        [TextArea]
+        [TextArea(3, 20)]
         public string description;
         public bool removeOnUse;
 

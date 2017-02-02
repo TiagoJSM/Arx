@@ -22,7 +22,7 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
         [HideInInspector]
         public string questId;
 		public string questName;
-        [TextArea(3, 3)]
+        [TextArea(3, 20)]
 		public string description;
         public List<ICondition> conditions;
         public List<ITask> tasks;

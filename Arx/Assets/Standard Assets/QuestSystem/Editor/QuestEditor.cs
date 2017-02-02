@@ -27,6 +27,7 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
         private List<RewardProviderGuiComponent> _rewardProviderComponents;
         private Quest _selectedQuest = null;
         private Vector2 _scrollPosition;
+        private Vector2 _scrollQuestListPosition;
         private string _questSearch;
 
         private Quest _quest;
@@ -34,7 +35,8 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
         [MenuItem("Window/Quest Editor")]
         static void Init()
         {
-            EditorWindow.GetWindow<QuestEditor>();
+            var window = EditorWindow.GetWindow<QuestEditor>();
+            window.titleContent = new GUIContent("Quest Editor");
         }
 
         public QuestEditor()
@@ -71,7 +73,9 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
             EditorGUILayout.BeginHorizontal();
 
             QuestListPanel();
-            EditorGUILayout.Separator();
+            GUILayout.Box(
+                EditorGUIUtility.whiteTexture,
+                new GUILayoutOption[] { GUILayout.ExpandHeight(true), GUILayout.Width(1) });
             QuestForm();
 
             EditorGUILayout.EndHorizontal();
@@ -204,6 +208,7 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
             EditorGUILayout.LabelField("Quests");
             _questSearch = EditorGUILayout.TextField(_questSearch);
             EditorGUILayout.Separator();
+            _scrollQuestListPosition = GUILayout.BeginScrollView(_scrollQuestListPosition);
             var quests = GetQuests(_questSearch);
             var selected = _selectedQuest == null ? NO_SELECTED_QUEST : quests.IndexOf(_selectedQuest);
 
@@ -218,7 +223,8 @@ namespace Assets.Standard_Assets.QuestSystem.Editor
                 _selectedQuest = quests[newSelected];
                 LoadedQuestScreen(_selectedQuest);
             }
-            
+
+            GUILayout.EndScrollView();
             EditorGUILayout.EndVertical();
         }
 
