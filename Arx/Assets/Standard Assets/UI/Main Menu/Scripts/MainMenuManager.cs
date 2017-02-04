@@ -1,5 +1,5 @@
-﻿using ArxGame.GameSave;
-using GenericComponents.Managers;
+﻿using Assets.Standard_Assets._2D.Scripts.Game_State;
+using Assets.Standard_Assets._2D.Scripts.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ArxGame.LevelManagers.MainMenu
+namespace Assets.Standard_Assets.UI.Main_Menu.Scripts
 {
     public class MainMenuManager : MonoBehaviour
     {

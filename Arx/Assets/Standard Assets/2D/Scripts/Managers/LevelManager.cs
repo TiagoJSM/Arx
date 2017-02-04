@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GenericComponents.Managers
+namespace Assets.Standard_Assets._2D.Scripts.Managers
 {
     public class LevelManager : Singleton<LevelManager>
     {
@@ -34,13 +34,13 @@ namespace GenericComponents.Managers
                 return;
             }
             var gameObject = GameObject.Find(_location);
-            if(gameObject == null)
+            if (gameObject == null)
             {
                 Debug.LogError("Location was not found.");
                 return;
             }
             var players = GameObject.FindGameObjectsWithTag("Player");
-            for(var idx = 0; idx < players.Length; idx++)
+            for (var idx = 0; idx < players.Length; idx++)
             {
                 players[idx].transform.position = gameObject.transform.position;
             }

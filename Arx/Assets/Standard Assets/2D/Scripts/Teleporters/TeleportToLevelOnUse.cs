@@ -1,6 +1,6 @@
-﻿using Assets.Standard_Assets.Common;
+﻿using Assets.Standard_Assets._2D.Scripts.Managers;
+using Assets.Standard_Assets.Common;
 using Assets.Standard_Assets.Common.Attributes;
-using GenericComponents.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

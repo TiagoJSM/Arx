@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Environment\GrappleRope.cs" />
-    <Compile Include="Components\SequencePlatformerCharacterControl.cs" />
     <Compile Include="Components\TextAlphaMinimumValueTransition.cs" />
     <Compile Include="Components\Weapons\BaseCloseCombatWeapon.cs" />
     <Compile Include="Components\Weapons\BaseWeapon.cs" />
@@ -63,11 +62,6 @@
     <Compile Include="Components\Weapons\Projectile.cs" />
     <Compile Include="Components\Weapons\Shooter.cs" />
     <Compile Include="Components\Weapons\Sword.cs" />
-    <Compile Include="GameSave\ArxGameSaveHandler.cs" />
-    <Compile Include="GameSave\ArxSaveData.cs" />
-    <Compile Include="GameSave\DreamingBeyondImaginationSaveData.cs" />
-    <Compile Include="LevelManagers\DreamingBeyondImaginationManager.cs" />
-    <Compile Include="LevelManagers\MainMenu\MainMenuManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -96,15 +90,7 @@
       <Name>MathHelper</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Components\Ai\" />
-    <Folder Include="Components\AnimationControllers\" />
-    <Folder Include="Components\EnemyControllers\" />
-    <Folder Include="Components\UserControls\" />
-    <Folder Include="StateMachine\" />
-    <Folder Include="Triggers\" />
-    <Folder Include="UI\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"$(SolutionDir)..\copydlls.bat" "$(TargetDir)" "$(TargetName)" "Arx\Assets\"</PostBuildEvent>

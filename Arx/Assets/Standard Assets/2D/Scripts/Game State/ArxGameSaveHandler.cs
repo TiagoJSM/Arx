@@ -7,7 +7,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace ArxGame.GameSave
+namespace Assets.Standard_Assets._2D.Scripts.Game_State
 {
     public static class ArxGameSaveHandler
     {

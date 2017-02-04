@@ -1,11 +1,11 @@
-﻿using GenericComponents.Managers;
+﻿using Assets.Standard_Assets._2D.Scripts.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace GenericComponents.Factories
+namespace Assets.Standard_Assets._2D.Scripts.Spawners
 {
     public class PlayerSpawner : MonoBehaviour
     {

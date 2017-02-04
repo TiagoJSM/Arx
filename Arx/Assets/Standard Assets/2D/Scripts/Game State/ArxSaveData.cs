@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace ArxGame.GameSave
+namespace Assets.Standard_Assets._2D.Scripts.Game_State
 {
     [Serializable]
     public class Vec3
@@ -38,7 +38,7 @@ namespace ArxGame.GameSave
         {
             get
             {
-                if(playerPosition == null)
+                if (playerPosition == null)
                 {
                     return null;
                 }
@@ -46,7 +46,7 @@ namespace ArxGame.GameSave
             }
             set
             {
-                if(value == null)
+                if (value == null)
                 {
                     playerPosition = null;
                 }

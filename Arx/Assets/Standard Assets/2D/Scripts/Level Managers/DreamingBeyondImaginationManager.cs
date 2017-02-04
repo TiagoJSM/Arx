@@ -1,12 +1,12 @@
-﻿using ArxGame.GameSave;
-using GenericComponents.Managers;
+﻿using Assets.Standard_Assets._2D.Scripts.Game_State;
+using Assets.Standard_Assets._2D.Scripts.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace ArxGame.LevelManagers
+namespace Assets.Standard_Assets._2D.Scripts.Level_Managers
 {
     public class DreamingBeyondImaginationManager : MonoBehaviour
     {

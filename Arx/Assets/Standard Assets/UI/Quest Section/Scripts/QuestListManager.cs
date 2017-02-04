@@ -9,6 +9,7 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
 {
     public class QuestListManager : MonoBehaviour
     {
+        private Quest[] _quests;
         [SerializeField]
         private QuestItemManager _questItemPrefab;
         [SerializeField]
@@ -18,15 +19,28 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
 
         public void SetQuests(QuestLogComponent questLog)
         {
-            RemoveAllChildren();
-            var quests = questLog.GetQuests();
-            for(var idx = 0; idx < quests.Length; idx++)
+            _quests = questLog.GetQuests();
+        }
+
+        private void OnEnable()
+        {
+            if(_quests == null)
+            {
+                return;
+            }
+            var activeQuests = _quests.Where(quest => quest.QuestStatus != QuestStatus.Inactive).ToArray();
+            for (var idx = 0; idx < activeQuests.Length; idx++)
             {
                 var itemManager = Instantiate(_questItemPrefab);
                 itemManager.OnQuestSelected += OnQuestSelectedHandler;
-                itemManager.Quest = quests[idx];
+                itemManager.Quest = activeQuests[idx];
                 itemManager.transform.parent = _questListContent.transform;
             }
+        }
+
+        private void OnDisable()
+        {
+            RemoveAllChildren();
         }
 
         private void RemoveAllChildren()

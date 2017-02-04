@@ -7,7 +7,7 @@ using Extensions;
 using UnityEngine.SceneManagement;
 using Assets.Standard_Assets.Common.Attributes;
 using Assets.Standard_Assets.Common;
-using GenericComponents.Managers;
+using Assets.Standard_Assets._2D.Scripts.Managers;
 
 namespace Assets.Standard_Assets._2D.Scripts.Teleporters
 {

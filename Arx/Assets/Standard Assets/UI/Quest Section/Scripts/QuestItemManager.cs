@@ -15,6 +15,8 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
     {
         [SerializeField]
         private Text _text;
+        [SerializeField]
+        private Image _completion;
 
         private Quest _quest;
 
@@ -28,6 +30,7 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
             {
                 _quest = value;
                 _text.text = _quest.questName;
+                _completion.color = _quest.QuestStatus == QuestStatus.Complete ? Color.green : Color.red;
             }
         }
 
