@@ -1,4 +1,5 @@
-﻿using CommonInterfaces.Inventory;
+﻿using Assets.Standard_Assets.InventorySystem.InventoryObjects;
+using CommonInterfaces.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Assets.Standard_Assets.InventorySystem
         private IItemOwner _owner;
         public Inventory Inventory { get; private set; }
 
-        void Start()
+        private void Awake()
         {
             _owner = this.gameObject.GetComponent<IItemOwner>();
             Inventory = new Inventory(_owner);

@@ -34,7 +34,7 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
             {
                 return _questStatus;
             }
-            private set
+            set
             {
                 _questStatus = value;
             }

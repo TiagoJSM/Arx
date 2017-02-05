@@ -61,5 +61,15 @@ namespace Assets.Standard_Assets.InventorySystem
             }
             return true;
         }
+
+        public void SetItems(InventoryItems[] items)
+        {
+            _inventoryItems.Clear();
+            for(var idx = 0; idx < items.Length; idx++)
+            {
+                var descriptor = items[idx];
+                _inventoryItems.Add(descriptor.Item.Id, descriptor);
+            }
+        }
     }
 }

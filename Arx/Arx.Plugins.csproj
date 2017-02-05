@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.0f3</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -54,6 +52,9 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -68,6 +69,9 @@
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VR">
       <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
@@ -197,6 +201,9 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\ArxGameSaveHandler.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\ArxSaveData.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\DreamingBeyondImaginationSaveData.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\GameState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\ItemState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\QuestState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Hazards\DamageOnTouch.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Helpers\Physics2DHelpers.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\InteractionFinder.cs" />
@@ -206,6 +213,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ITriggerable2D.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Level Managers\DreamingBeyondImaginationManager.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\CheckpointManager.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\GameStateManager.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\LevelManager.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\Singleton.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Platformer2DUserControl.cs" />
@@ -312,6 +320,7 @@
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterBase.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterTile.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Assets\Standard Assets\Extensions\ObjectExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\Vector2Extensions.cs" />
     <Compile Include="Assets\Standard Assets\InputManagement\InputManager.cs" />
     <Compile Include="Assets\Standard Assets\InputManagement\KeyboardDevice.cs" />
@@ -538,7 +547,6 @@
     <None Include="Assets\Universal Sound FX\%23Game Genre References\Shoot em Up.txt" />
     <None Include="Assets\Universal Sound FX\%23version_history.txt" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>
