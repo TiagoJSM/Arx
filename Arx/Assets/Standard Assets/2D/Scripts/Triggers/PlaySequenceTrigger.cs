@@ -12,7 +12,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Triggers
     {
         public AnimationSequenceBehaviour animationSequence;
 
-        public override bool Use(IItemOwner owner, IInventoryItem item)
+        protected override bool DoUse(IItemOwner owner, IInventoryItem item)
         {
             animationSequence.Run();
             return true;

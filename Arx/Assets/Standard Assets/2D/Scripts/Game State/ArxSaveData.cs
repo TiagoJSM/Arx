@@ -23,6 +23,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Game_State
         {
             get
             {
+                if(_current == null)
+                {
+                    _current = new ArxSaveData();
+                }
                 return _current;
             }
             set
@@ -58,6 +62,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Game_State
                 };
             }
         }
+        public GameState GameState { get; set; }
 
         public DreamingBeyondImaginationSaveData DreamingBeyondImagination { get; set; }
 

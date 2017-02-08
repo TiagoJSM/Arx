@@ -69,6 +69,7 @@ namespace Assets.Standard_Assets.InventorySystem
             {
                 var descriptor = items[idx];
                 _inventoryItems.Add(descriptor.Item.Id, descriptor);
+                descriptor.Item.Owner = _owner;
             }
         }
     }

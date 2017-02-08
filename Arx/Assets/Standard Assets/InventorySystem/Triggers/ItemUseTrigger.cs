@@ -13,11 +13,20 @@ namespace Assets.Standard_Assets.InventorySystem.Triggers
         [SerializeField]
         private InventoryItem _usableItem;
 
-        public abstract bool Use(IItemOwner owner, IInventoryItem item);
+        public bool Use(IItemOwner owner, IInventoryItem item)
+        {
+            if (!ValidateUsage(owner, item))
+            {
+                return false;
+            }
+            return DoUse(owner, item);
+        }
 
         public bool ValidateUsage(IItemOwner owner, IInventoryItem item)
         {
             return item.Id == _usableItem.Id;
         }
+
+        protected abstract bool DoUse(IItemOwner owner, IInventoryItem item);
     }
 }

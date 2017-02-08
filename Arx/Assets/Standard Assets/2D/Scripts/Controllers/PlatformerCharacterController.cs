@@ -273,11 +273,30 @@ public class PlatformerCharacterController : BasePlatformerController
         Action onFinish)
     {
         var parabola = MathfUtils.GetParabola(start, end, other);
+        var startOtherXDistance = Math.Abs(start.x - other.x);
+        var startEndXDistance = Math.Abs(start.x - end.x);
+        var otherEndXDistance = Math.Abs(other.x - end.x);
 
-        var elapsed = 0f;
-        while(elapsed < timeInSeconds)
+        if (parabola.HasInvalidValue || startOtherXDistance < 1 || startEndXDistance < 1 || otherEndXDistance < 1)
         {
-            var position = MathfUtils.QuadraticInterpolation(start.x, end.x, parabola, elapsed / timeInSeconds);
+            yield return MoveLinear(start, end, timeInSeconds, onFinish);
+        }
+        else
+        {
+            yield return MoveInParabolaAux(start, end, parabola, timeInSeconds, onFinish);
+        }
+    }
+
+    protected IEnumerator MoveLinear(
+        Vector2 start,
+        Vector2 end,
+        float timeInSeconds,
+        Action onFinish)
+    {
+        var elapsed = 0f;
+        while (elapsed < timeInSeconds)
+        {
+            var position = Vector2.Lerp(start, end, elapsed / timeInSeconds);
             this.transform.position = new Vector3(position.x, position.y, this.transform.position.z);
             yield return null;
             elapsed += Time.deltaTime;
@@ -390,5 +409,23 @@ public class PlatformerCharacterController : BasePlatformerController
                 return;
             }
         }
+    }
+
+    private IEnumerator MoveInParabolaAux(
+        Vector2 start,
+        Vector2 end,
+        Parabola parabola,
+        float timeInSeconds,
+        Action onFinish)
+    {
+        var elapsed = 0f;
+        while (elapsed < timeInSeconds)
+        {
+            var position = MathfUtils.QuadraticInterpolation(start.x, end.x, parabola, elapsed / timeInSeconds);
+            this.transform.position = new Vector3(position.x, position.y, this.transform.position.z);
+            yield return null;
+            elapsed += Time.deltaTime;
+        }
+        onFinish();
     }
 }

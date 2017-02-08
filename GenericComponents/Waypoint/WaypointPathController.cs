@@ -64,7 +64,7 @@ namespace GenericComponents.Waypoint
         {
             if(_updateMode == UpdateMode.FixedUpdate)
             {
-                UpdateObject();
+                UpdateObject(Time.fixedDeltaTime);
             }
         }
 
@@ -72,11 +72,11 @@ namespace GenericComponents.Waypoint
         {
             if (_updateMode == UpdateMode.Update)
             {
-                UpdateObject();
+                UpdateObject(Time.deltaTime);
             }
         }
 
-        private void UpdateObject()
+        private void UpdateObject(float delta)
         {
             UpdateWaypointIndex();
             if (_pathIdx == 0 && _restartWhenFinish)
@@ -86,7 +86,7 @@ namespace GenericComponents.Waypoint
             }
             var waypoint = GetWaypoint();
             var normalized = (waypoint - transform.position.ToVector2()).normalized;
-            var position = transform.position.ToVector2() + normalized * velocity * Time.fixedDeltaTime;
+            var position = transform.position.ToVector2() + normalized * velocity * delta;
             transform.position = position - _overflow;
             _overflow = Vector2.zero;
 

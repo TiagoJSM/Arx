@@ -162,6 +162,7 @@ namespace _2DDynamicCamera
                 position.z = _cachedOffsetZ;
                 transform.position = position;
             }
+            _camera.orthographicSize = _defaultZoom;
         }
 
         private void FixedUpdate()

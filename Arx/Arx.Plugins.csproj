@@ -52,9 +52,6 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -69,9 +66,6 @@
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Purchasing">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VR">
       <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
@@ -206,6 +200,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\QuestState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Hazards\DamageOnTouch.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Helpers\Physics2DHelpers.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\CompleteTaskOnItemUse.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\InteractionFinder.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\OpenPathOnItemUse.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\PlayAnimatorTrigger.cs" />
@@ -310,6 +305,7 @@
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\SaveBoard\Scripts\SaveGameOnInteract.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Water (Basic)\Scripts\WaterBasic.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\Displace.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\GerstnerDisplace.cs" />

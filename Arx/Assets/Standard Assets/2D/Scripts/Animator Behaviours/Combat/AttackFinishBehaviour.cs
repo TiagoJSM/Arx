@@ -17,6 +17,10 @@ public class AttackFinishBehaviour : StateMachineBehaviour
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.OnStateExit(animator, stateInfo, layerIndex);
+        if (!_notified)
+        {
+            animator.gameObject.GetComponent<CloseCombatBehaviour>().NotifyAttackFinish();
+        }
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

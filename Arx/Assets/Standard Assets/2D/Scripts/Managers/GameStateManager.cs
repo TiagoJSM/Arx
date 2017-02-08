@@ -17,6 +17,20 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
 
         private GameState _state;
 
+        public GameState GameState
+        {
+            get
+            {
+                StoreGameState();
+                return _state.DeepClone();
+            }
+            set
+            {
+                AssignGameState();
+                _state = value.DeepClone();
+            }
+        }
+
         protected GameStateManager()
         {
         }
@@ -24,7 +38,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
         private void Awake()
         {
             var levelManager = LevelManager.Instance;
-            _state = new GameState();
+            if (_state == null)
+            {
+                _state = new GameState();
+            }
             levelManager.BeforeSceneLoad += StoreGameState;
             levelManager.OnSceneLoaded += AssignGameState;
         }

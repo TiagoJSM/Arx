@@ -11,6 +11,14 @@ namespace MathHelper
         public float a;
         public float b;
         public float c;
+
+        public bool HasInvalidValue
+        {
+            get
+            {
+                return float.IsNaN(a) || float.IsNaN(b) || float.IsNaN(c);
+            }
+        }
     }
 
     public static class MathfUtils

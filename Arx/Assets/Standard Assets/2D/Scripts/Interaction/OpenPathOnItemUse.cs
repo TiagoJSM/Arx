@@ -17,7 +17,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Interaction
         [SerializeField]
         private string _animationOnOpen = "Open";
 
-        public override bool Use(IItemOwner owner, IInventoryItem item)
+        protected override bool DoUse(IItemOwner owner, IInventoryItem item)
         {
             _collider.enabled = false;
 

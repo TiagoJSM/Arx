@@ -427,13 +427,15 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         ApplyMovementAndGravity = false;
         var y = Mathf.Max(_safeSpot.Value.y, this.transform.position.y) + 2;
         var x = (_safeSpot.Value.x + this.transform.position.x) / 2;
+        var distance = Vector2.Distance(this.transform.position, _safeSpot.Value);
+        var distancePerSeconds = 40; // ToDo: move to inspector variable
         _moveInParabolaCoroutine = 
             StartCoroutine(
                 MoveInParabola(
                     this.transform.position,
                     _safeSpot.Value,
                     new Vector2(x, y),
-                    1,
+                    distance / distancePerSeconds,
                     ArrivedToSafeSpot));
     }
 

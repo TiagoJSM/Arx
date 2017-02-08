@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Standard_Assets._2D.Scripts.Managers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,8 +32,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Game_State
 
         public static void Save()
         {
-            ArxSaveData.Current.LevelName = SceneManager.GetActiveScene().name;
-            SaveAux();
+            Save(SceneManager.GetActiveScene().name);
         }
 
         public static void Save(string levelName)
@@ -58,6 +58,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Game_State
             {
                 savedGames.Add(ArxSaveData.Current);
             }
+            ArxSaveData.Current.GameState = GameStateManager.Instance.GameState;
             var bf = new BinaryFormatter();
             var file = File.Create(SaveGamesDirectory + "/savedGames.gd");
             bf.Serialize(file, savedGames);
