@@ -1,4 +1,5 @@
 ﻿using Assets.Standard_Assets.QuestSystem.QuestStructures;
+using Assets.Standard_Assets.UI.HUD.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,10 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
         private Text _title;
         [SerializeField]
         private Text _description;
+        [SerializeField]
+        private GameObject _taskList;
+        [SerializeField]
+        private TaskItemManager _taskPrefab;
         [SerializeField]
         private Button _setActiveQuestButton;
 
@@ -42,6 +47,26 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
         {
             _title.text = quest.questName;
             _description.text = quest.description;
+
+            RemoveTasks();
+
+            var tasks = quest.tasks;
+            for (var idx = 0; idx < tasks.Count; idx++)
+            {
+                var taskManager = Instantiate(_taskPrefab);
+                taskManager.Task = tasks[idx];
+                taskManager.transform.SetParent(_taskList.transform, false);
+            }
+        }
+
+        private void RemoveTasks()
+        {
+            var taskItems = _taskList.GetComponents<TaskItemManager>();
+            for (var idx = 0; idx < taskItems.Length; idx++)
+            {
+                Destroy(taskItems[idx].gameObject);
+            }
+            _taskList.transform.DetachChildren();
         }
     }
 }

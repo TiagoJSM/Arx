@@ -24,7 +24,7 @@ namespace Assets.Standard_Assets.UI.InventorySection.Scripts
             InventoryComponent = inventoryComponent;
 
             var inventory = InventoryComponent.Inventory;
-
+            listManager.RemoveAllItems();
             //var inventory = new Inventory(this);
             //inventory.AddItem(new QuestInventoryItem()
             //{

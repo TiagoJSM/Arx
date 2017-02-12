@@ -1,4 +1,5 @@
 ﻿using Assets.Standard_Assets.InventorySystem.InventoryObjects;
+using Assets.Standard_Assets.UI.In_Game_Menu.InventorySection.Scripts;
 using CommonInterfaces.Inventory;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,19 @@ namespace Assets.Standard_Assets.UI.InventorySection.Scripts
 {
     public class InventoryListManager : MonoBehaviour
     {
+        [SerializeField]
+        private ItemDescriptionManager _itemDescription;
+
         public GameObject InventoryItemPrefab;
         public GameObject Content;
-        public Text description;
+
+        public InventoryItemManager[] InventoryItems
+        {
+            get
+            {
+                return Content.GetComponentsInChildren<InventoryItemManager>(true);
+            }
+        }
 
         public void Add(InventoryItems items)
         {
@@ -26,17 +37,27 @@ namespace Assets.Standard_Assets.UI.InventorySection.Scripts
                 return;
             }
             itemManager.InventoryItems = items;
-            itemManager.OnClick += OnClickHandler;
+            itemManager.OnPreviewItem += OnPreviewHandler;
         }
 
-        private void OnClickHandler(IInventoryItem item)
+        public void RemoveAllItems()
+        {
+            var items = Content.GetComponentsInChildren<InventoryItemManager>(true);
+            for (var idx = 0; idx < items.Length; idx++)
+            {
+                Destroy(items[idx].gameObject);
+            }
+            Content.transform.DetachChildren();
+        }
+
+        private void OnPreviewHandler(IInventoryItem item)
         {
             var inventoryItem = item as InventoryItem;
             if (inventoryItem == null)
             {
                 return;
             }
-            description.text = inventoryItem.description;
+            _itemDescription.Item = inventoryItem;
         }
     }
 }

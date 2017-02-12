@@ -7,11 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Assets.Standard_Assets.UI.In_Game_Menu.Scripts
 {
     public class UiMenuManager : MonoBehaviour
     {
+        [SerializeField]
+        private Toggle _startingToggle;
+        [SerializeField]
+        private EventSystem _eventSystem;
+
         private GameObject _currentSection;
         private InventorySectionManager _inventoryInstance;
         private QuestSection _questInstance;
@@ -29,6 +36,11 @@ namespace Assets.Standard_Assets.UI.In_Game_Menu.Scripts
             if (toggle)
             {
                 SetSection(_inventoryInstance.gameObject);
+                var items = _inventoryInstance.listManager.InventoryItems;
+                if (items.Any())
+                {
+                    _eventSystem.SetSelectedGameObject(items.First().gameObject);
+                }
             }
         }
 
@@ -37,6 +49,11 @@ namespace Assets.Standard_Assets.UI.In_Game_Menu.Scripts
             if (toggle)
             {
                 SetSection(_questInstance.gameObject);
+                var quests = _questInstance.QuestItems;
+                if (quests.Any())
+                {
+                    _eventSystem.SetSelectedGameObject(quests.First().gameObject);
+                }
             }
         }
 
@@ -48,13 +65,21 @@ namespace Assets.Standard_Assets.UI.In_Game_Menu.Scripts
             _inventoryInstance.transform.SetParent(this.transform, false);
             _questInstance.transform.SetParent(this.transform, false);
 
-            _inventoryInstance.Initialize(inventoryComponent);
-            _questInstance.Initialize(questLogComponent);
+            if (inventoryComponent != null)
+            {
+                _inventoryInstance.Initialize(inventoryComponent);
+            }
+            if (questLogComponent != null)
+            {
+                _questInstance.Initialize(questLogComponent);
+            }
 
             _inventoryInstance.gameObject.SetActive(false);
             _questInstance.gameObject.SetActive(false);
 
             _questInstance.OnSetActiveQuest += OnSetActiveQuestHandler;
+
+            _startingToggle.isOn = true;
         }
 
         private void SetSection(GameObject section)

@@ -49,12 +49,17 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
             {
                 var prefab = Instantiate(_taskPrefab);
                 prefab.Task = tasks[idx];
-                prefab.transform.parent = _taskList.transform;
+                prefab.transform.SetParent(_taskList.transform, false);
             }
         }
 
         private void RemoveCurrentSelectedQuest()
         {
+            var taskItems = _taskList.GetComponentsInChildren<TaskItemManager>(true);
+            for(var idx = 0; idx < taskItems.Length; idx++)
+            {
+                Destroy(taskItems[idx].gameObject);
+            }
             _taskList.transform.DetachChildren();
         }
     }

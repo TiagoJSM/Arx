@@ -16,6 +16,13 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
 
         public QuestLogComponent QuestLog { get; private set; }
         public Quest SelectedQuest { get { return _descriptionManager.Quest; } }
+        public QuestItemManager[] QuestItems
+        {
+            get
+            {
+                return _questListManager.QuestItems;
+            }
+        }
 
         public event OnQuestSelected OnSetActiveQuest;
 

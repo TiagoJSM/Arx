@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace Assets.Standard_Assets.UI.InventorySection.Scripts
 {
-    public class InventoryItemManager : MonoBehaviour, IPointerClickHandler
+    public class InventoryItemManager : MonoBehaviour, IPointerClickHandler, ISubmitHandler, ISelectHandler
     {
         public Text itemName;
         public Text itemCount;
@@ -18,7 +18,7 @@ namespace Assets.Standard_Assets.UI.InventorySection.Scripts
 
         public InventoryItems InventoryItems { get; set; }
 
-        public Action<IInventoryItem> OnClick;
+        public Action<IInventoryItem> OnPreviewItem;
 
         void Update()
         {
@@ -30,18 +30,38 @@ namespace Assets.Standard_Assets.UI.InventorySection.Scripts
         {
             if (eventData.clickCount == 1)
             {
-                if (OnClick != null)
-                {
-                    OnClick(InventoryItems.Item);
-                }
+                OnPreviewItemHandler();
             }
             if (eventData.clickCount == 2)
             {
-                var item = InventoryItems.Item as InventoryItem;
-                if (item != null)
-                {
-                    item.UseItem();
-                }
+                UseItem();
+            }
+        }
+
+        public void OnSubmit(BaseEventData eventData)
+        {
+            UseItem();
+        }
+
+        public void OnSelect(BaseEventData eventData)
+        {
+            OnPreviewItemHandler();
+        }
+
+        private void OnPreviewItemHandler()
+        {
+            if (OnPreviewItem != null)
+            {
+                OnPreviewItem(InventoryItems.Item);
+            }
+        }
+
+        private void UseItem()
+        {
+            var item = InventoryItems.Item as InventoryItem;
+            if (item != null)
+            {
+                item.UseItem();
             }
         }
     }

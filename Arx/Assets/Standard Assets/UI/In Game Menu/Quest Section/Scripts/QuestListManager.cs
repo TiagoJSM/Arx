@@ -15,6 +15,14 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
         [SerializeField]
         private GameObject _questListContent;
 
+        public QuestItemManager[] QuestItems
+        {
+            get
+            {
+                return _questListContent.GetComponents<QuestItemManager>();
+            }
+        }
+
         public event OnQuestSelected OnQuestSelected;
 
         public void SetQuests(QuestLogComponent questLog)
@@ -34,7 +42,7 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
                 var itemManager = Instantiate(_questItemPrefab);
                 itemManager.OnQuestSelected += OnQuestSelectedHandler;
                 itemManager.Quest = activeQuests[idx];
-                itemManager.transform.parent = _questListContent.transform;
+                itemManager.transform.SetParent(_questListContent.transform, false);
             }
         }
 
@@ -51,6 +59,7 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
                 var child = transform.GetChild(idx);
                 var itemManager = child.GetComponent<QuestItemManager>();
                 itemManager.OnQuestSelected -= OnQuestSelectedHandler;
+                Destroy(itemManager.gameObject);
             }
             transform.DetachChildren();
         }

@@ -11,7 +11,7 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
 {
     public delegate void OnQuestSelected(Quest quest);
 
-    public class QuestItemManager : MonoBehaviour, IPointerClickHandler
+    public class QuestItemManager : MonoBehaviour, IPointerClickHandler, ISelectHandler
     {
         [SerializeField]
         private Text _text;
@@ -38,10 +38,20 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if(OnQuestSelected != null)
+            OnSelected();
+        }
+
+        private void OnSelected()
+        {
+            if (OnQuestSelected != null)
             {
                 OnQuestSelected(Quest);
             }
+        }
+
+        public void OnSelect(BaseEventData eventData)
+        {
+            OnSelected();
         }
     }
 }
