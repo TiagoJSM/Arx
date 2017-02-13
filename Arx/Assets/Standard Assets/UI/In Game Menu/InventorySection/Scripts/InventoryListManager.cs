@@ -22,7 +22,7 @@ namespace Assets.Standard_Assets.UI.InventorySection.Scripts
         {
             get
             {
-                return Content.GetComponentsInChildren<InventoryItemManager>(true);
+                return Content.GetComponentsInChildren<InventoryItemManager>();
             }
         }
 

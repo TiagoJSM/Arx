@@ -72,6 +72,10 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     public void AssignQuest(Quest quest)
     {
         _questLogComponent.GiveQuest(quest);
+        if (_hud.ActiveQuest == null)
+        {
+            _hud.ActiveQuest = _questLogComponent.GetQuest(quest.questId);
+        }
     }
 
     public Quest GetQuest(string id)

@@ -19,7 +19,7 @@ namespace Assets.Standard_Assets.UI.Quest_Section.Scripts
         {
             get
             {
-                return _questListContent.GetComponents<QuestItemManager>();
+                return _questListContent.GetComponentsInChildren<QuestItemManager>();
             }
         }
 
