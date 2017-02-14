@@ -110,7 +110,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     private void Update()
     {
-        var inputDevice = InputManager.GetInputDevice();
+        var inputDevice = InputManager.Instance.GetInputDevice(InputSource.WIN_XBOX);
 
         var horizontal = inputDevice.GetAxis(DeviceAxis.Movement).x;
         var vertical = inputDevice.GetAxis(DeviceAxis.Movement).y;

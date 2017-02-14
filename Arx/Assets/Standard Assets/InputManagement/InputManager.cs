@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Standard_Assets._2D.Scripts.Managers;
 
 public enum InputSource
 {
@@ -39,24 +40,25 @@ public interface IInputDevice
     bool GetButton(DeviceButton button);
     bool GetButtonUp(DeviceButton button);
     Vector2 GetAxis(DeviceAxis axis);
+    void Update();
 }
 
-public static class InputManager
+public class InputManager : Singleton<InputManager>
 {
-    private static KeyCode[] _keyboardMouseKeys;
-    private static KeyCode[] _gamepadKeys;
+    private KeyCode[] _keyboardMouseKeys;
+    private KeyCode[] _gamepadKeys;
 
-    private static InputSource? _currentSource;
-    private static IInputDevice _currentDevice;
+    private InputSource? _currentSource;
+    private IInputDevice _currentDevice;
 
-    static InputManager()
+    protected InputManager()
     {
         var values = Enum.GetValues(typeof(KeyCode)).Cast<KeyCode>().ToArray();
         _keyboardMouseKeys = values.Where(key => key >= KeyCode.Backspace && key <= KeyCode.Mouse6).ToArray();
         _gamepadKeys = values.Where(key => key >= KeyCode.JoystickButton0 && key <= KeyCode.JoystickButton10).ToArray();
     }
 
-    public static IInputDevice GetInputDevice(InputSource? definedSource = null)
+    public IInputDevice GetInputDevice(InputSource? definedSource = null)
     {
         var currentInput = GetCurrentInputSource(definedSource);
         
@@ -70,32 +72,49 @@ public static class InputManager
             _currentSource = InputSource.KBM;
         }
 
-        switch (_currentSource)
-        {
-            case InputSource.KBM:       return new KeyboardDevice();
-            case InputSource.WIN_XBOX:  return new WindowsXboxGamepad();
-        }
-
-        return null;
+        return InputDevice();
     }
 
-    private static bool IsKeyboardMouseInput()
+    private IInputDevice InputDevice()
     {
-        for(var idx = 0; idx < _keyboardMouseKeys.Length; idx++)
+        switch (_currentSource)
+        {
+            case InputSource.KBM:
+                if (!(_currentDevice is KeyboardDevice))
+                {
+                    _currentDevice = new KeyboardDevice();
+                }
+                break;
+            case InputSource.WIN_XBOX:
+                if (!(_currentDevice is WindowsXboxGamepad))
+                {
+                    _currentDevice = new WindowsXboxGamepad();
+                }
+                break;
+            default:
+                _currentDevice = null;
+                break;
+        }
+        return _currentDevice;
+    }
+
+    private bool IsKeyboardMouseInput()
+    {
+        for (var idx = 0; idx < _keyboardMouseKeys.Length; idx++)
         {
             if (Input.GetKey(_keyboardMouseKeys[idx]))
             {
                 return true;
             }
         }
-        if(Input.GetAxis("XMouse") != 0 || Input.GetAxis("YMouse") != 0)
+        if (Input.GetAxis("XMouse") != 0 || Input.GetAxis("YMouse") != 0)
         {
             return true;
         }
         return false;
     }
 
-    private static bool IsGamepadInput()
+    private bool IsGamepadInput()
     {
         var joysticks = Input.GetJoystickNames();
         if (!joysticks.Any())
@@ -112,7 +131,7 @@ public static class InputManager
         return false;
     }
 
-    private static InputSource? GetCurrentInputSource(InputSource? definedSource = null)
+    private InputSource? GetCurrentInputSource(InputSource? definedSource = null)
     {
         if (definedSource == null)
         {
@@ -131,5 +150,13 @@ public static class InputManager
         }
 
         return null;
+    }
+
+    private void Update()
+    {
+        if(_currentDevice != null)
+        {
+            _currentDevice.Update();
+        }
     }
 }

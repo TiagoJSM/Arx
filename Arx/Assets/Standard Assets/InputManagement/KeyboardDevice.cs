@@ -37,5 +37,9 @@ public class KeyboardDevice : IInputDevice
         var buttonName = button.ToString();
         return Input.GetButtonUp(buttonName);
     }
+
+    public void Update()
+    {
+    }
 }
 

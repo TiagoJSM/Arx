@@ -6,7 +6,25 @@ using UnityEngine;
 
 public class WindowsXboxGamepad : IInputDevice
 {
+    private const float AbsoluteAxis = 0.5f;
+
+    private Dictionary<string, bool> _upDetected;
+    private Dictionary<string, bool> _downDetected;
+
     public bool MouseSupport { get { return false; } }
+
+    public WindowsXboxGamepad()
+    {
+        _upDetected = new Dictionary<string, bool>();
+        _downDetected = new Dictionary<string, bool>();
+
+        var values =  Enum.GetValues(typeof(DeviceButton));
+        foreach(var value in values)
+        {
+            _upDetected.Add(value.ToString(), false);
+            _downDetected.Add(value.ToString(), false);
+        }
+    }
 
     public Vector2 GetAxis(DeviceAxis axis)
     {
@@ -21,19 +39,43 @@ public class WindowsXboxGamepad : IInputDevice
     public bool GetButton(DeviceButton button)
     {
         var buttonName = button.ToString();
-        return Input.GetButton(buttonName) || Input.GetAxis(buttonName) > 0.5f;
+        return Input.GetButton(buttonName) || Input.GetAxis(buttonName) > AbsoluteAxis;
     }
 
     public bool GetButtonDown(DeviceButton button)
     {
         var buttonName = button.ToString();
-        return Input.GetButtonDown(buttonName) || Input.GetAxis(buttonName) > 0.5f;
+        var down = Input.GetButtonDown(buttonName) || (Input.GetAxis(buttonName) > AbsoluteAxis && !_downDetected[buttonName]);
+
+        if (down)
+        {
+            _downDetected[buttonName] = true;
+        }
+
+        return down;
     }
 
     public bool GetButtonUp(DeviceButton button)
     {
         var buttonName = button.ToString();
-        return Input.GetButtonUp(buttonName) || Input.GetAxis(buttonName) < 0.5f;
+        var up =  Input.GetButtonUp(buttonName) || (Input.GetAxis(buttonName) < AbsoluteAxis && !_upDetected[buttonName]);
+
+        if (up)
+        {
+            _upDetected[buttonName] = true;
+        }
+
+        return up;
+    }
+
+    public void Update()
+    {
+        var values = Enum.GetValues(typeof(DeviceButton));
+        foreach (var value in values)
+        {
+            _upDetected[value.ToString()] = (Input.GetAxis(value.ToString()) < AbsoluteAxis);
+            _downDetected[value.ToString()] = (Input.GetAxis(value.ToString()) > AbsoluteAxis);
+        }
     }
 }
 
