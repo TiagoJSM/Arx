@@ -13,14 +13,17 @@ public class MeleeEnemyControllerStateManager : StateManager<ICharacter, StateAc
     public MeleeEnemyControllerStateManager(ICharacter controller) : base(controller)
     {
         this.SetInitialState<StandStillState>()
+            .To<DeathState>((c, a, t) => c.Dead)
             .To<AttackState>((c, a, t) => a.Attack)
             .To<MoveState>((c, a, t) => a.Move != 0);
 
         this.From<AttackState>()
+            .To<DeathState>((c, a, t) => c.Dead)
             .To<StandStillState>((c, a, t) => a.Move == 0)
             .To<MoveState>((c, a, t) => a.Move != 0);
 
         this.From<MoveState>()
+            .To<DeathState>((c, a, t) => c.Dead)
             .To<AttackState>((c, a, t) => a.Attack)
             .To<StandStillState>((c, a, t) => a.Move == 0);
     }

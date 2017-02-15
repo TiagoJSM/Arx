@@ -35,6 +35,7 @@ public enum DeviceAxis
 public interface IInputDevice
 {
     bool MouseSupport { get; }
+    Sprite InteractSprite { get; }
 
     bool GetButtonDown(DeviceButton button);
     bool GetButton(DeviceButton button);

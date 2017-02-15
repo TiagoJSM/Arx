@@ -26,6 +26,13 @@ public class InteractibleCharacterController : MonoBehaviour, IInteractionTrigge
             return _speechController != null;
         }
     }
+    public GameObject GameObject
+    {
+        get
+        {
+            return this.gameObject;
+        }
+    }
 
     public InteractiveDialogComponent Dialog
     {

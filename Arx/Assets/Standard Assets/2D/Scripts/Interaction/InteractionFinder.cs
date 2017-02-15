@@ -1,4 +1,6 @@
-﻿using CommonInterfaces.Controllers.Interaction;
+﻿using Assets.Standard_Assets._2D.Scripts.Controllers;
+using CommonInterfaces.Controllers.Interaction;
+using Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +9,8 @@ using UnityEngine;
 
 public class InteractionFinder : MonoBehaviour
 {
+    private InteractionNotification _currentNotification;
+
     [SerializeField]
     private Transform _interactionAreaP1;
     [SerializeField]
@@ -14,16 +18,40 @@ public class InteractionFinder : MonoBehaviour
 
     public IInteractionTriggerController GetInteractionTrigger()
     {
-        var interactionTriggerCollider =
+        var interactionTriggerColliders =
             Physics2D
                 .OverlapAreaAll(_interactionAreaP1.position, _interactionAreaP2.position)
-                .FirstOrDefault(c => c.GetComponent<IInteractionTriggerController>() != null);
-        
-        if(interactionTriggerCollider == null)
+                .Select(c => c.GetComponent<IInteractionTriggerController>())
+                .Where(c => c != null);
+
+        if (!interactionTriggerColliders.Any())
         {
             return null;
         }
-        return interactionTriggerCollider.GetComponent<IInteractionTriggerController>();
+
+        var thisPosition = transform.position;
+        var closestInteraction = interactionTriggerColliders.MinBy(c =>
+            Vector2.Distance(thisPosition, c.GameObject.transform.position));
+
+        return closestInteraction;
+    }
+
+    private void Update()
+    {
+        var closestInteraction = GetInteractionTrigger();
+
+        if (closestInteraction == null)
+        {
+            DisableCurrentNotification();
+            return;
+        }
+        var interactionNotification = closestInteraction.GameObject.GetComponentInChildren<InteractionNotification>();
+        if (interactionNotification != _currentNotification || interactionNotification == null)
+        {
+            DisableCurrentNotification();
+            _currentNotification = interactionNotification;
+        }
+        EnableCurrentNotification();
     }
 
     private void OnDrawGizmos()
@@ -37,6 +65,23 @@ public class InteractionFinder : MonoBehaviour
         var size = _interactionAreaP1.position - _interactionAreaP2.position;
         size = new Vector3(Mathf.Abs(size.x), Mathf.Abs(size.y), Mathf.Abs(size.z));
         Gizmos.DrawWireCube(center, size);
+    }
+
+    private void EnableCurrentNotification()
+    {
+        if(_currentNotification != null)
+        {
+            _currentNotification.Show();
+        }
+    }
+
+    private void DisableCurrentNotification()
+    {
+        if(_currentNotification != null)
+        {
+            _currentNotification.Hide();
+        }
+        _currentNotification = null;
     }
 }
 

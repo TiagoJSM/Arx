@@ -15,6 +15,14 @@ namespace Assets.Standard_Assets.Environment.SaveBoard.Scripts
         public event OnInteract OnInteract;
         public event OnStopInteraction OnStopInteraction;
 
+        public GameObject GameObject
+        {
+            get
+            {
+                return this.gameObject;
+            }
+        }
+
         public void Interact(GameObject interactor)
         {
             var saveData = ArxSaveData.Current;

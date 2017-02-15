@@ -8,13 +8,23 @@ public class WindowsXboxGamepad : IInputDevice
 {
     private const float AbsoluteAxis = 0.5f;
 
+    private Sprite[] _sprites;
+
     private Dictionary<string, bool> _upDetected;
     private Dictionary<string, bool> _downDetected;
 
     public bool MouseSupport { get { return false; } }
+    public Sprite InteractSprite
+    {
+        get
+        {
+            return _sprites.FirstOrDefault(sprite => sprite.name == "B");
+        }
+    }
 
     public WindowsXboxGamepad()
     {
+        _sprites = Resources.LoadAll<Sprite>("Xbox");
         _upDetected = new Dictionary<string, bool>();
         _downDetected = new Dictionary<string, bool>();
 

@@ -17,6 +17,14 @@ namespace AnimatorSequencer.Zones
         public bool played;
         public AnimationSequenceBehaviour animationSequence;
 
+        public GameObject GameObject
+        {
+            get
+            {
+                return this.gameObject;
+            }
+        }
+
         public void Interact(GameObject interactor)
         {
             if(playOnlyOnce && played)

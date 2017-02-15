@@ -8,6 +8,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
 {
     public interface ICharacter
     {
+        bool Dead { get; }
+
         void DoMove(float move);
         void DoAttack();
         void StayStill();
@@ -78,6 +80,26 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
         {
         }
         public void OnStateExit(StateAction action)
+        {
+        }
+    }
+
+    public class DeathState : IState<ICharacter, StateAction>
+    {
+        public ICharacter StateController { get; set; }
+
+        public float TimeInState { get; set; }
+
+        public void OnStateEnter(StateAction action)
+        {
+            StateController.StayStill();
+        }
+
+        public void OnStateExit(StateAction action)
+        {
+        }
+
+        public void Perform(StateAction action)
         {
         }
     }

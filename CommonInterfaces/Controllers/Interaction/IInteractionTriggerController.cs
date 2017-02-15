@@ -10,6 +10,7 @@ namespace CommonInterfaces.Controllers.Interaction
     {
         event OnInteract OnInteract;
         event OnStopInteraction OnStopInteraction;
+        GameObject GameObject { get; }
 
         void Interact(GameObject interactor);
         void StopInteraction();

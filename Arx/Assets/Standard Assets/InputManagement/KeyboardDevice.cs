@@ -6,7 +6,24 @@ using UnityEngine;
 
 public class KeyboardDevice : IInputDevice
 {
+    private Sprite[] _sprites;
+
+    public Sprite InteractSprite
+    {
+        get
+        {
+            return _sprites.FirstOrDefault(sprite => sprite.name == "EKey");
+        }
+    }
+
     public bool MouseSupport { get { return true; } }
+
+
+    public KeyboardDevice()
+    {
+        var test = Resources.LoadAll("MouseKeyboard");
+        _sprites = Resources.LoadAll<Sprite>("MouseKeyboard");
+    }
 
     public Vector2 GetAxis(DeviceAxis axis)
     {
