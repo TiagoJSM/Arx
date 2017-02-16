@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: 798acc91bda7a4f45b27263a0d337743
-timeCreated: 1487203824
+guid: aecbfe879e7425c47b37b8ccea9e33e6
+timeCreated: 1487203775
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: B
-    21300002: LAnalog
+  fileIDToRecycleName: {}
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -36,13 +34,13 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 20
+  spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -70,33 +68,7 @@ TextureImporter:
     overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: B
-      rect:
-        serializedVersion: 2
-        x: 173
-        y: 58
-        width: 55
-        height: 55
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: LAnalog
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 196
-        width: 57
-        height: 59
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
+    sprites: []
     outline: []
   spritePackingTag: 
   userData: 

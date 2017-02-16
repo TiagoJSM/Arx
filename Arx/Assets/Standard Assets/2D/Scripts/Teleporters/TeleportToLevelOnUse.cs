@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Assets.Standard_Assets.Environment.Teleports.Teleport_On_Use.Scripts;
 
 namespace Assets.Standard_Assets._2D.Scripts.Teleporters
 {
@@ -16,6 +17,16 @@ namespace Assets.Standard_Assets._2D.Scripts.Teleporters
         private SceneField _scene;
         [SerializeField]
         private string _location;
+        [SerializeField]
+        private TeleportOnUseNotification _notification;
+
+        public TeleportOnUseNotification Notification
+        {
+            get
+            {
+                return _notification; ;
+            }
+        }
 
         public void Teleport(GameObject teleportTarget)
         {

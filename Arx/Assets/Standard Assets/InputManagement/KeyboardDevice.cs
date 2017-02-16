@@ -16,8 +16,15 @@ public class KeyboardDevice : IInputDevice
         }
     }
 
-    public bool MouseSupport { get { return true; } }
+    public Sprite Up
+    {
+        get
+        {
+            return _sprites.FirstOrDefault(sprite => sprite.name == "WKey");
+        }
+    }
 
+    public bool MouseSupport { get { return true; } }
 
     public KeyboardDevice()
     {

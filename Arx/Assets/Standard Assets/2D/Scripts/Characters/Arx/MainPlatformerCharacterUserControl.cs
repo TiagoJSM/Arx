@@ -47,6 +47,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     private HudManager _hud;
     private Vector3 _interactionPosition;
     private IInteractionTriggerController _currentInteraction;
+    private ITeleporter _teleporter;
 
     [SerializeField]
     private InteractionFinder interactionFinder;
@@ -72,10 +73,6 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     public void AssignQuest(Quest quest)
     {
         _questLogComponent.GiveQuest(quest);
-        if (_hud.ActiveQuest == null)
-        {
-            _hud.ActiveQuest = _questLogComponent.GetQuest(quest.questId);
-        }
     }
 
     public Quest GetQuest(string id)
@@ -97,6 +94,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         _equipmentController = GetComponent<EquipmentController>();
         _uiController = GetComponent<UiController>();
         _uiController.OnActiveQuestSelected += OnActiveQuestSelectedHandler;
+        _questLogComponent.OnQuestAssigned += SetActiveQuest;
     }
 
     private void Start()
@@ -120,14 +118,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         var aiming = inputDevice.GetButton(DeviceButton.AimWeapon);
         var teleport = inputDevice.GetButtonDown(DeviceButton.Vertical);
 
-        if (teleport)
-        {
-            var teleporter = FindTeleporter();
-            if(teleporter != null)
-            {
-                teleporter.Teleport(this.gameObject);
-            }
-        }
+        HandleTeleporter(teleport);
 
         SetAimAngle(inputDevice);
         HandleInteraction();
@@ -145,6 +136,27 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
             return;
         }
         _uiController.Toggle();
+    }
+
+    private void HandleTeleporter(bool teleport)
+    {
+        var teleporter = FindTeleporter();
+        if(_teleporter != null && _teleporter != teleporter && _teleporter.Notification != null)
+        {
+            _teleporter.Notification.Hide();
+        }
+        if(teleporter != null)
+        {
+            _teleporter = teleporter;
+            if(_teleporter.Notification != null)
+            {
+                _teleporter.Notification.Show();
+            }
+        }
+        if (teleport && _teleporter != null)
+        {
+            _teleporter.Teleport(this.gameObject);
+        }
     }
 
     private void HandleInteraction()
@@ -322,6 +334,14 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     private void OnActiveQuestSelectedHandler(Quest quest)
     {
         _hud.ActiveQuest = quest;
+    }
+
+    private void SetActiveQuest(Quest quest)
+    {
+        if (_hud.ActiveQuest == null)
+        {
+            _hud.ActiveQuest = quest;
+        }
     }
 }
 

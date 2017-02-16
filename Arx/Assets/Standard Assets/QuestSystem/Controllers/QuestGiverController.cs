@@ -34,7 +34,8 @@ namespace Assets.Standard_Assets.QuestSystem.Controllers
 
         private void AssignQuestToSubscriber(IQuestSubscriber subscriber)
         {
-            if (subscriber.HasQuestActive(quest))
+            var subscriberQuest = subscriber.GetQuest(quest.questId);
+            if (subscriberQuest.QuestStatus != QuestStatus.Inactive)
             {
                 return;
             }

@@ -9,14 +9,17 @@ using Assets.Standard_Assets._2D.Scripts.Managers;
 
 namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 {
+    public delegate void QuestEvent(Quest quest);
+
     public class QuestLogComponent : MonoBehaviour
     {
         private QuestDatabase _instanciatedQuests;
 
         [SerializeField]
         private QuestDatabase _quests;
-        //private QuestLog _questLog;
-        
+
+        public QuestEvent OnQuestAssigned;
+
         public Quest GetQuest(string id)
         {
             return _instanciatedQuests.GetQuest(id);
@@ -36,7 +39,15 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
         public void GiveQuest(Quest quest)
         {
             quest = _instanciatedQuests.GetQuest(quest.questId);
-            quest.Activate();
+            if(quest.QuestStatus == QuestStatus.Inactive)
+            {
+                if(OnQuestAssigned != null)
+                {
+                    OnQuestAssigned(quest);
+                }
+                quest.Activate();
+            }
+            
         }
 
         public Quest[] GetQuests()

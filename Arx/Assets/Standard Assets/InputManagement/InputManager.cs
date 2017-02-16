@@ -36,6 +36,7 @@ public interface IInputDevice
 {
     bool MouseSupport { get; }
     Sprite InteractSprite { get; }
+    Sprite Up { get; }
 
     bool GetButtonDown(DeviceButton button);
     bool GetButton(DeviceButton button);

@@ -27,6 +27,10 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
             }
             set
             {
+                if(_activeQuest != null)
+                {
+                    _activeQuest.OnQuestComplete -= OnQuestCompleteHandler;
+                }
                 _activeQuest = value;
                 HandleActiveQuest();
             }
@@ -40,6 +44,7 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
                 return;
             }
 
+            _activeQuest.OnQuestComplete += OnQuestCompleteHandler;
             RemoveCurrentSelectedQuest();
 
             this.gameObject.SetActive(true);
@@ -61,6 +66,11 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
                 Destroy(taskItems[idx].gameObject);
             }
             _taskList.transform.DetachChildren();
+        }
+
+        private void OnQuestCompleteHandler(Quest quest)
+        {
+            ActiveQuest = null;
         }
     }
 }

@@ -10,6 +10,8 @@ using Assets.Standard_Assets.QuestSystem.RewardProviders;
 
 namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 {
+    public delegate void OnQuestComplete(Quest quest);
+
     [Serializable]
 	public class Quest : SerializedScriptableObject, IEquatable<Quest>
 	{
@@ -27,6 +29,8 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
         public List<ICondition> conditions;
         public List<ITask> tasks;
         public List<IRewardProvider> rewardProviders;
+
+        public OnQuestComplete OnQuestComplete;
 
         public QuestStatus QuestStatus 
         {
@@ -78,12 +82,19 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
 
         public void Activate()
         {
-            QuestStatus = QuestStatus.Active;
+            if(QuestStatus == QuestStatus.Inactive)
+            {
+                QuestStatus = QuestStatus.Active;
+            }
         }
 
         public void Complete()
         {
             QuestStatus = QuestStatus.Complete;
+            if(OnQuestComplete != null)
+            {
+                OnQuestComplete(this);
+            }
             GiveReward();
         }
 

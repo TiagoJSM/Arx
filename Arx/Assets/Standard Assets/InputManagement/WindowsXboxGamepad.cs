@@ -22,6 +22,14 @@ public class WindowsXboxGamepad : IInputDevice
         }
     }
 
+    public Sprite Up
+    {
+        get
+        {
+            return _sprites.FirstOrDefault(sprite => sprite.name == "LAnalog");
+        }
+    }
+
     public WindowsXboxGamepad()
     {
         _sprites = Resources.LoadAll<Sprite>("Xbox");
