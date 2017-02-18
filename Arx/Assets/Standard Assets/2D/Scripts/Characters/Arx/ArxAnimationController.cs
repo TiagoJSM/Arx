@@ -9,7 +9,8 @@ using System;
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(CombatModule))]
-public class ArxAnimationController : MonoBehaviour {
+public class ArxAnimationController : MonoBehaviour
+{
     private readonly int _HorizontalVelocity = Animator.StringToHash("Horizontal Velocity");
     private readonly int _Grounded = Animator.StringToHash("Grounded");
     private readonly int _Ducking = Animator.StringToHash("Ducking");

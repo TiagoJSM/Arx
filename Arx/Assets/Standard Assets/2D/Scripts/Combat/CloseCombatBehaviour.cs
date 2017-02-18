@@ -10,6 +10,7 @@ using UnityEngine;
 
 public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapon>
 {
+    private AttackType _executedAttackType;
     private const int COMBO_START = 1;
 
     private List<ICharacter> _charactersAttackedOnDive;
@@ -28,6 +29,7 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     [SerializeField]
     private LayerMask _enemyLayer;
 
+    public event Action OnAttackStart;
     public event Action OnAttackFinish;
 
     public CloseCombatBehaviour()
@@ -50,11 +52,11 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     {
         var enemiesInRange = GetCharactersInRange(_attackAreaP1.position, _attackAreaP2.position, _enemyLayer);
 
-        if (ComboType == AttackType.Primary)
+        if (_executedAttackType == AttackType.Primary)
         {
             Weapon.LightAttack(ComboNumber, enemiesInRange, this.gameObject);
         }
-        else if (ComboType == AttackType.Secundary)
+        else if (_executedAttackType == AttackType.Secundary)
         {
             Weapon.StrongAttack(ComboNumber, enemiesInRange, this.gameObject);
         }
@@ -62,7 +64,8 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
 
     public void StartSlashAttack()
     {
-        //ToDo
+        _executedAttackType = AttackType.Secundary;
+        ComboType = AttackType.None;
     }
 
     public void FinishSlashAttack()
@@ -84,6 +87,18 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
         }
     }
 
+    public void NotifyAttackStart(AttackType attackType, AttackStyle attackStyle, int combo)
+    {
+        _executedAttackType = attackType;
+        ComboType = AttackType.None;
+        ComboNumber = combo;
+        AttackStyle = attackStyle;
+        if (OnAttackStart != null)
+        {
+            OnAttackStart.Invoke();
+        }
+    }
+
     public void NotifyAttackFinish()
     {
         if (OnAttackFinish != null)
@@ -92,71 +107,16 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
         }
     }
 
-    public bool PrimaryGroundAttack()
+    public bool PrimaryAttack()
     {
-        DoGroundAttack(AttackType.Primary);
+        ComboType = AttackType.Primary;
         return true;
     }
 
-    public bool SecundaryGroundAttack()
+    public bool SecundaryAttack()
     {
-        DoGroundAttack(AttackType.Secundary);
+        ComboType = AttackType.Secundary;
         return true;
-    }
-
-    public bool PrimaryAirAttack()
-    {
-        DoAirAttack(AttackType.Primary);
-        return true;
-    }
-
-    public bool SecundaryAirAttack()
-    {
-        DoAirAttack(AttackType.Secundary);
-        return true;
-    }
-
-    private void DoGroundAttack(AttackType attackType)
-    {
-        ComboType = attackType;
-        if (attackType == AttackType.None)
-        {
-            ComboNumber = 0;
-            AttackStyle = AttackStyle.None;
-        }
-        else if (attackType == AttackType.Secundary)
-        {
-            AttackStyle = AttackStyle.Ground;
-            ComboNumber++;
-            if (ComboNumber > maxCombos)
-            {
-                ComboNumber = COMBO_START;
-            }
-        }
-        else if (attackType == AttackType.Primary)
-        {
-            AttackStyle = AttackStyle.Ground;
-            ComboNumber++;
-            if (ComboNumber > maxCombos)
-            {
-                ComboNumber = COMBO_START;
-            }
-        }
-    }
-
-    private void DoAirAttack(AttackType attackType)
-    {
-        ComboType = attackType;
-        if (attackType == AttackType.None)
-        {
-            ComboNumber = 0;
-            AttackStyle = AttackStyle.None;
-        }
-        else
-        {
-            ComboNumber = COMBO_START;
-            AttackStyle = AttackStyle.Aerial;
-        }
     }
 
     private IEnumerator DiveAttackDetector()

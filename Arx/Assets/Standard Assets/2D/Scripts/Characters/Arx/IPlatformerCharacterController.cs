@@ -28,6 +28,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         Vector3? SafeSpot { get; }
         bool AttackedThisFrame { get; }
         bool CanBeAttacked { get; set; }
+        bool Attacking { get; }
 
         void DoMove(float move);
         void DoGrabLedge();
@@ -38,9 +39,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void StayStill();
         void Roll(float move);
         void DoPrimaryGroundAttack();
-        void DoPrimaryAirAttack();
-        void DoSecundaryGroundAttack();
-        void DoSecundaryAirAttack();
         void StartIddle();
         void StopIddle();
         void FlipToSlideDownDirection();

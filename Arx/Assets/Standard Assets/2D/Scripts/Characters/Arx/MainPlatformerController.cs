@@ -180,11 +180,13 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public void LightAttack()
     {
+        _combatModule.PrimaryAttack();
         _attackAction = AttackType.Primary;
     }
 
     public void StrongAttack()
     {
+        _combatModule.SecundaryAttack();
         _attackAction = AttackType.Secundary;
     }
 
@@ -208,30 +210,6 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     public void DoPrimaryGroundAttack()
     {
         VelocityMultiplier = new Vector2(0.4f, VelocityMultiplier.y);
-        Attacking = _combatModule.PrimaryGroundAttack();
-        IsAttackOver = !Attacking;
-        _attackAction = AttackType.None;
-    }
-
-    public void DoSecundaryGroundAttack()
-    {
-        Attacking = _combatModule.SecundaryGroundAttack();
-        IsAttackOver = !Attacking;
-        _attackAction = AttackType.None;
-    }
-
-    public void DoPrimaryAirAttack()
-    {
-        Attacking = _combatModule.PrimaryAirAttack();
-        IsAttackOver = !Attacking;
-        _attackAction = AttackType.None;
-    }
-
-    public void DoSecundaryAirAttack()
-    {
-        Attacking = _combatModule.SecundaryAirAttack();
-        IsAttackOver = !Attacking;
-        _attackAction = AttackType.None;
     }
 
     public void DoChargeAttack()
@@ -284,6 +262,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     public void StopAirSlash()
     {
         VelocityMultiplier = Vector2.one;
+        _attackAction = AttackType.None;
+        Attacking = false;
         _combatModule.EndDiveAttack();
         OnAttackFinishHandler();
     }
@@ -497,6 +477,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         base.Awake();
         _combatModule = GetComponent<CombatModule>();
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
+        _combatModule.OnAttackStart += OnAttackStartHandler;
         _combatModule.OnAttackFinish += OnAttackFinishHandler;
         CharacterController2D.onTriggerEnterEvent += OnTriggerEnterEventHandler;
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
@@ -542,8 +523,16 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
                 .FirstOrDefault();
     }
 
+    private void OnAttackStartHandler()
+    {
+        Attacking = true;
+        IsAttackOver = false;
+    }
+
     private void OnAttackFinishHandler()
     {
+        _attackAction = AttackType.None;
+        Attacking = false;
         IsAttackOver = true;
     }
 

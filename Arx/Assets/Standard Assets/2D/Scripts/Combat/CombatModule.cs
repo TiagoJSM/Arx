@@ -35,6 +35,7 @@ public class CombatModule : MonoBehaviour, ICombatComponent
     [Range(0, 90)]
     private float _headLookLimit = 90;
 
+    public event Action OnAttackStart;
     public event Action OnAttackFinish;
 
     public ICloseCombatWeapon CloseCombatWeapon
@@ -125,17 +126,17 @@ public class CombatModule : MonoBehaviour, ICombatComponent
     public bool Aiming { get; set; }
     public GrappleRope GrappleRope { get { return _chainThrowCombat.GrappleRope; } }
 
-    public bool PrimaryGroundAttack()
+    public bool PrimaryAttack()
     {
-        return _closeCombat.PrimaryGroundAttack();
+        return _closeCombat.PrimaryAttack();
     }
 
-    public bool SecundaryGroundAttack()
+    public bool SecundaryAttack()
     {
-        return _closeCombat.SecundaryGroundAttack();
+        return _closeCombat.SecundaryAttack();
     }
 
-    public bool PrimaryAirAttack()
+    /*public bool PrimaryAirAttack()
     {
         return _closeCombat.PrimaryAirAttack();
     }
@@ -143,7 +144,7 @@ public class CombatModule : MonoBehaviour, ICombatComponent
     public bool SecundaryAirAttack()
     {
         return _closeCombat.SecundaryAirAttack();
-    }
+    }*/
 
     public bool ChargeAttack()
     {
@@ -192,6 +193,15 @@ public class CombatModule : MonoBehaviour, ICombatComponent
         _chainThrowCombat.ReleaseGrapple();
     }
 
+    public void NotifyOnAttackStart()
+    {
+        if (OnAttackStart != null)
+        {
+            OnAttackStart.Invoke();
+        }
+        _over = false;
+    }
+
     public void NotifyAttackFinish()
     {
         if(OnAttackFinish != null)
@@ -207,6 +217,7 @@ public class CombatModule : MonoBehaviour, ICombatComponent
         _shooterCombat = GetComponent<ShooterCombatBehaviour>();
         _chainThrowCombat = GetComponent<ChainThrowCombatBehaviour>();
 
+        _closeCombat.OnAttackStart += NotifyOnAttackStart;
         _closeCombat.OnAttackFinish += NotifyAttackFinish;
         _chainThrowCombat.OnAttackFinish += NotifyAttackFinish;
     }

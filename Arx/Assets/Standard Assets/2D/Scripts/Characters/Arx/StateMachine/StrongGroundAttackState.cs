@@ -12,7 +12,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         {
             base.OnStateEnter(action);
             StateController.StayStill();
-            StateController.DoSecundaryGroundAttack();
         }
     }
 }
