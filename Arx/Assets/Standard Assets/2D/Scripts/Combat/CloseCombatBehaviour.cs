@@ -29,8 +29,9 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     [SerializeField]
     private LayerMask _enemyLayer;
 
-    public event Action OnAttackStart;
-    public event Action OnAttackFinish;
+    public event Action OnEnterCombatState;
+    public event Action<AttackType, AttackStyle, int> OnAttackStart;
+    public event Action OnCombatFinish;
 
     public CloseCombatBehaviour()
     {
@@ -87,6 +88,14 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
         }
     }
 
+    public void NotifyEnterCombatState()
+    {
+        if (OnEnterCombatState != null)
+        {
+            OnEnterCombatState.Invoke();
+        }
+    }
+
     public void NotifyAttackStart(AttackType attackType, AttackStyle attackStyle, int combo)
     {
         _executedAttackType = attackType;
@@ -95,15 +104,15 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
         AttackStyle = attackStyle;
         if (OnAttackStart != null)
         {
-            OnAttackStart.Invoke();
+            OnAttackStart.Invoke(attackType, attackStyle, combo);
         }
     }
 
-    public void NotifyAttackFinish()
+    public void NotifyCombatFinish()
     {
-        if (OnAttackFinish != null)
+        if (OnCombatFinish != null)
         {
-            OnAttackFinish.Invoke();
+            OnCombatFinish.Invoke();
         }
     }
 

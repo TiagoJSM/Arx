@@ -16,7 +16,7 @@ using UnityEngine;
 [RequireComponent(typeof(CloseCombatBehaviour))]
 [RequireComponent(typeof(ChainThrowCombatBehaviour))]
 [RequireComponent(typeof(ShooterCombatBehaviour))]
-public class CombatModule : MonoBehaviour, ICombatComponent
+public class CombatModule : MonoBehaviour//, ICombatComponent
 {
     private CloseCombatBehaviour _closeCombat;
     private ChainThrowCombatBehaviour _chainThrowCombat;
@@ -35,8 +35,9 @@ public class CombatModule : MonoBehaviour, ICombatComponent
     [Range(0, 90)]
     private float _headLookLimit = 90;
 
-    public event Action OnAttackStart;
-    public event Action OnAttackFinish;
+    public event Action OnEnterCombatState;
+    public event Action<AttackType, AttackStyle, int> OnAttackStart;
+    public event Action OnCombatFinish;
 
     public ICloseCombatWeapon CloseCombatWeapon
     {
@@ -193,20 +194,28 @@ public class CombatModule : MonoBehaviour, ICombatComponent
         _chainThrowCombat.ReleaseGrapple();
     }
 
-    public void NotifyOnAttackStart()
+    public void NotifyOnEnterCombatState()
+    {
+        if (OnEnterCombatState != null)
+        {
+            OnEnterCombatState.Invoke();
+        }
+    }
+
+    public void NotifyOnAttackStart(AttackType attackType, AttackStyle attackStyle, int combo)
     {
         if (OnAttackStart != null)
         {
-            OnAttackStart.Invoke();
+            OnAttackStart.Invoke(attackType, attackStyle, combo);
         }
         _over = false;
     }
 
-    public void NotifyAttackFinish()
+    public void NotifyOnCombatFinish()
     {
-        if(OnAttackFinish != null)
+        if(OnCombatFinish != null)
         {
-            OnAttackFinish.Invoke();
+            OnCombatFinish.Invoke();
         }
         _over = true;
     }
@@ -217,9 +226,10 @@ public class CombatModule : MonoBehaviour, ICombatComponent
         _shooterCombat = GetComponent<ShooterCombatBehaviour>();
         _chainThrowCombat = GetComponent<ChainThrowCombatBehaviour>();
 
+        _closeCombat.OnEnterCombatState += NotifyOnEnterCombatState;
         _closeCombat.OnAttackStart += NotifyOnAttackStart;
-        _closeCombat.OnAttackFinish += NotifyAttackFinish;
-        _chainThrowCombat.OnAttackFinish += NotifyAttackFinish;
+        _closeCombat.OnCombatFinish += NotifyOnCombatFinish;
+        _chainThrowCombat.OnAttackFinish += NotifyOnCombatFinish;
     }
 
     private void Update()

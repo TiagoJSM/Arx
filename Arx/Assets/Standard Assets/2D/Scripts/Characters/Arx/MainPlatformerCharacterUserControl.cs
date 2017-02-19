@@ -145,14 +145,13 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         {
             _teleporter.Notification.Hide();
         }
-        if(teleporter != null)
+
+        _teleporter = teleporter;
+        if(_teleporter != null && _teleporter.Notification != null)
         {
-            _teleporter = teleporter;
-            if(_teleporter.Notification != null)
-            {
-                _teleporter.Notification.Show();
-            }
+            _teleporter.Notification.Show();
         }
+
         if (teleport && _teleporter != null)
         {
             _teleporter.Teleport(this.gameObject);

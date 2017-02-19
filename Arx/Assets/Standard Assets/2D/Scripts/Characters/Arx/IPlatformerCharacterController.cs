@@ -16,7 +16,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         float VerticalSpeed { get; }
         bool GrabbingLedge { get; }
         bool CanStand { get; }
-        bool IsAttackOver { get; }
         int ComboNumber { get; }
         WeaponType? WeaponType { get; }
         bool SlidingDown { get; }

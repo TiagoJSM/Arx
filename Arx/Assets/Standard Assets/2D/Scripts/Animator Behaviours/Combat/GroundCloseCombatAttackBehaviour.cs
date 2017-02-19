@@ -5,7 +5,7 @@ using ArxGame.Components;
 using GenericComponents.Helpers;
 using GenericComponents.Enums;
 
-public class CloseCombatAttackBehaviour : StateMachineBehaviour
+public class GroundCloseCombatAttackBehaviour : StateMachineBehaviour
 {
     private bool _notified;
 
@@ -20,11 +20,5 @@ public class CloseCombatAttackBehaviour : StateMachineBehaviour
     {
         base.OnStateEnter(animator, stateInfo, layerIndex);
         animator.gameObject.GetComponent<CloseCombatBehaviour>().NotifyAttackStart(_attackType, _attackStyle, _combo);
-    }
-
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        base.OnStateExit(animator, stateInfo, layerIndex);
-        animator.gameObject.GetComponent<CloseCombatBehaviour>().NotifyAttackFinish();
     }
 }

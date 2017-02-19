@@ -106,8 +106,6 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
     }
 
-    public bool IsAttackOver { get; private set; }
-
     public bool Attacking { get; private set; }
 
     public int ComboNumber
@@ -215,7 +213,6 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     public void DoChargeAttack()
     {
         Attacking = _combatModule.ChargeAttack();
-        IsAttackOver = !Attacking;
         _attackAction = AttackType.None;
     }
 
@@ -265,7 +262,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _attackAction = AttackType.None;
         Attacking = false;
         _combatModule.EndDiveAttack();
-        OnAttackFinishHandler();
+        OnCombatFinishHandler();
     }
 
     public void GrabRope()
@@ -354,7 +351,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     public void DoThrow()
     {
         _combatModule.Throw();
-        IsAttackOver = false;
+        Attacking = true;
     }
 
     public void GrabGrapple()
@@ -477,8 +474,9 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         base.Awake();
         _combatModule = GetComponent<CombatModule>();
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
+        _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;
-        _combatModule.OnAttackFinish += OnAttackFinishHandler;
+        _combatModule.OnCombatFinish += OnCombatFinishHandler;
         CharacterController2D.onTriggerEnterEvent += OnTriggerEnterEventHandler;
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
     }
@@ -523,17 +521,25 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
                 .FirstOrDefault();
     }
 
-    private void OnAttackStartHandler()
+    private void OnEnterCombatStateHandler()
     {
         Attacking = true;
-        IsAttackOver = false;
     }
 
-    private void OnAttackFinishHandler()
+    private void OnAttackStartHandler(AttackType attackType, AttackStyle attackStyle, int combo)
     {
+        if(attackStyle == AttackStyle.Ground)
+        {
+            var x = attackType == AttackType.Primary ? 0.4f : 0;
+            VelocityMultiplier = new Vector2(x, VelocityMultiplier.y);
+        }
+    }
+
+    private void OnCombatFinishHandler()
+    {
+        VelocityMultiplier = Vector2.one;
         _attackAction = AttackType.None;
         Attacking = false;
-        IsAttackOver = true;
     }
 
     private void OnTriggerEnterEventHandler(Collider2D collider)

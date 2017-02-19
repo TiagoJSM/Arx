@@ -80,7 +80,7 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
         base.Awake();
         _combatModule = GetComponent<CombatModule>();
         _stateManager = new MeleeEnemyControllerStateManager(this);
-        _combatModule.OnAttackFinish += OnAttackFinishHandler;
+        _combatModule.OnCombatFinish += OnAttackFinishHandler;
     }
 
     protected override void Start()
@@ -102,7 +102,7 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        _combatModule.OnAttackFinish += OnAttackFinishHandler;
+        _combatModule.OnCombatFinish += OnAttackFinishHandler;
     }
 
     private void OnAttackFinishHandler()
