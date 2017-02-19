@@ -14,7 +14,7 @@ public class MeleeEnemyAiStateManager : StateManager<ICharacterAI, object>
             .To<FollowState<ICharacterAI>>((c, o, t) => c.Target != null);
 
         this.From<FollowState<ICharacterAI>>()
-            .To<AttackTargetState<ICharacterAI>>((c, a, t) => c.Attacking)
+            .To<AttackTargetState<ICharacterAI>>((c, a, t) => c.IsTargetInRange)
             .To<IddleState<ICharacterAI>>((c, o, t) => c.Target == null);
 
         this.From<AttackTargetState<ICharacterAI>>()

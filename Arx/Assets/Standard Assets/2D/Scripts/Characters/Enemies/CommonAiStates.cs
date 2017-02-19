@@ -63,10 +63,6 @@ public class IddleState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
     public override void Perform(object action)
     {
         base.Perform(action);
-        if (StateController.Target != null)
-        {
-            StateController.OrderAttack();
-        }
     }
 
     public override void OnStateExit(object action)
@@ -80,6 +76,6 @@ public class AttackTargetState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
     public override void OnStateEnter(object action)
     {
         //StateController.StopMoving();
-        //StateController.Attack();
+        StateController.OrderAttack();
     }
 }

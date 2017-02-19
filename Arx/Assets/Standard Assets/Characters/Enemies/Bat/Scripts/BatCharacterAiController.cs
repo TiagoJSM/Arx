@@ -16,7 +16,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
         public BatCharacterAiStateManager(BatCharacterAiController controller) : base(controller)
         {
             this.SetInitialState<IddleState<BatCharacterAiController>>()
-                .To<AttackTargetState<BatCharacterAiController>>((c, o, t) => c.Attacking);
+                .To<AttackTargetState<BatCharacterAiController>>((c, o, t) => c.Target != null);
 
             this.From<AttackTargetState<BatCharacterAiController>>()
                 .To<MoveAwayFromTargetState>((c, a, t) => !c.Attacking);
