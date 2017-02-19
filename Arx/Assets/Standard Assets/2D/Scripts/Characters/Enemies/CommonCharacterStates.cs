@@ -11,7 +11,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
         bool Dead { get; }
 
         void DoMove(float move);
-        void DoAttack();
         void StayStill();
     }
 
@@ -73,7 +72,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
 
         public void OnStateEnter(StateAction action)
         {
-            StateController.DoAttack();
         }
 
         public void Perform(StateAction action)

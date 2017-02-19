@@ -8,14 +8,16 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies.Melee_enemy
 {
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(MeleeEnemyController))]
+    [RequireComponent(typeof(CombatModule))]
     public class MeleeEnemyAnimationController : MonoBehaviour
     {
         private readonly int _HorizontalVelocity = Animator.StringToHash("Velocity");
-        private readonly int _Attacking = Animator.StringToHash("Attacking");
+        private readonly int _AttackType = Animator.StringToHash("Attack Type");
         private readonly int _DeathFront = Animator.StringToHash("Death front");
 
         private Animator _animator;
         private MeleeEnemyController _controller;
+        private CombatModule _combatModule;
 
         public float HorizontalVelocity
         {
@@ -24,11 +26,11 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies.Melee_enemy
                 _animator.SetFloat(_HorizontalVelocity, Mathf.Abs(value));
             }
         }
-        private bool Attacking
+        private int AttackType
         {
             set
             {
-                _animator.SetBool(_Attacking, value);
+                _animator.SetInteger(_AttackType, value);
             }
         }
         private bool DeathFront
@@ -58,12 +60,13 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies.Melee_enemy
         {
             _animator = GetComponent<Animator>();
             _controller = GetComponent<MeleeEnemyController>();
+            _combatModule = GetComponent<CombatModule>();
         }
 
         void Update()
         {
             HorizontalVelocity = _controller.HorizontalSpeed;
-            Attacking = _controller.Attacking;
+            AttackType = (int)_combatModule.ComboType;
             DeathFront = _controller.Dead;
         }
     }

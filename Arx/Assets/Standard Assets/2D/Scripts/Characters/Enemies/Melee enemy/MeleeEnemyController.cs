@@ -7,6 +7,7 @@ using System;
 using ArxGame.Components.Weapons;
 using System.Collections.Generic;
 using Assets.Standard_Assets._2D.Scripts.Characters.Enemies;
+using GenericComponents.Enums;
 
 public class MeleeEnemyControllerStateManager : StateManager<ICharacter, StateAction>
 {
@@ -32,7 +33,6 @@ public class MeleeEnemyControllerStateManager : StateManager<ICharacter, StateAc
 [RequireComponent(typeof(CombatModule))]
 public class MeleeEnemyController : PlatformerCharacterController, ICharacter
 {
-    private bool _attacking;
     private CombatModule _combatModule;
     private float _move;
     private bool _attack;
@@ -44,13 +44,7 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
     [SerializeField]
     public GameObject _weaponSocket;
 
-    public bool Attacking
-    {
-        get
-        {
-            return _attacking;
-        }
-    }
+    public bool Attacking { get; private set; }
 
     public bool Dead { get; private set; }
 
@@ -59,15 +53,9 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
         _move = move;
     }
 
-    public void Attack()
-    {
-        _attack = true;
-    }
-
-    public void DoAttack()
+    public void OrderAttack()
     {
         _combatModule.PrimaryAttack();
-        _attacking = true;
     }
 
     public override void Kill()
@@ -80,7 +68,9 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
         base.Awake();
         _combatModule = GetComponent<CombatModule>();
         _stateManager = new MeleeEnemyControllerStateManager(this);
-        _combatModule.OnCombatFinish += OnAttackFinishHandler;
+        _combatModule.OnAttackStart += OnAttackStartHandler;
+        _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
+        _combatModule.OnCombatFinish += OnCombatFinishHandler;
     }
 
     protected override void Start()
@@ -102,11 +92,21 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        _combatModule.OnCombatFinish += OnAttackFinishHandler;
+        _combatModule.OnCombatFinish -= OnCombatFinishHandler;
     }
 
-    private void OnAttackFinishHandler()
+    private void OnAttackStartHandler(AttackType attackType, AttackStyle attackStyle, int combo)
     {
-        _attacking = false;
+        StayStill();
+    }
+
+    private void OnEnterCombatStateHandler()
+    {
+        Attacking = true;
+    }
+
+    private void OnCombatFinishHandler()
+    {
+        Attacking = false;
     }
 }

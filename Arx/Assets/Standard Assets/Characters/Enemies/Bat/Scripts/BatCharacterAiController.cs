@@ -16,7 +16,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
         public BatCharacterAiStateManager(BatCharacterAiController controller) : base(controller)
         {
             this.SetInitialState<IddleState<BatCharacterAiController>>()
-                .To<AttackTargetState<BatCharacterAiController>>((c, o, t) => c.Target != null);
+                .To<AttackTargetState<BatCharacterAiController>>((c, o, t) => c.Attacking);
 
             this.From<AttackTargetState<BatCharacterAiController>>()
                 .To<MoveAwayFromTargetState>((c, a, t) => !c.Attacking);
@@ -91,7 +91,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
             StopActiveCoroutine();
         }
 
-        public void Attack()
+        public void OrderAttack()
         {
             _controller.Attack(Target);
         }

@@ -14,7 +14,7 @@ public class MeleeEnemyAiStateManager : StateManager<ICharacterAI, object>
             .To<FollowState<ICharacterAI>>((c, o, t) => c.Target != null);
 
         this.From<FollowState<ICharacterAI>>()
-            .To<AttackTargetState<ICharacterAI>>((c, a, t) => c.IsTargetInRange)
+            .To<AttackTargetState<ICharacterAI>>((c, a, t) => c.Attacking)
             .To<IddleState<ICharacterAI>>((c, o, t) => c.Target == null);
 
         this.From<AttackTargetState<ICharacterAI>>()
@@ -88,11 +88,10 @@ public class MeleeEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI
         StopActiveCoroutine();
     }
 
-    public void Attack()
+    public void OrderAttack()
     {
         StopActiveCoroutine();
-        _controller.StayStill();
-        _controller.Attack();
+        _controller.OrderAttack();
     }
 
     // Use this for initialization

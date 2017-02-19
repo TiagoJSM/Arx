@@ -12,7 +12,7 @@ public interface ICharacterAI
     void StopMoving();
     void StartIddle();
     void StopIddle();
-    void Attack();
+    void OrderAttack();
 }
 
 public abstract class BaseAiState<TAi> : IState<TAi, object> where TAi : ICharacterAI
@@ -35,14 +35,21 @@ public abstract class BaseAiState<TAi> : IState<TAi, object> where TAi : ICharac
 
 public class FollowState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
 {
+    public override void Perform(object action)
+    {
+        if (StateController.IsTargetInRange)
+        {
+            StateController.OrderAttack();
+        }
+        else
+        {
+            StateController.MoveToTarget();
+        }
+    }
+
     public override void OnStateExit(object action)
     {
         StateController.StopMoving();
-    }
-
-    public override void Perform(object action)
-    {
-        StateController.MoveToTarget();
     }
 }
 
@@ -51,6 +58,15 @@ public class IddleState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
     public override void OnStateEnter(object action)
     {
         StateController.StartIddle();
+    }
+
+    public override void Perform(object action)
+    {
+        base.Perform(action);
+        if (StateController.Target != null)
+        {
+            StateController.OrderAttack();
+        }
     }
 
     public override void OnStateExit(object action)
@@ -63,7 +79,7 @@ public class AttackTargetState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
 {
     public override void OnStateEnter(object action)
     {
-        StateController.StopMoving();
-        StateController.Attack();
+        //StateController.StopMoving();
+        //StateController.Attack();
     }
 }

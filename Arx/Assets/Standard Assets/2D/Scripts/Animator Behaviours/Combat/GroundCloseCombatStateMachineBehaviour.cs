@@ -6,17 +6,17 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets._2D.Scripts.Animator_Behaviours.Combat
 {
-    public class GroundCloseCombatStateBehaviour : StateMachineBehaviour
+    public class GroundCloseCombatStateMachineBehaviour : StateMachineBehaviour
     {
-        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
         {
-            base.OnStateEnter(animator, stateInfo, layerIndex);
+            base.OnStateMachineEnter(animator, stateMachinePathHash);
             animator.gameObject.GetComponent<CloseCombatBehaviour>().NotifyEnterCombatState();
         }
 
-        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnStateMachineExit(Animator animator, int stateMachinePathHash)
         {
-            base.OnStateExit(animator, stateInfo, layerIndex);
+            base.OnStateMachineExit(animator, stateMachinePathHash);
             animator.gameObject.GetComponent<CloseCombatBehaviour>().NotifyCombatFinish();
         }
     }
