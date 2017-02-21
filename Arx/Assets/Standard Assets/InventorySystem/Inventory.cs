@@ -62,6 +62,11 @@ namespace Assets.Standard_Assets.InventorySystem
             return true;
         }
 
+        public bool HasItem(IInventoryItem item)
+        {
+            return _inventoryItems.ContainsKey(item.Id);
+        }
+
         public void SetItems(InventoryItems[] items)
         {
             _inventoryItems.Clear();
