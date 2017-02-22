@@ -5,9 +5,9 @@ using System.Text;
 using UnityEngine;
 using Extensions;
 using MathHelper.DataStructures;
-using Terrain.Builder.Helper;
-using Terrain.Builder.Helper.Interfaces;
 using MathHelper.Extensions;
+using Assets.Standard_Assets.Terrain.Builder.Helper;
+using Assets.Standard_Assets.Terrain.Builder.Helper.Interfaces;
 
 namespace Assets.Standard_Assets.Terrain.Builder
 {

@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Terrain;
 using UnityEditor;
 using UnityEngine;
 using Extensions;
 using Utils;
 using CommonEditors;
-using Terrain.Builder;
-using Terrain.Builder.Helper;
-using MathHelper.DataStructures;
-using GenericComponentEditors;
+using Assets.Standard_Assets.Terrain.Builder;
 
 namespace Assets.Standard_Assets.Terrain.Editor
 {

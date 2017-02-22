@@ -29,11 +29,11 @@ public class WaypointPath : MonoBehaviour {
         foreach (var pair in waypoints.ToPairs())
         {
             Gizmos.color = Color.blue;
-            if(pair.First == null || pair.Second == null)
+            if(pair.Item1 == null || pair.Item2 == null)
             {
                 continue;
             }
-            Gizmos.DrawLine(pair.First.transform.position, pair.Second.transform.position);
+            Gizmos.DrawLine(pair.Item1.transform.position, pair.Item2.transform.position);
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Assets.Standard_Assets.Terrain.Builder;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Terrain;
-using Terrain.Builder;
 using UnityEditor;
 using UnityEngine;
 

@@ -151,9 +151,6 @@
     <Reference Include="Parallax">
       <HintPath>Assets\Parallax.dll</HintPath>
     </Reference>
-    <Reference Include="Terrain">
-      <HintPath>Assets\Terrain.dll</HintPath>
-    </Reference>
     <Reference Include="Utils">
       <HintPath>Assets\Utils.dll</HintPath>
     </Reference>
@@ -174,9 +171,6 @@
     </Reference>
     <Reference Include="GenericComponentEditors">
       <HintPath>Assets\Editor\GenericComponentEditors.dll</HintPath>
-    </Reference>
-    <Reference Include="TerrainEditors">
-      <HintPath>Assets\Editor\TerrainEditors.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -393,6 +387,7 @@
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
     <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
+    <None Include="Assets\Standard Assets\Terrain\Shaders\TerrainFieldShader.shader" />
     <None Include="Assets\Standard Assets\Vehicles\Aircraft\AircraftGuidelines.txt" />
     <None Include="Assets\Standard Assets\Vehicles\Car\CarGuidelines.txt" />
     <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />

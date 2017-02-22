@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Terrain.Builder.Helper;
-using Terrain.Builder.Helper.SegmentBuilders;
 using UnityEngine;
 using Extensions;
-using Terrain.Builder.Helper.Interfaces;
 using MathHelper.DataStructures;
 using MathHelper.Extensions;
-using Terrain.Utils;
 using Utils;
 using GenericComponents.Builders;
+using Assets.Standard_Assets.Terrain.Builder.Helper.Interfaces;
+using Assets.Standard_Assets.Terrain.Builder.Helper.SegmentBuilders;
 
 namespace Assets.Standard_Assets.Terrain.Builder
 {

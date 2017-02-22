@@ -7,6 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using Extensions;
 using System;
 using System.Collections.Generic;
 

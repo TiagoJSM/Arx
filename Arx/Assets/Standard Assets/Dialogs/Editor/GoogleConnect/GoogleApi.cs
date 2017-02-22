@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Extensions;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -94,7 +95,7 @@ public static class GoogleApi
         {
             for (var idx = 0; idx < headers.Length; idx++)
             {
-                client.Headers.Add(headers[idx].First, headers[idx].Second);
+                client.Headers.Add(headers[idx].Item1, headers[idx].Item2);
             }
 
             return client.DownloadString(address);
@@ -112,7 +113,7 @@ public static class GoogleApi
         {
             for(var idx = 0; idx < headers.Length; idx++)
             {
-                client.Headers.Add(headers[idx].First, headers[idx].Second);
+                client.Headers.Add(headers[idx].Item1, headers[idx].Item2);
             }
 
             var response = client.UploadValues(GetTokenUrl, data);

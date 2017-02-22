@@ -3,13 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Terrain.Builder.Helper.Interfaces;
 using UnityEngine;
 using Extensions;
-using MathHelper.Extensions;
-using Terrain.Utils;
-using Utils;
-using Terrain.Builder.Helper.SegmentBuilders;
+using Assets.Standard_Assets.Terrain.Builder.Helper.Interfaces;
 
 namespace Assets.Standard_Assets.Terrain.Builder.Helper
 {

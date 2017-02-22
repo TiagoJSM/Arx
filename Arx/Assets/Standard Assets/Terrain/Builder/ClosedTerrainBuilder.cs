@@ -2,12 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Terrain.Builder.Helper;
-using Terrain.Builder.Helper.Interfaces;
 using UnityEngine;
 using Extensions;
 using MathHelper.Extensions;
+using Assets.Standard_Assets.Terrain.Builder.Helper.Interfaces;
+using Assets.Standard_Assets.Terrain.Builder.Helper;
 
 namespace Assets.Standard_Assets.Terrain.Builder
 {

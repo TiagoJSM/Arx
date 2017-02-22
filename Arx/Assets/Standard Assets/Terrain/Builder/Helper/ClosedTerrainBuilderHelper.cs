@@ -1,9 +1,9 @@
-﻿using MathHelper.DataStructures;
+﻿using Assets.Standard_Assets.Terrain.Builder.Helper.Interfaces;
+using MathHelper.DataStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Terrain.Builder.Helper.Interfaces;
 using UnityEngine;
 
 namespace Assets.Standard_Assets.Terrain.Builder.Helper
