@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneOSXIntel:4</UnityBuildTarget>
     <UnityVersion>5.5.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -380,6 +382,29 @@
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\BaseTask.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\ITask.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\SettableTask.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\ClosedTerrainBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\ClosedTerrainBuilderHelper.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\Interfaces\ICeilingSegmentBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\Interfaces\IFloorSegmentBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\Interfaces\ISegmentBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\Interfaces\ISlopeSegmentBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\Interfaces\ITerrainBuilderHelper.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\OpenTerrainBuilderHelper.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\SegmentBuilders\CeilingSegmentBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\SegmentBuilders\FillingBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\SegmentBuilders\FloorSegmentBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\SegmentBuilders\SlopeSegmentBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\OpenTerrainBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\TerrainBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\TerrainBuilderHelper.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\TerrainColliderBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\TerrainSegments.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\TerrainType.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\ClosedTerrainField.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\OpenTerrainField.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\TerrainColors.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\TerrainField.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Utils\TerrainFillingUtils.cs" />
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\CharacterStatusManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\HudManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\QuestSectionManager.cs" />
@@ -541,6 +566,7 @@
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
     <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
+    <None Include="Assets\Standard Assets\Terrain\Shaders\TerrainFieldShader.shader" />
     <None Include="Assets\Standard Assets\Vehicles\Aircraft\AircraftGuidelines.txt" />
     <None Include="Assets\Standard Assets\Vehicles\Car\CarGuidelines.txt" />
     <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />
@@ -557,6 +583,7 @@
     <None Include="Assets\Universal Sound FX\%23Game Genre References\Shoot em Up.txt" />
     <None Include="Assets\Universal Sound FX\%23version_history.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>
