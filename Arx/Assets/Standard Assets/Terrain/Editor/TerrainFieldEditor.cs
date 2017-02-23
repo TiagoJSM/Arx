@@ -1,4 +1,5 @@
-﻿using Assets.Standard_Assets.Terrain.Builder;
+﻿using Assets.Standard_Assets.GenericComponents.Editor;
+using Assets.Standard_Assets.Terrain.Builder;
 using CommonEditors;
 using Extensions;
 using GenericComponentEditors;

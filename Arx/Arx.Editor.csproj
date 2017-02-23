@@ -160,9 +160,6 @@
     <Reference Include="CommonEditors">
       <HintPath>Assets\Editor\CommonEditors.dll</HintPath>
     </Reference>
-    <Reference Include="DecoratorEditors">
-      <HintPath>Assets\Editor\DecoratorEditors.dll</HintPath>
-    </Reference>
     <Reference Include="GenericComponentEditors">
       <HintPath>Assets\Editor\GenericComponentEditors.dll</HintPath>
     </Reference>

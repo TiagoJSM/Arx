@@ -55,7 +55,6 @@
     <Compile Include="Behaviours\FootstepPlayer.cs" />
     <Compile Include="Behaviours\GroundComponent.cs" />
     <Compile Include="Behaviours\HighlightTrigger.cs" />
-    <Compile Include="Behaviours\NodePathBehaviour.cs" />
     <Compile Include="Behaviours\PlayAudio.cs" />
     <Compile Include="Behaviours\PlayAudios.cs" />
     <Compile Include="Behaviours\Rope.cs" />
@@ -63,8 +62,6 @@
     <Compile Include="Behaviours\RopePart.cs" />
     <Compile Include="Behaviours\RopeRenderer.cs" />
     <Compile Include="Behaviours\SerializedScriptableObject.cs" />
-    <Compile Include="Builders\BuilderDataContext.cs" />
-    <Compile Include="Builders\SegmentBuilder.cs" />
     <Compile Include="Containers\Health.cs" />
     <Compile Include="Containers\PlatformerCharacterAnimations.cs" />
     <Compile Include="Controllers\Characters\BasePlatformerController.cs" />
@@ -82,7 +79,6 @@
     <Compile Include="Interfaces\IPath.cs" />
     <Compile Include="Interfaces\States\IState.cs" />
     <Compile Include="Interfaces\IStateFactory.cs" />
-    <Compile Include="NodePath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachine\StateManager.cs" />
     <Compile Include="StateMachine\StateContainer.cs" />
@@ -90,8 +86,6 @@
     <Compile Include="StateMachine\TransitionConfiguration.cs" />
     <Compile Include="UI\CloneUiTextMaterial.cs" />
     <Compile Include="UserControls\PlatformerAICharacterControl.cs" />
-    <Compile Include="Waypoint\WaypointPath.cs" />
-    <Compile Include="Waypoint\WaypointPathController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonInterfaces\CommonInterfaces.csproj">

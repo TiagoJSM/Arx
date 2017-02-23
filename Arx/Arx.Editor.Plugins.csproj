@@ -160,9 +160,6 @@
     <Reference Include="CommonEditors">
       <HintPath>Assets\Editor\CommonEditors.dll</HintPath>
     </Reference>
-    <Reference Include="DecoratorEditors">
-      <HintPath>Assets\Editor\DecoratorEditors.dll</HintPath>
-    </Reference>
     <Reference Include="GenericComponentEditors">
       <HintPath>Assets\Editor\GenericComponentEditors.dll</HintPath>
     </Reference>
@@ -180,6 +177,8 @@
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Editor\SpeakersAttributeDrawer.cs" />
     <Compile Include="Assets\Standard Assets\Common\Editor\AttributeDrawers\SelectedSceneAttributeDrawer.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\NodeMeshDecoration\Editor\NodeMeshEditor.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\NodeMeshDecoration\Editor\NodeMeshMenuItem.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\DialogEditorWindow.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\DialogViewState.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\GoogleConnect\GoogleApi.cs" />
@@ -196,6 +195,8 @@
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\Views\ConnectToGoogleApiView.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\Views\FileGridDataView.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\Views\FileSelectionView.cs" />
+    <Compile Include="Assets\Standard Assets\GenericComponents\Editor\NodePathEditor.cs" />
+    <Compile Include="Assets\Standard Assets\GenericComponents\Waypoint\Editor\WaypointPathEditor.cs" />
     <Compile Include="Assets\Standard Assets\InventorySystem\Editor\CustomEditors\InventoryItemCustomEditor.cs" />
     <Compile Include="Assets\Standard Assets\InventorySystem\Editor\GuiComponent\InventoryItemIoActionsMenuGuiComponent.cs" />
     <Compile Include="Assets\Standard Assets\InventorySystem\Editor\InventoryItemEditor.cs" />

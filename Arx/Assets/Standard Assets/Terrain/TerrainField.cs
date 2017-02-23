@@ -8,6 +8,7 @@ using System.Collections;
 using MathHelper.DataStructures;
 using GenericComponents;
 using GenericComponents.Behaviours;
+using Assets.Standard_Assets.GenericComponents.Behaviours;
 
 namespace Assets.Standard_Assets.Terrain
 {

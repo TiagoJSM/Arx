@@ -187,7 +187,6 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractiveDialogComponent.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\SpeakersAttribute.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\DebugTrigger.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\ContactDetector.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\LedgeChecker.cs" />
@@ -228,7 +227,6 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\TriggerDetector.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Triggers\PlaySequenceTrigger.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Waypoint.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\WaypointPath.cs" />
     <Compile Include="Assets\Standard Assets\Cameras\Scripts\AbstractTargetFollower.cs" />
     <Compile Include="Assets\Standard Assets\Cameras\Scripts\AutoCam.cs" />
     <Compile Include="Assets\Standard Assets\Cameras\Scripts\FreeLookCam.cs" />
@@ -265,6 +263,9 @@
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\TiltInput.cs" />
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\TouchPad.cs" />
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\VirtualInput.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\Builders\NodeMeshBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\Builders\NodeMeshSegmentBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\NodeMeshDecoration\NodeMesh.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\LocalizationConfig.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\LocalizedTexts.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\LocalizedUiText.cs" />
@@ -321,6 +322,12 @@
     <Compile Include="Assets\Standard Assets\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\ObjectExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\Vector2Extensions.cs" />
+    <Compile Include="Assets\Standard Assets\GenericComponents\Behaviours\NodePathBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\GenericComponents\Builders\BuilderDataContext.cs" />
+    <Compile Include="Assets\Standard Assets\GenericComponents\Builders\SegmentBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\GenericComponents\NodePath.cs" />
+    <Compile Include="Assets\Standard Assets\GenericComponents\Waypoint\WaypointPath.cs" />
+    <Compile Include="Assets\Standard Assets\GenericComponents\Waypoint\WaypointPathController.cs" />
     <Compile Include="Assets\Standard Assets\InputManagement\InputManager.cs" />
     <Compile Include="Assets\Standard Assets\InputManagement\KeyboardDevice.cs" />
     <Compile Include="Assets\Standard Assets\InputManagement\WindowsXboxGamepad.cs" />

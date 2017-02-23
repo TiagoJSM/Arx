@@ -6,9 +6,9 @@ using System.Text;
 using Utils;
 using MathHelper.Extensions;
 using UnityEngine;
-using GenericComponents.Builders;
 using Assets.Standard_Assets.Terrain.Utils;
 using Extensions;
+using Assets.Standard_Assets.GenericComponents.Builders;
 
 namespace Assets.Standard_Assets.Terrain.Builder.Helper.SegmentBuilders
 {

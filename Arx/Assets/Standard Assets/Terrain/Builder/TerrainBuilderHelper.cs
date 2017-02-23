@@ -6,9 +6,9 @@ using Extensions;
 using MathHelper.DataStructures;
 using MathHelper.Extensions;
 using Utils;
-using GenericComponents.Builders;
 using Assets.Standard_Assets.Terrain.Builder.Helper.Interfaces;
 using Assets.Standard_Assets.Terrain.Builder.Helper.SegmentBuilders;
+using Assets.Standard_Assets.GenericComponents.Builders;
 
 namespace Assets.Standard_Assets.Terrain.Builder
 {
