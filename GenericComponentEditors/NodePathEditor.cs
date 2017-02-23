@@ -21,6 +21,7 @@ namespace GenericComponentEditors
         private readonly Color EndColor = new Color(1, 1 / 3, 0);
         private readonly Color StartColor = Color.green;
 
+        private bool _showBezier;
         private EditorInputHandler _inputHandler;
 
         public NodePathBehaviour NodePathBehaviour
@@ -57,8 +58,6 @@ namespace GenericComponentEditors
 
         public override void OnInspectorGUI()
         {
-            NodePath.UseBezier = EditorGUILayout.Toggle("Use Bezier", NodePath.UseBezier);
-            NodePath.BezierDivisions = EditorGUILayout.IntField("Bezier Divisions", NodePath.BezierDivisions);
             base.OnInspectorGUI();
         }
 
@@ -67,7 +66,7 @@ namespace GenericComponentEditors
             DrawPathNodesMoveHandles();
             DrawPathNodesDividerHandles();
             DrawLinesBetweenPathNodes();
-            if (NodePath.UseBezier)
+            if (NodePath.UseBezier && _showBezier)
             {
                 DrawBezierMoveHandles();
                 DrawBezierConnectionLines();
@@ -77,6 +76,13 @@ namespace GenericComponentEditors
         protected void HandleInput()
         {
             _inputHandler.HandleInput();
+
+            var e = Event.current;
+            var keyboard = new Keyboard(Event.current);
+            if (e.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Space)
+            {
+                _showBezier = !_showBezier;
+            }
         }
 
         protected abstract void NodePathChanged();
@@ -199,10 +205,6 @@ namespace GenericComponentEditors
         private void DrawLinesBetweenPathNodes()
         {
             Handles.color = Color.blue;
-            /*foreach (var segment in NodePathBehaviour.InScenePathSegments)
-            {
-                Handles.DrawLine(segment.P1.ToVector3(), segment.P2.ToVector3());
-            }*/
             foreach(var segment in NodePathBehaviour.BezierPathSegments)
             {
                 Handles.DrawLine(segment.P1, segment.P2);

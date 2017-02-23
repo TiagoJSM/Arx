@@ -14,11 +14,8 @@ namespace Assets.Standard_Assets.Terrain.Editor
     [CustomEditor(typeof(OpenTerrainField))]
     public class OpenTerrainFieldEditor : TerrainFieldEditor<OpenTerrainField>
     {
-        private OpenTerrainBuilder _builder;
-
-        public OpenTerrainFieldEditor()
+        public OpenTerrainFieldEditor() : base(new OpenTerrainBuilder())
         {
-            _builder = new OpenTerrainBuilder();
         }
 
         public override void OnInspectorGUI()
@@ -26,30 +23,9 @@ namespace Assets.Standard_Assets.Terrain.Editor
             base.OnInspectorGUI();
         }
 
-        protected override void OnNodePathAdded()
-        {
-        }
-        
-        protected override void NodePathChanged()
-        {
-        }
-
-        protected override void OnNodePathRemoved()
-        {
-        }
-
         private void OnSceneGUI()
         {
-            _builder.BuildMeshFor(TerrainField);
-            TerrainColliderBuilder.BuildColliderFor(TerrainField);
-            DrawNodePathEditors();
-            DrawCollider();
-            HandleInput();        
-
-            if (GUI.changed)
-            {
-                EditorUtility.SetDirty(target);
-            }  
+            OnSceneGUIImplementation();
         }
     }
 }

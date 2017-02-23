@@ -11,9 +11,9 @@ using Assets.Standard_Assets.Terrain.Builder.Helper.Interfaces;
 
 namespace Assets.Standard_Assets.Terrain.Builder
 {
-    public class OpenTerrainBuilder : TerrainBuilder
+    public class OpenTerrainBuilder : TerrainBuilder<OpenTerrainField>
     {
-        public void BuildMeshFor(OpenTerrainField field)
+        public override void BuildMeshFor(OpenTerrainField field)
         {
             field.mesh.uv = null;
             field.mesh.triangles = null;

@@ -7,8 +7,10 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets.Terrain.Builder
 {
-    public class TerrainBuilder
+    public abstract class TerrainBuilder<TTerrain>
     {
+        public abstract void BuildMeshFor(TTerrain field);
+
         protected IEnumerable<TerrainSegments> GetTerrainSegmentsFor(IEnumerable<LineSegment2D> lineSegments, TerrainField field)
         {
             var terrainSegments = new List<TerrainSegments>();

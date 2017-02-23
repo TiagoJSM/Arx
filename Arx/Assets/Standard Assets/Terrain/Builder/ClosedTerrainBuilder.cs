@@ -10,9 +10,9 @@ using Assets.Standard_Assets.Terrain.Builder.Helper;
 
 namespace Assets.Standard_Assets.Terrain.Builder
 {
-    public class ClosedTerrainBuilder : TerrainBuilder
+    public class ClosedTerrainBuilder : TerrainBuilder<ClosedTerrainField>
     {
-        public void BuildMeshFor(ClosedTerrainField field)
+        public override void BuildMeshFor(ClosedTerrainField field)
         {
             field.mesh.uv = null;
             field.mesh.triangles = null;

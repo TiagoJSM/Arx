@@ -1,4 +1,5 @@
-﻿using CommonEditors;
+﻿using Assets.Standard_Assets.Terrain.Builder;
+using CommonEditors;
 using Extensions;
 using GenericComponentEditors;
 using System;
@@ -12,6 +13,8 @@ namespace Assets.Standard_Assets.Terrain.Editor
 {
     public abstract class TerrainFieldEditor<TTerrain> : NodePathEditor where TTerrain : TerrainField
     {
+        private TerrainBuilder<TTerrain> _builder;
+
         public TTerrain TerrainField
         {
             get
@@ -36,28 +39,33 @@ namespace Assets.Standard_Assets.Terrain.Editor
             }
         }
 
-        public TerrainFieldEditor()
+        public TerrainFieldEditor(TerrainBuilder<TTerrain> builder)
         {
             base.InputHandler.Add(new DuplicateEventCombination(CustomDuplicate));
+            _builder = builder;
         }
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            if (TerrainMeshRenderer.sharedMaterial != null)
+            if (GUI.changed)
             {
-                if(TerrainField.shader == null)
+                if (TerrainMeshRenderer.sharedMaterial != null)
                 {
-                    TerrainMeshRenderer.material = null;
+                    if (TerrainField.shader == null)
+                    {
+                        TerrainMeshRenderer.material = null;
+                    }
+                    else if (TerrainMeshRenderer.sharedMaterial.shader != TerrainField.shader)
+                    {
+                        TerrainMeshRenderer.material = new Material(TerrainField.shader);
+                    }
                 }
-                else if(TerrainMeshRenderer.sharedMaterial.shader != TerrainField.shader)
+                else if (TerrainField.shader != null)
                 {
                     TerrainMeshRenderer.material = new Material(TerrainField.shader);
                 }
-            }
-            else if(TerrainField.shader != null)
-            {
-                TerrainMeshRenderer.material = new Material(TerrainField.shader);
+                BuildTerrain();
             }
         }
 
@@ -80,6 +88,38 @@ namespace Assets.Standard_Assets.Terrain.Editor
             Handles.DrawAAPolyLine(3f, points);
         }
 
+        protected override void OnNodePathAdded()
+        {
+            BuildTerrain();
+        }
+
+        protected override void NodePathChanged()
+        {
+            BuildTerrain();
+        }
+
+        protected override void OnNodePathRemoved()
+        {
+            BuildTerrain();
+        }
+
+        protected void OnSceneGUIImplementation()
+        {
+            DrawNodePathEditors();
+            DrawCollider();
+            HandleInput();
+
+            if (GUI.changed)
+            {
+                EditorUtility.SetDirty(target);
+            }
+        }
+
+        private void Awake()
+        {
+            BuildTerrain();
+        }
+
         private void CustomDuplicate()
         {
             var clone = Instantiate(this.TerrainField);
@@ -91,6 +131,12 @@ namespace Assets.Standard_Assets.Terrain.Editor
             clone.mesh = new Mesh();
             clone.GetComponent<MeshRenderer>().material = new Material(TerrainMeshRenderer.sharedMaterial);
             clone.transform.parent = this.TerrainField.transform.parent;
+        }
+
+        private void BuildTerrain()
+        {
+            _builder.BuildMeshFor(TerrainField);
+            TerrainColliderBuilder.BuildColliderFor(TerrainField);
         }
     }
 }
