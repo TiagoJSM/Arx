@@ -1,4 +1,5 @@
 ﻿using Assets.Standard_Assets.GenericComponents.Behaviours;
+using Assets.Standard_Assets.Utility.Editor;
 using CommonEditors;
 using Extensions;
 using MathHelper;
@@ -21,6 +22,10 @@ namespace Assets.Standard_Assets.GenericComponents.Editor
 
         private bool _showBezier;
         private EditorInputHandler _inputHandler;
+
+        private Vector2? _markeeStart;
+        private Vector2 _markeeEnd;
+        private int[] _selectedNodeIndices;
 
         public NodePathBehaviour NodePathBehaviour
         {
@@ -73,14 +78,12 @@ namespace Assets.Standard_Assets.GenericComponents.Editor
 
         protected void HandleInput()
         {
-            _inputHandler.HandleInput();
-
             var e = Event.current;
-            var keyboard = new Keyboard(Event.current);
-            if (e.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Space)
-            {
-                _showBezier = !_showBezier;
-            }
+
+            _inputHandler.HandleInput();
+            HandleBezierToggle();
+            HandleMarkeeSelection();
+            HandleDeselection();
         }
 
         protected abstract void NodePathChanged();
@@ -89,10 +92,22 @@ namespace Assets.Standard_Assets.GenericComponents.Editor
 
         private void DrawPathNodesMoveHandles()
         {
+            if(_selectedNodeIndices != null)
+            {
+                DrawMultiSelectionPathNodesMoveHandles();
+            }
+            else
+            {
+                DrawSinglePathNodeMoveHandles();
+            }
+        }
+
+        private void DrawSinglePathNodeMoveHandles()
+        {
             for (int idx = 0; idx < NodePath.VerticeCount; idx++)
             {
                 var point = NodePathBehaviour[idx];
-                var translated = DrawPathNodeMoveHandle(point, Color.white);
+                var translated = DrawPathNodeMoveHandle(point, Color.white, Color.white);
                 if (point != translated)
                 {
                     Undo.RecordObject(target, "Move path node");
@@ -100,6 +115,32 @@ namespace Assets.Standard_Assets.GenericComponents.Editor
                     NodePathChanged();
                 }
             }
+        }
+
+        private void DrawMultiSelectionPathNodesMoveHandles()
+        {
+            Vector2? translation = null;
+            foreach (var index in _selectedNodeIndices)
+            {
+                var point = NodePathBehaviour[index];
+                var translated = DrawPathNodeMoveHandle(point, Color.white, Color.green);
+                if (point != translated && translation == null)
+                {
+                    translation = translated - point;
+                }
+            }
+
+            if(translation == null)
+            {
+                return;
+            }
+
+            Undo.RecordObject(target, "Move multiple path nodes");
+            foreach (var index in _selectedNodeIndices)
+            {
+                NodePathBehaviour[index] += translation.Value;
+            }
+            NodePathChanged();
         }
 
         private void DrawPathNodesDividerHandles()
@@ -123,11 +164,12 @@ namespace Assets.Standard_Assets.GenericComponents.Editor
             OnNodePathAdded();
         }
 
-        private Vector2 DrawPathNodeMoveHandle(Vector2 point, Color color)
+        private Vector2 DrawPathNodeMoveHandle(Vector2 point, Color arcColor, Color moveHandleColor)
         {
-            Handles.color = color;
+            Handles.color = arcColor;
             var size = HandleUtility.GetHandleSize(point) / handlesSizeRatio;
             Handles.DrawSolidArc(point.ToVector3(), new Vector3(0, 0, -1), Vector3.right, 360, size);
+            Handles.color = moveHandleColor;
             var translated =
                 Handles
                     .FreeMoveHandle(
@@ -249,7 +291,7 @@ namespace Assets.Standard_Assets.GenericComponents.Editor
                     color = Color.green;
                 }
                 var point = NodePathBehaviour.GetBezierControlPointAt(idx);
-                var translated = DrawPathNodeMoveHandle(point, color);
+                var translated = DrawPathNodeMoveHandle(point, color, color);
                 if (point != translated)
                 {
                     Undo.RecordObject(target, "Move bezier point");
@@ -268,6 +310,73 @@ namespace Assets.Standard_Assets.GenericComponents.Editor
                 Handles.color = EndColor;
                 Handles.DrawLine(bezierLineSegment.LineSegment.P2.ToVector3(), bezierLineSegment.P2ControlPoint.ToVector3());
             }
+        }
+
+        private void HandleMarkeeSelection()
+        {
+            var e = Event.current;
+
+            if (!e.control && e.type == EventType.MouseDown && e.button == (int)MouseButton.Left)
+            {
+                _selectedNodeIndices = null;
+            }
+
+            if (e.control && e.type == EventType.MouseDown && e.button == (int)MouseButton.Left)
+            {
+                _markeeStart = GetMousePositionInWorld();
+            }
+            if (e.control && _markeeStart != null)
+            {
+                _markeeEnd = GetMousePositionInWorld();
+                _selectedNodeIndices = GetSelectedMarkeeSelectedIndices();
+            }
+            if (_markeeStart != null && e.type == EventType.keyUp && e.keyCode == KeyCode.LeftControl)
+            {
+                _markeeStart = null;
+            }
+        }
+
+        private void HandleBezierToggle()
+        {
+            var e = Event.current;
+            if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Space)
+            {
+                _showBezier = !_showBezier;
+            }
+        }
+
+        private void HandleDeselection()
+        {
+            var e = Event.current;
+            if (e.keyCode == KeyCode.Escape)
+            {
+                Selection.activeGameObject = null;
+            }
+            else
+            {
+                Selection.activeGameObject = NodePathBehaviour.transform.gameObject;
+            }
+        }
+
+        private Vector2 GetMousePositionInWorld()
+        {
+            var e = Event.current;
+            return HandleUtility.GUIPointToWorldRay(e.mousePosition).origin;
+        }
+
+        private int[] GetSelectedMarkeeSelectedIndices()
+        {
+            if (_markeeStart == null)
+            {
+                return null;
+            }
+
+            var selection = new MarkeeSelectionRect()
+            {
+                p1 = _markeeStart.Value,
+                p2 = _markeeEnd
+            };
+            return MarkeeSelection.GetMarkeeSelectionIndices(selection, NodePathBehaviour.PathNodes);
         }
     }
 }
