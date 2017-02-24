@@ -12,15 +12,17 @@ namespace Assets.Standard_Assets.Terrain.Editor.Utils
     public static class TerrainEditorUtils
     {
         private const string DefaultName = "Terrain";
+        private const string DefaultMaterialPath = "Assets/Standard Assets/Terrain/Materials/Default.mat";
 
         public static TTerrain InitializeTerrain<TTerrain>(bool open) where TTerrain : TerrainField
         {
+            var defaultMaterial = AssetDatabase.LoadAssetAtPath<Material>(DefaultMaterialPath);
             var terrain = new GameObject(DefaultName);
             var view = SceneView.currentDrawingSceneView ?? SceneView.lastActiveSceneView;
             var terrainField = terrain.AddComponent<TTerrain>();
             terrainField.mesh = new Mesh();
             terrain.AddComponent<MeshFilter>();
-            terrain.AddComponent<MeshRenderer>();
+            var renderer = terrain.AddComponent<MeshRenderer>();
 
             var defaultVectors = GetDefaultVectors(open, view);
 
@@ -33,6 +35,7 @@ namespace Assets.Standard_Assets.Terrain.Editor.Utils
                 terrainField.AddPathNode(defaultVector);
             }
 
+            renderer.material = defaultMaterial;
             Selection.activeObject = terrainField.gameObject;
 
             return terrainField;

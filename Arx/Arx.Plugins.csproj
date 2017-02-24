@@ -473,7 +473,6 @@
     <None Include="Assets\Standard Assets\2D\Decorators\SpriteShader.shader" />
     <None Include="Assets\Standard Assets\2D\Shaders\Single Object Bloom.shader" />
     <None Include="Assets\Standard Assets\2D\Shaders\UnlitAlphaShader.shader" />
-    <None Include="Assets\Standard Assets\2D\Terrain\Shaders\Terrain2DShader.shader" />
     <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
@@ -568,6 +567,7 @@
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
     <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
+    <None Include="Assets\Standard Assets\Terrain\Shaders\Terrain2DShader.shader" />
     <None Include="Assets\Standard Assets\Terrain\Shaders\TerrainFieldShader.shader" />
     <None Include="Assets\Standard Assets\Vehicles\Aircraft\AircraftGuidelines.txt" />
     <None Include="Assets\Standard Assets\Vehicles\Car\CarGuidelines.txt" />

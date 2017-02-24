@@ -51,7 +51,7 @@ namespace Assets.Standard_Assets.Terrain.Editor
             base.OnInspectorGUI();
             if (GUI.changed)
             {
-                if (TerrainMeshRenderer.sharedMaterial != null)
+                /*if (TerrainMeshRenderer.sharedMaterial != null)
                 {
                     if (TerrainField.shader == null)
                     {
@@ -65,7 +65,7 @@ namespace Assets.Standard_Assets.Terrain.Editor
                 else if (TerrainField.shader != null)
                 {
                     TerrainMeshRenderer.material = new Material(TerrainField.shader);
-                }
+                }*/
                 BuildTerrain();
             }
         }

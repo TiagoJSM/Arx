@@ -1,6 +1,6 @@
 ﻿
 
-Shader "Sprites/Diffuse"
+Shader "2DTerrain/Lit"
 {
 	Properties
 	{
