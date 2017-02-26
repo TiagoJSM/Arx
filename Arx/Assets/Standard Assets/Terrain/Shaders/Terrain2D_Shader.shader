@@ -1,11 +1,9 @@
 ﻿
 
-Shader "2DTerrain/Lit"
+Shader "2DTerrain/LitShader"
 {
 	Properties
 	{
-		_Texture("Terrain texture", 2D) = "black" {}
-
 		_InterpolationColour("Interpolation colour", Color) = (1, 1, 1, 1)
 		_InterpolationFactor("Interpolation factor", float) = 0
 		_FloorEndingTexture("Floor ending texture", 2D) = "black" {}

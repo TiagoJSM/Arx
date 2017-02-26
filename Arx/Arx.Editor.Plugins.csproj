@@ -55,9 +55,6 @@
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
     </Reference>
@@ -99,9 +96,6 @@
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Purchasing">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.VR">
       <HintPath>Library\UnityAssemblies\UnityEditor.VR.dll</HintPath>
@@ -224,6 +218,7 @@
     <Compile Include="Assets\Standard Assets\Terrain\Editor\OpenTerrainFieldEditor.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Editor\OpenTerrainMenuItem.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Editor\TerrainFieldEditor.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Editor\TerrainMaterialEditor.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Editor\Utils\TerrainEditorUtils.cs" />
     <Compile Include="Assets\Standard Assets\Utility\Editor\ExposeFields.cs" />
     <Compile Include="Assets\Standard Assets\Utility\Editor\MarkeeSelection.cs" />
@@ -332,6 +327,7 @@
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
     <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
     <None Include="Assets\Standard Assets\Terrain\Shaders\Terrain2DShader.shader" />
+    <None Include="Assets\Standard Assets\Terrain\Shaders\Terrain2D_Shader.shader" />
     <None Include="Assets\Standard Assets\Terrain\Shaders\TerrainFieldShader.shader" />
     <None Include="Assets\Standard Assets\Vehicles\Aircraft\AircraftGuidelines.txt" />
     <None Include="Assets\Standard Assets\Vehicles\Car\CarGuidelines.txt" />
