@@ -5,7 +5,20 @@ Shader "2DTerrain/Lit"
 	Properties
 	{
 		_Texture("Terrain texture", 2D) = "black" {}
+		
+		_FloorLeftEnding("Floor left ending", Vector) = (0, 0, 30, 100)
+		_Floor("Floor", Vector) = (30, 0, 60, 100)
+		_FloorRightEnding("Floor right ending", Vector) = (60, 0, 100, 100)
+		
+		_CeilingLeftEnding("Ceiling left ending", Vector) = (0, 0, 30, 100)
+		_Ceiling("Ceiling", Vector) = (30, 0, 60, 100)
+		_CeilingRightEnding("Ceiling right ending", Vector) = (60, 0, 100, 100)
+		
+		_SlopeLeftEnding("Slope left ending", Vector) = (0, 0, 30, 100)
+		_Slope("Slope", Vector) = (30, 0, 60, 100)
+		_SlopeRightEnding("Slope right ending", Vector) = (60, 0, 100, 100)
 
+		
 		_InterpolationColour("Interpolation colour", Color) = (1, 1, 1, 1)
 		_InterpolationFactor("Interpolation factor", float) = 0
 		_FloorEndingTexture("Floor ending texture", 2D) = "black" {}

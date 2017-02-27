@@ -13,12 +13,96 @@ namespace Assets.Standard_Assets.Terrain.Editor.Utils
     {
         public static readonly float Size = 20;
 
-        public Vector2 leftHandlerPosition;
-        public Vector2 rightHandlerPosition;
-        public Vector2 topHandlerPosition;
-        public Vector2 bottomHandlerPosition;
-        public Vector2 leftCapSplitHandlerPosition;
-        public Vector2 rightCapSplitHandlerPosition;
+        private Vector2 _topLeft;
+        private Vector2 _bottomRight;
+        private float _leftCapSplit;
+        private float _rightCapSplit;
+
+        public Vector2 LeftHandlerPosition
+        {
+            get
+            {
+                return new Vector2(_topLeft.x, ((_bottomRight.y - _topLeft.y) / 2) + _topLeft.y);
+            }
+            set
+            {
+                var difference = value.x - _topLeft.x;
+                _leftCapSplit -= difference;
+                _rightCapSplit -= difference;
+                if(_leftCapSplit < 0)
+                {
+                    _leftCapSplit = 0;
+                }
+                if(_rightCapSplit < 0)
+                {
+                    _rightCapSplit = 0;
+                }
+                _topLeft.x = value.x;
+                if(_topLeft.x > _bottomRight.x)
+                {
+                    _topLeft.x = _bottomRight.x;
+                }
+            }
+        }
+        public Vector2 RightHandlerPosition
+        {
+            get
+            {
+                return new Vector2(_bottomRight.x, ((_bottomRight.y - _topLeft.y) / 2) + _topLeft.y);
+            }
+            set
+            {
+                _bottomRight.x = value.x;
+            }
+        }
+        public Vector2 TopHandlerPosition
+        {
+            get
+            {
+                return new Vector2(((_bottomRight.x - _topLeft.x) / 2) + _topLeft.x, _topLeft.y);
+            }
+            set
+            {
+                _topLeft.y = value.y;
+            }
+        }
+        public Vector2 BottomHandlerPosition
+        {
+            get
+            {
+                return new Vector2(((_bottomRight.x - _topLeft.x) / 2) + _topLeft.x, _bottomRight.y);
+            }
+            set
+            {
+                _bottomRight.y = value.y;
+            }
+        }
+        public Vector2 LeftCapSplitHandlerPosition
+        {
+            get
+            {
+                var leftCapSplitHandler = LeftHandlerPosition;
+                leftCapSplitHandler.x += _leftCapSplit;
+                return leftCapSplitHandler;
+            }
+            set
+            {
+                _leftCapSplit = value.x - LeftHandlerPosition.x;
+            }
+        }
+        public Vector2 RightCapSplitHandlerPosition
+        {
+            get
+            {
+                var rightCapSplitHandler = LeftHandlerPosition;
+                rightCapSplitHandler.x += _rightCapSplit;
+                return rightCapSplitHandler;
+            }
+            set
+            {
+                _rightCapSplit = value.x - LeftHandlerPosition.x;
+            }
+        }
 
         public Func<Vector2> DragHandlerGet;
         public Action<Vector2> DragHandlerSet;
@@ -27,71 +111,71 @@ namespace Assets.Standard_Assets.Terrain.Editor.Utils
         {
             get
             {
-                return new Vector2(leftHandlerPosition.x, topHandlerPosition.y);
+                return _topLeft;
             }
         }
         public Vector2 BottomRight
         {
             get
             {
-                return new Vector2(rightHandlerPosition.x, bottomHandlerPosition.y);
+                return _bottomRight;
             }
         }
         public float LeftCapSplit
         {
             get
             {
-                return leftCapSplitHandlerPosition.x - leftHandlerPosition.x;
+                return _leftCapSplit;
             }
         }
         public float RightCapSplit
         {
             get
             {
-                return rightCapSplitHandlerPosition.x - leftHandlerPosition.x;
+                return _rightCapSplit;
             }
         }
-        
+
         public Rect LeftHandler
         {
             get
             {
-                return CreateHandlerRect(leftHandlerPosition);
+                return CreateHandlerRect(LeftHandlerPosition);
             }
         }
         public Rect RightHandler
         {
             get
             {
-                return CreateHandlerRect(rightHandlerPosition);
+                return CreateHandlerRect(RightHandlerPosition);
             }
         }
         public Rect TopHandler
         {
             get
             {
-                return CreateHandlerRect(topHandlerPosition);
+                return CreateHandlerRect(TopHandlerPosition);
             }
         }
         public Rect BottomHandler
         {
             get
             {
-                return CreateHandlerRect(bottomHandlerPosition);
+                return CreateHandlerRect(BottomHandlerPosition);
             }
         }
         public Rect LeftCapSplitHandler
         {
             get
             {
-                return CreateHandlerRect(leftCapSplitHandlerPosition);
+                return CreateHandlerRect(LeftCapSplitHandlerPosition);
             }
         }
         public Rect RightCapSplitHandler
         {
             get
             {
-                return CreateHandlerRect(rightCapSplitHandlerPosition);
+                return CreateHandlerRect(RightCapSplitHandlerPosition);
             }
         }
 
@@ -99,6 +183,15 @@ namespace Assets.Standard_Assets.Terrain.Editor.Utils
         {
             var handlerSize = new Vector2(Size, Size);
             return new Rect(position - handlerSize / 2, handlerSize);
+        }
+
+        public TerrainTextureSelection(
+            Vector2 topLeft, Vector2 bottomRight, float leftCapSplit, float rightCapSplit)
+        {
+            _topLeft = topLeft;
+            _bottomRight = bottomRight;
+            _leftCapSplit = leftCapSplit;
+            _rightCapSplit = rightCapSplit;
         }
     }
 
@@ -178,43 +271,45 @@ namespace Assets.Standard_Assets.Terrain.Editor.Utils
                 return;
             }
 
-            GUIUtility.GetControlID(FocusType.Passive);
-            //GUIUtility.hotControl
             if (selection.TopHandler.Contains(currentEvent.mousePosition))
             {
-                selection.DragHandlerGet = () => selection.topHandlerPosition;
-                selection.DragHandlerSet = (position) => selection.topHandlerPosition.y = position.y;
+                selection.DragHandlerGet = () => selection.TopHandlerPosition;
+                selection.DragHandlerSet = (position) => selection.TopHandlerPosition = position;
             }
             else if (selection.BottomHandler.Contains(currentEvent.mousePosition))
             {
-                selection.DragHandlerGet = () => selection.bottomHandlerPosition;
-                selection.DragHandlerSet = (position) => selection.bottomHandlerPosition.y = position.y;
+                selection.DragHandlerGet = () => selection.BottomHandlerPosition;
+                selection.DragHandlerSet = (position) => selection.BottomHandlerPosition = position;
             }
             else if (selection.LeftHandler.Contains(currentEvent.mousePosition))
             {
-                selection.DragHandlerGet = () => selection.leftHandlerPosition;
-                selection.DragHandlerSet = (position) => selection.leftHandlerPosition.x = position.x;
+                selection.DragHandlerGet = () => selection.LeftHandlerPosition;
+                selection.DragHandlerSet = (position) => selection.LeftHandlerPosition = position;
             }
             else if (selection.LeftCapSplitHandler.Contains(currentEvent.mousePosition))
             {
-                selection.DragHandlerGet = () => selection.leftCapSplitHandlerPosition;
-                selection.DragHandlerSet = (position) => selection.leftCapSplitHandlerPosition.x = position.x;
+                selection.DragHandlerGet = () => selection.LeftCapSplitHandlerPosition;
+                selection.DragHandlerSet = (position) => selection.LeftCapSplitHandlerPosition = position;
             }
             else if (selection.RightCapSplitHandler.Contains(currentEvent.mousePosition))
             {
-                selection.DragHandlerGet = () => selection.rightCapSplitHandlerPosition;
-                selection.DragHandlerSet = (position) => selection.rightCapSplitHandlerPosition.x = position.x;
+                selection.DragHandlerGet = () => selection.RightCapSplitHandlerPosition;
+                selection.DragHandlerSet = (position) => selection.RightCapSplitHandlerPosition = position;
             }
             else if (selection.RightHandler.Contains(currentEvent.mousePosition))
             {
-                selection.DragHandlerGet = () => selection.rightHandlerPosition;
-                selection.DragHandlerSet = (position) => selection.rightHandlerPosition.x = position.x;
+                selection.DragHandlerGet = () => selection.RightHandlerPosition;
+                selection.DragHandlerSet = (position) => selection.RightHandlerPosition = position;
             }
         }
 
         private static bool HandleMouseDrag(TerrainTextureSelection selection)
         {
             var currentEvent = Event.current;
+            if (selection.DragHandlerGet == null)
+            {
+                return false;
+            }
             if (currentEvent == null || selection.DragHandlerGet == null)
             {
                 return false;
@@ -230,15 +325,7 @@ namespace Assets.Standard_Assets.Terrain.Editor.Utils
 
         public static TerrainTextureSelection GenerateTerrainTextureSelection(float width, float height)
         {
-            return new TerrainTextureSelection()
-            {
-                leftHandlerPosition = new Vector2(0, height / 2),
-                rightHandlerPosition = new Vector2(width, height / 2),
-                topHandlerPosition = new Vector2(width / 2, 0),
-                bottomHandlerPosition = new Vector2(width / 2, height),
-                leftCapSplitHandlerPosition = new Vector2(width / 3, height / 2),
-                rightCapSplitHandlerPosition = new Vector2(width * 2 / 3, height / 2)
-            };
+            return new TerrainTextureSelection(Vector2.zero, new Vector2(width, height), width / 3, width * 2 / 3);
         }
 
         private static void DrawSelectionLines(TerrainTextureSelection selection)
@@ -270,24 +357,27 @@ namespace Assets.Standard_Assets.Terrain.Editor.Utils
         {
             var dragged = HandleMouseDrag(selection);
 
-            selection.leftHandlerPosition = 
-                LimitHorizontal(
-                    selection.leftHandlerPosition, 0, selection.leftCapSplitHandlerPosition.x);
-            selection.rightHandlerPosition = 
-                LimitHorizontal(
-                    selection.rightHandlerPosition, selection.rightCapSplitHandlerPosition.x, texture.width);
-            selection.leftCapSplitHandlerPosition =
-                LimitHorizontal(
-                    selection.leftCapSplitHandlerPosition, selection.leftHandlerPosition.x, selection.rightCapSplitHandlerPosition.x);
-            selection.rightCapSplitHandlerPosition =
-                LimitHorizontal(
-                    selection.rightCapSplitHandlerPosition, selection.leftCapSplitHandlerPosition.x, texture.width);
-            selection.topHandlerPosition =
-                LimitVertical(
-                    selection.topHandlerPosition, 0, selection.bottomHandlerPosition.y);
-            selection.bottomHandlerPosition =
-                LimitVertical(
-                    selection.bottomHandlerPosition, selection.topHandlerPosition.y, texture.height);
+            if (dragged)
+            {
+                selection.LeftHandlerPosition =
+                    LimitHorizontal(
+                        selection.LeftHandlerPosition, 0, selection.LeftCapSplitHandlerPosition.x);
+                selection.RightHandlerPosition =
+                    LimitHorizontal(
+                        selection.RightHandlerPosition, selection.RightCapSplitHandlerPosition.x, texture.width);
+                selection.LeftCapSplitHandlerPosition =
+                    LimitHorizontal(
+                        selection.LeftCapSplitHandlerPosition, selection.LeftHandlerPosition.x, selection.RightCapSplitHandlerPosition.x);
+                selection.RightCapSplitHandlerPosition =
+                    LimitHorizontal(
+                        selection.RightCapSplitHandlerPosition, selection.LeftCapSplitHandlerPosition.x, texture.width);
+                selection.TopHandlerPosition =
+                    LimitVertical(
+                        selection.TopHandlerPosition, 0, selection.BottomHandlerPosition.y);
+                selection.BottomHandlerPosition =
+                    LimitVertical(
+                        selection.BottomHandlerPosition, selection.TopHandlerPosition.y, texture.height);
+            }
 
             DrawDragRectangle(selection.LeftHandler);
             DrawDragRectangle(selection.RightHandler);
