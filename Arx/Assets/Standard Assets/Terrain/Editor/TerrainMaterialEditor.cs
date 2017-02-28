@@ -96,6 +96,7 @@ namespace Assets.Standard_Assets.Terrain.Editor
 
             if(TerrainEditorUtils.TextureSelection(_selection, texture))
             {
+                AssignTextureCoordinatesForSelectedLayer(texture);
                 Repaint();
             }
             GUILayout.EndScrollView();
@@ -126,7 +127,7 @@ namespace Assets.Standard_Assets.Terrain.Editor
 
             if(selectedToolbar != _toolbarSelected)
             {
-                selectedToolbar = _toolbarSelected;
+                _toolbarSelected = selectedToolbar;
                 var texture = _selectedMaterial.GetTexture(TextureParameterName);
                 _selection = GetTerrainTextureSelectionForCurrentLayer(texture);
             }
@@ -154,10 +155,47 @@ namespace Assets.Standard_Assets.Terrain.Editor
             var rightCoords = _selectedMaterial.GetVector(right);
 
             return new TerrainTextureSelection(
-                new Vector2(leftCoords.x, texture.height - leftCoords.y),
-                new Vector2(rightCoords.z, texture.height - rightCoords.w),
+                new Vector2(leftCoords.x, texture.height -1 - leftCoords.w),
+                new Vector2(rightCoords.z, texture.height -1 - rightCoords.y),
                 centerCoords.x,
                 centerCoords.z);
+        }
+
+        private void AssignTextureCoordinatesForSelectedLayer(Texture texture)
+        {
+            switch (_toolbarSelected)
+            {
+                case FloorIndex:
+                    AssignTextureCoordinates(texture, FloorLeftEndingCoordinates, FloorCoordinates, FloorRightEndingCoordinates);
+                    break;
+                case CeilingIndex:
+                    AssignTextureCoordinates(texture, CeilingLeftEndingCoordinates, CeilingCoordinates, CeilingRightEndingCoordinates);
+                    break;
+                case SlopeIndex:
+                    AssignTextureCoordinates(texture, SlopeLeftEndingCoordinates, SlopeCoordinates, SlopeRightEndingCoordinates);
+                    break;
+            }
+        }
+
+        private void AssignTextureCoordinates(Texture texture, string left, string center, string right)
+        {
+            var leftCapLB = _selection.LeftCapLeftBottom;
+            var leftCapRT = _selection.LeftCapRightTop;
+            _selectedMaterial.SetVector(
+                left,
+                new Vector4(leftCapLB.x, texture.height - 1 - leftCapLB.y, leftCapRT.x, texture.height - 1 - leftCapRT.y));
+
+            var centerLB = _selection.CenterLeftBottom;
+            var centerRT = _selection.CenterRightTop;
+            _selectedMaterial.SetVector(
+                center,
+                new Vector4(centerLB.x, texture.height - 1 - centerLB.y, centerRT.x, texture.height - 1 - centerRT.y));
+
+            var rightCapLB = _selection.RightCapLeftBottom;
+            var rightCapRT = _selection.RightCapRightTop;
+            _selectedMaterial.SetVector(
+                right,
+                new Vector4(rightCapLB.x, texture.height - 1 - rightCapLB.y, rightCapRT.x, texture.height - 1 - rightCapRT.y));
         }
     }
 }

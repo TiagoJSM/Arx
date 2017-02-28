@@ -179,6 +179,49 @@ namespace Assets.Standard_Assets.Terrain.Editor.Utils
             }
         }
 
+        public Vector2 LeftCapLeftBottom
+        {
+            get
+            {
+                return new Vector2(_topLeft.x, _bottomRight.y);
+            }
+        }
+        public Vector2 LeftCapRightTop
+        {
+            get
+            {
+                return _topLeft + new Vector2(_leftCapSplit, 0);
+            }
+        }
+        public Vector2 CenterLeftBottom
+        {
+            get
+            {
+                return new Vector2(_topLeft.x + _leftCapSplit, _bottomRight.y);
+            }
+        }
+        public Vector2 CenterRightTop
+        {
+            get
+            {
+                return _topLeft + new Vector2(_rightCapSplit, 0);
+            }
+        }
+        public Vector2 RightCapLeftBottom
+        {
+            get
+            {
+                return new Vector2(_topLeft.x + _rightCapSplit, _bottomRight.y);
+            }
+        }
+        public Vector2 RightCapRightTop
+        {
+            get
+            {
+                return new Vector2(_bottomRight.x, _topLeft.y);
+            }
+        }
+
         private Rect CreateHandlerRect(Vector2 position)
         {
             var handlerSize = new Vector2(Size, Size);
@@ -364,19 +407,19 @@ namespace Assets.Standard_Assets.Terrain.Editor.Utils
                         selection.LeftHandlerPosition, 0, selection.LeftCapSplitHandlerPosition.x);
                 selection.RightHandlerPosition =
                     LimitHorizontal(
-                        selection.RightHandlerPosition, selection.RightCapSplitHandlerPosition.x, texture.width);
+                        selection.RightHandlerPosition, selection.RightCapSplitHandlerPosition.x, texture.width - 1);
                 selection.LeftCapSplitHandlerPosition =
                     LimitHorizontal(
                         selection.LeftCapSplitHandlerPosition, selection.LeftHandlerPosition.x, selection.RightCapSplitHandlerPosition.x);
                 selection.RightCapSplitHandlerPosition =
                     LimitHorizontal(
-                        selection.RightCapSplitHandlerPosition, selection.LeftCapSplitHandlerPosition.x, texture.width);
+                        selection.RightCapSplitHandlerPosition, selection.LeftCapSplitHandlerPosition.x, texture.width - 1);
                 selection.TopHandlerPosition =
                     LimitVertical(
                         selection.TopHandlerPosition, 0, selection.BottomHandlerPosition.y);
                 selection.BottomHandlerPosition =
                     LimitVertical(
-                        selection.BottomHandlerPosition, selection.TopHandlerPosition.y, texture.height);
+                        selection.BottomHandlerPosition, selection.TopHandlerPosition.y, texture.height - 1);
             }
 
             DrawDragRectangle(selection.LeftHandler);
