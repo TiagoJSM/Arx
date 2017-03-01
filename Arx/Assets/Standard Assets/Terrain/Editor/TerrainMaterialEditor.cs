@@ -154,11 +154,14 @@ namespace Assets.Standard_Assets.Terrain.Editor
             var centerCoords = _selectedMaterial.GetVector(center);
             var rightCoords = _selectedMaterial.GetVector(right);
 
+            var texHeight = texture.height;
+            var texWidth = texture.width;
+
             return new TerrainTextureSelection(
-                new Vector2(leftCoords.x * (texture.width - 1), leftCoords.w * (texture.height - 1)),
-                new Vector2(rightCoords.z * (texture.width - 1), rightCoords.y * (texture.height - 1)),
-                centerCoords.x * (texture.width - 1),
-                centerCoords.z * (texture.height - 1));
+                new Vector2(leftCoords.x * (texWidth - 1), texHeight - leftCoords.w * (texHeight - 1)),
+                new Vector2(rightCoords.z * (texWidth - 1), texHeight - rightCoords.y * (texHeight - 1)),
+                centerCoords.x * (texWidth - 1),
+                centerCoords.z * (texHeight - 1));
         }
 
         private void AssignTextureCoordinatesForSelectedLayer(Texture texture)
@@ -187,7 +190,7 @@ namespace Assets.Standard_Assets.Terrain.Editor
                     leftCapLB.x / texture.width, 
                     (texture.height - 1 - leftCapLB.y) / texture.height, 
                     leftCapRT.x / texture.width, 
-                    (texture.height - 1 - leftCapRT.y)) / texture.height);
+                    (texture.height - 1 - leftCapRT.y) / texture.height));
 
             var centerLB = _selection.CenterLeftBottom;
             var centerRT = _selection.CenterRightTop;
