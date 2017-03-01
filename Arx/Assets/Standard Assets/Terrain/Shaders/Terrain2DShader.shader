@@ -6,17 +6,17 @@ Shader "2DTerrain/Lit"
 	{
 		_Texture("Terrain texture", 2D) = "black" {}
 		
-		_FloorLeftEnding("Floor left ending", Vector) = (0, 0, 30, 100)
-		_Floor("Floor", Vector) = (30, 0, 60, 100)
-		_FloorRightEnding("Floor right ending", Vector) = (60, 0, 100, 100)
+		_FloorLeftEnding("Floor left ending", Vector) = (0, 0, 0.3, 1)
+		_Floor("Floor", Vector) = (0.3, 0, 0.6, 1)
+		_FloorRightEnding("Floor right ending", Vector) = (0.6, 0, 1, 1)
 		
-		_CeilingLeftEnding("Ceiling left ending", Vector) = (0, 0, 30, 100)
-		_Ceiling("Ceiling", Vector) = (30, 0, 60, 100)
-		_CeilingRightEnding("Ceiling right ending", Vector) = (60, 0, 100, 100)
+		_CeilingLeftEnding("Ceiling left ending", Vector) = (0, 0, 0.3, 1)
+		_Ceiling("Ceiling", Vector) = (0.3, 0, 0.6, 1)
+		_CeilingRightEnding("Ceiling right ending", Vector) = (0.6, 0, 1, 1)
 		
-		_SlopeLeftEnding("Slope left ending", Vector) = (0, 0, 30, 100)
-		_Slope("Slope", Vector) = (30, 0, 60, 100)
-		_SlopeRightEnding("Slope right ending", Vector) = (60, 0, 100, 100)
+		_SlopeLeftEnding("Slope left ending", Vector) = (0, 0, 0.3, 1)
+		_Slope("Slope", Vector) = (0.3, 0, 0.6, 1)
+		_SlopeRightEnding("Slope right ending", Vector) = (0.6, 0, 1, 1)
 
 		
 		_InterpolationColour("Interpolation colour", Color) = (1, 1, 1, 1)
@@ -46,6 +46,20 @@ Shader "2DTerrain/Lit"
 
 #include "UnityCG.cginc"
 
+	uniform sampler2D _Texture;
+	uniform float4 _Texture_ST;
+
+	uniform float4 _FloorLeftEnding;
+	uniform float4 _Floor;
+	uniform float4 _FloorRightEnding;
+
+	uniform float4 _CeilingLeftEnding;
+	uniform float4 _Ceiling;
+	uniform float4 _CeilingRightEnding;
+
+	uniform float4 _SlopeLeftEnding;
+	uniform float4 _Slope;
+	uniform float4 _SlopeRightEnding;
 
 	uniform float4 _InterpolationColour;
 	uniform float _InterpolationFactor;
@@ -96,7 +110,13 @@ Shader "2DTerrain/Lit"
 		fixed4 color;
 		if (IN.color.a == 0.0f)
 		{
-			color = tex2D(_FloorEndingTexture, uv);
+			float2 leftBottom = float2(_FloorLeftEnding.x, _FloorLeftEnding.y);
+			float2 originRange = float2(_FloorLeftEnding.z - _FloorLeftEnding.x, _FloorLeftEnding.w - _FloorLeftEnding.y);
+			float2 uvFrac = frac(uv);
+			float2 newUv = float2(originRange.x * uvFrac.x, originRange.y * uvFrac.y) + leftBottom;
+			
+			color = tex2D(_Texture, newUv);
+			//color = tex2D(_FloorEndingTexture, uv);
 		}
 		else if (IN.color.a == 0.1f)
 		{

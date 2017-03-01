@@ -155,10 +155,10 @@ namespace Assets.Standard_Assets.Terrain.Editor
             var rightCoords = _selectedMaterial.GetVector(right);
 
             return new TerrainTextureSelection(
-                new Vector2(leftCoords.x, texture.height -1 - leftCoords.w),
-                new Vector2(rightCoords.z, texture.height -1 - rightCoords.y),
-                centerCoords.x,
-                centerCoords.z);
+                new Vector2(leftCoords.x * (texture.width - 1), leftCoords.w * (texture.height - 1)),
+                new Vector2(rightCoords.z * (texture.width - 1), rightCoords.y * (texture.height - 1)),
+                centerCoords.x * (texture.width - 1),
+                centerCoords.z * (texture.height - 1));
         }
 
         private void AssignTextureCoordinatesForSelectedLayer(Texture texture)
@@ -183,19 +183,31 @@ namespace Assets.Standard_Assets.Terrain.Editor
             var leftCapRT = _selection.LeftCapRightTop;
             _selectedMaterial.SetVector(
                 left,
-                new Vector4(leftCapLB.x, texture.height - 1 - leftCapLB.y, leftCapRT.x, texture.height - 1 - leftCapRT.y));
+                new Vector4(
+                    leftCapLB.x / texture.width, 
+                    (texture.height - 1 - leftCapLB.y) / texture.height, 
+                    leftCapRT.x / texture.width, 
+                    (texture.height - 1 - leftCapRT.y)) / texture.height);
 
             var centerLB = _selection.CenterLeftBottom;
             var centerRT = _selection.CenterRightTop;
             _selectedMaterial.SetVector(
                 center,
-                new Vector4(centerLB.x, texture.height - 1 - centerLB.y, centerRT.x, texture.height - 1 - centerRT.y));
+                new Vector4(
+                    centerLB.x / texture.width, 
+                    (texture.height - 1 - centerLB.y) / texture.height, 
+                    centerRT.x / texture.width, 
+                    (texture.height - 1 - centerRT.y) / texture.height));
 
             var rightCapLB = _selection.RightCapLeftBottom;
             var rightCapRT = _selection.RightCapRightTop;
             _selectedMaterial.SetVector(
                 right,
-                new Vector4(rightCapLB.x, texture.height - 1 - rightCapLB.y, rightCapRT.x, texture.height - 1 - rightCapRT.y));
+                new Vector4(
+                    rightCapLB.x / texture.width, 
+                    (texture.height - 1 - rightCapLB.y) / texture.height, 
+                    rightCapRT.x / texture.width, 
+                    (texture.height - 1 - rightCapRT.y) / texture.height));
         }
     }
 }
