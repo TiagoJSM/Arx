@@ -12,6 +12,7 @@ namespace Assets.Standard_Assets.Terrain.Editor
     {
         private const string ShaderName = "2DTerrain/Lit";
         private readonly string InvalidMaterialSelectedMessage;
+        private readonly string MissingTextureMessage = "Assign Terrain Texture to selected material";
 
         private const string TextureParameterName = "_Texture";
 
@@ -39,58 +40,70 @@ namespace Assets.Standard_Assets.Terrain.Editor
         public TerrainMaterialEditor()
         {
             InvalidMaterialSelectedMessage = 
-                string.Format("Please select a material with shader {0}", ShaderName);
+                string.Format("Please select a material with shader {0} or create a new one", ShaderName);
         }
 
         [MenuItem("Window/2D Terrain/Create Terrain Material")]
         static void Init()
         {
-            var window = EditorWindow.GetWindow<TerrainMaterialEditor>("Terrain Mater Editor");
+            var window = EditorWindow.GetWindow<TerrainMaterialEditor>("Terrain Material Editor");
         }
 
         private void OnGUI()
         {
-            if (!CheckShader())
-            {
-                GUILayout.Label(InvalidMaterialSelectedMessage);
-                return;
-            }
-            
-            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(true));
 
-            LayerSelectionToolbar();
-            Separator();
-            TextureMaterialEditor();
+            NewMaterialButton();
+
+            var error = ValidateSelection();
+            if (error != null)
+            {
+                _selection = null;
+                GUILayout.Label(error);
+            }
+            else
+            {
+                LayerSelectionToolbar();
+                Separator();
+                TextureMaterialEditor();
+            }
 
             EditorGUILayout.EndVertical();
         }
 
-        private bool CheckShader()
+        private string ValidateSelection()
         {
-            var selectedMaterial = Selection.activeObject as Material;
-            if (selectedMaterial == null)
+            _selectedMaterial = Selection.activeObject as Material;
+            if (_selectedMaterial == null)
             {
-                _selectedMaterial = selectedMaterial;
-                return false;
+                return InvalidMaterialSelectedMessage;
             }
-            if(_selectedMaterial == null)
+
+            var shader = _selectedMaterial.shader;
+            if (shader == null || shader.name != ShaderName)
             {
-                _selectedMaterial = selectedMaterial;
-                var texture = _selectedMaterial.GetTexture(TextureParameterName);
+                _selectedMaterial = null;
+                return InvalidMaterialSelectedMessage;
+            }
+
+            var texture = _selectedMaterial.GetTexture(TextureParameterName);
+            if (texture == null)
+            {
+                return MissingTextureMessage;
+            }
+
+            if(_selection == null)
+            {
                 _selection = GetTerrainTextureSelectionForCurrentLayer(texture);
             }
-            var shader = _selectedMaterial.shader;
-            if (shader != null && shader.name == ShaderName)
-            {
-                return true;
-            }
-            _selectedMaterial = null;
-            return false;
+            
+            return null;
         }
 
         private void TextureMaterialEditor()
         {
             var texture = _selectedMaterial.GetTexture(TextureParameterName);
+
             _textureEditorPosition = GUILayout.BeginScrollView(_textureEditorPosition);
             RenderTexture(texture);
 
@@ -115,6 +128,30 @@ namespace Assets.Standard_Assets.Terrain.Editor
             GUILayout.Box(
                 EditorGUIUtility.whiteTexture,
                 new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(1) });
+        }
+
+        private void NewMaterialButton()
+        {
+            if (GUILayout.Button("New Material", GUILayout.ExpandWidth(true)))
+            {
+                NewMaterialDialog();
+            }
+        }
+
+        private void NewMaterialDialog()
+        {
+            var path = EditorUtility.SaveFilePanelInProject(
+                                "Save material",
+                                null,
+                                "mat",
+                                "Please enter a file name to save the material to");
+            if (!string.IsNullOrEmpty(path))
+            {
+                var shader = Shader.Find(ShaderName);
+                var material = new Material(shader);
+                AssetDatabase.CreateAsset(material, path);
+                Selection.activeObject = material;
+            }
         }
 
         private void LayerSelectionToolbar()
