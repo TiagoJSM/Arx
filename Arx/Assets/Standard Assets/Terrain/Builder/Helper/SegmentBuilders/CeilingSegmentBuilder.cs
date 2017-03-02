@@ -9,7 +9,7 @@ namespace Assets.Standard_Assets.Terrain.Builder.Helper.SegmentBuilders
     public class CeilingSegmentBuilder : SegmentBuilder
     {
         public CeilingSegmentBuilder(BuilderDataContext context, float height, float cornerWidth)
-            :base(context, height, cornerWidth, TerrainColors.CeilingColor, TerrainColors.CeilingEndingsColor)
+            :base(context, height, cornerWidth, TerrainColors.CeilingColor, TerrainColors.CeilingLeftEndingsColor, TerrainColors.CeilingRightEndingsColor)
         {
 
         }

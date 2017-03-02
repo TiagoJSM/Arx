@@ -21,7 +21,6 @@ namespace Assets.Standard_Assets.Terrain.Builder
         private float _floorHeight;
         private float _slopeHeight;
         private float _ceilingHeight;
-        private float _cornerWidth;
 
         protected BuilderDataContext DataContext { get; private set; }
         protected FloorSegmentBuilder FloorBuilder { get; private set; }
@@ -53,7 +52,9 @@ namespace Assets.Standard_Assets.Terrain.Builder
             float floorHeight,
             float slopeHeight,
             float ceilingHeight,
-            float cornerWidth,
+            float floorCornerWidth,
+            float slopeCornerWidth,
+            float ceilingCornerWidth,
             float fillingLowPoint,
             float fillingUFactor,
             float fillingVFactor)
@@ -61,11 +62,10 @@ namespace Assets.Standard_Assets.Terrain.Builder
             _floorHeight = floorHeight;
             _slopeHeight = slopeHeight;
             _ceilingHeight = ceilingHeight;
-            _cornerWidth = cornerWidth;
             DataContext = new BuilderDataContext();
-            FloorBuilder = new FloorSegmentBuilder(DataContext, _floorHeight, _cornerWidth);
-            SlopeBuilder = new SlopeSegmentBuilder(DataContext, _slopeHeight, _cornerWidth);
-            CeilingBuilder = new CeilingSegmentBuilder(DataContext, _ceilingHeight, _cornerWidth);
+            FloorBuilder = new FloorSegmentBuilder(DataContext, _floorHeight, floorCornerWidth);
+            SlopeBuilder = new SlopeSegmentBuilder(DataContext, _slopeHeight, slopeCornerWidth);
+            CeilingBuilder = new CeilingSegmentBuilder(DataContext, _ceilingHeight, ceilingCornerWidth);
             FillingBuilder = new FillingBuilder(DataContext, fillingLowPoint, fillingUFactor, fillingVFactor);
         }
 

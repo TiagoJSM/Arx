@@ -45,22 +45,25 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
 
         private float _segmentHeight;
         private float _cornerWidth;
+        private Color _leftCornerColor;
         private Color _segmentColor;
-        private Color _cornerColor;
+        private Color _rightCornerColor;
 
         protected SegmentBuilder(
             BuilderDataContext dataContext,
             float segmentHeight,
             float cornerWidth,
             Color segmentColor = new Color(),
-            Color cornerColor = new Color())
+            Color leftCornerColor = new Color(),
+            Color rightCornerColor = new Color())
         {
             _dataContext = dataContext;
             _processedSegments = new List<LineSegment2D>();
             _segmentHeight = segmentHeight;
             _cornerWidth = cornerWidth;
             _segmentColor = segmentColor;
-            _cornerColor = cornerColor;
+            _leftCornerColor = leftCornerColor;
+            _rightCornerColor = rightCornerColor;
         }
 
         public void AddSegmentStartingCorner(Vector2 origin, float rotationInRadians)
@@ -74,7 +77,7 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
                     origin + new Vector2(0, halfHeight)
                 };
 
-            AddSegmentDataStart(false, _cornerColor, GetRotatedVectors(origin, rotationInRadians, vectors));
+            AddSegmentDataStart(false, _leftCornerColor, GetRotatedVectors(origin, rotationInRadians, vectors));
         }
 
         public void AddFirstSegment(LineSegment2D segment)
@@ -101,7 +104,7 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
                     endPoint + new Vector2(_cornerWidth, halfHeight)
                 };
 
-            AddSegmentDataStart(true, _cornerColor, GetRotatedVectors(endPoint, rotationInRadians, vectors));
+            AddSegmentDataStart(false, _rightCornerColor, GetRotatedVectors(endPoint, rotationInRadians, vectors));
         }
 
         private void AddSegmentDataStart(bool mirrowedUvs, Color color, params Vector2[] vertices)

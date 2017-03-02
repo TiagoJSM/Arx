@@ -15,24 +15,31 @@ namespace Assets.Standard_Assets.Terrain
     public class TerrainField : NodePathBehaviour
     {
         public Mesh mesh;
-        [Header("Terrain shape")]
+        [Header("Terrain floor shape")]
         public float maxFloorSegmentLenght = 2;
-        public float maxSlopeSegmentLenght = 2;
-        public float maxCeilingSegmentLenght = 2;
-        
-        public float floorTerrainMaximumSlope = 1.0f;
-        public float cornerWidth = 0.5f;
+        public float floorCornerWidth = 0.5f;
         public float terrainFloorHeight = 0.5f;
+
+        [Header("Terrain slope shape")]
+        public float maxSlopeSegmentLenght = 2;
+        public float slopeCornerWidth = 0.5f;
         public float terrainSlopeHeight = 0.5f;
+
+        [Header("Terrain ceiling shape")]
+        public float maxCeilingSegmentLenght = 2;
         public float terrainCeilingHeight = 0.5f;
+        public float ceilingCornerWidth = 0.5f;
+
+        [Header("Terrain filling")]
+        public float fillingUFactor = 1.0f;
+        public float fillingVFactor = 1.0f;
+
+        [Header("Terrain global shape")]
+        public float floorTerrainMaximumSlope = 1.0f;
 
         [Header("Terrain collider")]
         public float colliderOffset = 0;
         public bool generateCollider = true;
-
-        [Header("Terrain texturing")]
-        public float fillingUFactor = 1.0f;
-        public float fillingVFactor = 1.0f;
-        public Shader shader;
+        //public Shader shader;
     }
 }

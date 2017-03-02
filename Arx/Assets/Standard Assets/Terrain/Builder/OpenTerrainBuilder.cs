@@ -25,7 +25,9 @@ namespace Assets.Standard_Assets.Terrain.Builder
                     field.terrainFloorHeight, 
                     field.terrainSlopeHeight, 
                     field.terrainCeilingHeight, 
-                    field.cornerWidth,
+                    field.floorCornerWidth,
+                    field.slopeCornerWidth,
+                    field.ceilingCornerWidth,
                     field.fillingLowPoint, 
                     field.fillingUFactor,
                     field.fillingVFactor);

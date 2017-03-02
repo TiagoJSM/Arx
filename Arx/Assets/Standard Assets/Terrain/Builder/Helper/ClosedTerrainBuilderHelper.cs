@@ -19,25 +19,31 @@ namespace Assets.Standard_Assets.Terrain.Builder.Helper
             float floorHeight,
             float slopeHeight,
             float ceilingHeight,
-            float cornerWidth,
+            float floorCornerWidth,
+            float slopeCornerWidth,
+            float ceilingCornerWidth,
             float fillingUFactor,
             float fillingVFactor)
         {
-            return new ClosedTerrainBuilderHelper(floorHeight, slopeHeight, ceilingHeight, cornerWidth, fillingUFactor, fillingVFactor);
+            return new ClosedTerrainBuilderHelper(floorHeight, slopeHeight, ceilingHeight, floorCornerWidth, slopeCornerWidth, ceilingCornerWidth, fillingUFactor, fillingVFactor);
         }
 
         public ClosedTerrainBuilderHelper(
             float floorHeight,
             float slopeHeight,
             float ceilingHeight,
-            float cornerWidth,
+            float floorCornerWidth,
+            float slopeCornerWidth,
+            float ceilingCornerWidth,
             float fillingUFactor,
             float fillingVFactor)
             : base(
                 floorHeight,
                 slopeHeight,
                 ceilingHeight,
-                cornerWidth,
+                floorCornerWidth,
+                slopeCornerWidth,
+                ceilingCornerWidth,
                 0,
                 fillingUFactor,
                 fillingVFactor)

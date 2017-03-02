@@ -19,8 +19,10 @@ namespace Assets.Standard_Assets.Terrain.Builder.Helper
         public static ITerrainBuilderHelper GetNewBuilder(
             float floorHeight, 
             float slopeHeight, 
-            float ceilingHeight, 
-            float cornerWidth, 
+            float ceilingHeight,
+            float floorCornerWidth,
+            float slopeCornerWidth,
+            float ceilingCornerWidth,
             float fillingLowPoint, 
             float fillingUFactor,
             float fillingVFactor)
@@ -28,8 +30,10 @@ namespace Assets.Standard_Assets.Terrain.Builder.Helper
             return new OpenTerrainBuilderHelper(
                 floorHeight, 
                 slopeHeight, 
-                ceilingHeight, 
-                cornerWidth, 
+                ceilingHeight,
+                floorCornerWidth,
+                slopeCornerWidth,
+                ceilingCornerWidth,
                 fillingLowPoint, 
                 fillingUFactor, 
                 fillingVFactor);
@@ -39,7 +43,9 @@ namespace Assets.Standard_Assets.Terrain.Builder.Helper
             float floorHeight,
             float slopeHeight,
             float ceilingHeight, 
-            float cornerWidth,
+            float floorCornerWidth,
+            float slopeCornerWidth,
+            float ceilingCornerWidth,
             float fillingLowPoint,
             float fillingUFactor,
             float fillingVFactor)
@@ -47,7 +53,9 @@ namespace Assets.Standard_Assets.Terrain.Builder.Helper
                 floorHeight,
                 slopeHeight,
                 ceilingHeight,
-                cornerWidth,
+                floorCornerWidth,
+                slopeCornerWidth,
+                ceilingCornerWidth,
                 fillingLowPoint,
                 fillingUFactor,
                 fillingVFactor)

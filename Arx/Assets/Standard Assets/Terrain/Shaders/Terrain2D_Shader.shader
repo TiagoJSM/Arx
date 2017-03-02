@@ -87,19 +87,19 @@ Shader "2DTerrain/LitShader"
 		{
 			color = tex2D(_FloorTexture, uv);
 		}
-		else if (IN.color.a == 0.2f)
+		else if (IN.color.a == 0.3f)
 		{
 			color = tex2D(_SlopeEndingTexture, uv);
 		}
-		else if (IN.color.a == 0.3f)
+		else if (IN.color.a == 0.4f)
 		{
 			color = tex2D(_SlopeTexture, uv);
 		}
-		else if (IN.color.a == 0.4f)
+		else if (IN.color.a == 0.6f)
 		{
 			color = tex2D(_FillingTexture, uv);
 		}
-		else if (IN.color.a == 0.5f)
+		else if (IN.color.a == 0.7f)
 		{
 			color = tex2D(_CeilingEndingTexture, uv);
 		}

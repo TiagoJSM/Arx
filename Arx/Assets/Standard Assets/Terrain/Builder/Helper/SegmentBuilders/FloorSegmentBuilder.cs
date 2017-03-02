@@ -9,7 +9,7 @@ namespace Assets.Standard_Assets.Terrain.Builder.Helper.SegmentBuilders
     public class FloorSegmentBuilder : SegmentBuilder
     {
         public FloorSegmentBuilder(BuilderDataContext context, float height, float cornerWidth)
-            :base(context, height, cornerWidth, TerrainColors.FloorColor, TerrainColors.FloorEndingsColor)
+            :base(context, height, cornerWidth, TerrainColors.FloorColor, TerrainColors.FloorLeftEndingsColor, TerrainColors.FloorRightEndingsColor)
         {
 
         }
