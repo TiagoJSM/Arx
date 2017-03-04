@@ -396,6 +396,7 @@
     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\SegmentBuilders\FillingBuilder.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\SegmentBuilders\FloorSegmentBuilder.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\SegmentBuilders\SlopeSegmentBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\TerrainBuilderAnalyzer.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Builder\OpenTerrainBuilder.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Builder\TerrainBuilder.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Builder\TerrainBuilderHelper.cs" />

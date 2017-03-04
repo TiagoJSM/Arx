@@ -1,4 +1,5 @@
-﻿using MathHelper.DataStructures;
+﻿using Assets.Standard_Assets.Terrain.Builder.Helper;
+using MathHelper.DataStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Assets.Standard_Assets.Terrain.Builder
 
             foreach (var seg in lineSegments)
             {
-                var segmentTerrainType = GetTerrainTypeFromSegment(seg, field.floorTerrainMaximumSlope);
+                var segmentTerrainType = TerrainBuilderAnalyzer.GetTerrainTypeFromSegment(seg, field.floorTerrainMaximumSlope);
                 var maxSegmentLenght = GetMaxSegmentLenght(field, segmentTerrainType);
                 if (segmentTerrainType != terrainType)
                 {
@@ -43,19 +44,6 @@ namespace Assets.Standard_Assets.Terrain.Builder
             }
 
             return terrainSegments;
-        }
-
-        private TerrainType GetTerrainTypeFromSegment(LineSegment2D segment, float floorTerrainMaximumSlope)
-        {
-            if (segment.Slope == null || Math.Abs(segment.Slope.Value) >= floorTerrainMaximumSlope)
-            {
-                return TerrainType.Slope;
-            }
-            if (segment.NormalVector.y < 0)
-            {
-                return TerrainType.Ceiling;
-            }
-            return TerrainType.Floor;
         }
 
         private float GetMaxSegmentLenght(TerrainField field, TerrainType segmentTerrainType)

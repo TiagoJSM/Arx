@@ -221,6 +221,10 @@
     <Compile Include="Assets\Standard Assets\Ropes\Editor\RopeWizard.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Editor\ClosedTerrainFieldEditor.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Editor\ClosedTerrainMenuItem.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Editor\Decorator\Models\DecoratorForm.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Editor\Decorator\Models\DecoratorLayer.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Editor\Decorator\Models\DecoratorObject.cs" />
+    <Compile Include="Assets\Standard Assets\Terrain\Editor\Decorator\TerrainDecoratorEditor.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Editor\OpenTerrainFieldEditor.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Editor\OpenTerrainMenuItem.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Editor\TerrainFieldEditor.cs" />

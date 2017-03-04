@@ -13,18 +13,10 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
     {
         private readonly Vector2[] SegmentStartUvs =
             new[]{
-                new Vector2(),
-                new Vector2(1, 0),
-                new Vector2(0, 1),
-                new Vector2(1, 1)
-            };
-
-        private readonly Vector2[] SegmentStartMirroredUvs =
-            new[]{
-                new Vector2(1, 0),
-                new Vector2(),
-                new Vector2(1, 1),
-                new Vector2(0, 1)
+                new Vector2(0f, 0f),
+                new Vector2(1f, 0f),
+                new Vector2(0f, 1f),
+                new Vector2(1f, 1f)
             };
 
         private Vector2 PreviousTopRightCorner
@@ -77,7 +69,7 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
                     origin + new Vector2(0, halfHeight)
                 };
 
-            AddSegmentDataStart(false, _leftCornerColor, GetRotatedVectors(origin, rotationInRadians, vectors));
+            AddSegmentDataStart(_leftCornerColor, GetRotatedVectors(origin, rotationInRadians, vectors));
         }
 
         public void AddFirstSegment(LineSegment2D segment)
@@ -104,23 +96,16 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
                     endPoint + new Vector2(_cornerWidth, halfHeight)
                 };
 
-            AddSegmentDataStart(false, _rightCornerColor, GetRotatedVectors(endPoint, rotationInRadians, vectors));
+            AddSegmentDataStart(_rightCornerColor, GetRotatedVectors(endPoint, rotationInRadians, vectors));
         }
 
-        private void AddSegmentDataStart(bool mirrowedUvs, Color color, params Vector2[] vertices)
+        private void AddSegmentDataStart(Color color, params Vector2[] vertices)
         {
             _dataContext.Vertices.AddRange(vertices);
 
             _dataContext.Indices.AddRange(GetSegmentDataStartIndices());
 
-            if (mirrowedUvs)
-            {
-                _dataContext.Uvs.AddRange(SegmentStartMirroredUvs);
-            }
-            else
-            {
-                _dataContext.Uvs.AddRange(SegmentStartUvs);
-            }
+            _dataContext.Uvs.AddRange(SegmentStartUvs);
 
             _dataContext.Colors.AddRange(
                 new[]{
@@ -147,7 +132,7 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
 
             var vertices = new[] { bottomLeft, bottomRight, topLeft, topRight };
 
-            AddSegmentDataStart(false, _segmentColor, vertices);
+            AddSegmentDataStart(_segmentColor, vertices);
             _processedSegments.Add(segment);
         }
 
@@ -183,8 +168,8 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
 
             _dataContext.Uvs.AddRange(
                 new[]{
-                    new Vector2(_currentSegmentIndex + 1.0f, 0),
-                    new Vector2(_currentSegmentIndex + 1.0f, 1),
+                    new Vector2(_currentSegmentIndex + 1f, 0),
+                    new Vector2(_currentSegmentIndex + 1f, 1),
                 });
 
             _dataContext.Colors.AddRange(

@@ -77,13 +77,17 @@ Shader "2DTerrain/Lit"
 
 	void vert(inout appdata_full input, out Input o)
 	{
-		UNITY_INITIALIZE_OUTPUT(Input, o);
+		UNITY_INITIALIZE_OUTPUT(Input, o);		
 		o.color = input.color;
 	}
 
 	fixed4 SampleSpriteTexture(Input IN, float2 uv)
 	{
 		float2 uvFrac = frac(uv);
+
+		//uvFrac.x = clamp(uvFrac.x , 0.0, 1.0);
+		//uvFrac.y = clamp(uv.y, 0.0, 1.0);
+
 		if (IN.color.a == 0.0f)
 		{
 			return SetSurfaceColor(uvFrac, _FloorLeftEnding, _Texture).xyzw;
@@ -120,10 +124,11 @@ Shader "2DTerrain/Lit"
 		{
 			return SetSurfaceColor(uvFrac, _Slope, _Texture).xyzw;
 		}
-		else
+		else if(IN.color.a == 0.9f)
 		{
 			return SetSurfaceColor(uvFrac, _SlopeRightEnding, _Texture).xyzw;
 		}
+		return fixed4(1.0, 0, 0, 1.0).xyzw;
 	}
 
 	void surf(Input IN, inout SurfaceOutput o)

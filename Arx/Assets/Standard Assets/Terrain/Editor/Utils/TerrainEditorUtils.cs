@@ -233,8 +233,8 @@ namespace Assets.Standard_Assets.Terrain.Editor.Utils
         {
             _topLeft = topLeft;
             _bottomRight = bottomRight;
-            _leftCapSplit = leftCapSplit;
-            _rightCapSplit = rightCapSplit;
+            _leftCapSplit = leftCapSplit - topLeft.x;
+            _rightCapSplit = rightCapSplit - topLeft.x;
         }
     }
 
