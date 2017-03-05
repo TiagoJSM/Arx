@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System;
 using System.Linq;
+using Assets.Standard_Assets.GenericComponents;
 
 namespace GenericComponentsTests
 {

@@ -51,6 +51,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Arx\Arx.Plugins.csproj">
+      <Project>{1ED791E0-EF06-576D-40DC-28E8874D619B}</Project>
+      <Name>Arx.Plugins</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GenericComponents\GenericComponents.csproj">
       <Project>{5ed6d708-beb5-4f23-9f44-f8a491a42f84}</Project>
       <Name>GenericComponents</Name>

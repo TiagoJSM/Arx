@@ -102,5 +102,14 @@ namespace Extensions
             var idx = UnityEngine.Random.Range(0, data.Count());
             return data.ElementAt(idx);
         }
+
+        public static int[] IndicesWhere<TData>(this IEnumerable<TData> data, Func<TData, bool> predicate)
+        {
+            return data
+                .Select((item, index) => new { item, index })
+                .Where(pair => predicate(pair.item))
+                .Select(x => x.index)
+                .ToArray();
+        }
     }
 }

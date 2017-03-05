@@ -63,6 +63,12 @@ namespace MathHelper.DataStructures
             return (y - B) / Slope.Value;
         }
 
+        public float YWhenXIs(float x)
+        {
+            //y = m.x + b
+            return Slope.Value * x + B;
+        }
+
         public bool PositiveSlope
         {
             get

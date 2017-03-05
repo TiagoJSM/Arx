@@ -42,14 +42,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builders\NodeMeshBuilder.cs" />
-    <Compile Include="Builders\NodeMeshSegmentBuilder.cs" />
     <Compile Include="Effects\CameraBoundTextureOffsetMesh.cs" />
-    <Compile Include="NodeMeshDecoration\NodeMesh.cs" />
     <Compile Include="Effects\TextureOffsetMesh.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Arx\Arx.Plugins.csproj">
+      <Project>{1ED791E0-EF06-576D-40DC-28E8874D619B}</Project>
+      <Name>Arx.Plugins</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{de006f2e-b5dd-4ad1-8be3-f147e2f6286e}</Project>
       <Name>Extensions</Name>
