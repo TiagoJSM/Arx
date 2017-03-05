@@ -17,16 +17,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Teleporters
         private SceneField _scene;
         [SerializeField]
         private string _location;
-        [SerializeField]
-        private TeleportOnUseNotification _notification;
-
-        public TeleportOnUseNotification Notification
-        {
-            get
-            {
-                return _notification; ;
-            }
-        }
 
         public void Teleport(GameObject teleportTarget)
         {

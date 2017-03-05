@@ -16,6 +16,7 @@ using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
 using Assets.Standard_Assets.UI.HUD.Scripts;
 using Assets.Standard_Assets.InventorySystem.Controllers;
 using Assets.Standard_Assets.InventorySystem;
+using Assets.Standard_Assets._2D.Scripts.Interaction;
 
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(ItemFinderController))]
@@ -47,10 +48,11 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     private HudManager _hud;
     private Vector3 _interactionPosition;
     private IInteractionTriggerController _currentInteraction;
-    private ITeleporter _teleporter;
 
     [SerializeField]
-    private InteractionFinder interactionFinder;
+    private InteractionFinder _interactionFinder;
+    [SerializeField]
+    private TeleporterFinder _teleporterFinder;
     [SerializeField]
     private GameObject HudPrefab;
     [SerializeField]
@@ -140,21 +142,11 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     private void HandleTeleporter(bool teleport)
     {
-        var teleporter = FindTeleporter();
-        if(_teleporter != null && _teleporter != teleporter && _teleporter.Notification != null)
-        {
-            _teleporter.Notification.Hide();
-        }
+        var teleporter = _teleporterFinder.FindTeleporter();
 
-        _teleporter = teleporter;
-        if(_teleporter != null && _teleporter.Notification != null)
+        if (teleport && teleporter != null)
         {
-            _teleporter.Notification.Show();
-        }
-
-        if (teleport && _teleporter != null)
-        {
-            _teleporter.Teleport(this.gameObject);
+            teleporter.Teleport(this.gameObject);
         }
     }
 
@@ -174,7 +166,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         }
         if (_currentInteraction == null)
         {
-            _currentInteraction = interactionFinder.GetInteractionTrigger();
+            _currentInteraction = _interactionFinder.GetInteractionTrigger();
             _interactionPosition = transform.position;
         }
 

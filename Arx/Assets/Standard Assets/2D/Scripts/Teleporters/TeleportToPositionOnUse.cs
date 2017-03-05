@@ -7,15 +7,5 @@ using UnityEngine;
 
 public class TeleportToPositionOnUse : BaseTeleportToPosition, ITeleporter
 {
-    [SerializeField]
-    private TeleportOnUseNotification _notification;
-
-    public TeleportOnUseNotification Notification
-    {
-        get
-        {
-            return _notification;
-        }
-    }
 }
 

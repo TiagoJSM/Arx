@@ -15,19 +15,24 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         [SerializeField]
         private SpriteRenderer _interactionButton;
 
-        public void Show()
+        public void ShowInteraction()
         {
-            _animator.SetBool(SHOW, true);
+            Show(InputManager.Instance.GetInputDevice().InteractSprite);
         }
 
-        public void Hide()
+        public void ShowTeleporter()
+        {
+            Show(InputManager.Instance.GetInputDevice().Up);
+        }
+
+        public void HideInteraction()
         {
             _animator.SetBool(SHOW, false);
         }
 
-        private void Start()
+        public void HideTeleporter()
         {
-            _interactionButton.sprite = InputManager.Instance.GetInputDevice().InteractSprite;
+            _animator.SetBool(SHOW, false);
         }
 
         private void LateUpdate()
@@ -38,6 +43,16 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
                 var localScale = transform.localScale;
                 transform.localScale = new Vector3(-localScale.x, localScale.y, localScale.z);
             }
+        }
+
+        private void Show(Sprite sprite)
+        {
+            if (_animator.GetBool(SHOW))
+            {
+                return;
+            }
+            _interactionButton.sprite = sprite;
+            _animator.SetBool(SHOW, true);
         }
     }
 }

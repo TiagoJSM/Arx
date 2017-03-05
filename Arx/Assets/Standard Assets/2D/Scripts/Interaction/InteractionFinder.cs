@@ -9,7 +9,10 @@ using UnityEngine;
 
 public class InteractionFinder : MonoBehaviour
 {
-    private InteractionNotification _currentNotification;
+    private IInteractionTriggerController _trigger;
+
+    [SerializeField]
+    private InteractionNotification _notification;
 
     [SerializeField]
     private Transform _interactionAreaP1;
@@ -40,18 +43,16 @@ public class InteractionFinder : MonoBehaviour
     {
         var closestInteraction = GetInteractionTrigger();
 
-        if (closestInteraction == null)
+        if (_trigger != null && closestInteraction == null)
         {
-            DisableCurrentNotification();
-            return;
+            _trigger = null;
+            _notification.HideInteraction();
         }
-        var interactionNotification = closestInteraction.GameObject.GetComponentInChildren<InteractionNotification>();
-        if (interactionNotification != _currentNotification || interactionNotification == null)
+        else if(closestInteraction != null && (_trigger == null || closestInteraction != _trigger))
         {
-            DisableCurrentNotification();
-            _currentNotification = interactionNotification;
+            _trigger = closestInteraction;
+            _notification.ShowInteraction();
         }
-        EnableCurrentNotification();
     }
 
     private void OnDrawGizmos()
@@ -65,23 +66,6 @@ public class InteractionFinder : MonoBehaviour
         var size = _interactionAreaP1.position - _interactionAreaP2.position;
         size = new Vector3(Mathf.Abs(size.x), Mathf.Abs(size.y), Mathf.Abs(size.z));
         Gizmos.DrawWireCube(center, size);
-    }
-
-    private void EnableCurrentNotification()
-    {
-        if(_currentNotification != null)
-        {
-            _currentNotification.Show();
-        }
-    }
-
-    private void DisableCurrentNotification()
-    {
-        if(_currentNotification != null)
-        {
-            _currentNotification.Hide();
-        }
-        _currentNotification = null;
     }
 }
 

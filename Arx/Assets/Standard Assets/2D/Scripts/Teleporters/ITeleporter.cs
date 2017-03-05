@@ -7,7 +7,6 @@ using UnityEngine;
 
 public interface ITeleporter
 {
-    TeleportOnUseNotification Notification { get; }
     void Teleport(GameObject teleportTarget);
 }
 
