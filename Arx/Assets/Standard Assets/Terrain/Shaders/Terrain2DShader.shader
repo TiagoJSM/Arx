@@ -34,6 +34,7 @@ Shader "2DTerrain/Lit"
 		Blend SrcAlpha OneMinusSrcAlpha
 
 		CGPROGRAM
+#pragma enable_d3d11_debug_symbols
 #pragma surface surf SimpleLambert alpha
 #pragma multi_compile _ PIXELSNAP_ON
 #pragma multi_compile _ ETC1_EXTERNAL_ALPHA
@@ -86,7 +87,7 @@ Shader "2DTerrain/Lit"
 		float2 uvFrac = frac(uv);
 
 		//uvFrac.x = clamp(uvFrac.x , 0.0, 1.0);
-		//uvFrac.y = clamp(uv.y, 0.0, 1.0);
+		uvFrac.y = clamp(uv.y, 0.0, 1.0);
 
 		if (IN.color.a == 0.0f)
 		{

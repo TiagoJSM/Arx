@@ -1,6 +1,7 @@
 ﻿#ifndef TERRAIN_HELPERS
 #define TERRAIN_HELPERS
 
+#pragma enable_d3d11_debug_symbols
 #include "UnityCG.cginc"
 
 inline fixed4 SetSurfaceColor(fixed2 uv, fixed4 coords, sampler2D tex)
@@ -11,11 +12,10 @@ inline fixed4 SetSurfaceColor(fixed2 uv, fixed4 coords, sampler2D tex)
 	//return tex2D(tex, processedUv);
 	fixed4 color = tex2D(tex, processedUv);
 
-	if (color.a < 0.8) {
-		return fixed4(processedUv.y, 1, 0, 1);
+	if (color.a > 0.5) {
+		color.a = 1;
 	}
 	return color;
 }
-
 
 #endif

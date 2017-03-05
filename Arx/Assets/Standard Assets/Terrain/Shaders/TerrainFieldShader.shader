@@ -11,7 +11,6 @@
 		Pass
 		{
 			CGPROGRAM
-
 			#include "UnityCG.cginc"
 
 			uniform Sampler2D _FloorTexture;

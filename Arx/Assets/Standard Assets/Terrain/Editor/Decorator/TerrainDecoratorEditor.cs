@@ -17,6 +17,7 @@ namespace Assets.Standard_Assets.Terrain.Editor.Decorator
         private const string DecorationChild = "Decoration";
         private DecoratorForm _form;
         private UnityEditor.Editor _editor;
+        private Vector2 _scroll;
 
         [MenuItem("Window/2D Terrain/Decorator")]
         static void Init()
@@ -32,7 +33,9 @@ namespace Assets.Standard_Assets.Terrain.Editor.Decorator
 
         private void OnGUI()
         {
+            _scroll = EditorGUILayout.BeginScrollView(_scroll);
             _editor.OnInspectorGUI();
+            EditorGUILayout.EndScrollView();
 
             ApplyButton();
         }
@@ -112,11 +115,55 @@ namespace Assets.Standard_Assets.Terrain.Editor.Decorator
             {
                 var position = GetRandomPosition(lineSegment2D);
                 var decoratorObject = GetRandomObject(layer);
-                var instantiate = Instantiate(decoratorObject, position, Quaternion.identity, decorationContainer.transform);
-                //instantiate.transform.SetParent(decorationContainer.transform, true);
-                //instantiate.transform.position = position;
-                var i = 5;
+                var rotation = GetRandomRotation(lineSegment2D, decoratorObject);
+                var scale = GetRandomScale(decoratorObject);
+                var instantiate = 
+                    Instantiate(
+                        decoratorObject.asset, position,
+                        rotation, 
+                        decorationContainer.transform);
+                instantiate.transform.localScale = scale;
             }
+        }
+
+        private Vector3 GetRandomScale(DecoratorObject decoratorObject)
+        {
+            var minScaleVariation = ValidateScale(decoratorObject.minScaleVariation);
+            var maxScaleVariation = ValidateScale(decoratorObject.maxScaleVariation);
+
+            var x = UnityEngine.Random.Range(minScaleVariation.x, maxScaleVariation.x);
+            var y = UnityEngine.Random.Range(minScaleVariation.y, maxScaleVariation.y);
+
+            return new Vector3(
+                x == 0 ? 1 : x,
+                y == 0 ? 1 : y,
+                1);
+        }
+
+        private Vector2 ValidateScale(Vector2 scale)
+        {
+            if (scale.x == 0)
+            {
+                scale.x = 1;
+                Debug.Log("Scale can't be 0, defaulted to 1");
+            }
+            if (scale.y == 0)
+            {
+                scale.y = 1;
+                Debug.Log("Scale can't be 0, defaulted to 1");
+            }
+            return scale;
+        }
+
+        private Quaternion GetRandomRotation(LineSegment2D lineSegment2D, DecoratorObject decoratorObject)
+        {
+            var rotation = Vector2.Angle(Vector2.up, lineSegment2D.NormalVector);
+            if(lineSegment2D.NormalVector.x > 0)
+            {
+                rotation += 180;
+            }
+            var randomRotation = UnityEngine.Random.Range(-decoratorObject.rotationVariation, decoratorObject.rotationVariation);
+            return Quaternion.Euler(0, 0, randomRotation + rotation);
         }
 
         private Vector2 GetRandomPosition(LineSegment2D lineSegment2D)
@@ -128,10 +175,10 @@ namespace Assets.Standard_Assets.Terrain.Editor.Decorator
             return new Vector2(x, y);
         }
 
-        private GameObject GetRandomObject(DecoratorLayer layer)
+        private DecoratorObject GetRandomObject(DecoratorLayer layer)
         {
             var idx = UnityEngine.Random.Range(0, layer.decoratorObjects.Length);
-            return layer.decoratorObjects[idx].asset;
+            return layer.decoratorObjects[idx];
         }
 
         private DecoratorLayer GetDecoratorLayerFor(TerrainType terrainType)

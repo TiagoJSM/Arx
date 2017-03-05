@@ -104,7 +104,11 @@ namespace Assets.Standard_Assets.Terrain.Editor
         {
             var texture = _selectedMaterial.GetTexture(TextureParameterName);
 
-            _textureEditorPosition = GUILayout.BeginScrollView(_textureEditorPosition);
+            _textureEditorPosition =
+                EditorGUILayout.BeginScrollView(
+                        _textureEditorPosition,
+                        true,
+                        true);
             RenderTexture(texture);
 
             if(TerrainEditorUtils.TextureSelection(_selection, texture))
@@ -112,7 +116,7 @@ namespace Assets.Standard_Assets.Terrain.Editor
                 AssignTextureCoordinatesForSelectedLayer(texture);
                 Repaint();
             }
-            GUILayout.EndScrollView();
+            EditorGUILayout.EndScrollView();
             
             Rect scale = GUILayoutUtility.GetLastRect();
         }

@@ -11,6 +11,7 @@ namespace Assets.Standard_Assets.Terrain.Editor.Decorator.Models
     {
         public GameObject asset;
         public float rotationVariation;
-        public Vector2 scaleVariation = Vector2.one;
+        public Vector2 minScaleVariation;
+        public Vector2 maxScaleVariation;
     }
 }
