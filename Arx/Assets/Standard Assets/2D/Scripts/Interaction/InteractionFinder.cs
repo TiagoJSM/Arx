@@ -1,4 +1,5 @@
-﻿using Assets.Standard_Assets._2D.Scripts.Controllers;
+﻿using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
+using Assets.Standard_Assets._2D.Scripts.Controllers;
 using CommonInterfaces.Controllers.Interaction;
 using Extensions;
 using System;
@@ -12,7 +13,7 @@ public class InteractionFinder : MonoBehaviour
     private IInteractionTriggerController _trigger;
 
     [SerializeField]
-    private InteractionNotification _notification;
+    private MainCharacterNotification _notification;
 
     [SerializeField]
     private Transform _interactionAreaP1;

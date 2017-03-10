@@ -1,4 +1,5 @@
-﻿using Assets.Standard_Assets._2D.Scripts.Controllers;
+﻿using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
+using Assets.Standard_Assets._2D.Scripts.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Interaction
         private ITeleporter _currentTeleporter;
 
         [SerializeField]
-        private InteractionNotification _notification;
+        private MainCharacterNotification _notification;
 
         public ITeleporter FindTeleporter()
         {

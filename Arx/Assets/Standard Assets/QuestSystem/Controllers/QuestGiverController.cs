@@ -1,4 +1,5 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.Controllers;
+using Assets.Standard_Assets.Characters.Friendly.Quest_Giver.Scripts;
 using Assets.Standard_Assets.QuestSystem.QuestStructures;
 using CommonInterfaces.Controllers.Interaction;
 using GenericComponents.Controllers.Interaction;
@@ -16,6 +17,8 @@ namespace Assets.Standard_Assets.QuestSystem.Controllers
         private InteractibleCharacterController _interactible;
         private IQuestSubscriber _questSubscriber;
 
+        [SerializeField]
+        private QuestMarkerNotification _notification;
         [SerializeField]
         private InteractiveDialogComponent _questExplanationDialog;
         [SerializeField]
@@ -39,6 +42,7 @@ namespace Assets.Standard_Assets.QuestSystem.Controllers
             {
                 return;
             }
+            _notification.Hide();
             subscriber.AssignQuest(quest);
         }
 
@@ -46,6 +50,20 @@ namespace Assets.Standard_Assets.QuestSystem.Controllers
         {
             var questSubscriber = FindObjectOfType<QuestLogComponent>();
             SetAppropriateText(questSubscriber.gameObject);
+            SetAppropriateNotification(questSubscriber);
+        }
+
+        private void SetAppropriateNotification(QuestLogComponent questSubscriber)
+        {
+            var subscriberQuest = questSubscriber.GetQuest(quest.questId);
+            if(subscriberQuest.QuestStatus == QuestStatus.Inactive)
+            {
+                _notification.ShowQuestAvailableMarker();
+            }
+            else
+            {
+                _notification.Hide();
+            }
         }
 
         private void SetAppropriateText(GameObject interactor)
