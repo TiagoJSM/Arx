@@ -201,6 +201,7 @@
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\Views\ConnectToGoogleApiView.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\Views\FileGridDataView.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\Editor\Views\FileSelectionView.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Pickup Item\Scripts\Editor\ItemIdEditorManager.cs" />
     <Compile Include="Assets\Standard Assets\GenericComponents\Editor\NodePathEditor.cs" />
     <Compile Include="Assets\Standard Assets\GenericComponents\Waypoint\Editor\WaypointPathEditor.cs" />
     <Compile Include="Assets\Standard Assets\InventorySystem\Editor\CustomEditors\InventoryItemCustomEditor.cs" />
