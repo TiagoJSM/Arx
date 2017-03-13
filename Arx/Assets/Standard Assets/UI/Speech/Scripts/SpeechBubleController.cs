@@ -179,11 +179,11 @@ namespace Assets.Standard_Assets.UI.Speech.Scripts
 
         private void SetContinueConversationMessage()
         {
-            //_continueConversation.text = "Continue";
+            _continueConversation.text = "Continue";
         }
         private void SetCloseConversationMessage()
         {
-            //_continueConversation.text = "Close";
+            _continueConversation.text = "Close";
         }
     }
 }
