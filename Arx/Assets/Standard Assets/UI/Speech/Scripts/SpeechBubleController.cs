@@ -1,5 +1,4 @@
-﻿using CommonInterfaces.Controllers.Interaction;
-using GenericComponents.Behaviours;
+﻿using GenericComponents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +6,15 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GenericComponents.Controllers.Interaction
+namespace Assets.Standard_Assets.UI.Speech.Scripts
 {
-    public class SpeechController : TemplateSpeechController
+    public class SpeechBubleController : MonoBehaviour
     {
         private readonly int OpenSpeechBubble = Animator.StringToHash("Open Speech Bubble");
         private readonly int CloseSpeechBubble = Animator.StringToHash("Close Speech Bubble");
 
         [SerializeField]
-        private CharacterIdentity _name;
+        private bool _visible;
         [SerializeField]
         private RectTransform _speechBubble;
         [SerializeField]
@@ -23,28 +22,67 @@ namespace GenericComponents.Controllers.Interaction
         private RectTransform _content;
         [SerializeField]
         private Text _nameText;
+        [SerializeField]
+        private Image _continueConversationButton;
+        [SerializeField]
+        private Text _continueConversation;
 
         [SerializeField]
         private Animator _speechAnimator;
         [SerializeField]
         [TextArea(3, 10)]
         private string _text;
+        [SerializeField]
+        private Text _textUi;
 
-        public Text textUi;
+        public OnScrollEnd OnScrollEnd;
+        public OnVisibilityChange OnVisibilityChange;
 
-        public override string Text
+        public string Name
         {
             get
             {
-                return textUi.text;
+                return _nameText.text;
             }
             set
             {
-                textUi.text = value;
+                _nameText.text = value;
             }
         }
 
-        public override bool SpeechEnded
+        public string Text
+        {
+            get
+            {
+                return _textUi.text;
+            }
+            set
+            {
+                _textUi.text = value;
+            }
+        }
+
+        public bool Visible
+        {
+            get
+            {
+                return _visible;
+            }
+            set
+            {
+                if (_visible != value)
+                {
+                    _visible = value;
+                    OnVisibleChange();
+                    if(OnVisibilityChange != null)
+                    {
+                        OnVisibilityChange(_visible);
+                    }
+                }
+            }
+        }
+
+        public bool SpeechEnded
         {
             get
             {
@@ -57,22 +95,37 @@ namespace GenericComponents.Controllers.Interaction
             }
         }
 
-        public void Reset()
+        public void ResetSpeech()
         {
             _content.localPosition = new Vector3();
+            if (SpeechEnded)
+            {
+                SetCloseConversationMessage();
+            }
+            else
+            {
+                SetContinueConversationMessage();
+            }
         }
 
         public bool ScrollPageDown()
         {
             if (SpeechEnded)
             {
-                OnScrollEnd?.Invoke();
+                if (OnScrollEnd != null)
+                {
+                    OnScrollEnd();
+                }
                 Close();
                 return true;
             }
             //ToDo: scroll should use coroutine to make it smooth
             var speechBubbleHeight = _speechBubble.rect.height;
             ScrollDown(speechBubbleHeight);
+            if (SpeechEnded)
+            {
+                SetCloseConversationMessage();
+            }
             return false;
         }
 
@@ -82,25 +135,25 @@ namespace GenericComponents.Controllers.Interaction
             _content.anchoredPosition = transformed;
         }
 
-        public override bool Continue()
+        public bool Continue()
         {
             return ScrollPageDown();
         }
 
-        public override void Say(string text)
+        public void Say(string text)
         {
-            Reset();
+            ResetSpeech();
             Text = text;
             Visible = true;
         }
 
-        public override void Close()
+        public void Close()
         {
             Text = string.Empty;
             Visible = false;
         }
 
-        protected override void OnVisibleChange()
+        protected void OnVisibleChange()
         {
             var trigger = Visible ? OpenSpeechBubble : CloseSpeechBubble;
             _speechAnimator.SetTrigger(trigger);
@@ -109,7 +162,6 @@ namespace GenericComponents.Controllers.Interaction
         private void LateUpdate()
         {
             var globalScale = _speechBubble.transform.lossyScale;
-            //Debug.Log(this.name + " " + globalScale.x);
             if (globalScale.x < 0)
             {
                 var localScale = _speechBubble.transform.localScale;
@@ -123,11 +175,15 @@ namespace GenericComponents.Controllers.Interaction
             _content.localPosition = new Vector3();
             Text = _text;
             _nameText.text = string.Empty;
-            if (_name != null)
-            {
-                _nameText.text = _name.Name;
-            }
-            
+        }
+
+        private void SetContinueConversationMessage()
+        {
+            //_continueConversation.text = "Continue";
+        }
+        private void SetCloseConversationMessage()
+        {
+            //_continueConversation.text = "Close";
         }
     }
 }

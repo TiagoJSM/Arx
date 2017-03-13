@@ -5,6 +5,7 @@ using GenericComponents.Controllers.Interaction;
 using CommonInterfaces;
 using System;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
+using Assets.Standard_Assets.UI.Speech.Scripts;
 
 public class InteractibleCharacterController : MonoBehaviour, IInteractionTriggerController
 {

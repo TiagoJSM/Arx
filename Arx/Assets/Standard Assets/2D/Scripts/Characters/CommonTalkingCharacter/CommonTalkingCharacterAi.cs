@@ -5,6 +5,7 @@ using System.Text;
 using CommonInterfaces.Enums;
 using UnityEngine;
 using GenericComponents.Controllers.Interaction;
+using Assets.Standard_Assets.UI.Speech.Scripts;
 
 [RequireComponent(typeof(SpeechController))]
 [RequireComponent(typeof(InteractibleCharacterController))]

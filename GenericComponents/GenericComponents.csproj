@@ -68,7 +68,6 @@
     <Compile Include="Controllers\Characters\CharacterController.cs" />
     <Compile Include="Controllers\Characters\CharacterGrounding.cs" />
     <Compile Include="Controllers\Characters\PlatformerCharacterController.cs" />
-    <Compile Include="Controllers\Interaction\SpeechController.cs" />
     <Compile Include="Controllers\Interaction\TemplateSpeechController.cs" />
     <Compile Include="Enums\AttackStyle.cs" />
     <Compile Include="Enums\AttackType.cs" />

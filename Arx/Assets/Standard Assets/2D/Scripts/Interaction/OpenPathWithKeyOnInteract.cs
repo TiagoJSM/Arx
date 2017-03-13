@@ -8,6 +8,7 @@ using CommonInterfaces;
 using Assets.Standard_Assets.InventorySystem;
 using Assets.Standard_Assets.InventorySystem.InventoryObjects;
 using GenericComponents.Controllers.Interaction;
+using Assets.Standard_Assets.UI.Speech.Scripts;
 
 namespace Assets.Standard_Assets._2D.Scripts.Interaction
 {
