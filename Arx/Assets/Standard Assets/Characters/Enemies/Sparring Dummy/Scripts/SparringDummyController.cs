@@ -62,8 +62,11 @@ namespace Assets.Standard_Assets.Characters.Enemies.Sparring_Dummy.Scripts
         private void CompleteTask(TaskSelector selector)
         {
             var quest = _questLog.GetQuest(selector.Quest.questId);
-            var task = quest.GetTask<SettableTask>(selector.TaskName);
-            task.SetComplete();
+            if(quest.QuestStatus == QuestStatus.Active)
+            {
+                var task = quest.GetTask<SettableTask>(selector.TaskName);
+                task.SetComplete();
+            }
         }
     }
 }

@@ -310,6 +310,8 @@
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Hazards\Flamethrower\Scripts\FlamethrowerController.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Hazards\Rotating Ball\Scripts\RotatingBall.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Pickup Item\Scripts\ItemId.cs" />
     <Compile Include="Assets\Standard Assets\Environment\SaveBoard\Scripts\SaveGameOnInteract.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Teleports\Teleport On Use\Scripts\TeleportOnUseNotification.cs" />
@@ -325,6 +327,7 @@
     <Compile Include="Assets\Standard Assets\Extensions\CameraExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\ObjectExtensions.cs" />
+    <Compile Include="Assets\Standard Assets\Extensions\Physics2DExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\Vector2Extensions.cs" />
     <Compile Include="Assets\Standard Assets\GenericComponents\Behaviours\NodePathBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\GenericComponents\Builders\BuilderDataContext.cs" />

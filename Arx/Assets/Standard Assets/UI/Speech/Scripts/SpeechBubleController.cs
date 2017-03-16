@@ -98,14 +98,7 @@ namespace Assets.Standard_Assets.UI.Speech.Scripts
         public void ResetSpeech()
         {
             _content.localPosition = new Vector3();
-            if (SpeechEnded)
-            {
-                SetCloseConversationMessage();
-            }
-            else
-            {
-                SetContinueConversationMessage();
-            }
+            //SetContinueConversationMessage();
         }
 
         public bool ScrollPageDown()
@@ -122,10 +115,7 @@ namespace Assets.Standard_Assets.UI.Speech.Scripts
             //ToDo: scroll should use coroutine to make it smooth
             var speechBubbleHeight = _speechBubble.rect.height;
             ScrollDown(speechBubbleHeight);
-            if (SpeechEnded)
-            {
-                SetCloseConversationMessage();
-            }
+            //SetContinueConversationMessage();
             return false;
         }
 
@@ -159,6 +149,14 @@ namespace Assets.Standard_Assets.UI.Speech.Scripts
             _speechAnimator.SetTrigger(trigger);
         }
 
+        private void Update()
+        {
+            if (Visible)
+            {
+                SetContinueConversationMessage();
+            }
+        }
+
         private void LateUpdate()
         {
             var globalScale = _speechBubble.transform.lossyScale;
@@ -167,6 +165,7 @@ namespace Assets.Standard_Assets.UI.Speech.Scripts
                 var localScale = _speechBubble.transform.localScale;
                 _speechBubble.transform.localScale = new Vector3(-localScale.x, localScale.y, localScale.z);
             }
+            //SetContinueConversationMessage();
         }
 
         private void Start()
@@ -179,11 +178,14 @@ namespace Assets.Standard_Assets.UI.Speech.Scripts
 
         private void SetContinueConversationMessage()
         {
-            _continueConversation.text = "Continue";
-        }
-        private void SetCloseConversationMessage()
-        {
-            _continueConversation.text = "Close";
+            if (SpeechEnded)
+            {
+                _continueConversation.text = "Close";
+            }
+            else
+            {
+                _continueConversation.text = "Continue";
+            }
         }
     }
 }
