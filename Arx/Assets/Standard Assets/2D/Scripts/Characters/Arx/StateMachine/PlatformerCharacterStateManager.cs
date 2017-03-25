@@ -26,7 +26,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<MovingState>((c, a, t) => a.Move != 0 && c.IsGrounded)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
-                    .To<DuckState>((c, a, t) => a.Vertical < 0 && c.IsGrounded);
+                    .To<DuckState>((c, a, t) => a.Vertical < 0 && c.IsGrounded)
+                    .To<LadderGrabState>((c, a, t) => c.LadderFound && a.GrabLadder);
 
             this
                 .From<JumpingState>()

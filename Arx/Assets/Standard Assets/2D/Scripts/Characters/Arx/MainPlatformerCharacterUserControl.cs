@@ -35,7 +35,6 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     private const float MinAttackChargeTime = 0.2f;
 
-    private bool _grabRopePressed;
     private InputAction _currentInputAction = InputAction.None;
     private float _attackButtonDownTime;
 
@@ -124,11 +123,21 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
         SetAimAngle(inputDevice);
         HandleInteraction();
+        HandleLadderGrab(vertical);
 
         _characterController.Move(horizontal, vertical, jump, roll, releaseRope, aiming);
 
         HandleAttack(inputDevice);
         SwitchActiveWeapon(inputDevice);
+    }
+
+    private void HandleLadderGrab(float vertical)
+    {
+        if (Mathf.Abs(vertical) <= 0.01)
+        {
+            return;
+        }
+        _characterController.RequestGrabLadder();
     }
 
     private void LateUpdate()

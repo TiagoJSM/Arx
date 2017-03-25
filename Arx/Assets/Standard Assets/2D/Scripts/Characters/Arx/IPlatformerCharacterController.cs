@@ -28,6 +28,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         bool AttackedThisFrame { get; }
         bool CanBeAttacked { get; set; }
         bool Attacking { get; }
+        bool LadderFound { get; }
 
         void DoMove(float move);
         void DoGrabLedge();
@@ -60,5 +61,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void StopMovingToSafeSpot();
         void LaunchCharacter(bool up = true);
         void AttackStateDone();
+        void GrabLadder();
+        void MoveOnLadder(float vertical);
+        void LetGoLadder();
     }
 }

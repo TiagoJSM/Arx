@@ -123,7 +123,7 @@ public class PlatformerCharacterController : BasePlatformerController
         {
             return _applyMovementAndGravity;
         }
-        protected set
+        set
         {
             _applyMovementAndGravity = value;
             if (!_applyMovementAndGravity)

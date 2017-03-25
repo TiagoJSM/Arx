@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Standard_Assets.Hazards.Rotating_Ball.Scripts
+namespace Assets.Standard_Assets._2D.Scripts
 {
-    public class RotatingBall : MonoBehaviour
+    public class Rotating : MonoBehaviour
     {
         [SerializeField]
         private float rotationSpeed = 1;

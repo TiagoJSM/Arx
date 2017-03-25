@@ -6,13 +6,17 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Extensions;
+using GC = GenericComponents.Controllers.Characters;
 
 namespace Assets.Standard_Assets.Environment.Hazards.Flamethrower.Scripts
 {
     public class FlamethrowerController : MonoBehaviour
     {
         private float? _intersectionHeight;
+        private RaycastHit2D[] _hits = new RaycastHit2D[10];
 
+        [SerializeField]
+        private BoxCollider2D _boxCollider;
         [SerializeField]
         private float _height = 5;
         [SerializeField]
@@ -35,7 +39,13 @@ namespace Assets.Standard_Assets.Environment.Hazards.Flamethrower.Scripts
             }
         }
 
-        private void Update()
+        private void FixedUpdate()
+        {
+            CheckIntersections();
+            //DealDamage();
+        }
+
+        private void CheckIntersections()
         {
             var hits =
                 Physics2D
@@ -43,13 +53,7 @@ namespace Assets.Standard_Assets.Environment.Hazards.Flamethrower.Scripts
                     .Where(hit => !hit.collider.isTrigger)
                     .ToArray();
 
-            CheckIntersections(hits);
-            DealDamage(hits);
-        }
-
-        private void CheckIntersections(RaycastHit2D[] hits)
-        {
-            if(hits.Length == 0)
+            if (hits.Length == 0)
             {
                 _intersectionHeight = null;
                 return;
@@ -62,6 +66,26 @@ namespace Assets.Standard_Assets.Environment.Hazards.Flamethrower.Scripts
             if(_intersectionHeight > _height)
             {
                 _intersectionHeight = _height;
+            }
+            _boxCollider.offset = new Vector2(_boxCollider.offset.x, -_intersectionHeight.Value / 2);
+            _boxCollider.size = new Vector2(_boxCollider.size.x, _intersectionHeight.Value);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collider)
+        {
+            var character = collider.GetComponent<GC.CharacterController>();
+            if(character == null)
+            {
+                return;
+            }
+            var hitCount = _boxCollider.Cast(Vector2.zero, _hits);
+            for(var idx = 0; idx < hitCount; idx++)
+            {
+                if(_hits[idx].collider == collider)
+                {
+                    character.Attacked(gameObject, _damage, _hits[idx].point, DamageType.Environment);
+                    return;
+                }
             }
         }
 

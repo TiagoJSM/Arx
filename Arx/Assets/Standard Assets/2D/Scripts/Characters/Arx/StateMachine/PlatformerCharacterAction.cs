@@ -17,6 +17,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         public bool Shoot { get; private set; }
         public bool Aiming { get; private set; }
         public bool Throw { get; private set; }
+        public bool GrabLadder { get; internal set; }
 
         public PlatformerCharacterAction(
             float move,
@@ -27,7 +28,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             bool releaseRope,
             bool aiming,
             bool shoot,
-            bool @throw)
+            bool @throw,
+            bool grabLadder)
         {
             Move = move;
             Vertical = vertical;
@@ -38,6 +40,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             Aiming = aiming;
             Shoot = shoot;
             Throw = @throw;
+            GrabLadder = grabLadder;
         }
     }
 }

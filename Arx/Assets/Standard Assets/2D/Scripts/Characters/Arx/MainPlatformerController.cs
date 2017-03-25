@@ -19,11 +19,15 @@ using ArxGame.Components.Environment;
 using Assets.Standard_Assets._2D.Scripts.EnvironmentDetection;
 using Assets.Standard_Assets._2D.Scripts.Helpers;
 using System.Collections;
+using Assets.Standard_Assets._2D.Scripts.Controllers;
 
 [RequireComponent(typeof(CombatModule))]
+[RequireComponent(typeof(LadderMovement))]
+[RequireComponent(typeof(LadderDetector))]
 public class MainPlatformerController : PlatformerCharacterController, IPlatformerCharacterController
 {
     private CombatModule _combatModule;
+    private LadderMovement _ladderMovement;
     private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
 
     private Rope _rope;
@@ -33,6 +37,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private Pushable _pushable;
     private Vector3? _safeSpot;
     private Vector3? _hitPointThisFrame;
+    private LadderDetector _ladderDetector;
 
     [SerializeField]
     private float _rollingDuration = 1;
@@ -59,6 +64,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private bool _aiming;
     private bool _shoot;
     private bool _throw;
+    private bool _grabLadder;
 
     private AttackType _attackAction;
 
@@ -166,6 +172,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
     }
 
+    public bool LadderFound { get { return _ladderDetector.LadderGameObject; } }
+
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming)
     {
         _move = move;
@@ -174,6 +182,11 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _roll = roll;
         _releaseRope = releaseRope;
         _aiming = aiming;
+    }
+
+    public void RequestGrabLadder()
+    {
+        _grabLadder = true;
     }
 
     public void LightAttack()
@@ -399,6 +412,21 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _pushable.Push(sign * _objectPushForce);
     }
 
+    public void GrabLadder()
+    {
+        _ladderMovement.GrabLadder();
+    }
+
+    public void MoveOnLadder(float vertical)
+    {
+        _ladderMovement.MoveOnLadder(vertical);
+    }
+
+    public void LetGoLadder()
+    {
+        _ladderMovement.LetGoLadder();
+    }
+
     public void StartMovingToSafeSpot()
     {
         ApplyMovementAndGravity = false;
@@ -473,6 +501,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     {
         base.Awake();
         _combatModule = GetComponent<CombatModule>();
+        _ladderMovement = GetComponent<LadderMovement>();
+        _ladderDetector = GetComponent<LadderDetector>();
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;
@@ -487,7 +517,10 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
         _pushable = FindPushables();
         _combatModule.AimAngle = AimAngle;
-        var action = new PlatformerCharacterAction(_move, _vertical, _jump, _roll, _attackAction, _releaseRope, _aiming, _shoot, _throw);
+        var action = 
+            new PlatformerCharacterAction(
+                _move, _vertical, _jump, _roll, _attackAction, 
+                _releaseRope, _aiming, _shoot, _throw, _grabLadder);
         _stateManager.Perform(action);
         _move = 0;
         _vertical = 0;
@@ -498,6 +531,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _throw = false;
         AttackedThisFrame = false;
         _hitPointThisFrame = null;
+        _grabLadder = false;
     }
 
     protected override void FixedUpdate()

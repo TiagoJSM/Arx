@@ -19,18 +19,28 @@ namespace Assets.Standard_Assets._2D.Scripts.Hazards
 
         private void OnTriggerEnter2D(Collider2D col)
         {
+            DamageEnemy(col);
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            DamageEnemy(collision.collider);
+        }
+
+        private void DamageEnemy(Collider2D col)
+        {
             if (!_platformMask.IsInAnyLayer(col.gameObject))
             {
                 return;
             }
 
             var controller = col.GetComponent<MainPlatformerController>();
-            if(controller == null)
+            if (controller == null)
             {
                 return;
             }
 
-            if(_safeSpot != null)
+            if (_safeSpot != null)
             {
                 controller.Hit(gameObject, _safeSpot.position, _damage, DamageType.Environment);
             }
