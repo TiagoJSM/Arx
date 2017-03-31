@@ -58,6 +58,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private Transform _pushableAreaP1;
     [SerializeField]
     private Transform _pushableAreaP2;
+    [SerializeField]
+    private float _groundAttackVelocity = 0.75f;
 
     private float _move;
     private float _vertical;
@@ -219,11 +221,6 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     public void Shoot()
     {
         _shoot = true;
-    }
-
-    public void DoPrimaryGroundAttack()
-    {
-        VelocityMultiplier = new Vector2(0.4f, VelocityMultiplier.y);
     }
 
     public void DoChargeAttack()
@@ -569,7 +566,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     {
         if(attackStyle == AttackStyle.Ground)
         {
-            var x = attackType == AttackType.Primary ? 0.4f : 0;
+            var x = attackType == AttackType.Primary ? _groundAttackVelocity : 0;
             VelocityMultiplier = new Vector2(x, VelocityMultiplier.y);
         }
     }

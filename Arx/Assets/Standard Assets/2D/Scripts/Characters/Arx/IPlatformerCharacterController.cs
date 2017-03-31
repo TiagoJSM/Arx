@@ -38,7 +38,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void Stand();
         void StayStill();
         void Roll(float move);
-        void DoPrimaryGroundAttack();
         void StartIddle();
         void StopIddle();
         void FlipToSlideDownDirection();

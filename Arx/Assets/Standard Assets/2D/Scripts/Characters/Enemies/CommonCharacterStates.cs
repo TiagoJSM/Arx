@@ -12,6 +12,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
 
         void DoMove(float move);
         void StayStill();
+        void Die();
     }
 
     public class StateAction
@@ -91,6 +92,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
         public void OnStateEnter(StateAction action)
         {
             StateController.StayStill();
+            StateController.Die();
         }
 
         public void OnStateExit(StateAction action)

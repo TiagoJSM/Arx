@@ -210,11 +210,11 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<AttackedOnAirState>()
-                    .To<IddleState>((c, a, t) => t > 2);
+                    .To<IddleState>((c, a, t) => t > 0.5);
 
             this
                 .From<AttackedOnGroundState>()
-                    .To<IddleState>((c, a, t) => t > 1);
+                    .To<IddleState>((c, a, t) => t > 0.5);
 
             this
                 .From<AttackedOnGrabbingState>()

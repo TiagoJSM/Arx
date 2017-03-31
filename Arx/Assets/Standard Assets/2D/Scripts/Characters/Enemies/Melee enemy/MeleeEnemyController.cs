@@ -109,4 +109,10 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
     {
         Attacking = false;
     }
+
+    public void Die()
+    {
+        base.duckingCollider.enabled = false;
+        base.standingCollider.enabled = false;
+    }
 }
