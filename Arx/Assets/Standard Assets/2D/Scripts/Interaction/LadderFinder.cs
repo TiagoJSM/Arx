@@ -1,16 +1,20 @@
-﻿using Extensions;
+﻿using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
+using Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Standard_Assets._2D.Scripts.EnvironmentDetection
+namespace Assets.Standard_Assets._2D.Scripts.Interaction
 {
-    public class LadderDetector : MonoBehaviour
+
+    public class LadderFinder : MonoBehaviour
     {
         [SerializeField]
         private LayerMask _ladderLayer;
+        [SerializeField]
+        private MainCharacterNotification _notification;
 
         public GameObject LadderGameObject { get; private set; }
 
@@ -20,6 +24,7 @@ namespace Assets.Standard_Assets._2D.Scripts.EnvironmentDetection
             {
                 return;
             }
+            _notification.ShowLadder();
             LadderGameObject = collision.gameObject;
         }
 
@@ -29,6 +34,7 @@ namespace Assets.Standard_Assets._2D.Scripts.EnvironmentDetection
             {
                 return;
             }
+            _notification.HideInteraction();
             LadderGameObject = null;
         }
     }

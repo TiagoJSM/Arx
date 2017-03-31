@@ -192,7 +192,6 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\SpeakersAttribute.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\DebugTrigger.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\ContactDetector.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\LadderDetector.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\LedgeChecker.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\Pushable.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\RoofChecker.cs" />
@@ -206,6 +205,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Helpers\Physics2DHelpers.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\CompleteTaskOnItemUse.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\InteractionFinder.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\LadderFinder.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\OpenPathOnItemUse.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\OpenPathWithKeyOnInteract.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\PlayAnimatorTrigger.cs" />
@@ -316,6 +316,7 @@
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Flamethrower\Scripts\FlamethrowerController.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Pickup Item\Scripts\ItemId.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Platforms\Ladder\Scripts\DropLadder.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\PressurePlatform\Scripts\PressurePlatform.cs" />
     <Compile Include="Assets\Standard Assets\Environment\SaveBoard\Scripts\SaveGameOnInteract.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Teleports\Teleport On Use\Scripts\TeleportOnUseNotification.cs" />

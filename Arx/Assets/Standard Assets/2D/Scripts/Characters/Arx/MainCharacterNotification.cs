@@ -22,12 +22,12 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
             _notification.Show(InputManager.Instance.GetInputDevice().Up);
         }
 
-        public void HideInteraction()
+        public void ShowLadder()
         {
-            _notification.Hide();
+            _notification.Show(InputManager.Instance.GetInputDevice().InteractSprite);
         }
 
-        public void HideTeleporter()
+        public void HideInteraction()
         {
             _notification.Hide();
         }

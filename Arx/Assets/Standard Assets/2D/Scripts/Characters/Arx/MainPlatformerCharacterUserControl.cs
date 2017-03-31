@@ -24,6 +24,8 @@ using Assets.Standard_Assets._2D.Scripts.Interaction;
 [RequireComponent(typeof(QuestLogComponent))]
 [RequireComponent(typeof(UiController))]
 [RequireComponent(typeof(EquipmentController))]
+[RequireComponent(typeof(MainCharacterNotification))]
+[RequireComponent(typeof(LadderFinder))]
 public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscriber, IItemOwner, IPlayerControl
 {
     private enum InputAction
@@ -43,6 +45,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     private InventoryComponent _inventoryComponent;
     private QuestLogComponent _questLogComponent;
     private UiController _uiController;
+    private LadderFinder _ladderFinder;
     private EquipmentController _equipmentController;
     private HudManager _hud;
     private Vector3 _interactionPosition;
@@ -94,6 +97,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         _questLogComponent = GetComponent<QuestLogComponent>();
         _equipmentController = GetComponent<EquipmentController>();
         _uiController = GetComponent<UiController>();
+        _ladderFinder = GetComponent<LadderFinder>();
         _uiController.OnActiveQuestSelected += OnActiveQuestSelectedHandler;
         _questLogComponent.OnQuestAssigned += SetActiveQuest;
     }
@@ -115,15 +119,16 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         var vertical = inputDevice.GetAxis(DeviceAxis.Movement).y;
         var roll = inputDevice.GetButton(DeviceButton.Jump);
         var jump = inputDevice.GetButtonDown(DeviceButton.Jump);
-        var releaseRope = inputDevice.GetButtonDown(DeviceButton.Interact);
+        var grabLadder = false;
+        var releaseRope = grabLadder = inputDevice.GetButtonDown(DeviceButton.Interact);
         var aiming = inputDevice.GetButton(DeviceButton.AimWeapon);
         var teleport = inputDevice.GetButtonDown(DeviceButton.Vertical);
 
         HandleTeleporter(teleport);
 
         SetAimAngle(inputDevice);
+        HandleLadderGrab(grabLadder);
         HandleInteraction();
-        HandleLadderGrab(vertical);
 
         _characterController.Move(horizontal, vertical, jump, roll, releaseRope, aiming);
 
@@ -131,13 +136,12 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         SwitchActiveWeapon(inputDevice);
     }
 
-    private void HandleLadderGrab(float vertical)
+    private void HandleLadderGrab(bool grabLadder)
     {
-        if (Mathf.Abs(vertical) <= 0.01)
+        if (grabLadder && _ladderFinder.LadderGameObject != null)
         {
-            return;
+            _characterController.RequestGrabLadder();
         }
-        _characterController.RequestGrabLadder();
     }
 
     private void LateUpdate()

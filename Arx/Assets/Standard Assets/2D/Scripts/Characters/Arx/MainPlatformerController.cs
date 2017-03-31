@@ -20,14 +20,17 @@ using Assets.Standard_Assets._2D.Scripts.EnvironmentDetection;
 using Assets.Standard_Assets._2D.Scripts.Helpers;
 using System.Collections;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
+using Assets.Standard_Assets._2D.Scripts.Interaction;
 
 [RequireComponent(typeof(CombatModule))]
 [RequireComponent(typeof(LadderMovement))]
-[RequireComponent(typeof(LadderDetector))]
+[RequireComponent(typeof(LadderFinder))]
+[RequireComponent(typeof(MainCharacterNotification))]
 public class MainPlatformerController : PlatformerCharacterController, IPlatformerCharacterController
 {
     private CombatModule _combatModule;
     private LadderMovement _ladderMovement;
+    private MainCharacterNotification _notifications;
     private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
 
     private Rope _rope;
@@ -37,7 +40,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private Pushable _pushable;
     private Vector3? _safeSpot;
     private Vector3? _hitPointThisFrame;
-    private LadderDetector _ladderDetector;
+    private LadderFinder _ladderFinder;
 
     [SerializeField]
     private float _rollingDuration = 1;
@@ -172,7 +175,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
     }
 
-    public bool LadderFound { get { return _ladderDetector.LadderGameObject; } }
+    public bool LadderFound { get { return _ladderFinder.LadderGameObject; } }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming)
     {
@@ -414,6 +417,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public void GrabLadder()
     {
+        _notifications.HideInteraction();
         _ladderMovement.GrabLadder();
     }
 
@@ -502,7 +506,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         base.Awake();
         _combatModule = GetComponent<CombatModule>();
         _ladderMovement = GetComponent<LadderMovement>();
-        _ladderDetector = GetComponent<LadderDetector>();
+        _ladderFinder = GetComponent<LadderFinder>();
+        _notifications = GetComponent<MainCharacterNotification>();
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;

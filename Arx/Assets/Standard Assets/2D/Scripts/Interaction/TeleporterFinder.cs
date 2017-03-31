@@ -37,7 +37,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Interaction
             if (_currentTeleporter != null && teleporter == null)
             {
                 _currentTeleporter = null;
-                _notification.HideTeleporter();
+                _notification.HideInteraction();
             }
             else if(teleporter != null && (_currentTeleporter == null || teleporter != _currentTeleporter))
             {
