@@ -16,7 +16,6 @@ public class PlatformerCharacterController : BasePlatformerController
     private Collider2D _activePlatformCollider;
     private bool _grabbingLedge = false;
     private Vector3 _velocity;
-    private float _normalizedHorizontalSpeed = 0;
     private float _defaultGravity;
     private bool _detectPlatform = true;
     private bool _applyMovementAndGravity;
@@ -237,25 +236,24 @@ public class PlatformerCharacterController : BasePlatformerController
 
     public void StayStill()
     {
-        _normalizedHorizontalSpeed = 0;
+        //_normalizedHorizontalSpeed = 0;
         _velocity = new Vector2(0, _velocity.y);
     }
 
     public void Roll(float move)
     {
         var direction = DirectionOfMovement(move, Direction);
-        _normalizedHorizontalSpeed = DirectionValue(direction);
+        _velocity.x = DirectionValue(direction) * runSpeed * VelocityMultiplier.x;
         Flip(direction);
     }
 
     protected void DoMove(float move, bool setDirectionToMovement)
     {
         var direction = DirectionOfMovement(move, Direction);
-        _normalizedHorizontalSpeed = DirectionValue(direction);
-
+        _velocity.x = DirectionValue(direction) * runSpeed * VelocityMultiplier.x;
         if (Math.Abs(move) < 0.2)
         {
-            _normalizedHorizontalSpeed = 0;
+            _velocity.x = 0;
         }
         else
         {
@@ -364,16 +362,9 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         //var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
 
-        //if velocity is not constant we apply gravity and multipliers, etc
-        //otherwise we apply velocity with DoMove(float move, float ySpeed)
-        if (!_constantVelocity)
-        {
-            _velocity.x = _normalizedHorizontalSpeed * runSpeed * VelocityMultiplier.x;
-            _velocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
-        }
+        _velocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
 
         _characterController2D.move(_velocity * Time.deltaTime);
-        // grab our current _velocity to use as a base for all calculations
         _velocity = _characterController2D.velocity;
     }
 

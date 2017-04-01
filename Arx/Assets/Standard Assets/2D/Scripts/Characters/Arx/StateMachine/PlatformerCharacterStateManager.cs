@@ -120,7 +120,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             this
                 .From<RollState>()
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
-                    .To<DuckState>((c, a, t) => c.IsGrounded && a.Move == 0 && (a.Vertical < 0 || !c.CanStand) && t > rollingDuration)
+                    .To<DuckState>((c, a, t) => c.IsGrounded && (a.Vertical < 0 || !c.CanStand) && t > rollingDuration)
                     .To<FallingState>((c, a, t) => !c.IsGrounded)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll && t > rollingDuration)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration && c.CanStand)
@@ -210,11 +210,11 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<AttackedOnAirState>()
-                    .To<IddleState>((c, a, t) => t > 0.5);
+                    .To<IddleState>((c, a, t) => t > 0.25);
 
             this
                 .From<AttackedOnGroundState>()
-                    .To<IddleState>((c, a, t) => t > 0.5);
+                    .To<IddleState>((c, a, t) => t > 0.25);
 
             this
                 .From<AttackedOnGrabbingState>()

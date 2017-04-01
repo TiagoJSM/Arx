@@ -45,7 +45,7 @@ namespace GenericComponents.StateMachine
 
         public void Perform(TAction action)
         {
-            if(_currentStateContainer == null)
+            if (_currentStateContainer == null)
             {
                 if(_root == null)
                 {
@@ -56,7 +56,7 @@ namespace GenericComponents.StateMachine
             }
 
             var current = _currentStateContainer;
-            current.State.TimeInState += Time.fixedDeltaTime;
+            current.State.TimeInState += Time.deltaTime;
 
             var child = current.Transitions.FirstOrDefault(t => t.Condition(_controller, action, current.State.TimeInState));
             if(child != null)
