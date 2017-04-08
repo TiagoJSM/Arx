@@ -52,6 +52,9 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -66,6 +69,9 @@
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VR">
       <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
@@ -320,6 +326,8 @@
     <Compile Include="Assets\Standard Assets\Environment\Platforms\PressurePlatform\Scripts\PressurePlatform.cs" />
     <Compile Include="Assets\Standard Assets\Environment\SaveBoard\Scripts\SaveGameOnInteract.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Teleports\Teleport On Use\Scripts\TeleportOnUseNotification.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Treadmill\Scripts\Treadmill.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Treadmill\Scripts\TreadmillCrate.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Water (Basic)\Scripts\WaterBasic.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\Displace.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\GerstnerDisplace.cs" />
@@ -334,6 +342,7 @@
     <Compile Include="Assets\Standard Assets\Extensions\ObjectExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\Physics2DExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\Vector2Extensions.cs" />
+    <Compile Include="Assets\Standard Assets\GenericComponents\Animation\AnimatorDelay.cs" />
     <Compile Include="Assets\Standard Assets\GenericComponents\Behaviours\NodePathBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\GenericComponents\Builders\BuilderDataContext.cs" />
     <Compile Include="Assets\Standard Assets\GenericComponents\Builders\SegmentBuilder.cs" />

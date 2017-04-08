@@ -14,6 +14,9 @@ namespace Assets.Standard_Assets.Characters.Enemies.Wall_Shooter.Scripts
 
         [SerializeField]
         [Range(0, 10)]
+        private float _initialDelayInSeconds = 0f;
+        [SerializeField]
+        [Range(0, 10)]
         private float shootIntervalInSeconds = 1;
         [SerializeField]
         [Range(1, 10)]
@@ -30,6 +33,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Wall_Shooter.Scripts
 
         private IEnumerator ShootCoroutine()
         {
+            yield return new WaitForSeconds(_initialDelayInSeconds);
             while (true)
             {
                 yield return ShootBurst();
