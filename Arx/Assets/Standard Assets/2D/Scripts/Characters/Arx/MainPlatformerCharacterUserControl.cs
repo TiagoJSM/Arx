@@ -35,7 +35,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         ChargingAttack
     }
 
-    private const float MinAttackChargeTime = 0.2f;
+    private const float MinAttackChargeTime = 0.5f;
 
     private InputAction _currentInputAction = InputAction.None;
     private float _attackButtonDownTime;

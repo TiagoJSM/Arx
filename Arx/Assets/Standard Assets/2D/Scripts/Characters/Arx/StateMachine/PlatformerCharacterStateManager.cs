@@ -121,7 +121,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                 .From<RollState>()
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<DuckState>((c, a, t) => c.IsGrounded && (a.Vertical < 0 || !c.CanStand) && t > rollingDuration)
-                    .To<FallingState>((c, a, t) => !c.IsGrounded)
+                    .To<FallingState>((c, a, t) => !c.IsGrounded && t > rollingDuration)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll && t > rollingDuration)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration && c.CanStand)
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > rollingDuration && c.CanStand);
