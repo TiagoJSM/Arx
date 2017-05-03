@@ -20,6 +20,10 @@ public class PlatformerCharacterController : BasePlatformerController
     private bool _detectPlatform = true;
     private bool _applyMovementAndGravity;
 
+    private Vector2 _pushImpact;
+    private Vector2 _impactMovement;
+    private float _pushStartTime;
+
     private LedgeChecker _ledgeChecker;
     private RoofChecker _roofChecker;
     private Rigidbody2D _rigidBody;
@@ -247,6 +251,13 @@ public class PlatformerCharacterController : BasePlatformerController
         Flip(direction);
     }
 
+    public void Push(Vector2 force)
+    {
+        var dir = force.normalized;
+        _pushImpact = dir.normalized * force.magnitude;
+        _pushStartTime = Time.time;
+    }
+
     protected void DoMove(float move, bool setDirectionToMovement)
     {
         var direction = DirectionOfMovement(move, Direction);
@@ -326,6 +337,13 @@ public class PlatformerCharacterController : BasePlatformerController
 
     protected virtual void Update()
     {
+        _impactMovement =
+            new Vector2(
+                Mathf.Lerp(_pushImpact.x, 0, Mathf.Clamp01((Time.time - _pushStartTime) / 1)),
+                _pushImpact.y) *
+            Time.deltaTime;
+        _pushImpact = new Vector2(_pushImpact.x, 0);
+
         if (ApplyMovementAndGravity)
         {
             ApplyMovement();
@@ -341,7 +359,6 @@ public class PlatformerCharacterController : BasePlatformerController
             transform.rotation = Quaternion.identity;
         }
     }
-
 
     protected virtual void FixedUpdate()
     {
@@ -364,7 +381,9 @@ public class PlatformerCharacterController : BasePlatformerController
 
         _velocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
 
-        _characterController2D.move(_velocity * Time.deltaTime);
+        _characterController2D.move(
+            _velocity * Time.deltaTime + 
+            new Vector3(_impactMovement.x, _impactMovement.y, 0));
         _velocity = _characterController2D.velocity;
     }
 

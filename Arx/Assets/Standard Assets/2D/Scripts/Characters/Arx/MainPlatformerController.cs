@@ -402,7 +402,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         DetectPlatform = true;
     }
 
-    public void Push()
+    public void PushObject()
     {
         if(Mathf.Abs(HorizontalSpeed) < 0.01)
         {
@@ -513,6 +513,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
     }
 
+    bool b;
     protected override void Update()
     {
         base.Update();

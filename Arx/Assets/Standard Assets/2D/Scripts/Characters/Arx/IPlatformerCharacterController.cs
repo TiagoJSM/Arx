@@ -55,7 +55,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void GrabGrapple();
         void MoveOnGrapple(float horizontal, float vertical);
         void ReleaseGrapple();
-        void Push();
+        void PushObject();
         void StartMovingToSafeSpot();
         void StopMovingToSafeSpot();
         void LaunchCharacter(bool up = true);

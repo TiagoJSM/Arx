@@ -8,6 +8,7 @@ namespace GenericComponents.Enums
     public enum UpdateMode
     {
         Update,
-        FixedUpdate
+        FixedUpdate,
+        LateUpdate
     }
 }

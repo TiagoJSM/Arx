@@ -181,6 +181,14 @@ namespace _2DDynamicCamera
             }
         }
 
+        private void LateUpdate()
+        {
+            if (updateMode == UpdateMode.LateUpdate)
+            {
+                CameraUpdate();
+            }
+        }
+
         public IEnumerator ZoomOverTime(float damping, float targetZoom)
         {
             var currentZoom = _camera.orthographicSize;
