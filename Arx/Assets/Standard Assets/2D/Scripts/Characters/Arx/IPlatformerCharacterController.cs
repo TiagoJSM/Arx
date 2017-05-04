@@ -58,7 +58,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void PushObject();
         void StartMovingToSafeSpot();
         void StopMovingToSafeSpot();
-        void LaunchCharacter(bool up = true);
+        void LaunchCharacter();
         void AttackStateDone();
         void GrabLadder();
         void MoveOnLadder(float vertical);

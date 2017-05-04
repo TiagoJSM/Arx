@@ -458,18 +458,15 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         base.Attacked(cause, damage, null, damageType);
     }
 
-    public void LaunchCharacter(bool up = true)
+    public void LaunchCharacter()
     {
-        if (up)
-        {
-            JumpUp();
-        }
         float horizontalMovement = 0;
         if (_hitPointThisFrame != null)
         {
             horizontalMovement = Math.Sign(transform.position.x - _hitPointThisFrame.Value.x);
         }
-        DoMove(horizontalMovement, false);
+        //ToDo: move this into globals?
+        Push(new Vector2(10 * horizontalMovement, 8));
     }
 
     public void AttackStateDone()
