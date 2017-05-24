@@ -510,7 +510,6 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
     }
 
-    bool b;
     protected override void Update()
     {
         base.Update();

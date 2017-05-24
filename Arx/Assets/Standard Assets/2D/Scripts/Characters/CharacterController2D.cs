@@ -296,7 +296,7 @@ public class CharacterController2D : MonoBehaviour
             moveHorizontally(ref deltaMovement);
 
         // next, check movement in the vertical dir
-        if (deltaMovement.y != 0f)
+        if (!slidingSlope && deltaMovement.y != 0f)
             moveVertically(ref deltaMovement);
 
         // move then update our state
@@ -682,7 +682,6 @@ public class CharacterController2D : MonoBehaviour
                     onlyOverLimitSlopes = false;
                     continue;
                 }
-
                 
                 if (angle > slopeMinLimit && angle < 80f)
                 {
@@ -701,6 +700,7 @@ public class CharacterController2D : MonoBehaviour
         {
             var down = new Vector2(1 / overLimitRaycastFound.normal.x, -(1 / overLimitRaycastFound.normal.y));
             deltaMovement = down * slopeSlidingVelocity * Time.deltaTime;
+            Debug.Log(velocity);
             return overLimitRaycastFound;
         }
 
@@ -719,6 +719,14 @@ public class CharacterController2D : MonoBehaviour
                 deltaMovement.x *= slopeModifier;
                 collisionState.movingDownSlope = true;
                 collisionState.slopeAngle = slopeAngle;
+            }
+            //Experimental
+            else if(slopeAngle > slopeMinLimit)
+            {
+                var down = new Vector2(1 / slopeRaycast.normal.x, -(1 / slopeRaycast.normal.y));
+                deltaMovement = down * slopeSlidingVelocity * Time.deltaTime;
+                Debug.Log(velocity);
+                return slopeRaycast;
             }
         }
 
