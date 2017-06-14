@@ -208,6 +208,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\ItemState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\QuestState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Hazards\DamageOnTouch.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Hazards\DeathZone.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Helpers\Physics2DHelpers.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\CompleteTaskOnItemUse.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\InteractionFinder.cs" />
@@ -321,9 +322,12 @@
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Flamethrower\Scripts\FlamethrowerController.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Hazards\Patroling Lazer\Scripts\PatrolingLazer.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Pickup Item\Scripts\ItemId.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Ladder\Scripts\DropLadder.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\PressurePlatform\Scripts\PressurePlatform.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Platforms\Raising Pillar\Scripts\PillarButtonController.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Platforms\Raising Pillar\Scripts\RaisingPillar.cs" />
     <Compile Include="Assets\Standard Assets\Environment\SaveBoard\Scripts\SaveGameOnInteract.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Teleports\Teleport On Use\Scripts\TeleportOnUseNotification.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Treadmill\Scripts\Treadmill.cs" />
