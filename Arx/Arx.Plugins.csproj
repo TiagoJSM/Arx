@@ -265,6 +265,7 @@
     <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonCharacter.cs" />
     <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonUserControl.cs" />
     <Compile Include="Assets\Standard Assets\Common\Attributes\SceneFieldAttribute.cs" />
+    <Compile Include="Assets\Standard Assets\Common\CoroutineHelpers.cs" />
     <Compile Include="Assets\Standard Assets\Common\SceneField.cs" />
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\AxisTouchButton.cs" />
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\ButtonHandler.cs" />
@@ -321,9 +322,16 @@
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Enemy Secure Door\Scripts\EnemySecureDoor.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Hazards\Enemy Activation Trigger\Scripts\EnemyActivationTrigger.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Flamethrower\Scripts\FlamethrowerController.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Patroling Lazer\Scripts\PatrolingLazer.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Pickup Item\Scripts\ItemId.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Platforms\Elevator\Scripts\ActivateElevatorControllerOnUse.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Platforms\Elevator\Scripts\ElevatorController.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Platforms\Elevator\Scripts\Lift.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Platforms\Gate\Scripts\GateBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Platforms\Gate\Scripts\GateOpener.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Ladder\Scripts\DropLadder.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\PressurePlatform\Scripts\PressurePlatform.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Raising Pillar\Scripts\PillarButtonController.cs" />
@@ -342,6 +350,7 @@
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterBase.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterTile.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\CameraExtensions.cs" />
+    <Compile Include="Assets\Standard Assets\Extensions\GameObjectExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\ObjectExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\Physics2DExtensions.cs" />

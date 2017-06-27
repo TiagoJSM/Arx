@@ -8,12 +8,15 @@ using UnityEngine;
 
 namespace GenericComponents.Controllers.Characters
 {
+    public delegate void OnKilled(CharacterController character);
+
     [RequireComponent(typeof(CharacterStatus))]
     public class CharacterController : MonoBehaviour, ICharacter
     {
         private CharacterStatus _status;
 
         public bool CanBeAttacked { get; protected set; }
+        public event OnKilled OnKilled;
 
         public virtual bool IsEnemy
         {
@@ -59,6 +62,10 @@ namespace GenericComponents.Controllers.Characters
             if (_status.HealthDepleted)
             {
                 Kill();
+                if(OnKilled != null)
+                {
+                    OnKilled(this);
+                }
             }
             return LifePoints;
         }

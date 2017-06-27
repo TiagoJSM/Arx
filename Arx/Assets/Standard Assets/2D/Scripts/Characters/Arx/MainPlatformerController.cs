@@ -465,8 +465,9 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         {
             horizontalMovement = Math.Sign(transform.position.x - _hitPointThisFrame.Value.x);
         }
+        Velocity = Vector2.zero;
         //ToDo: move this into globals?
-        Push(new Vector2(10 * horizontalMovement, 8));
+        Push(new Vector2(2 * horizontalMovement, 8));
     }
 
     public void AttackStateDone()
