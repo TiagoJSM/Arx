@@ -226,6 +226,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\Singleton.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Platformer2DUserControl.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\PlatformerCharacter2D.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\PlayAnimatorOnDamaged.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Restarter.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Rotating.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Spawners\PlayerSpawner.cs" />

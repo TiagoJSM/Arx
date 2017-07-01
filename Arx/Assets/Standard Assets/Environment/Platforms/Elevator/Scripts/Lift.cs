@@ -1,4 +1,5 @@
 ﻿using Assets.Standard_Assets.Common;
+using CommonInterfaces.Controllers.Interaction;
 using Extensions;
 using System;
 using System.Collections;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using CommonInterfaces;
 
 namespace Assets.Standard_Assets.Environment.Platforms.Elevator.Scripts
 {
@@ -14,7 +16,7 @@ namespace Assets.Standard_Assets.Environment.Platforms.Elevator.Scripts
         Point1,
         Point2
     }
-    public class Lift : MonoBehaviour
+    public class Lift : MonoBehaviour, IInteractionTriggerController
     {
         private Coroutine _activeRoutine;
 
@@ -31,6 +33,9 @@ namespace Assets.Standard_Assets.Environment.Platforms.Elevator.Scripts
         [SerializeField]
         private bool _active = true;
 
+        public event OnInteract OnInteract;
+        public event OnStopInteraction OnStopInteraction;
+
         public bool Active
         {
             get
@@ -40,6 +45,14 @@ namespace Assets.Standard_Assets.Environment.Platforms.Elevator.Scripts
             set
             {
                 _active = value;
+            }
+        }
+
+        public GameObject GameObject
+        {
+            get
+            {
+                return gameObject;
             }
         }
 
@@ -103,20 +116,23 @@ namespace Assets.Standard_Assets.Environment.Platforms.Elevator.Scripts
             GoToPoint(otherPoint);
         }
 
-        private void OnTriggerEnter2D(Collider2D collider)
+        public void Interact(GameObject interactor)
         {
-            if (!_active)
+            if (_active)
             {
-                return;
-            }
-
-            if(_activeRoutine == null && !collider.isTrigger)
-            {
-                if (_playerLayer.IsInAnyLayer(collider.gameObject))
+                if (_activeRoutine == null)
                 {
                     GoToOtherPoint();
+                    if(OnInteract != null)
+                    {
+                        OnInteract(interactor);
+                    }
                 }
             }
+        }
+
+        public void StopInteraction()
+        {
         }
     }
 }

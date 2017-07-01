@@ -50,7 +50,7 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
-        public virtual float Attacked(
+        public virtual int Attacked(
             GameObject attacker, 
             int damage, 
             Vector3? hitPoint,

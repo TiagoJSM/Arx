@@ -47,18 +47,18 @@ namespace Assets.Standard_Assets.Environment.Platforms.Elevator.Scripts
                 return;
             }
 
-            if(_point == ElevatorPoints.Point1)
+            if (OnInteract != null)
+            {
+                OnInteract(interactor);
+            }
+
+            if (_point == ElevatorPoints.Point1)
             {
                 _lift.GoToPoint1();
             }
             else
             {
                 _lift.GoToPoint2();
-            }
-            
-            if(OnInteract != null)
-            {
-                OnInteract(interactor);
             }
         }
 

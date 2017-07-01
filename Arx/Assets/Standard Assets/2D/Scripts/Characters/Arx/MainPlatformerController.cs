@@ -475,7 +475,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         VelocityMultiplier = Vector2.one;
     }
 
-    public override float Attacked(
+    public override int Attacked(
         GameObject attacker, 
         int damage, 
         Vector3? hitPoint,

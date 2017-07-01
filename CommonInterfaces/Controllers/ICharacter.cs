@@ -32,7 +32,7 @@ namespace CommonInterfaces.Controllers
         int LifePoints { get; }
         GameObject CharacterGameObject { get; }
 
-        float Attacked(
+        int Attacked(
             GameObject attacker, 
             int damage, 
             Vector3? hitPoint, 

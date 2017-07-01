@@ -676,16 +676,15 @@ public class CharacterController2D : MonoBehaviour
                 // bail out if we have no slope
                 SlopeNormal = _raycastHit.normal;
                 var angle = Vector2.Angle(_raycastHit.normal, Vector2.up);
-
-                if (angle == 0)
+                Debug.Log(angle);
+                if (angle < 1)
                 {
                     onlyOverLimitSlopes = false;
                     continue;
                 }
-                
-                if (angle > slopeMinLimit && angle < 80f)
+                if (angle > slopeMinLimit)
                 {
-                    overLimitRaycastFound = _raycastHit;
+                    slopeRaycast = _raycastHit;
                     continue;
                 }
 
@@ -693,15 +692,6 @@ public class CharacterController2D : MonoBehaviour
                 slopeRaycast = _raycastHit;
                 break;
             }
-        }
-
-        //if only found sliding slope
-        if (onlyOverLimitSlopes && overLimitRaycastFound)
-        {
-            var down = new Vector2(1 / overLimitRaycastFound.normal.x, -(1 / overLimitRaycastFound.normal.y)).normalized;
-            deltaMovement = down * slopeSlidingVelocity * Time.deltaTime;
-            Debug.Log("if only found sliding slope");
-            return overLimitRaycastFound;
         }
 
         //BUG HERE
@@ -722,7 +712,7 @@ public class CharacterController2D : MonoBehaviour
                 //Debug.Log("here");
             }
             //Experimental
-            else if(slopeAngle > slopeMinLimit)
+            else if(slopeAngle > slopeMinLimit && onlyOverLimitSlopes)
             {
                 var down = new Vector2(1 / slopeRaycast.normal.x, -(1 / slopeRaycast.normal.y)).normalized;
                 deltaMovement = down * slopeSlidingVelocity * Time.deltaTime;

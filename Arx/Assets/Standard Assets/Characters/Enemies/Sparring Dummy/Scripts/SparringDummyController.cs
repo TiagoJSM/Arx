@@ -27,7 +27,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Sparring_Dummy.Scripts
         [SerializeField]
         private TaskSelector _strongAttack;
 
-        public override float Attacked(
+        public override int Attacked(
             GameObject attacker, 
             int damage, 
             Vector3? hitPoint, 
