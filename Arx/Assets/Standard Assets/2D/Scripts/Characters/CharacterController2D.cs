@@ -287,8 +287,7 @@ public class CharacterController2D : MonoBehaviour
         }
 
         // now we check movement in the horizontal dir
-        if (deltaMovement.x != 0f)
-            moveHorizontally(ref deltaMovement);
+        moveHorizontally(ref deltaMovement);
 
         // next, check movement in the vertical dir
         if (!slidingSlope && deltaMovement.y != 0f)
@@ -399,47 +398,89 @@ public class CharacterController2D : MonoBehaviour
     /// </summary>
     void moveHorizontally(ref Vector3 deltaMovement)
     {
+        if(Mathf.Approximately(deltaMovement.x, 0))
+        {
+            HandleHorizontalMoveInDirection(ref deltaMovement, false);
+            HandleHorizontalMoveInDirection(ref deltaMovement, true);
+        }
+        else
+        {
+            var checkRight = deltaMovement.x < 0;
+            HandleForwardHorizontalMove(ref deltaMovement);
+            HandleHorizontalMoveInDirection(ref deltaMovement, checkRight);
+        }
+        
+    }
+
+    private void HandleHorizontalMoveInDirection(ref Vector3 deltaMovement, bool checkRight)
+    {
         var bottomRay = default(RaycastHit2D);
         var ray = default(Vector2);
-        var raycastHit = GetHorizontalRaycastHits(deltaMovement, out bottomRay, out ray);
-        var isGoingRight = deltaMovement.x > 0;
-        var rayDistance = Mathf.Abs(deltaMovement.x) + _skinWidth;
-        var rayDirection = isGoingRight ? Vector2.right : -Vector2.right;
-        var initialRayOrigin = isGoingRight ? _raycastOrigins.bottomRight : _raycastOrigins.bottomLeft;
+        var raycastHit = GetHorizontalRaycastHits(checkRight, deltaMovement, out bottomRay, out ray);
 
-        if (raycastHit)
+        if (!raycastHit)
         {
-            var angle = Vector2.Angle(raycastHit.normal, Vector2.up);
-            // the bottom ray can hit a slope but no other ray can so we have special handling for these cases
-            if (bottomRay && handleHorizontalSlope(ref deltaMovement, angle))
-            {
-                return;
-            }
+            return;
+        }
 
-            // set our new deltaMovement and recalculate the rayDistance taking it into account
-            deltaMovement.x = raycastHit.point.x - ray.x;
-            rayDistance = Mathf.Abs(deltaMovement.x);
+        deltaMovement.x += raycastHit.point.x - ray.x;
 
-            // remember to remove the skinWidth from our deltaMovement
-            if (isGoingRight)
-            {
-                deltaMovement.x -= _skinWidth;
-                collisionState.right = true;
-            }
-            else
-            {
-                deltaMovement.x += _skinWidth;
-                collisionState.left = true;
-            }
+        if (checkRight)
+        {
+            deltaMovement.x -= _skinWidth;
+            collisionState.right = true;
+        }
+        else
+        {
+            deltaMovement.x += _skinWidth;
+            collisionState.left = true;
         }
     }
 
-    private RaycastHit2D GetHorizontalRaycastHits(Vector3 deltaMovement, out RaycastHit2D bottomRay, out Vector2 closestRay)
+    private void HandleForwardHorizontalMove(ref Vector3 deltaMovement)
     {
+        var bottomRay = default(RaycastHit2D);
+        var ray = default(Vector2);
+        var raycastHit = GetHorizontalRaycastHits(deltaMovement.x > 0, deltaMovement, out bottomRay, out ray);
         var isGoingRight = deltaMovement.x > 0;
         var rayDistance = Mathf.Abs(deltaMovement.x) + _skinWidth;
         var rayDirection = isGoingRight ? Vector2.right : -Vector2.right;
         var initialRayOrigin = isGoingRight ? _raycastOrigins.bottomRight : _raycastOrigins.bottomLeft;
+
+        if (!raycastHit)
+        {
+            return;
+        }
+
+        var angle = Vector2.Angle(raycastHit.normal, Vector2.up);
+        // the bottom ray can hit a slope but no other ray can so we have special handling for these cases
+        if (bottomRay && handleHorizontalSlope(ref deltaMovement, angle))
+        {
+            return;
+        }
+
+        // set our new deltaMovement and recalculate the rayDistance taking it into account
+        deltaMovement.x = raycastHit.point.x - ray.x;
+        rayDistance = Mathf.Abs(deltaMovement.x);
+
+        // remember to remove the skinWidth from our deltaMovement
+        if (isGoingRight)
+        {
+            deltaMovement.x -= _skinWidth;
+            collisionState.right = true;
+        }
+        else
+        {
+            deltaMovement.x += _skinWidth;
+            collisionState.left = true;
+        }
+    }
+
+    private RaycastHit2D GetHorizontalRaycastHits(bool checkRight, Vector3 deltaMovement, out RaycastHit2D bottomRay, out Vector2 closestRay)
+    {
+        var rayDistance = Mathf.Abs(deltaMovement.x) + _skinWidth;
+        var rayDirection = checkRight ? Vector2.right : -Vector2.right;
+        var initialRayOrigin = checkRight ? _raycastOrigins.bottomRight : _raycastOrigins.bottomLeft;
         var raycastHit = default(RaycastHit2D);
 
         var closestRayHit = default(RaycastHit2D);
