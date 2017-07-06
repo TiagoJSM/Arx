@@ -7,12 +7,14 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets._2D.Scripts
 {
-    public class PlayAnimatorOnDamaged : MonoBehaviour
+    public class SetActiveStateOnAttacked : MonoBehaviour
     {
+        [SerializeField]
+        private bool _active;
         [SerializeField]
         private DummyCharacter _dummyCharacter;
         [SerializeField]
-        private Animator _animator;
+        private GameObject _gameObject;
 
         private void Awake()
         {
@@ -21,7 +23,7 @@ namespace Assets.Standard_Assets._2D.Scripts
 
         private void OnAttackedHandler(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType, int comboNumber)
         {
-            _animator.enabled = true;
+            _gameObject.SetActive(_active);
         }
     }
 }

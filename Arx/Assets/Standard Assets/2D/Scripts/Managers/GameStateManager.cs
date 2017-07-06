@@ -17,6 +17,12 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
 
         private GameState _state;
 
+        [RuntimeInitializeOnLoadMethod]
+        private static void OnRuntimeMethodLoad()
+        {
+            var tmp = Instance;
+        }
+
         public GameState GameState
         {
             get

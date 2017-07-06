@@ -74,7 +74,6 @@ namespace Assets.Standard_Assets.QuestSystem.QuestStructures
         private void Start()
         {
             var subscriber = this.gameObject.GetComponent<IQuestSubscriber>();
-            var v = GameStateManager.Instance;
         }
     }
 }

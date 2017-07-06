@@ -22,6 +22,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
 
         public void RestartCurrentLevelFromCheckpoint()
         {
+            _position = CheckpointManager.Instance.CurrentCheckpointPosition;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 

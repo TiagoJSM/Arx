@@ -197,6 +197,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\SpeakersAttribute.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\DebugTrigger.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\DummyCharacter.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\ContactDetector.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\LedgeChecker.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\Pushable.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\PlayAnimatorOnDamaged.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Restarter.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Rotating.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\SetActiveStateOnAttacked.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Spawners\PlayerSpawner.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Spawners\SingleCharacterSpawn.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\BaseTeleportToPosition.cs" />
@@ -323,9 +325,11 @@
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Checkpoints\Scripts\CheckpointTrigger.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Enemy Secure Door\Scripts\EnemySecureDoor.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Enemy Activation Trigger\Scripts\EnemyActivationTrigger.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Flamethrower\Scripts\FlamethrowerController.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Hazards\Geyser\Scripts\GeyserController.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Patroling Lazer\Scripts\PatrolingLazer.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Pickup Item\Scripts\ItemId.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Elevator\Scripts\ActivateElevatorControllerOnUse.cs" />
