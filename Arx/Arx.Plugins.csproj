@@ -254,6 +254,8 @@
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Bat\Scripts\BatCharacterAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Bat\Scripts\BatCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Bat\Scripts\MoveAwayFromTargetState.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEye.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeAI.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Sparring Dummy\Scripts\SparringDummyController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Wall Shooter\Scripts\WallShooterCharacterAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Wall Shooter\Scripts\WallShooterCharacterController.cs" />
