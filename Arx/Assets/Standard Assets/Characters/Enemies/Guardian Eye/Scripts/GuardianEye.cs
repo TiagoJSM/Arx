@@ -17,7 +17,9 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
     }
 
     public delegate void OnChargedShotFired(GuardianEye character);
+    public delegate void OnChargedShotCharged(GuardianEye character);
     public delegate void OnDamaged(GuardianEye character, int damage);
+    public delegate void OnKilled(GuardianEye character);
 
     public class GuardianEye : MonoBehaviour, ICharacter
     {
@@ -45,6 +47,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
         private Transform _top;
         [SerializeField]
         private Transform _bottom;
+        [SerializeField]
+        private GameObject _chargedBeam;
 
         private int _lifePoints = Max_Life_Points;
         private Coroutine _movementRoutine;
@@ -64,8 +68,10 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
             }
         }
 
+        public event OnChargedShotCharged OnChargedShotCharged;
         public event OnChargedShotFired OnChargedShotFired;
         public event OnDamaged OnDamaged;
+        public event OnKilled OnKilled;
 
         public bool CanBeAttacked { get; private set; }
         public bool IsMoving { get { return _movementRoutine != null; } }
@@ -155,17 +161,19 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
 
         public void Shoot()
         {
-            var position = _projectileSpawnPosition != null ? _projectileSpawnPosition.position : transform.position;
-            var projectile = Instantiate(_projectilePrefab, position, Quaternion.identity);
-            projectile.direction = Vector3.right;
-            projectile.Attacker = gameObject;
-            projectile.EnemyLayer = _enemyLayer;
-            projectile.Damage = 1;
+            SpawnProjectile(Vector3.right);
         }
 
         public void ChargedShot()
         {
             _chargeShotCoroutine = StartCoroutine(ChargedShotRoutine());
+        }
+
+        public void TripleShoot()
+        {
+            SpawnProjectile(new Vector3(1, 1));
+            SpawnProjectile(Vector3.right);
+            SpawnProjectile(new Vector3(1, -1));
         }
 
         public void MoveTo(Vector3 target)
@@ -201,6 +209,27 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
             }
         }
 
+        public void RegenerateEnergy(bool regenerate)
+        {
+            CanBeAttacked = regenerate;
+        }
+
+        private void Awake()
+        {
+            _chargedBeam.SetActive(false);
+        }
+
+        private Projectile SpawnProjectile(Vector3 direction)
+        {
+            var position = _projectileSpawnPosition != null ? _projectileSpawnPosition.position : transform.position;
+            var projectile = Instantiate(_projectilePrefab, position, Quaternion.identity);
+            projectile.direction = direction;
+            projectile.Attacker = gameObject;
+            projectile.EnemyLayer = _enemyLayer;
+            projectile.Damage = 1;
+            return projectile;
+        }
+
         private IEnumerator FollowRoutine(Transform target)
         {
             while (true)
@@ -219,7 +248,13 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
         {
             yield return new WaitForSeconds(_chargeTime);
             StopMovement();
+            if(OnChargedShotCharged != null)
+            {
+                OnChargedShotCharged(this);
+            }
+            _chargedBeam.SetActive(true);
             yield return new WaitForSeconds(_chargeShootingTime);
+            _chargedBeam.SetActive(false);
             _chargeShotCoroutine = null;
 
             if (OnChargedShotFired != null)

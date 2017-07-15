@@ -22,8 +22,18 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
         public void SetCheckpoint(Vector3? position, ICheckpoint checkpoint = null, GameState checkpointData = null)
         {
             CurrentCheckpointPosition = position;
-            CheckpointData = checkpointData ?? GameStateManager.Instance.GameState;
+            CheckpointData = checkpointData ?? GameStateManager.Instance.GameStateClone;
             CurrentCheckpoint = checkpoint;
+        }
+
+        public void ReloadGameState()
+        {
+            var gameStateManager = GameStateManager.Instance;
+
+            gameStateManager.GameStateClone = 
+                CheckpointData == null
+                    ? gameStateManager.DefaultGameState
+                    : CheckpointData;
         }
     }
 }

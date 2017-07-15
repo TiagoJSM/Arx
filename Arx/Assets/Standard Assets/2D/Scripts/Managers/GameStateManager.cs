@@ -15,7 +15,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
     {
         private const string PLAYER_TAG = "Player";
 
-        private GameState _state;
+        //private GameState _state;
 
         [RuntimeInitializeOnLoadMethod]
         private static void OnRuntimeMethodLoad()
@@ -23,17 +23,27 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
             var tmp = Instance;
         }
 
-        public GameState GameState
+        public GameState GameState { get; set; }
+
+        public GameState GameStateClone
         {
             get
             {
                 StoreGameState();
-                return _state.DeepClone();
+                return GameState.DeepClone();
             }
             set
             {
+                GameState = value.DeepClone();
                 AssignGameState();
-                _state = value.DeepClone();
+            }
+        }
+
+        public GameState DefaultGameState
+        {
+            get
+            {
+                return new GameState();
             }
         }
 
@@ -44,9 +54,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
         private void Awake()
         {
             var levelManager = LevelManager.Instance;
-            if (_state == null)
+            if (GameState == null)
             {
-                _state = new GameState();
+                GameState = new GameState();
             }
             levelManager.BeforeSceneLoad += StoreGameState;
             levelManager.OnSceneLoaded += AssignGameState;
@@ -82,7 +92,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
                 return;
             }
             var resourceItems = Resources.LoadAll<InventoryItem>("Items");
-            var itemStates = _state.ItemsStates;
+            var itemStates = GameState.ItemsStates;
             var items = new InventoryItems[itemStates.Length];
             for(var idx = 0; idx < itemStates.Length; idx++)
             {
@@ -104,7 +114,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
             {
                 return;
             }
-            questLog.SetQuestsStates(_state.QuestsStates);
+            questLog.SetQuestsStates(GameState.QuestsStates);
         }
 
         private void StoreQuests(GameObject playerGo)
@@ -114,7 +124,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
             {
                 return;
             }
-            _state.QuestsStates =
+            GameState.QuestsStates =
                 questLog
                     .GetQuests()
                     .Select(quest =>
@@ -134,7 +144,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
             {
                 return;
             }
-            _state.ItemsStates = 
+            GameState.ItemsStates = 
                 component
                     .Inventory
                     .InventoryItems
