@@ -49,6 +49,14 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
         private Transform _bottom;
         [SerializeField]
         private GameObject _chargedBeam;
+        [SerializeField]
+        private float _regenerationSpeed = 10;
+        [SerializeField]
+        private Sprite _defaultSprite;
+        [SerializeField]
+        private Sprite _regeneratingSprite;
+        [SerializeField]
+        private SpriteRenderer _renderer;
 
         private int _lifePoints = Max_Life_Points;
         private Coroutine _movementRoutine;
@@ -152,6 +160,11 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
 
         public void Kill()
         {
+            if(OnKilled != null)
+            {
+                OnKilled(this);
+            }
+            Destroy(this.gameObject);
         }
 
         public bool StartGrappled(GameObject grapple)
@@ -178,18 +191,12 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
 
         public void MoveTo(Vector3 target)
         {
-            if (_movementRoutine == null)
-            {
-                var distance = Vector3.Distance(_character.position, target);
-                var moveTo =
-                    Common.CoroutineHelpers.MoveTo(
-                        _character.position,
-                        target,
-                        distance / Speed,
-                        _character,
-                        () => _movementRoutine = null);
-                _movementRoutine = StartCoroutine(moveTo);
-            }
+            MoveTo(target, Speed);
+        }
+
+        public void MoveToRegenerationPosition(Vector3 target)
+        {
+            MoveTo(target, _regenerationSpeed);
         }
 
         public void Follow(Transform target)
@@ -212,10 +219,12 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
         public void RegenerateEnergy(bool regenerate)
         {
             CanBeAttacked = regenerate;
+            _renderer.sprite = regenerate ? _regeneratingSprite : _defaultSprite;
         }
 
         private void Awake()
         {
+            _renderer.sprite = _defaultSprite;
             _chargedBeam.SetActive(false);
         }
 
@@ -270,6 +279,22 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
                 case Phase.Phase1: return Phase.Phase2;
                 case Phase.Phase2: return Phase.Phase3;
                 default: return Phase.Phase3;
+            }
+        }
+
+        private void MoveTo(Vector3 target, float speed)
+        {
+            if (_movementRoutine == null)
+            {
+                var distance = Vector3.Distance(_character.position, target);
+                var moveTo =
+                    Common.CoroutineHelpers.MoveTo(
+                        _character.position,
+                        target,
+                        distance / speed,
+                        _character,
+                        () => _movementRoutine = null);
+                _movementRoutine = StartCoroutine(moveTo);
             }
         }
     }

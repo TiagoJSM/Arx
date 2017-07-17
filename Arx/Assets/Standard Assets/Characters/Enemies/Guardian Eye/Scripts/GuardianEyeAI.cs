@@ -90,19 +90,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
         {
             yield return PhaseAction(Phase.Phase1, _guardianEye.Bottom.position, () => _movementRoutine = StartCoroutine(MoveToBorders()));
             yield return PhaseAction(Phase.Phase2, _guardianEye.Bottom.position, () => _guardianEye.Follow(_enemy));
-            yield return PhaseAction(Phase.Phase3, _guardianEye.Top.position, () => _guardianEye.Follow(_enemy));
-        }
-
-        private IEnumerator Phase1()
-        {
-            while (_guardianEye.Phase == Phase.Phase1)
-            {
-                _movementRoutine = StartCoroutine(MoveToBorders());
-                yield return Shooting();
-                yield return ChargedShot();
-                yield return MoveTo(_guardianEye.Bottom.position);
-                yield return RegenerateEnergy();
-            }
+            yield return PhaseAction(Phase.Phase3, _guardianEye.Bottom.position, () => _guardianEye.Follow(_enemy));
         }
 
         private IEnumerator PhaseAction(Phase currentPhase, Vector3 restPosition, Action movement)
@@ -112,7 +100,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
                 movement();
                 yield return Shooting();
                 yield return ChargedShot();
-                yield return MoveTo(restPosition);
+                yield return MoveToRegenerationPosition(restPosition);
                 yield return RegenerateEnergy();
             }
         }
@@ -190,6 +178,12 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
         }
 
         private IEnumerator MoveTo(Vector3 target)
+        {
+            _guardianEye.MoveTo(target);
+            yield return new WaitWhile(() => _guardianEye.IsMoving);
+        }
+
+        private IEnumerator MoveToRegenerationPosition(Vector3 target)
         {
             _guardianEye.MoveTo(target);
             yield return new WaitWhile(() => _guardianEye.IsMoving);

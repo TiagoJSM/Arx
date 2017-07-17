@@ -25,7 +25,7 @@ namespace Assets.Standard_Assets.Environment.Platforms.Elevator.Scripts
         private void Activate(GameObject interactor)
         {
             _deactivatedController.Active = true;
-            _lift .Active= true;
+            _lift.Active= true;
         }
     }
 }

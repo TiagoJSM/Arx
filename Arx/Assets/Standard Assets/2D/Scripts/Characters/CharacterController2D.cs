@@ -416,7 +416,8 @@ public class CharacterController2D : MonoBehaviour
     {
         var bottomRay = default(RaycastHit2D);
         var ray = default(Vector2);
-        var raycastHit = GetHorizontalRaycastHits(checkRight, deltaMovement, out bottomRay, out ray);
+        //deltaMovement.x / 10 + _skinWidth is to avoid a bug when going down slope being moved by the platform
+        var raycastHit = GetHorizontalRaycastHits(checkRight, deltaMovement, out bottomRay, out ray, deltaMovement.x / 10 + _skinWidth);
 
         if (!raycastHit)
         {
@@ -476,9 +477,9 @@ public class CharacterController2D : MonoBehaviour
         }
     }
 
-    private RaycastHit2D GetHorizontalRaycastHits(bool checkRight, Vector3 deltaMovement, out RaycastHit2D bottomRay, out Vector2 closestRay)
+    private RaycastHit2D GetHorizontalRaycastHits(bool checkRight, Vector3 deltaMovement, out RaycastHit2D bottomRay, out Vector2 closestRay, float? inRayDistance = null)
     {
-        var rayDistance = Mathf.Abs(deltaMovement.x) + _skinWidth;
+        var rayDistance = inRayDistance ?? (Mathf.Abs(deltaMovement.x) + _skinWidth);
         var rayDirection = checkRight ? Vector2.right : -Vector2.right;
         var initialRayOrigin = checkRight ? _raycastOrigins.bottomRight : _raycastOrigins.bottomLeft;
         var raycastHit = default(RaycastHit2D);
