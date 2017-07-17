@@ -253,7 +253,6 @@ public class PlatformerCharacterController : BasePlatformerController
 
     public void Push(Vector2 force)
     {
-        Debug.Log("push");
         var dir = force.normalized;
         _pushImpact = dir.normalized * force.magnitude;
         _pushStartTime = Time.time;

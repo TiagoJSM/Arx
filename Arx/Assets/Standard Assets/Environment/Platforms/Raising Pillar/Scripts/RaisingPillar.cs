@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets.Environment.Platforms.Raising_Pillar.Scripts
 {
+    public delegate void OnRiseComplete(RaisingPillar pillar);
     [RequireComponent(typeof(Animator))]
     public class RaisingPillar : MonoBehaviour
     {
@@ -28,6 +29,8 @@ namespace Assets.Standard_Assets.Environment.Platforms.Raising_Pillar.Scripts
         private float _holdTime = 2;
         [SerializeField]
         private Transform _target;
+
+        public event OnRiseComplete OnRiseComplete;
 
         private void Awake()
         {
@@ -52,6 +55,11 @@ namespace Assets.Standard_Assets.Environment.Platforms.Raising_Pillar.Scripts
             yield return new WaitForSeconds(_holdTime);
             yield return MovePillar(_startPosition, _moveToOriginTime);
             _raiseRoutine = null;
+
+            if(OnRiseComplete != null)
+            {
+                OnRiseComplete(this);
+            }
         }
 
         private IEnumerator MovePillar(Vector3 target, float time)

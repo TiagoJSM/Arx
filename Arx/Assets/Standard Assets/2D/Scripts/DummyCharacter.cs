@@ -7,10 +7,11 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets._2D.Scripts
 {
-    public class PlayAnimatorOnDamaged : MonoBehaviour, ICharacter
+    public delegate void OnAttacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType, int comboNumber);
+
+    public class DummyCharacter : MonoBehaviour, ICharacter
     {
-        [SerializeField]
-        private Animator _animator;
+        public event OnAttacked OnAttacked;
 
         public bool CanBeAttacked
         {
@@ -54,7 +55,10 @@ namespace Assets.Standard_Assets._2D.Scripts
 
         public int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1)
         {
-            _animator.enabled = true;
+            if(OnAttacked != null)
+            {
+                OnAttacked(attacker, damage, hitPoint, damageType, attackType, comboNumber);
+            }
             return 0;
         }
 

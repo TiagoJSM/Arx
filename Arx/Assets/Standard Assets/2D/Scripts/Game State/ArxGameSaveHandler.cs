@@ -58,7 +58,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Game_State
             {
                 savedGames.Add(ArxSaveData.Current);
             }
-            ArxSaveData.Current.GameState = GameStateManager.Instance.GameState;
+            ArxSaveData.Current.GameState = GameStateManager.Instance.GameStateClone;
             var bf = new BinaryFormatter();
             var file = File.Create(SaveGamesDirectory + "/savedGames.gd");
             bf.Serialize(file, savedGames);

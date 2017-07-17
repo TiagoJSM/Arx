@@ -28,7 +28,7 @@ namespace Assets.Standard_Assets.UI.Main_Menu.Scripts
         public void LoadGame()
         {
             ArxSaveData.Current = ArxGameSaveHandler.savedGames.First();
-            GameStateManager.Instance.GameState = ArxSaveData.Current.GameState;
+            GameStateManager.Instance.GameStateClone = ArxSaveData.Current.GameState;
             var playerPosition = ArxSaveData.Current.PlayerPosition;
             if(playerPosition == null)
             {

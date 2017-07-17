@@ -14,5 +14,10 @@ namespace Assets.Standard_Assets.Extensions
         {
             return go.CompareTag(PlayerTag);
         }
+
+        public static bool IsPlayer(this Collider2D collider)
+        {
+            return collider.gameObject.IsPlayer();
+        }
     }
 }

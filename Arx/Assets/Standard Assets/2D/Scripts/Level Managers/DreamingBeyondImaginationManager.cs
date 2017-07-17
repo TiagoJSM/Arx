@@ -24,7 +24,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Level_Managers
         void Awake()
         {
             var saveData = ArxSaveData.Current;
-            CheckpointManager.Instance.CurrentCheckpointPosition = saveData.PlayerPosition;
+            CheckpointManager.Instance.SetCheckpoint(saveData.PlayerPosition);
 
             if (saveData.DreamingBeyondImagination.IntroPlayed)
             {
