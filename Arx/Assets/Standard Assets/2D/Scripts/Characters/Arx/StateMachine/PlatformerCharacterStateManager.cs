@@ -112,6 +112,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<DuckState>()
+                    .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Vertical >= 0 && c.CanStand)
@@ -119,6 +120,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<RollState>()
+                    .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<DuckState>((c, a, t) => c.IsGrounded && (a.Vertical < 0 || !c.CanStand) && t > rollingDuration)
                     .To<FallingState>((c, a, t) => !c.IsGrounded && t > rollingDuration)
@@ -210,7 +212,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<AttackedOnAirState>()
-                    .To<IddleState>((c, a, t) => t > 0.25);
+                    .To<IddleState>((c, a, t) => t > 0.5);
 
             this
                 .From<AttackedOnGroundState>()
@@ -222,6 +224,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<LadderGrabState>()
+                    .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
                     .To<FallingState>((c, a, t) => a.Jump)
                     .To<FallingState>((c, a, t) => !c.LadderFound && !c.IsGrounded)
                     .To<IddleState>((c, a, t) => !c.LadderFound);
