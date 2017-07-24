@@ -9,94 +9,144 @@ namespace Anima2D
 	[CustomEditor(typeof(Bone2D))]
 	public class Bone2DEditor : Editor
 	{
+		SerializedProperty m_ColorProperty;
+		SerializedProperty m_AlphaProperty;
+		SerializedProperty m_ChildProperty;
+		SerializedProperty m_ChildTransformProperty;
+		SerializedProperty m_LengthProperty;
+		Bone2D m_Bone;
+		
 		void OnEnable()
 		{
 			Tools.hidden = Tools.current == Tool.Move;
+			
+			m_Bone = target as Bone2D;
+			
+			m_ColorProperty = serializedObject.FindProperty("m_Color");
+			m_AlphaProperty = m_ColorProperty.FindPropertyRelative("a");
+			
+			//DEPRECATED
+			m_ChildProperty = serializedObject.FindProperty("m_Child");
+			
+			m_ChildTransformProperty = serializedObject.FindProperty("m_ChildTransform");
+			m_LengthProperty = serializedObject.FindProperty("m_Length");
+			
+			UpgradeToChildTransform();
 		}
-
+		
+		void UpgradeToChildTransform()
+		{
+			if(Selection.transforms.Length == 1 && !m_ChildTransformProperty.objectReferenceValue && m_ChildProperty.objectReferenceValue)
+			{
+				serializedObject.Update();
+				
+				Bone2D l_bone = m_ChildProperty.objectReferenceValue as Bone2D;
+				
+				if(l_bone)
+				{
+					m_ChildTransformProperty.objectReferenceValue = l_bone.transform;
+				}
+				
+				m_ChildProperty.objectReferenceValue = null;
+				
+				serializedObject.ApplyModifiedProperties();
+			}
+		}
+		
 		void OnDisable()
 		{
 			Tools.hidden = false;
 		}
-
+		
 		override public void OnInspectorGUI()
 		{
-			DrawDefaultInspector();
-
-			Bone2D bone = target as Bone2D;
-
-			EditorGUI.BeginChangeCheck();
-
-			Bone2D child = EditorGUILayout.ObjectField("Child", bone.child, typeof(Bone2D), true) as Bone2D;
-
-			if(EditorGUI.EndChangeCheck())
+			bool childChanged = false;
+			
+			serializedObject.Update();
+			
+			EditorGUILayout.PropertyField(m_ColorProperty);
+			EditorGUILayout.Slider(m_AlphaProperty,0f,1f,new GUIContent("Alpha"));
+			
+			Transform childTransform = null;
+			
+			if(m_Bone.child)
 			{
-				Undo.RecordObject(bone,"Child");
-				bone.child = child;
-				EditorUtility.SetDirty(bone);
+				childTransform = m_Bone.child.transform;
 			}
-
+			
+			EditorGUI.BeginDisabledGroup(targets.Length > 1);
+			
+			EditorGUI.showMixedValue = targets.Length > 1;
+			
 			EditorGUI.BeginChangeCheck();
-
-			float length = EditorGUILayout.FloatField("Length", bone.localLength);
-
+			
+			Transform newChildTransform = EditorGUILayout.ObjectField(new GUIContent("Child"),childTransform,typeof(Transform),true) as Transform;
+			
 			if(EditorGUI.EndChangeCheck())
 			{
-				Undo.RecordObject(bone,"Length");
-				bone.localLength = length;
-				EditorUtility.SetDirty(bone);
+				if(newChildTransform && (newChildTransform.parent != m_Bone.transform || !newChildTransform.GetComponent<Bone2D>()))
+				{
+					newChildTransform = null;
+				}
+				
+				m_ChildTransformProperty.objectReferenceValue = newChildTransform;
+				
+				childChanged = true;
+			}
+			
+			EditorGUI.EndDisabledGroup();
+			
+			EditorGUILayout.PropertyField(m_LengthProperty);
+			
+			serializedObject.ApplyModifiedProperties();
+			
+			if(childChanged)
+			{
+				BoneUtils.OrientToChild(m_Bone,true,"set child",false);
 			}
 		}
-
+		
 		void OnSceneGUI()
 		{
-			Bone2D bone = target as Bone2D;
-
 			if(Tools.current == Tool.Move)
 			{
 				Tools.hidden = true;
-
-				float size = HandleUtility.GetHandleSize(bone.transform.position) / 5f;
-
-				Quaternion rotation = bone.transform.rotation;
-
+				
+				float size = HandleUtility.GetHandleSize(m_Bone.transform.position) / 5f;
+				
+				Quaternion rotation = m_Bone.transform.rotation;
+				
 				EditorGUI.BeginChangeCheck();
-
-				Vector3 newPosition = Handles.FreeMoveHandle(bone.transform.position,
-				                                             rotation,
-				                                             size,
-				                                             Vector3.zero,
-				                                             Handles.RectangleCap);
-
+				
+				Quaternion cameraRotation = Camera.current.transform.rotation;
+				
+				if(Event.current.type == EventType.Repaint)
+				{
+					Camera.current.transform.rotation = m_Bone.transform.rotation;
+				}
+					
+#if UNITY_5_6_OR_NEWER
+				Vector3 newPosition = Handles.FreeMoveHandle(m_Bone.transform.position, rotation, size, Vector3.zero, Handles.RectangleHandleCap);
+#else
+				Vector3 newPosition = Handles.FreeMoveHandle(m_Bone.transform.position, rotation, size, Vector3.zero, Handles.RectangleCap);
+#endif
+				
+				if(Event.current.type == EventType.Repaint)
+				{
+					Camera.current.transform.rotation = cameraRotation;
+				}
+				
 				if(EditorGUI.EndChangeCheck())
 				{
-					GUI.changed = true;
-
-					Bone2D linkedParentBone = bone.linkedParentBone;
-
-					if(linkedParentBone)
-					{
-						Vector3 newLocalPosition = linkedParentBone.transform.InverseTransformPoint(newPosition);
-
-						if(newLocalPosition.sqrMagnitude > 0f)
-						{
-							float angle = Mathf.Atan2(newLocalPosition.y,newLocalPosition.x) * Mathf.Rad2Deg;
-
-							Undo.RecordObject(linkedParentBone.transform,"Move");
-							Undo.RecordObject(linkedParentBone,"Move");
-
-							linkedParentBone.transform.localRotation *= Quaternion.AngleAxis(angle, Vector3.forward);
-
-							EditorUtility.SetDirty(linkedParentBone.transform);
-						}
-					}
-
-					Undo.RecordObject(bone.transform,"Move");
-					bone.transform.position = newPosition;
-					bone.transform.rotation = rotation;
-					EditorUtility.SetDirty(bone.transform);
-
-					IkUtils.UpdateIK(bone,"Move");
+					Undo.RecordObject(m_Bone.transform,"Move");
+					
+					m_Bone.transform.position = newPosition;
+					
+					BoneUtils.OrientToChild(m_Bone.parentBone,Event.current.shift,Undo.GetCurrentGroupName(),true);
+					
+					EditorUtility.SetDirty(m_Bone.transform);
+					
+					EditorUpdater.SetDirty("Move");
 				}
 			}else{
 				Tools.hidden = false;

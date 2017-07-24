@@ -19,122 +19,168 @@ TextureImporter:
     21300024: RightArm
     21300026: RightLeg
     21300028: LeftLeg
-  serializedVersion: 2
+  serializedVersion: 4
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
+    sRGBTexture: 1
     linearTexture: 0
-    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
+  generateCubemap: 6
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 8
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
+    serializedVersion: 2
     filterMode: -1
     aniso: 16
     mipBias: -1
-    wrapMode: 1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
-  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+  alphaUsage: 1
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings: []
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: Torso
+    - serializedVersion: 2
+      name: Torso
       rect:
         serializedVersion: 2
-        x: 58
-        y: 640
-        width: 205
-        height: 360
+        x: 53
+        y: 635
+        width: 215
+        height: 370
       alignment: 9
-      pivot: {x: .550557852, y: .0777475983}
+      pivot: {x: 0.54820627, y: 0.08915983}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: LeftArm
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: LeftArm
       rect:
         serializedVersion: 2
-        x: 375
-        y: 667
-        width: 201
-        height: 303
+        x: 370
+        y: 655.07587
+        width: 211
+        height: 319.92413
       alignment: 9
-      pivot: {x: .379683912, y: .9294734}
+      pivot: {x: 0.38538626, y: 0.9175758}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Head
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Head
       rect:
         serializedVersion: 2
-        x: 600
-        y: 712
-        width: 365
-        height: 230
+        x: 595
+        y: 703.7112
+        width: 375
+        height: 243.28882
       alignment: 9
-      pivot: {x: .462139487, y: .059389066}
+      pivot: {x: 0.46314907, y: 0.09021476}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Waist
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Waist
       rect:
         serializedVersion: 2
-        x: 109
-        y: 423
-        width: 171
-        height: 69
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RightArm
-      rect:
-        serializedVersion: 2
-        x: 402
-        y: 132
-        width: 224
-        height: 393
+        x: 104
+        y: 418
+        width: 181
+        height: 79
       alignment: 9
-      pivot: {x: .592539132, y: .875074804}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RightLeg
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: RightArm
       rect:
         serializedVersion: 2
-        x: 43
-        y: 15
-        width: 125
-        height: 330
+        x: 396.30453
+        y: 118.56021
+        width: 244.58737
+        height: 414.12833
       alignment: 9
-      pivot: {x: .453936577, y: .918762505}
+      pivot: {x: 0.56595004, y: 0.8628827}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: LeftLeg
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: RightLeg
       rect:
         serializedVersion: 2
-        x: 246
-        y: 15
-        width: 131
-        height: 333
+        x: 32.19423
+        y: 10
+        width: 147.38232
+        height: 345.39307
       alignment: 9
-      pivot: {x: .33297497, y: .890782177}
+      pivot: {x: 0.45831713, y: 0.89229244}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: LeftLeg
+      rect:
+        serializedVersion: 2
+        x: 238.69843
+        y: 10.899314
+        width: 143.30157
+        height: 342.10068
+      alignment: 9
+      pivot: {x: 0.35534358, y: 0.879072}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    outline: []
+    physicsShape: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

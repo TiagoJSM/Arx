@@ -10,14 +10,16 @@ TextureImporter:
     21300006: Hand_3
     21300008: Hand_4
     21300010: Hand_5
-  serializedVersion: 2
+  serializedVersion: 4
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
+    sRGBTexture: 1
     linearTexture: 0
-    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -27,23 +29,22 @@ TextureImporter:
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
+  generateCubemap: 6
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 7
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
+    serializedVersion: 2
     filterMode: -1
     aniso: 16
     mipBias: -1
-    wrapMode: 1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
-  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
@@ -51,132 +52,112 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+  alphaUsage: 1
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings: []
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: Hand_0
+    - serializedVersion: 2
+      name: Hand_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 176
-        width: 52
-        height: 77
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 171
+        width: 66.77671
+        height: 85
+      alignment: 9
+      pivot: {x: 0.43428314, y: 0.5117647}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -12, y: 38.5}
-        - {x: -26, y: 38.5}
-        - {x: -26, y: -7.5}
-        - {x: 3, y: -38.5}
-        - {x: 26, y: -38.5}
-        - {x: 26, y: 1.5}
-        - {x: 13, y: 24.5}
-    - name: Hand_1
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Hand_1
       rect:
         serializedVersion: 2
-        x: 60
-        y: 164
-        width: 49
-        height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 55
+        y: 155.87668
+        width: 61.722
+        height: 100.12332
+      alignment: 9
+      pivot: {x: 0.47794953, y: 0.5305789}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -24.5, y: 45}
-        - {x: -24.5, y: 6}
-        - {x: -10.5, y: -45}
-        - {x: 20.5, y: -45}
-        - {x: 24.5, y: -36}
-        - {x: 24.5, y: -2}
-        - {x: 4.5, y: 45}
-      - - {x: -4.5, y: -24}
-        - {x: -0.5, y: -29}
-        - {x: 2.5, y: -28}
-        - {x: 2.5, y: -25}
-        - {x: -1.5, y: -18}
-        - {x: -4.5, y: -19}
-    - name: Hand_2
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Hand_2
       rect:
         serializedVersion: 2
-        x: 116
-        y: 160
-        width: 41
-        height: 93
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 110.27884
+        y: 154.61816
+        width: 57.54341
+        height: 101.381836
+      alignment: 9
+      pivot: {x: 0.4556762, y: 0.5117469}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -20.5, y: 46.5}
-        - {x: -20.5, y: -0.5}
-        - {x: -10.5, y: -46.5}
-        - {x: 20.5, y: -46.5}
-        - {x: 20.5, y: 31.5}
-        - {x: 1.5, y: 46.5}
-    - name: Hand_3
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Hand_3
       rect:
         serializedVersion: 2
-        x: 164
-        y: 170
-        width: 37
-        height: 82
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 155.89357
+        y: 164.10747
+        width: 55.539703
+        height: 91.89253
+      alignment: 9
+      pivot: {x: 0.47905245, y: 0.51029754}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 18.5, y: 22}
-        - {x: 10.5, y: 41}
-        - {x: -10.5, y: 41}
-        - {x: -18.5, y: -22}
-        - {x: -18.5, y: -40}
-        - {x: -15.5, y: -41}
-        - {x: 0.5, y: -41}
-        - {x: 2.5, y: -39}
-        - {x: 18.5, y: -7}
-    - name: Hand_4
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Hand_4
       rect:
         serializedVersion: 2
-        x: 202
-        y: 186
-        width: 50
-        height: 65
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 199.2499
+        y: 178.18423
+        width: 56.750107
+        height: 77.815765
+      alignment: 9
+      pivot: {x: 0.48898777, y: 0.5180925}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 1, y: 32.5}
-        - {x: -23, y: -18.5}
-        - {x: -23, y: -30.5}
-        - {x: -17, y: -32.5}
-        - {x: 1, y: -32.5}
-        - {x: 25, y: -12.5}
-        - {x: 25, y: 27.5}
-        - {x: 20, y: 32.5}
-      - - {x: -24, y: -19.5}
-        - {x: -21, y: -18.5}
-        - {x: -20, y: -14.5}
-        - {x: -25, y: -11.5}
-        - {x: -25, y: -18.5}
-    - name: Hand_5
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: Hand_5
       rect:
         serializedVersion: 2
-        x: 89
-        y: 7
-        width: 103
-        height: 146
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 79.586754
+        y: 2
+        width: 117.413246
+        height: 156.55165
+      alignment: 9
+      pivot: {x: 0.51879364, y: 0.49823812}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -51.5, y: 73}
-        - {x: -51.5, y: -73}
-        - {x: -31.5, y: -73}
-        - {x: 51.5, y: 47}
-        - {x: 51.5, y: 64}
-        - {x: 43.5, y: 73}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
     outline: []
+    physicsShape: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

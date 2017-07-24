@@ -1,52 +1,29 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEditor;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 
-namespace Anima2D 
+namespace Anima2D
 {
 	[Serializable]
-	public class Edge : System.Object
+	public class Edge : ScriptableObject
 	{
-		public Vertex vertex1;
-		public Vertex vertex2;
+		public Node node1;
+		public Node node2;
 
-		public Edge() { }
-		
-		public Edge(Vertex vertex1, Vertex vertex2)
+		public static Edge Create(Node vertex1, Node vertex2)
 		{
-			this.vertex1 = vertex1;
-			this.vertex2 = vertex2;
+			Edge edge = ScriptableObject.CreateInstance<Edge>();
+			edge.hideFlags = HideFlags.DontSave;
+			edge.node1 = vertex1;
+			edge.node2 = vertex2;
+			
+			return edge;
 		}
 
-		public bool IsInEdge(Vector3 point, float distance)
+		public bool ContainsNode(Node node)
 		{
-			if(IsInEdge(point) && MathUtils.SqrtLineDistance(point,vertex1.vertex,vertex2.vertex) <= distance * distance)
-			{
-				return true;
-			}
-			
-			return false;
-		}
-		
-		public bool IsInEdge(Vector2 point)
-		{
-			Vector2 v = vertex2.vertex - vertex1.vertex;
-			Vector2 p = point - vertex1.vertex;
-			
-			float dot = Vector2.Dot(v,p);
-			
-			if(dot < 0f)
-			{
-				return false;
-			}
-			
-			if(dot > v.sqrMagnitude)
-			{
-				return false;
-			}
-			
-			return true;
+			return node1 == node || node2 == node;
 		}
 
 		public override bool Equals(System.Object obj) 
@@ -55,20 +32,18 @@ namespace Anima2D
 				return false;
 			
 			Edge p = (Edge)obj;
-
-			bool value = (vertex1 == p.vertex1) && (vertex2 == p.vertex2);
-
-			if(!value)
-			{
-				value = (vertex1 == p.vertex2) && (vertex2 == p.vertex1);
-			}
-
-			return value;
+			
+			return (node1 == p.node1) && (node2 == p.node2) || (node1 == p.node2) && (node2 == p.node1);
 		}
-
+		
 		public override int GetHashCode() 
 		{
-			return vertex1.GetHashCode() ^ vertex2.GetHashCode();
+			return node1.GetHashCode() ^ node2.GetHashCode();
+		}
+
+		public static implicit operator bool(Edge e)
+		{
+			return e != null;
 		}
 	}
 }

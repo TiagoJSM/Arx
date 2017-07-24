@@ -33,8 +33,8 @@ namespace Anima2D
 				float loops = (int)(hueAngle / 360f);
 				float hue = ((hueAngle % 360f + (loops * hueLoopOffset % 360f)) / 360f);
 
-#if UNITY_5_3
-				mColors.Add(Color.HSVToRGB(hue, 1f, 1f));
+#if UNITY_5_0_0 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
+				mColors.Add(EditorGUIUtility.HSVToRGB(hue, 1f, 1f));
 #else
 				mColors.Add(Color.HSVToRGB(hue, 1f, 1f));
 

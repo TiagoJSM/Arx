@@ -119,11 +119,17 @@
   <ItemGroup>
     <Compile Include="Assets\Anima2D\Examples\Scripts\CharacterMotion.cs" />
     <Compile Include="Assets\Anima2D\Examples\Scripts\Follow.cs" />
+    <Compile Include="Assets\Anima2D\Examples\Scripts\SkinnedMeshCombiner.cs" />
+    <Compile Include="Assets\Anima2D\Examples\Scripts\SpringBone.cs" />
+    <Compile Include="Assets\Anima2D\Examples\Scripts\SpringCollider.cs" />
+    <Compile Include="Assets\Anima2D\Examples\Scripts\SpringManager.cs" />
     <Compile Include="Assets\Anima2D\Examples\Scripts\SpriteCycle.cs" />
     <Compile Include="Assets\Anima2D\Examples\Scripts\SpriteCycleParallax.cs" />
     <Compile Include="Assets\Anima2D\Scripts\BindInfo.cs" />
     <Compile Include="Assets\Anima2D\Scripts\Bone2D.cs" />
     <Compile Include="Assets\Anima2D\Scripts\BoneWeight2.cs" />
+    <Compile Include="Assets\Anima2D\Scripts\Control.cs" />
+    <Compile Include="Assets\Anima2D\Scripts\EditorUpdaterProxy.cs" />
     <Compile Include="Assets\Anima2D\Scripts\Hole.cs" />
     <Compile Include="Assets\Anima2D\Scripts\Ik2D.cs" />
     <Compile Include="Assets\Anima2D\Scripts\IkCCD2D.cs" />
@@ -138,11 +144,14 @@
     <Compile Include="Assets\Anima2D\Scripts\PoseManager.cs" />
     <Compile Include="Assets\Anima2D\Scripts\SortingLayerAttribute.cs" />
     <Compile Include="Assets\Anima2D\Scripts\SpriteMesh.cs" />
+    <Compile Include="Assets\Anima2D\Scripts\SpriteMeshAnimation.cs" />
     <Compile Include="Assets\Anima2D\Scripts\SpriteMeshInstance.cs" />
     <Compile Include="Assets\Anima2D\Scripts\Vertex.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Anima2D\Examples\Shaders\Unlit-Alpha-Cull-off.shader" />
+    <None Include="Assets\Anima2D\Examples\Shaders\VertexLitOneDirectional.shader" />
+    <None Include="Assets\Anima2D\Licenses.txt" />
     <None Include="Assets\Anima2D\Readme.txt" />
     <None Include="Assets\Anima2D\Version.txt" />
     <None Include="Assets\Plugins\Node_Editor\Resources\LineShader.shader" />

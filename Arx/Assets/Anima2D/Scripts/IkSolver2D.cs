@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,47 @@ namespace Anima2D
 		[Serializable]
 		public class SolverPose 
 		{
-			public Bone2D bone;
+			//Deprecated
+			[SerializeField][HideInInspector][FormerlySerializedAs("bone")]
+			Bone2D m_Bone;
+
+			[SerializeField]
+			Transform m_BoneTransform;
+
+			Bone2D m_CachedBone;
+			
+			public Bone2D bone
+			{
+				get {
+					if(m_Bone)
+					{
+						bone = m_Bone;
+					}
+					
+					if(m_CachedBone && m_BoneTransform != m_CachedBone.transform)
+					{
+						m_CachedBone = null;
+					}
+					
+					if(!m_CachedBone && m_BoneTransform)
+					{
+						m_CachedBone = m_BoneTransform.GetComponent<Bone2D>();
+					}
+					
+					return m_CachedBone;
+				}
+				
+				set {
+					m_Bone = null;
+					m_CachedBone = value;
+					m_BoneTransform = null;
+
+					if(value)
+					{
+						m_BoneTransform = m_CachedBone.transform;
+					}
+				}
+			}
 			public Vector3 solverPosition = Vector3.zero;
 			public Quaternion solverRotation = Quaternion.identity;
 			public Quaternion defaultLocalRotation = Quaternion.identity;
@@ -30,16 +71,63 @@ namespace Anima2D
 			}
 		}
 
-		[SerializeField] Bone2D m_RootBone;
+		//Deprecated
+		[SerializeField][HideInInspector]
+		Bone2D m_RootBone;
+		[SerializeField]
+		Transform m_RootBoneTransform;
+
 		[SerializeField] List<SolverPose> m_SolverPoses = new List<SolverPose>();
 		[SerializeField] float m_Weight = 1f;
+		[SerializeField] bool m_RestoreDefaultPose = true;
 
-		public Bone2D rootBone { get { return m_RootBone; } private set { m_RootBone = value; } }
+		Bone2D m_CachedRootBone;
+
+		public Bone2D rootBone {
+			get {
+				if(m_RootBone)
+				{
+					rootBone = m_RootBone;
+				}
+				
+				if(m_CachedRootBone && m_RootBoneTransform != m_CachedRootBone.transform)
+				{
+					m_CachedRootBone = null;
+				}
+				
+				if(!m_CachedRootBone && m_RootBoneTransform)
+				{
+					m_CachedRootBone = m_RootBoneTransform.GetComponent<Bone2D>();
+				}
+				
+				return m_CachedRootBone;
+			}
+			private set {
+				m_RootBone = null;
+				m_CachedRootBone = value;
+				m_RootBoneTransform = null;
+
+				if(value)
+				{
+					m_RootBoneTransform = value.transform;
+				}
+			}
+		}
+
 		public List<SolverPose> solverPoses { get { return m_SolverPoses; } }
 		public float weight { 
 			get { return m_Weight; } 
 			set { 
 				m_Weight = Mathf.Clamp01(value);
+			}
+		}
+
+		public bool restoreDefaultPose {
+			get {
+				return m_RestoreDefaultPose;
+			}
+			set {
+				m_RestoreDefaultPose = value;
 			}
 		}
 
@@ -70,6 +158,11 @@ namespace Anima2D
 		{
 			if(weight > 0f)
 			{
+				if(restoreDefaultPose)
+				{
+					RestoreDefaultPoses();
+				}
+
 				DoSolverUpdate();
 				UpdateBones();
 			}

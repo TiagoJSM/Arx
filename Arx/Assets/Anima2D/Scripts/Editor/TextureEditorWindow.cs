@@ -8,7 +8,7 @@ using UnityEditor.Sprites;
 
 namespace Anima2D 
 {
-	class TextureEditorWindow : EditorWindow
+	public class TextureEditorWindow : EditorWindow
 	{
 		public Color textureColor = Color.white;
 
@@ -42,7 +42,7 @@ namespace Anima2D
 				get {
 					if(!mShowBonesImage)
 					{
-						mShowBonesImage = EditorGUIUtility.Load("Anima2D/showBonesIcon.png") as Texture2D;
+						mShowBonesImage = EditorGUIUtility.Load("Assets/Example/Editor Default Resources/Anima2D/showBonesIcon.png") as Texture2D;
 						mShowBonesImage.hideFlags = HideFlags.DontSave;
 					}
 					
@@ -193,7 +193,7 @@ namespace Anima2D
 		protected void HandlePanning()
 		{
 			bool flag = (!Event.current.alt && Event.current.button > 0) || (Event.current.alt && Event.current.button <= 0);
-			if (flag )//&& GUIUtility.hotControl == 0)
+			if (flag && GUIUtility.hotControl == 0)
 			{
 				EditorGUIUtility.AddCursorRect(this.m_TextureViewRect, MouseCursor.Pan);
 				if (Event.current.type == EventType.MouseDrag)
@@ -339,8 +339,6 @@ namespace Anima2D
 
 			HandleScrollbars();
 			SetupHandlesMatrix();
-			HandleZoom();
-			HandlePanning();
 
 			DrawScreenspaceBackground();
 

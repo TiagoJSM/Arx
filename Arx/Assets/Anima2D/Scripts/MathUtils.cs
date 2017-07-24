@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
+using UnityEngine;
 
 namespace Anima2D 
 {
@@ -110,6 +110,101 @@ namespace Anima2D
 			var z = Mathf.Sqrt(m.m20 * m.m20 + m.m21 * m.m21 + m.m22 * m.m22);
 			
 			return new Vector3(x, y, z);
+		}
+
+		public static Rect ClampRect(Rect rect, Rect frame)
+		{
+			return new Rect {
+				xMin = Mathf.Clamp(rect.xMin, 0f, (float)(frame.width - 1)),
+				yMin = Mathf.Clamp(rect.yMin, 0f, (float)(frame.height - 1)),
+				xMax = Mathf.Clamp(rect.xMax, 1f, (float) frame.width),
+				yMax = Mathf.Clamp(rect.yMax, 1f, (float) frame.height)
+			};
+		}
+
+		public static Vector2 ClampPositionInRect(Vector2 position, Rect frame)
+		{
+			return new Vector2(Mathf.Clamp(position.x,frame.xMin,frame.xMax), Mathf.Clamp(position.y,frame.yMin,frame.yMax));
+		}
+
+		public static Rect OrderMinMax(Rect rect)
+		{
+			if (rect.xMin > rect.xMax)
+			{
+				float xMin = rect.xMin;
+				rect.xMin = rect.xMax;
+				rect.xMax = xMin;
+			}
+			if (rect.yMin > rect.yMax)
+			{
+				float yMin = rect.yMin;
+				rect.yMin = rect.yMax;
+				rect.yMax = yMin;
+			}
+			return rect;
+		}
+
+		public static float RoundToMultipleOf(float value, float roundingValue)
+		{
+			if (roundingValue == 0f)
+			{
+				return value;
+			}
+			return Mathf.Round(value / roundingValue) * roundingValue;
+		}
+
+		public static float GetClosestPowerOfTen(float positiveNumber)
+		{
+			if (positiveNumber <= 0f)
+			{
+				return 1f;
+			}
+			return Mathf.Pow(10f, (float)Mathf.RoundToInt(Mathf.Log10(positiveNumber)));
+		}
+
+		public static float RoundBasedOnMinimumDifference(float valueToRound, float minDifference)
+		{
+			if (minDifference == 0f)
+			{
+				return MathUtils.DiscardLeastSignificantDecimal(valueToRound);
+			}
+			return (float)Math.Round((double)valueToRound, MathUtils.GetNumberOfDecimalsForMinimumDifference(minDifference), MidpointRounding.AwayFromZero);
+		}
+
+		public static float DiscardLeastSignificantDecimal(float v)
+		{
+			int digits = Mathf.Clamp((int)(5f - Mathf.Log10(Mathf.Abs(v))), 0, 15);
+			return (float)Math.Round((double)v, digits, MidpointRounding.AwayFromZero);
+		}
+
+		public static int GetNumberOfDecimalsForMinimumDifference(float minDifference)
+		{
+			return Mathf.Clamp(-Mathf.FloorToInt(Mathf.Log10(minDifference)), 0, 15);
+		}
+
+		public static Vector3 Unskin(Vector3 skinedPosition,
+			Matrix4x4 localToWorld,
+			UnityEngine.BoneWeight boneWeight,
+			Matrix4x4[] bindposes,
+			Transform[] bones)
+		{
+			Matrix4x4 m0 = bones[boneWeight.boneIndex0].localToWorldMatrix * bindposes[boneWeight.boneIndex0];
+			Matrix4x4 m1 = bones[boneWeight.boneIndex1].localToWorldMatrix * bindposes[boneWeight.boneIndex1];
+			Matrix4x4 m2 = bones[boneWeight.boneIndex2].localToWorldMatrix * bindposes[boneWeight.boneIndex2];
+			Matrix4x4 m3 = bones[boneWeight.boneIndex3].localToWorldMatrix * bindposes[boneWeight.boneIndex3];
+
+			Matrix4x4 m = Matrix4x4.identity;
+
+			for(int n=0;n<16;n++)
+			{
+				m0[n] *= boneWeight.weight0;
+				m1[n] *= boneWeight.weight1;
+				m2[n] *= boneWeight.weight2;
+				m3[n] *= boneWeight.weight3;
+				m[n] = m0[n]+m1[n]+m2[n]+m3[n];
+			}
+
+			return localToWorld.MultiplyPoint3x4( m.inverse.MultiplyPoint3x4(skinedPosition) );
 		}
 	}
 }

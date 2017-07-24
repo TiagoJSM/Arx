@@ -1,21 +1,27 @@
 using UnityEngine;
+using UnityEditor;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 
 namespace Anima2D
 {
 	[InitializeOnLoad]
 	public class EditorEventHandler
 	{
+		static List<SpriteMeshInstance> s_SpriteMeshInstances = new List<SpriteMeshInstance>();
+
 		static EditorEventHandler()
 		{
 			SceneView.onSceneGUIDelegate += OnSceneGUI;
 			EditorApplication.hierarchyWindowItemOnGUI += HierarchyWindowItemCallback;
+			EditorApplication.hierarchyWindowChanged += HierarchyWindowChanged;
 		}
 
 		static SpriteMesh spriteMesh = null;
-		static GameObject instance = null;
+		static SpriteMeshInstance instance = null;
+		static SpriteMeshInstance currentDestination = null;
+		static List<Bone2D> s_InstanceBones = new List<Bone2D>();
 		static bool init = false;
 		static Vector3 instancePosition = Vector3.zero;
 		static Transform parentTransform = null;
@@ -29,11 +35,6 @@ namespace Anima2D
 				Object obj = DragAndDrop.objectReferences[0];
 
 				l_spriteMesh = obj as SpriteMesh;
-
-				if(!l_spriteMesh && DragAndDrop.paths.Length > 0)
-				{
-					l_spriteMesh = AssetDatabase.LoadAssetAtPath(DragAndDrop.paths[0],typeof(SpriteMesh)) as SpriteMesh;
-				}
 			}
 
 			return l_spriteMesh;
@@ -44,6 +45,9 @@ namespace Anima2D
 			init = false;
 			spriteMesh = null;
 			instance = null;
+			currentDestination = null;
+			parentTransform = null;
+			s_InstanceBones.Clear();
 		}
 
 		static Vector3 GetMouseWorldPosition()
@@ -62,31 +66,27 @@ namespace Anima2D
 			return mouseWorldPos;
 		}
 
-		static GameObject CreateInstance(Transform parent)
+		static void CreateInstance()
 		{
-			GameObject l_instance = null;
+			instance = SpriteMeshUtils.CreateSpriteMeshInstance(spriteMesh,false);
 
-			if(spriteMesh)
+			if(instance)
 			{
-				l_instance = new GameObject(spriteMesh.name);
-				
-				Mesh mesh = AssetDatabase.LoadAssetAtPath(DragAndDrop.paths[0],typeof(Mesh)) as Mesh;
-				Material material = AssetDatabase.LoadAssetAtPath(DragAndDrop.paths[0],typeof(Material)) as Material;
-				SpriteMeshInstance spriteMeshRenderer = l_instance.AddComponent<SpriteMeshInstance>();
-				spriteMeshRenderer.spriteMesh = spriteMesh;
-				MeshFilter meshFilter = l_instance.AddComponent<MeshFilter>();
-				meshFilter.sharedMesh = mesh;
-				MeshRenderer renderer = l_instance.AddComponent<MeshRenderer>();
-				renderer.sharedMaterial = material;
+				s_InstanceBones = instance.bones;
 
-				if(parent)
+				instance.transform.parent = parentTransform;
+				
+				if(parentTransform)
 				{
-					l_instance.transform.parent = parent;
-					l_instance.transform.localPosition = Vector3.zero;
+					instance.transform.localPosition = Vector3.zero;
 				}
 			}
+		}
 
-			return l_instance;
+		[UnityEditor.Callbacks.DidReloadScripts]
+		static void HierarchyWindowChanged()
+		{
+			s_SpriteMeshInstances = GameObject.FindObjectsOfType<SpriteMeshInstance>().ToList();
 		}
 
 		private static void HierarchyWindowItemCallback(int pID, Rect pRect)
@@ -113,6 +113,101 @@ namespace Anima2D
 			HandleDragAndDrop(true,null);
 		}
 
+		static SpriteMeshInstance GetClosestBindeableIntersectingSpriteMeshInstance()
+		{
+			float minDistance = float.MaxValue;
+			SpriteMeshInstance closestSpriteMeshInstance = null;
+
+			foreach(SpriteMeshInstance spriteMeshInstance in s_SpriteMeshInstances)
+			{
+				if(spriteMeshInstance && spriteMeshInstance != instance && spriteMeshInstance.spriteMesh && spriteMeshInstance.cachedRenderer)
+				{
+					Ray guiRay = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+
+					if(spriteMeshInstance.cachedRenderer.bounds.IntersectRay(guiRay))
+					{
+						if(Bindeable(instance,spriteMeshInstance))
+						{
+							Vector2 guiCenter = HandleUtility.WorldToGUIPoint(spriteMeshInstance.cachedRenderer.bounds.center);
+							float distance = (Event.current.mousePosition - guiCenter).sqrMagnitude;
+							if(distance < minDistance)
+							{
+								closestSpriteMeshInstance = spriteMeshInstance;
+							}
+						}
+					}
+				}
+			}
+
+			return closestSpriteMeshInstance;
+		}
+
+		static int FindBindInfo(BindInfo bindInfo, SpriteMeshInstance spriteMeshInstance)
+		{
+			if(spriteMeshInstance)
+			{
+				return FindBindInfo(bindInfo, SpriteMeshUtils.LoadSpriteMeshData(spriteMeshInstance.spriteMesh));
+
+			}
+
+			return -1;
+		}
+
+		static int FindBindInfo(BindInfo bindInfo, SpriteMeshData spriteMeshData)
+		{
+			if(bindInfo && spriteMeshData)
+			{
+				for(int i = 0; i < spriteMeshData.bindPoses.Length; ++i)
+				{
+					BindInfo l_bindInfo = spriteMeshData.bindPoses[i];
+					
+					if(bindInfo.name == l_bindInfo.name /*&& Mathf.Approximately(bindInfo.boneLength,l_bindInfo.boneLength)*/)
+					{
+						return i;
+					}
+				}
+			}
+
+			return -1;
+		}
+
+		static bool Bindeable(SpriteMeshInstance targetSpriteMeshInstance, SpriteMeshInstance destinationSpriteMeshInstance)
+		{
+			bool bindeable = false;
+
+			if(targetSpriteMeshInstance &&
+			   destinationSpriteMeshInstance &&
+			   targetSpriteMeshInstance.spriteMesh &&
+			   destinationSpriteMeshInstance.spriteMesh &&
+			   targetSpriteMeshInstance.spriteMesh != destinationSpriteMeshInstance.spriteMesh &&
+			   destinationSpriteMeshInstance.cachedSkinnedRenderer)
+			{
+				SpriteMeshData targetData = SpriteMeshUtils.LoadSpriteMeshData(targetSpriteMeshInstance.spriteMesh);
+				SpriteMeshData destinationData = SpriteMeshUtils.LoadSpriteMeshData(destinationSpriteMeshInstance.spriteMesh);
+
+				bindeable = true;
+
+				if(destinationData.bindPoses.Length >= targetData.bindPoses.Length)
+				{
+					for(int i = 0; i < targetData.bindPoses.Length; ++i)
+					{
+						if(bindeable)
+						{
+							BindInfo bindInfo = targetData.bindPoses[i];
+
+							if(FindBindInfo(bindInfo,destinationData) < 0)
+							{
+								bindeable = false;
+							}
+						}
+					}
+				}else{
+					bindeable = false;
+				}	
+			}
+			return bindeable;
+		}
+
 		static void HandleDragAndDrop(bool createOnEnter, Transform parent)
 		{
 			switch(Event.current.type)
@@ -125,21 +220,66 @@ namespace Anima2D
 
 					if(createOnEnter)
 					{
-						 instance = CreateInstance(parent);
+						parentTransform = null;
+						CreateInstance();
 					}
 
-					if(instance)
-					{
-						Event.current.Use();
-					}
+					Event.current.Use();
 
 					init = true;
 				}
 
 				if(instance)
 				{
-					DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
 					instance.transform.position = instancePosition;
+
+					SpriteMeshInstance l_currentDestination = GetClosestBindeableIntersectingSpriteMeshInstance();
+
+					if(currentDestination != l_currentDestination)
+					{
+						currentDestination = l_currentDestination;
+
+						if(currentDestination)
+						{
+							List<Bone2D> destinationBones = currentDestination.bones;
+							List<Bone2D> newBones = new List<Bone2D>();
+
+							SpriteMeshData data = SpriteMeshUtils.LoadSpriteMeshData(instance.spriteMesh);
+
+							for(int i = 0; i < data.bindPoses.Length; ++i)
+							{
+								BindInfo bindInfo = data.bindPoses[i];
+								int index = FindBindInfo(bindInfo,currentDestination);
+								if(index >= 0 && index < destinationBones.Count)
+								{
+									newBones.Add(destinationBones[index]);
+								}
+							}
+
+							instance.transform.parent = currentDestination.transform.parent;
+							instance.bones = newBones;
+							SpriteMeshUtils.UpdateRenderer(instance,false);
+
+							foreach(Bone2D bone in s_InstanceBones)
+							{
+								bone.hideFlags = HideFlags.HideAndDontSave;
+								bone.gameObject.SetActive(false);
+							}
+
+						}else{
+							foreach(Bone2D bone in s_InstanceBones)
+							{
+								bone.hideFlags = HideFlags.None;
+								bone.gameObject.SetActive(true);
+							}
+
+							instance.transform.parent = null;
+							instance.bones = s_InstanceBones;
+							SpriteMeshUtils.UpdateRenderer(instance,false);
+						}
+
+						SceneView.RepaintAll();
+					}
 				}
 
 				break;
@@ -148,7 +288,7 @@ namespace Anima2D
 
 				if(instance)
 				{
-					GameObject.DestroyImmediate(instance);
+					GameObject.DestroyImmediate(instance.gameObject);
 					Event.current.Use();
 				}
 				Cleanup();
@@ -158,15 +298,32 @@ namespace Anima2D
 
 				if(!createOnEnter)
 				{
-					instance = CreateInstance(parent);
+					CreateInstance();
 				}
 
 				if(instance)
 				{
-					Event.current.Use();
+					if(currentDestination)
+					{
+						foreach(Bone2D bone in s_InstanceBones)
+						{
+							if(bone)
+							{
+								GameObject.DestroyImmediate(bone.gameObject);
+							}
+						}
+					}
+
+					Undo.RegisterCreatedObjectUndo(instance.gameObject,"create SpriteMeshInstance");
 				}
+
 				Cleanup();
 				break;
+			}
+
+			if(instance)
+			{
+				DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
 			}
 		}
 	}

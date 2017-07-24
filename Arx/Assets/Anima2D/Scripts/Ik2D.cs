@@ -6,18 +6,56 @@ namespace Anima2D
 {
 	public abstract class Ik2D : MonoBehaviour
 	{
-		[SerializeField] Bone2D m_Target;
+		//Deprecated
+		[SerializeField][HideInInspector]
+		Bone2D m_Target;
+
+		[SerializeField]
+		bool m_Record = false;
+
+		[SerializeField]
+		Transform m_TargetTransform;
+
 		[SerializeField] int m_NumBones = 0;
 		[SerializeField] float m_Weight = 1f;
+		[SerializeField] bool m_RestoreDefaultPose = true;
+		[SerializeField] bool m_OrientChild = true;
 
 		public IkSolver2D solver { get { return GetSolver(); } }
 
-		public Bone2D target
-		{
-			get { return m_Target; }
+		public bool record { get { return m_Record; } }
+
+		Bone2D m_CachedTarget;
+
+		public Bone2D target {
+			get {
+				if(m_Target)
+				{
+					target = m_Target;
+				}
+				
+				if(m_CachedTarget && m_TargetTransform != m_CachedTarget.transform)
+				{
+					m_CachedTarget = null;
+				}
+				
+				if(!m_CachedTarget && m_TargetTransform)
+				{
+					m_CachedTarget = m_TargetTransform.GetComponent<Bone2D>();
+				}
+				
+				return m_CachedTarget;
+			}
 			set {
-				m_Target = value;
-				InitializeSolver();
+				m_CachedTarget = value;
+				m_TargetTransform = value.transform;
+
+				if(!m_Target)
+				{
+					InitializeSolver();
+				}
+
+				m_Target = null;
 			}
 		}
 		
@@ -39,6 +77,18 @@ namespace Anima2D
 		{
 			get { return m_Weight; }
 			set { m_Weight = value; }
+		}
+
+		public bool restoreDefaultPose
+		{
+			get { return m_RestoreDefaultPose; }
+			set { m_RestoreDefaultPose = value; }
+		}
+
+		public bool orientChild
+		{
+			get { return m_OrientChild; }
+			set { m_OrientChild = value; }
 		}
 
 		void OnDrawGizmos()
@@ -74,10 +124,7 @@ namespace Anima2D
 		{
 			OnLateUpdate();
 
-			if(Application.isPlaying)
-			{
-				UpdateIK();
-			}
+			UpdateIK();
 		}
 
 		void SetAttachedIK(Ik2D ik2D)
@@ -98,12 +145,18 @@ namespace Anima2D
 			OnIkUpdate();
 
 			solver.Update();
+
+			if(orientChild && target.child)
+			{
+				target.child.transform.rotation = transform.rotation;
+			}
 		}
 
 		protected virtual void OnIkUpdate()
 		{
 			solver.weight = weight;
 			solver.targetPosition = transform.position;
+			solver.restoreDefaultPose = restoreDefaultPose;
 		}
 
 		void InitializeSolver()
