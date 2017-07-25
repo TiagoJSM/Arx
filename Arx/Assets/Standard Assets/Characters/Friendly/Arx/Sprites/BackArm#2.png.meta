@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: c35edc0f6aba37d43852640c6133c447
-timeCreated: 1500850607
+timeCreated: 1500983870
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -77,6 +77,6 @@ TextureImporter:
     outline: []
     physicsShape: []
   spritePackingTag: ArxAtlas
-  userData: 
+  userData: 98368478343951
   assetBundleName: 
   assetBundleVariant: 
