@@ -201,7 +201,7 @@ public class PlatformerCharacterController : BasePlatformerController
         {
             return;
         }
-        _grabHand.SetActive(true);
+        //_grabHand.SetActive(true);
         _lastGrabbedLedge = _detectedLedge;
         transform.parent = _lastGrabbedLedge.gameObject.transform;
         _velocity = Vector2.zero;
@@ -216,7 +216,7 @@ public class PlatformerCharacterController : BasePlatformerController
 
     public void DropLedge()
     {
-        _grabHand.SetActive(false);
+        //_grabHand.SetActive(false);
         _grabbingLedge = false;
         transform.parent = null;
         gravity = _defaultGravity;
