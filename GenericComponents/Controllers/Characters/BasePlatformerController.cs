@@ -35,39 +35,11 @@ namespace GenericComponents.Controllers.Characters
             }
         }
 
-        /*void OnCollisionEnter2D(Collision2D other)
-        {
-            if (activePlatformCollider != null)
-            {
-                return;
-            }
-            foreach (var contact in other.contacts)
-            {
-                if (contact.normal.y > GroundContactMaxNormal)
-                {
-                    transform.parent = other.transform;
-                    transform.rotation = Quaternion.identity;
-                    activePlatformCollider = contact.collider;
-                    return;
-                }
-            }
-            activePlatformCollider = null;
-        }*/
-
         protected override void Awake()
         {
             base.Awake();
             _direction = DirectionOfMovement(transform.localScale.x, Direction.Left);
         }
-
-        /*void OnCollisionExit2D(Collision2D other)
-        {
-            if (other.collider == activePlatformCollider)
-            {
-                transform.parent = null;
-                activePlatformCollider = null;
-            }
-        }*/
 
         protected void Flip(Direction direction)
         {
