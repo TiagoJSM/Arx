@@ -8,10 +8,13 @@ using ArxGame.Components.Weapons;
 using System.Collections.Generic;
 using Assets.Standard_Assets._2D.Scripts.Characters.Enemies;
 using GenericComponents.Enums;
+using CommonInterfaces.Controllers;
+using Character = Assets.Standard_Assets._2D.Scripts.Characters.Enemies.ICharacter;
+using Assets.Standard_Assets.Common;
 
-public class MeleeEnemyControllerStateManager : StateManager<ICharacter, StateAction>
+public class MeleeEnemyControllerStateManager : StateManager<Character, StateAction>
 {
-    public MeleeEnemyControllerStateManager(ICharacter controller) : base(controller)
+    public MeleeEnemyControllerStateManager(Character controller) : base(controller)
     {
         this.SetInitialState<StandStillState>()
             .To<DeathState>((c, a, t) => c.Dead)
@@ -31,13 +34,14 @@ public class MeleeEnemyControllerStateManager : StateManager<ICharacter, StateAc
 }
 
 [RequireComponent(typeof(CombatModule))]
-public class MeleeEnemyController : PlatformerCharacterController, ICharacter
+public class MeleeEnemyController : PlatformerCharacterController, Character
 {
     private CombatModule _combatModule;
     private float _move;
     private bool _attack;
     private MeleeEnemyControllerStateManager _stateManager;
     private GameObject _equippedWeapon;
+    private float _lastHitDirection;
 
     [SerializeField]
     private BaseCloseCombatWeapon _weaponPrefab;
@@ -61,6 +65,18 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
     public override void Kill()
     {
         Dead = true;
+        base.duckingCollider.enabled = false;
+        base.standingCollider.enabled = false;
+        ApplyMovementAndGravity = false;
+        StartCoroutine(CoroutineHelpers.DeathMovement(gameObject, _lastHitDirection, () => Destroy(gameObject)));
+    }
+
+    public override int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1)
+    {
+        var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType);
+        var damageOriginPosition = hitPoint ?? attacker.transform.position;
+        _lastHitDirection = Math.Sign(transform.position.x - damageOriginPosition.x);
+        return damage;
     }
 
     protected override void Awake()
@@ -112,7 +128,5 @@ public class MeleeEnemyController : PlatformerCharacterController, ICharacter
 
     public void Die()
     {
-        base.duckingCollider.enabled = false;
-        base.standingCollider.enabled = false;
     }
 }

@@ -25,5 +25,44 @@ namespace Assets.Standard_Assets.Common
                 onEnd();
             }
         }
+
+        public static IEnumerator DeathMovement(
+            GameObject go, 
+            float horizontalDirection,
+            Action onEnd = null,
+            float horizontalSpeed = 10,
+            float verticalUpSpeed = 18,
+            float verticalDownSpeed = -20)
+        {
+            horizontalDirection = Mathf.Sign(horizontalDirection);
+
+            var startTime = Time.time;
+            while (true)
+            {
+                var elapsed = Time.time - startTime;
+                if (elapsed > 0.7)
+                {
+                    break;
+                }
+                go.transform.position += new Vector3(horizontalDirection * horizontalSpeed, verticalUpSpeed, 0) * Time.deltaTime;
+                yield return null;
+            }
+
+            startTime = Time.time;
+            while (true)
+            {
+                var elapsed = Time.time - startTime;
+                if (elapsed > 5)
+                {
+                    break;
+                }
+                go.transform.position += new Vector3(horizontalDirection * horizontalSpeed, verticalDownSpeed, 0) * Time.deltaTime;
+                yield return null;
+            }
+            if (onEnd != null)
+            {
+                onEnd();
+            }
+        }
     }
 }

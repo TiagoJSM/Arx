@@ -7,6 +7,12 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+public enum MovementType
+{
+    Walk,
+    Run
+}
+
 [RequireComponent(typeof(CharacterController2D))]
 [RequireComponent(typeof(LedgeChecker))]
 [RequireComponent(typeof(RoofChecker))]
@@ -44,6 +50,7 @@ public class PlatformerCharacterController : BasePlatformerController
 
     public float gravity = -25f;
     public float runSpeed = 8f;
+    public float walkSpeed = 5f;
     public float groundDamping = 20f; // how fast do we change direction? higher means faster
     public float inAirDamping = 5f;
     public float jumpHeight = 3f;
@@ -168,11 +175,13 @@ public class PlatformerCharacterController : BasePlatformerController
     public IEnumerable<RaycastHit2D> FrameHits { get; private set; }
 
     public CharacterController2D CharacterController2D { get { return _characterController2D; } }
+    public MovementType MovementType { get; set; }
 
     public PlatformerCharacterController()
     {
         ApplyMovementAndGravity = true;
         SteadyRotation = true;
+        MovementType = MovementType.Run;
     }
 
     public void LedgeDetected(bool detected, Collider2D ledgeCollider)
@@ -261,7 +270,8 @@ public class PlatformerCharacterController : BasePlatformerController
     protected void DoMove(float move, bool setDirectionToMovement)
     {
         var direction = DirectionOfMovement(move, Direction);
-        _velocity.x = DirectionValue(direction) * runSpeed * VelocityMultiplier.x;
+        var speed = MovementType == MovementType.Run ? runSpeed : walkSpeed;
+        _velocity.x = DirectionValue(direction) * speed * VelocityMultiplier.x;
         if (Math.Abs(move) < 0.2)
         {
             _velocity.x = 0;
