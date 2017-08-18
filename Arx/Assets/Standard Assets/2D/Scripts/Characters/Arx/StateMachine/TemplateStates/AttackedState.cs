@@ -10,13 +10,15 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.Templat
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
             base.OnStateEnter(action);
+            StateController.StartFlashing();
             StateController.CanBeAttacked = false;
         }
 
         public override void OnStateExit(PlatformerCharacterAction action)
         {
             base.OnStateExit(action);
-            StateController.CanBeAttacked = true;
+            //StateController.StopFlashing();
+            //StateController.CanBeAttacked = true;
         }
     }
 }

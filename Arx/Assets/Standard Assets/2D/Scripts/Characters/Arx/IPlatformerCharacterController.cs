@@ -63,5 +63,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void GrabLadder();
         void MoveOnLadder(float vertical);
         void LetGoLadder();
+        void StartFlashing();
+        void StopFlashing();
     }
 }
