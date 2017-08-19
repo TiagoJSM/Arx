@@ -58,6 +58,10 @@ namespace GenericComponents.Controllers.Characters
             AttackTypeDetail attackType = AttackTypeDetail.Generic,
             int comboNumber = 1)
         {
+            if (!CanBeAttacked)
+            {
+                return 0;
+            }
             _status.Damage(damage);
             if (_status.HealthDepleted)
             {
@@ -84,6 +88,11 @@ namespace GenericComponents.Controllers.Characters
         public void EndGrappled()
         {
             this.transform.SetParent(null);
+        }
+
+        public CharacterController()
+        {
+            CanBeAttacked = true;
         }
 
         protected virtual void Awake()

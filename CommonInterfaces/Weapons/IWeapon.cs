@@ -18,8 +18,8 @@ namespace CommonInterfaces.Weapons
     public interface IWeapon
     {
         WeaponType WeaponType { get; }
-        GameObject LeftHandWeapon { get; }
-        GameObject RightHandWeapon { get; }
+        CommonVisualWeaponComponent LeftHandWeapon { get; }
+        CommonVisualWeaponComponent RightHandWeapon { get; }
         GameObject LeftHandSocket { get; set; }
         GameObject RightHandSocket { get; set; }
 

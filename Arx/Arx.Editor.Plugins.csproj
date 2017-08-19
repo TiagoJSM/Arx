@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>EditorPlugins:7</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>2017.1.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -179,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Editor\SpeakersAttributeDrawer.cs" />
+    <Compile Include="Assets\Standard Assets\Common\Editor\AttributeDrawers\LayerAttributeDrawer.cs" />
     <Compile Include="Assets\Standard Assets\Common\Editor\AttributeDrawers\SelectedSceneAttributeDrawer.cs" />
     <Compile Include="Assets\Standard Assets\Decorators\NodeMeshDecoration\Editor\NodeMeshEditor.cs" />
     <Compile Include="Assets\Standard Assets\Decorators\NodeMeshDecoration\Editor\NodeMeshMenuItem.cs" />

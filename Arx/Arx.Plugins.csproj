@@ -271,6 +271,7 @@
     <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\AICharacterControl.cs" />
     <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonCharacter.cs" />
     <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonUserControl.cs" />
+    <Compile Include="Assets\Standard Assets\Common\Attributes\LayerAttribute.cs" />
     <Compile Include="Assets\Standard Assets\Common\Attributes\SceneFieldAttribute.cs" />
     <Compile Include="Assets\Standard Assets\Common\CoroutineHelpers.cs" />
     <Compile Include="Assets\Standard Assets\Common\SceneField.cs" />
