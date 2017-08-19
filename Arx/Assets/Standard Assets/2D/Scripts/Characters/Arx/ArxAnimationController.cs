@@ -5,10 +5,12 @@ using GenericComponents.Enums;
 using ArxGame.Components;
 using CommonInterfaces.Controllers;
 using System;
+using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(CombatModule))]
+[RequireComponent(typeof(EnemyProximityDetector))]
 public class ArxAnimationController : MonoBehaviour
 {
     private readonly int _HorizontalVelocity = Animator.StringToHash("Horizontal Velocity");
@@ -26,10 +28,15 @@ public class ArxAnimationController : MonoBehaviour
     private readonly int _RollingState = Animator.StringToHash("Base Layer.Ducking locomotion.Roll");
     private readonly int _GrabbingRope = Animator.StringToHash("Grabbing Rope"); 
     private readonly int _RopeClimbDirection = Animator.StringToHash("Rope Climb Direction");
+    private readonly int _VelocityGoingDown = Animator.StringToHash("Velocity Going Down");
+    private readonly int _EnemyNearby = Animator.StringToHash("Enemy Nearby");
+
+    private float _previousVerticalVelocity = 0;
 
     private Animator _animator;
     private MainPlatformerController _platformerController;
     private CombatModule _combatModule;
+    private EnemyProximityDetector _enemyProximityDetector;
 
     public float HorizontalVelocity
     {
@@ -130,12 +137,27 @@ public class ArxAnimationController : MonoBehaviour
             _animator.SetFloat(_RopeClimbDirection, value);
         }
     }
+    private bool VelocityGoingDown
+    {
+        set
+        {
+            _animator.SetBool(_VelocityGoingDown, value);
+        }
+    }
+    private bool EnemyNearby
+    {
+        set
+        {
+            _animator.SetBool(_EnemyNearby, value);
+        }
+    }
 
     // Use this for initialization
     void Awake () {
         _animator = GetComponent<Animator>();
         _platformerController = GetComponent<MainPlatformerController>();
         _combatModule = GetComponent<CombatModule>();
+        _enemyProximityDetector = GetComponent<EnemyProximityDetector>();
     }
 
     void Start()
@@ -159,6 +181,8 @@ public class ArxAnimationController : MonoBehaviour
         ChargingAttack = _platformerController.IsCharging;
         GrabbingRope = _platformerController.RopeFound;
         RopeClimbDirection = _platformerController.RopeClimbDirection;
+        VelocityGoingDown = _platformerController.VerticalSpeed < _previousVerticalVelocity;
+        EnemyNearby = _enemyProximityDetector.EnemyNearby;
 
         var currentState = _animator.GetCurrentAnimatorStateInfo(0);
         var c = _animator.GetCurrentAnimatorClipInfo(0)[0];
@@ -170,5 +194,7 @@ public class ArxAnimationController : MonoBehaviour
         {
             _animator.speed = 1;
         }
+
+        _previousVerticalVelocity = _platformerController.VerticalSpeed;
     }
 }
