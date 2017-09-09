@@ -104,6 +104,8 @@ namespace Assets.Standard_Assets.Terrain.Editor
         {
             var texture = _selectedMaterial.GetTexture(TextureParameterName);
 
+            var size = new Rect(Vector2.zero, new Vector2(texture.width, texture.height));
+
             _textureEditorPosition =
                 EditorGUILayout.BeginScrollView(
                         _textureEditorPosition,
@@ -123,8 +125,10 @@ namespace Assets.Standard_Assets.Terrain.Editor
 
         private void RenderTexture(Texture texture)
         {
-            GUILayout.BeginArea(new Rect(Vector2.zero, new Vector2(texture.width, texture.height)), texture);
-            GUILayout.EndArea();
+            //Hack to make area size
+            GUILayout.Label(texture, GUILayout.Width(texture.width), GUILayout.Height(texture.height));
+            //GUILayout.BeginArea(new Rect(Vector2.zero, new Vector2(texture.width, texture.height)), texture);
+            //GUILayout.EndArea();
         }
 
         private void Separator()
