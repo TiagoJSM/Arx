@@ -277,11 +277,6 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
             _attackButtonDownTime = 0;
             _currentInputAction = InputAction.AttackButtonDown;
         }
-
-        if (secundary)
-        {
-            _characterController.StrongAttack();
-        }
     }
 
     private void AttackButtonDownState(IInputDevice inputDevice)

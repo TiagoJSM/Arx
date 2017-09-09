@@ -49,6 +49,7 @@ public class PlatformerCharacterController : BasePlatformerController
     public float maxRollSpeed = 12.0f;
 
     public float gravity = -25f;
+    public float minYVelocity = -40f;
     public float runSpeed = 8f;
     public float walkSpeed = 5f;
     public float groundDamping = 20f; // how fast do we change direction? higher means faster
@@ -390,6 +391,11 @@ public class PlatformerCharacterController : BasePlatformerController
         //var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
 
         _velocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
+
+        if(_velocity.y < minYVelocity)
+        {
+            _velocity.y = minYVelocity;
+        }
 
         _characterController2D.move(
             _velocity * Time.deltaTime + 
