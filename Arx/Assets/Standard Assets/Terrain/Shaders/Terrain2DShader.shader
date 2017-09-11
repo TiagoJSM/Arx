@@ -1,6 +1,4 @@
-﻿
-
-Shader "2DTerrain/Lit"
+﻿Shader "2DTerrain/Lit"
 {
 	Properties
 	{
@@ -20,6 +18,9 @@ Shader "2DTerrain/Lit"
 		
 		_InterpolationColour("Interpolation colour", Color) = (1, 1, 1, 1)
 		_InterpolationFactor("Interpolation factor", float) = 0
+
+		_FillingInterpolationColour("Filling Interpolation colour", Color) = (1, 1, 1, 1)
+		_FillingInterpolationFactor("Filling Interpolation factor", float) = 0
 
 		_FillingTexture("Filling texture", 2D) = "black" {}
 	}
@@ -59,9 +60,11 @@ Shader "2DTerrain/Lit"
 
 	uniform float4 _InterpolationColour;
 	uniform float _InterpolationFactor;
+
+	uniform float4 _FillingInterpolationColour;
+	uniform float _FillingInterpolationFactor;
 	
 	uniform sampler2D _FillingTexture;
-	//uniform float4 _FillingTexture_ST;
 
 	struct Input
 	{
@@ -71,7 +74,7 @@ Shader "2DTerrain/Lit"
 
 	half4 LightingSimpleLambert(SurfaceOutput s, half3 lightDir, half atten) {
 		half4 c;
-		c.rgb = s.Albedo * _LightColor0.rgb * atten;
+		c.rgb = s.Albedo *_LightColor0.rgb * atten;
 		c.a = s.Alpha;
 		return c;
 	}
@@ -85,9 +88,6 @@ Shader "2DTerrain/Lit"
 	fixed4 SampleSpriteTexture(Input IN, float2 uv)
 	{
 		float2 uvFrac = frac(uv);
-
-		//uvFrac.x = clamp(uvFrac.x , 0.0, 1.0);
-		uvFrac.y = clamp(uv.y, 0.0, 1.0);
 
 		if (IN.color.a == 0.0f)
 		{
@@ -103,15 +103,15 @@ Shader "2DTerrain/Lit"
 		}
 		else if (IN.color.a == 0.3f)
 		{
-			return SetSurfaceColor(uvFrac, _CeilingLeftEnding, _Texture).xyzw;
+			return SetSurfaceColor(uvFrac, _SlopeLeftEnding, _Texture).xyzw;
 		}
 		else if (IN.color.a == 0.4f)
 		{
-			return SetSurfaceColor(uvFrac, _Ceiling, _Texture).xyzw;
+			return SetSurfaceColor(uvFrac, _Slope, _Texture).xyzw;
 		}
 		else if (IN.color.a == 0.5f)
 		{
-			return SetSurfaceColor(uvFrac, _CeilingRightEnding, _Texture).xyzw;
+			return SetSurfaceColor(uvFrac, _SlopeRightEnding, _Texture).xyzw;
 		}
 		else if (IN.color.a == 0.6f)
 		{
@@ -119,24 +119,33 @@ Shader "2DTerrain/Lit"
 		}
 		else if (IN.color.a == 0.7f)
 		{
-			return SetSurfaceColor(uvFrac, _SlopeLeftEnding, _Texture).xyzw;
+			return SetSurfaceColor(uvFrac, _CeilingLeftEnding, _Texture).xyzw;
 		}
 		else if (IN.color.a == 0.8f)
 		{
-			return SetSurfaceColor(uvFrac, _Slope, _Texture).xyzw;
+			return SetSurfaceColor(uvFrac, _Ceiling, _Texture).xyzw;
 		}
 		else if(IN.color.a == 0.9f)
 		{
-			return SetSurfaceColor(uvFrac, _SlopeRightEnding, _Texture).xyzw;
+			return SetSurfaceColor(uvFrac, _CeilingRightEnding, _Texture).xyzw;
 		}
 		return fixed4(1.0, 0, 0, 1.0).xyzw;
+	}
+
+	fixed4 LayerInterpolation(fixed4 color, Input IN)
+	{
+		if (IN.color.a == 0.6f)
+		{
+			return lerp(color, _FillingInterpolationColour, _FillingInterpolationFactor);
+		}
+		return lerp(color, _InterpolationColour, _InterpolationFactor);
 	}
 
 	void surf(Input IN, inout SurfaceOutput o)
 	{
 		fixed4 c = SampleSpriteTexture(IN, IN.uv_FillingTexture);
-		c = lerp(c, _InterpolationColour, _InterpolationFactor);
-		o.Albedo = c.rgb * c.a;
+		c = LayerInterpolation(c, IN);
+		o.Albedo = c.rgb;
 		o.Alpha = c.a;
 	}
 	ENDCG
