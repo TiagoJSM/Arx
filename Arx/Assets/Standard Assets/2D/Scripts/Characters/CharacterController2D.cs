@@ -510,7 +510,7 @@ public class CharacterController2D : MonoBehaviour
                     bottomRay = raycastHit;
                 }
 
-                var distance = raycastHit.point.x - ray.x;
+                var distance = Math.Abs(raycastHit.point.x - ray.x);
                 if(distance < closestDistance)
                 {
                     closestDistance = distance;
@@ -609,7 +609,7 @@ public class CharacterController2D : MonoBehaviour
         {
             var ray = new Vector2(initialRayOrigin.x + i * _horizontalDistanceBetweenRays, initialRayOrigin.y);
 
-            //DrawRay(ray, rayDirection * rayDistance, Color.red);
+            DrawRay(ray, rayDirection * rayDistance, Color.red);
             //_raycastHit = Physics2D.Raycast(ray, rayDirection, rayDistance, mask);
             raycastHit = Raycast(ray, rayDirection, rayDistance, mask);
             if (raycastHit)
