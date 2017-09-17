@@ -604,13 +604,13 @@ public class CharacterController2D : MonoBehaviour
         var mask = platformMask;
         if ((isGoingUp && !collisionState.wasGroundedLastFrame) || ignoreOneWayPlatformsThisFrame)
             mask &= ~oneWayPlatformMask;
-
+        
         for (var i = 0; i < totalVerticalRays; i++)
         {
             var ray = new Vector2(initialRayOrigin.x + i * _horizontalDistanceBetweenRays, initialRayOrigin.y);
 
             DrawRay(ray, rayDirection * rayDistance, Color.red);
-            //_raycastHit = Physics2D.Raycast(ray, rayDirection, rayDistance, mask);
+            
             raycastHit = Raycast(ray, rayDirection, rayDistance, mask);
             if (raycastHit)
             {
@@ -629,7 +629,7 @@ public class CharacterController2D : MonoBehaviour
                     deltaMovement.y += _skinWidth;
                     collisionState.below = true;
                 }
-
+                
                 _raycastHitsThisFrame.Add(raycastHit);
 
                 // this is a hack to deal with the top of slopes. if we walk up a slope and reach the apex we can get in a situation
@@ -639,8 +639,8 @@ public class CharacterController2D : MonoBehaviour
 
                 // we add a small fudge factor for the float operations here. if our rayDistance is smaller
                 // than the width + fudge bail out because we have a direct impact
-                if (rayDistance < _skinWidth + kSkinWidthFloatFudgeFactor)
-                    break;
+                //if (rayDistance < _skinWidth + kSkinWidthFloatFudgeFactor)
+                  //  break;
             }
         }
     }
@@ -713,7 +713,7 @@ public class CharacterController2D : MonoBehaviour
                 collisionState.movingDownSlope = true;
                 collisionState.slopeAngle = slopeAngle;
             }
-            //Experimental
+            
             else if(slopeAngle > slopeMinLimit && onlyOverLimitSlopes)
             {
                 var down = new Vector2(1 / slopeRaycast.normal.x, -(1 / slopeRaycast.normal.y)).normalized;
