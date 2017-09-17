@@ -37,7 +37,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         [SerializeField]
         private float _attackRange = 1;
         [SerializeField]
-        private bool _canbeSurprised;
+        private bool _canBeSurprised;
         [SerializeField]
         private float _surprisedTime = 1f;
 
@@ -75,7 +75,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         {
             get
             {
-                return _canbeSurprised;
+                return _canBeSurprised;
             }
         }
 

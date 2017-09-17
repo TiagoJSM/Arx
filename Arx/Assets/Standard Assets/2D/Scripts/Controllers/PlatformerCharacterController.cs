@@ -21,7 +21,7 @@ public class PlatformerCharacterController : BasePlatformerController
 {
     private Collider2D _activePlatformCollider;
     private bool _grabbingLedge = false;
-    private Vector3 _velocity;
+    private Vector3 _desiredMovementVelocity;
     private float _defaultGravity;
     private bool _detectPlatform = true;
     private bool _applyMovementAndGravity;
@@ -84,7 +84,7 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         get
         {
-            return _velocity.y;
+            return Velocity.y;
         }
     }
 
@@ -92,7 +92,7 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         get
         {
-            return _velocity.x;
+            return Velocity.x;
         }
     }
 
@@ -139,7 +139,7 @@ public class PlatformerCharacterController : BasePlatformerController
             _applyMovementAndGravity = value;
             if (!_applyMovementAndGravity)
             {
-                _velocity = Vector2.zero;
+                DesiredMovementVelocity = Vector2.zero;
             }
         }
     }
@@ -164,12 +164,14 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         get
         {
-            return _velocity;
+            return _characterController2D.velocity;
         }
-        protected set
-        {
-            _velocity = value;
-        }
+    }
+
+    protected Vector2 DesiredMovementVelocity
+    {
+        get { return _desiredMovementVelocity; }
+        set { _desiredMovementVelocity = value; }
     }
 
     public Vector2 VelocityMultiplier { get; protected set; }
@@ -214,14 +216,14 @@ public class PlatformerCharacterController : BasePlatformerController
         //_grabHand.SetActive(true);
         _lastGrabbedLedge = _detectedLedge;
         transform.parent = _lastGrabbedLedge.gameObject.transform;
-        _velocity = Vector2.zero;
+        DesiredMovementVelocity = Vector2.zero;
         gravity = 0;
         _grabbingLedge = true;
     }
 
     public void JumpUp()
     {
-        _velocity.y = Mathf.Sqrt(2f * jumpHeight * -gravity);
+        _desiredMovementVelocity.y = Mathf.Sqrt(2f * jumpHeight * -gravity);
     }
 
     public void DropLedge()
@@ -251,13 +253,13 @@ public class PlatformerCharacterController : BasePlatformerController
     public void StayStill()
     {
         //_normalizedHorizontalSpeed = 0;
-        _velocity = new Vector2(0, _velocity.y);
+        _desiredMovementVelocity = new Vector2(0, _desiredMovementVelocity.y);
     }
 
     public void Roll(float move)
     {
         var direction = DirectionOfMovement(move, Direction);
-        _velocity.x = DirectionValue(direction) * runSpeed * VelocityMultiplier.x;
+        _desiredMovementVelocity.x = DirectionValue(direction) * runSpeed * VelocityMultiplier.x;
         Flip(direction);
     }
 
@@ -272,10 +274,10 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         var direction = DirectionOfMovement(move, Direction);
         var speed = MovementType == MovementType.Run ? runSpeed : walkSpeed;
-        _velocity.x = DirectionValue(direction) * speed * VelocityMultiplier.x;
+        _desiredMovementVelocity.x = DirectionValue(direction) * speed * VelocityMultiplier.x;
         if (Math.Abs(move) < 0.2)
         {
-            _velocity.x = 0;
+            _desiredMovementVelocity.x = 0;
         }
         else
         {
@@ -390,17 +392,17 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         //var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
 
-        _velocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
+        _desiredMovementVelocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
 
-        if(_velocity.y < minYVelocity)
+        if(_desiredMovementVelocity.y < minYVelocity)
         {
-            _velocity.y = minYVelocity;
+            _desiredMovementVelocity.y = minYVelocity;
         }
 
         _characterController2D.move(
-            _velocity * Time.deltaTime + 
+            _desiredMovementVelocity * Time.deltaTime + 
             new Vector3(_impactMovement.x, _impactMovement.y, 0));
-        _velocity = _characterController2D.velocity;
+        //_desiredMovementVelocity = _characterController2D.velocity;
     }
 
     private void OnAllControllerCollidedEventHandler(IEnumerable<RaycastHit2D> hits)

@@ -99,8 +99,8 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
 
     protected override void Update()
     {
-        base.Update();
         _stateManager.Perform(new StateAction(_move, _attack));
+        base.Update();
         _move = 0;
         _attack = false;
     }
