@@ -173,7 +173,7 @@ public class ArxAnimationController : MonoBehaviour
         LedgeGrabbing = _platformerController.GrabbingLedge;
         ComboCount = _combatModule.ComboNumber;
         WeaponType = _combatModule.WeaponType;
-        AttackType = _combatModule.ComboType;
+        AttackType = _combatModule.AttackType;
         AttackStyle = _combatModule.AttackStyle;
         Attacking = _platformerController.Attacking;
         Ducking = _platformerController.Ducking;

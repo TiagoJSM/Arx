@@ -295,6 +295,13 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
             _characterController.LightAttack();
             _currentInputAction = InputAction.None;
         }
+
+        var vertical = inputDevice.GetAxis(DeviceAxis.Movement).y;
+        if (primary && vertical < 0)
+        {
+            _characterController.StrongAttack();
+            _currentInputAction = InputAction.None;
+        }
     }
 
     private void ChargingAttackState(IInputDevice inputDevice)

@@ -120,7 +120,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\ChainThrowStateBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\GroundCloseCombatAttackBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\GroundCloseCombatStateBehaviour.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\GroundCloseCombatStateMachineBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\CloseCombatStateMachineBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Camera2DFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\ArxAnimationController.cs" />

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets._2D.Scripts.Animator_Behaviours.Combat
 {
-    public class GroundCloseCombatStateMachineBehaviour : StateMachineBehaviour
+    public class CloseCombatStateMachineBehaviour : StateMachineBehaviour
     {
         public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
         {

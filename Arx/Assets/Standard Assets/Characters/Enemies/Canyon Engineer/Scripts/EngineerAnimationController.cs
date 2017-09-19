@@ -73,7 +73,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         void Update()
         {
             HorizontalVelocity = _controller.HorizontalSpeed;
-            AttackType = (int)_combatModule.ComboType;
+            AttackType = (int)_combatModule.AttackType;
             DeathFront = _controller.Dead;
         }
 
