@@ -67,7 +67,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     private float _move;
     private float _vertical;
-    private bool _jump;
+    private float? _jump;
     private bool _roll;
     private bool _releaseRope;
     private bool _aiming;
@@ -183,7 +183,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public bool LadderFound { get { return _ladderFinder.LadderGameObject; } }
 
-    public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming)
+    public void Move(float move, float vertical, float? jump, bool roll, bool releaseRope, bool aiming)
     {
         _move = move;
         _vertical = vertical;
@@ -528,7 +528,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _stateManager.Perform(action);
         _move = 0;
         _vertical = 0;
-        _jump = false;
+        _jump = null;
         _roll = false;
         _aiming = false;
         _shoot = false;

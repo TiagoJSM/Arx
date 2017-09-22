@@ -36,9 +36,11 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     }
 
     private const float MinAttackChargeTime = 0.5f;
+    private const float JumpHoldMaxTime = 0.15f;
 
     private InputAction _currentInputAction = InputAction.None;
     private float _attackButtonDownTime;
+    private float? _jumpHoldTime = 0;
 
     private MainPlatformerController _characterController;
     private ItemFinderController _itemFinderController;
@@ -118,7 +120,6 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         var horizontal = inputDevice.GetAxis(DeviceAxis.Movement).x;
         var vertical = inputDevice.GetAxis(DeviceAxis.Movement).y;
         var roll = inputDevice.GetButton(DeviceButton.Jump);
-        var jump = inputDevice.GetButtonDown(DeviceButton.Jump);
         var grabLadder = false;
         var releaseRope = grabLadder = inputDevice.GetButtonDown(DeviceButton.Interact);
         var aiming = inputDevice.GetButton(DeviceButton.AimWeapon);
@@ -129,11 +130,60 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         SetAimAngle(inputDevice);
         HandleLadderGrab(grabLadder);
         HandleInteraction();
+        var jump = HandleJump(inputDevice);
+
+        if (jump != null)
+        {
+            Debug.Log(jump.Value);
+        }
 
         _characterController.Move(horizontal, vertical, jump, roll, releaseRope, aiming);
 
         HandleAttack(inputDevice);
         SwitchActiveWeapon(inputDevice);
+    }
+
+    private float? HandleJump(IInputDevice inputDevice)
+    {
+        var jumpUp = inputDevice.GetButtonUp(DeviceButton.Jump);
+
+        if(_jumpHoldTime == null && jumpUp)
+        {
+            return null;
+        }
+
+        var jump = inputDevice.GetButton(DeviceButton.Jump);
+        var jumpDown = inputDevice.GetButtonDown(DeviceButton.Jump);
+
+        if(jumpDown)
+        {
+            _jumpHoldTime = 0;
+        }
+
+        if(_jumpHoldTime == null)
+        {
+            return null;
+        }
+
+        if (jump)
+        {
+            _jumpHoldTime += Time.deltaTime;
+        }
+
+        if(jumpUp)
+        {
+            var result = Math.Min(_jumpHoldTime.Value / JumpHoldMaxTime, 1);
+            _jumpHoldTime = null;
+            return result;
+        }
+
+        if(_jumpHoldTime > JumpHoldMaxTime)
+        {
+            _jumpHoldTime = null;
+            return 1;
+        }
+
+        return null;
     }
 
     private void HandleLadderGrab(bool grabLadder)

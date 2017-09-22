@@ -54,7 +54,8 @@ public class PlatformerCharacterController : BasePlatformerController
     public float walkSpeed = 5f;
     public float groundDamping = 20f; // how fast do we change direction? higher means faster
     public float inAirDamping = 5f;
-    public float jumpHeight = 3f;
+    public float minJumpHeight = 7f;
+    public float maxJumpHeight = 13f;
 
     private bool DetectingPreviousGrabbedLedge
     {
@@ -221,8 +222,10 @@ public class PlatformerCharacterController : BasePlatformerController
         _grabbingLedge = true;
     }
 
-    public void JumpUp()
+    public void JumpUp(float jumpRatio)
     {
+        jumpRatio = Mathf.Clamp01(jumpRatio);
+        var jumpHeight = Mathf.Lerp(minJumpHeight, maxJumpHeight, jumpRatio);
         _desiredMovementVelocity.y = Mathf.Sqrt(2f * jumpHeight * -gravity);
     }
 

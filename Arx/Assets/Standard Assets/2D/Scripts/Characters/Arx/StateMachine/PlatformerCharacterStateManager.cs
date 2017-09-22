@@ -25,7 +25,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<MovingState>((c, a, t) => a.Move != 0 && c.IsGrounded)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
-                    .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
+                    .To<JumpingState>((c, a, t) => a.Jump != null && c.IsGrounded)
                     .To<DuckState>((c, a, t) => a.Vertical < 0 && c.IsGrounded)
                     .To<LadderGrabState>((c, a, t) => c.LadderFound && a.GrabLadder);
 
@@ -99,7 +99,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<GroundAttackState>((c, a, t) => a.AttackType != AttackType.None && c.Attacking)
                     .To<MovingAimState>((c, a, t) => a.Aiming && c.IsGrounded)
                     .To<ChargeAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null && c.IsCharging)
-                    .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
+                    .To<JumpingState>((c, a, t) => a.Jump != null && c.IsGrounded)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
                     .To<PushState>((c, a, t) => c.IsGrounded && c.Pushable != null && a.Move != 0)
                     .To<LadderGrabState>((c, a, t) => c.LadderFound && a.GrabLadder);
@@ -107,7 +107,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             this
                 .From<GrabbingLedgeState>()
                     .To<AttackedOnGrabbingState>((c, a, t) => c.AttackedThisFrame)
-                    .To<JumpingState>((c, a, t) => a.Jump)
+                    .To<JumpingState>((c, a, t) => a.Jump != null)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && !c.GrabbingLedge);
 
             this
@@ -171,7 +171,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                 From<RopeGrabState>()
                     .To<AttackedOnGrabbingState>((c, a, t) => c.AttackedThisFrame)
                     .To<FallingState>((c, a, t) => a.ReleaseRope)
-                    .To<JumpingState>((c, a, t) => a.Jump);
+                    .To<JumpingState>((c, a, t) => a.Jump != null);
 
             this.
                 From<MovingAimState>()
@@ -181,8 +181,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                 .To<MovingState>((c, a, t) => !a.Aiming && c.IsGrounded)
                 .To<ThrowState>((c, a, t) => a.Throw)
                 .To<ChargeAttackState>((c, a, t) => a.Shoot && c.WeaponType != null && c.IsCharging)
-                .To<JumpingAimState>((c, a, t) => a.Jump && c.IsGrounded && a.Aiming)
-                .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
+                .To<JumpingAimState>((c, a, t) => a.Jump != null && c.IsGrounded && a.Aiming)
+                .To<JumpingState>((c, a, t) => a.Jump != null && c.IsGrounded)
                 .To<LadderGrabState>((c, a, t) => c.LadderFound && a.GrabLadder);
 
             this.
@@ -195,14 +195,14 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             this.
                 From<GrappledState>()
                     .To<FallingState>((c, a, t) => a.ReleaseRope)
-                    .To<JumpingState>((c, a, t) => a.Jump);
+                    .To<JumpingState>((c, a, t) => a.Jump != null);
 
             this
                 .From<PushState>()
                     .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
-                    .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
+                    .To<JumpingState>((c, a, t) => a.Jump != null && c.IsGrounded)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
                     .To<MovingState>((c, a, t) => c.IsGrounded && c.Pushable == null && a.Move != 0);
 
@@ -225,7 +225,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             this
                 .From<LadderGrabState>()
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
-                    .To<FallingState>((c, a, t) => a.Jump)
+                    .To<FallingState>((c, a, t) => a.Jump != null)
                     .To<FallingState>((c, a, t) => !c.LadderFound && !c.IsGrounded)
                     .To<IddleState>((c, a, t) => !c.LadderFound);
         }

@@ -33,7 +33,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void DoMove(float move);
         void DoGrabLedge();
         void DropLedge();
-        void JumpUp();
+        void JumpUp(float jumpRatio);
         void Duck();
         void Stand();
         void StayStill();

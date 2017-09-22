@@ -10,7 +10,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
     {
         public float Move { get; private set; }
         public float Vertical { get; private set; }
-        public bool Jump { get; private set; }
+        public float? Jump { get; private set; }
         public bool Roll { get; private set; }
         public AttackType AttackType { get; private set; }
         public bool ReleaseRope { get; private set; }
@@ -22,7 +22,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         public PlatformerCharacterAction(
             float move,
             float vertical,
-            bool jump,
+            float? jump,
             bool roll,
             AttackType attackType,
             bool releaseRope,

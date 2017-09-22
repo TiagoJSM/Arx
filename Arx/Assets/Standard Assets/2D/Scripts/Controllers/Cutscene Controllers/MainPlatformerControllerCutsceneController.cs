@@ -17,6 +17,6 @@ public class MainPlatformerControllerCutsceneController : MonoBehaviour
 
     public void MoveInDirection(Direction direction)
     {
-        _platformerController.Move(direction == Direction.Left ? -1 : 1, 0, false, false, false, false);
+        _platformerController.Move(direction == Direction.Left ? -1 : 1, 0, null, false, false, false);
     }
 }
