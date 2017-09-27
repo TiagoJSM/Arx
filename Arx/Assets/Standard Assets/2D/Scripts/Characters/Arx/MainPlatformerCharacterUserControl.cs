@@ -36,7 +36,8 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     }
 
     private const float MinAttackChargeTime = 0.5f;
-    private const float JumpHoldMaxTime = 0.15f;
+    private const float JumpHoldMaxTime = 0.14f;
+    private const float JumpHoldMinLimitTime = 0.11f;
 
     private InputAction _currentInputAction = InputAction.None;
     private float _attackButtonDownTime;
@@ -132,11 +133,6 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         HandleInteraction();
         var jump = HandleJump(inputDevice);
 
-        if (jump != null)
-        {
-            Debug.Log(jump.Value);
-        }
-
         _characterController.Move(horizontal, vertical, jump, roll, releaseRope, aiming);
 
         HandleAttack(inputDevice);
@@ -172,7 +168,12 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
         if(jumpUp)
         {
-            var result = Math.Min(_jumpHoldTime.Value / JumpHoldMaxTime, 1);
+            var totalTime = JumpHoldMaxTime - JumpHoldMinLimitTime;
+            var elapsed = JumpHoldMaxTime - _jumpHoldTime.Value;
+            var result = 
+                _jumpHoldTime > JumpHoldMinLimitTime 
+                    ? Math.Min(elapsed / totalTime, 1)
+                    : 0;
             _jumpHoldTime = null;
             return result;
         }

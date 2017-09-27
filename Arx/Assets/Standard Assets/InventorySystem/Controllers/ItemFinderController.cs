@@ -9,6 +9,9 @@ namespace Assets.Standard_Assets.InventorySystem.Controllers
 {
     public class ItemFinderController : MonoBehaviour
     {
+        [SerializeField]
+        private AudioSource _itemPickup;
+
         public OnInventoryItemFound OnInventoryItemFound;
 
         void OnTriggerEnter2D(Collider2D other)
@@ -22,6 +25,7 @@ namespace Assets.Standard_Assets.InventorySystem.Controllers
             {
                 OnInventoryItemFound(itemPickable.item);
                 itemPickable.PickUp();
+                _itemPickup.Play();
             }
         }
     }

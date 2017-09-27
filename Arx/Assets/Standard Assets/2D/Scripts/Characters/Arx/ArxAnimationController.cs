@@ -185,10 +185,17 @@ public class ArxAnimationController : MonoBehaviour
         EnemyNearby = _enemyProximityDetector.EnemyNearby;
 
         var currentState = _animator.GetCurrentAnimatorStateInfo(0);
-        var c = _animator.GetCurrentAnimatorClipInfo(0)[0];
-        if (currentState.fullPathHash == _RollingState)
+        if (_animator.GetCurrentAnimatorClipInfo(0).Length > 0)
         {
-            _animator.speed = c.clip.length / _platformerController.RollingDuration;
+            var c = _animator.GetCurrentAnimatorClipInfo(0)[0];
+            if (currentState.fullPathHash == _RollingState)
+            {
+                _animator.speed = c.clip.length / _platformerController.RollingDuration;
+            }
+            else
+            {
+                _animator.speed = 1;
+            }
         }
         else
         {

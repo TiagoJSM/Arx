@@ -64,6 +64,10 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private float _groundAttackVelocity = 0.75f;
     [SerializeField]
     private GameObject[] _flashingObjects;
+    [SerializeField]
+    private AudioSource _slamAttackAir;
+    [SerializeField]
+    private AudioSource _slamAttackLand;
 
     private float _move;
     private float _vertical;
@@ -271,6 +275,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     {
         VelocityMultiplier = new Vector3(VelocityMultiplier.x, VelocityMultiplier.y * 4f);
         _combatModule.StartDiveAttack();
+        _slamAttackAir.Play();
     }
 
     public void StopAirSlash()
@@ -280,6 +285,10 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         Attacking = false;
         _combatModule.EndDiveAttack();
         OnCombatFinishHandler();
+        if (IsGrounded)
+        {
+            _slamAttackLand.Play();
+        }
     }
 
     public void GrabRope()

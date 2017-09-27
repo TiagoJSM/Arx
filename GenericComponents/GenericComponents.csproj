@@ -52,8 +52,6 @@
     <Compile Include="Behaviours\CharacterStatus.cs" />
     <Compile Include="Behaviours\CloneSpriteMaterial.cs" />
     <Compile Include="Behaviours\EnableTrigger.cs" />
-    <Compile Include="Behaviours\FootstepPlayer.cs" />
-    <Compile Include="Behaviours\GroundComponent.cs" />
     <Compile Include="Behaviours\HighlightTrigger.cs" />
     <Compile Include="Behaviours\PlayAudio.cs" />
     <Compile Include="Behaviours\PlayAudios.cs" />
@@ -73,7 +71,6 @@
     <Compile Include="Enums\AttackType.cs" />
     <Compile Include="Enums\UpdateMode.cs" />
     <Compile Include="Events.cs" />
-    <Compile Include="GroundMaterial.cs" />
     <Compile Include="Helpers\AttackHandlerHelper.cs" />
     <Compile Include="Interfaces\IPath.cs" />
     <Compile Include="Interfaces\States\IState.cs" />

@@ -43,6 +43,10 @@ public class PlatformerCharacterController : BasePlatformerController
     private bool _constantVelocity = false;
     [SerializeField]
     private GameObject _grabHand;
+    [SerializeField]
+    private AudioSource _jumpSound;
+    [SerializeField]
+    private AudioSource _grabLedgeSound;
 
     public BoxCollider2D standingCollider;
     public BoxCollider2D duckingCollider;
@@ -220,6 +224,7 @@ public class PlatformerCharacterController : BasePlatformerController
         DesiredMovementVelocity = Vector2.zero;
         gravity = 0;
         _grabbingLedge = true;
+        _grabLedgeSound.Play();
     }
 
     public void JumpUp(float jumpRatio)
@@ -227,6 +232,7 @@ public class PlatformerCharacterController : BasePlatformerController
         jumpRatio = Mathf.Clamp01(jumpRatio);
         var jumpHeight = Mathf.Lerp(minJumpHeight, maxJumpHeight, jumpRatio);
         _desiredMovementVelocity.y = Mathf.Sqrt(2f * jumpHeight * -gravity);
+        _jumpSound.Play();
     }
 
     public void DropLedge()
