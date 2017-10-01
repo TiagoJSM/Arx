@@ -65,7 +65,6 @@ public abstract class PlatformerCharacterAiControl : BaseCharacterAiController
 
         if(Velocity.x == 0)
         {
-
         }
 
         return Velocity.x == 0;

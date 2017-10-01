@@ -10,11 +10,13 @@ namespace GenericComponents.StateMachine
     {
         public IState<TStateController, TAction> State { get; private set; }
         public List<StateTransition<TStateController, TAction>> Transitions { get; private set; }
+        public List<WhenTransitionToConfig<TStateController, TAction>> EventWhenTransitionTo { get; private set; }
 
         public StateContainer(IState<TStateController, TAction> state)
         {
             State = state;
             Transitions = new List<StateTransition<TStateController, TAction>>();
+            EventWhenTransitionTo = new List<WhenTransitionToConfig<TStateController, TAction>>();
         }
     }
 }

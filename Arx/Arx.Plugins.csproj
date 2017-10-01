@@ -203,6 +203,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\FootstepPlayer.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\GroundComponent.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\GroundMaterial.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\MaterialFootstepPlayer.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\ArxGameSaveHandler.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\ArxSaveData.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\DreamingBeyondImaginationSaveData.cs" />

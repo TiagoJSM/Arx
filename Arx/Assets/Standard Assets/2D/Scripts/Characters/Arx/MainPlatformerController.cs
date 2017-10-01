@@ -68,6 +68,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private AudioSource _slamAttackAir;
     [SerializeField]
     private AudioSource _slamAttackLand;
+    [SerializeField]
+    private AudioSource _landed;
 
     private float _move;
     private float _vertical;
@@ -285,10 +287,6 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         Attacking = false;
         _combatModule.EndDiveAttack();
         OnCombatFinishHandler();
-        if (IsGrounded)
-        {
-            _slamAttackLand.Play();
-        }
     }
 
     public void GrabRope()
@@ -507,6 +505,16 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
             }
         }
         return damageTaken;
+    }
+
+    public void OnLanded()
+    {
+        _landed.Play();
+    }
+
+    public void OnAirSlashLanded()
+    {
+        _slamAttackLand.Play();
     }
 
     protected override void Awake()

@@ -80,6 +80,7 @@
     <Compile Include="StateMachine\StateContainer.cs" />
     <Compile Include="StateMachine\StateTransition.cs" />
     <Compile Include="StateMachine\TransitionConfiguration.cs" />
+    <Compile Include="StateMachine\WhenTransitionToConfig.cs" />
     <Compile Include="UI\CloneUiTextMaterial.cs" />
     <Compile Include="UserControls\PlatformerAICharacterControl.cs" />
   </ItemGroup>

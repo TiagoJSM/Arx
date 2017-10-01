@@ -65,5 +65,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void LetGoLadder();
         void StartFlashing();
         void StopFlashing();
+        void OnLanded();
+        void OnAirSlashLanded();
     }
 }

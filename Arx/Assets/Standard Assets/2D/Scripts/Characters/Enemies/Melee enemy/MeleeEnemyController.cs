@@ -48,6 +48,7 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
     [SerializeField]
     public GameObject _weaponSocket;
 
+
     public bool Attacking { get; private set; }
 
     public bool Dead { get; private set; }

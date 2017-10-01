@@ -27,5 +27,13 @@ namespace GenericComponents.StateMachine
             _state.Transitions.Add(new StateTransition<TStateController, TAction>(stateContainer, condition));
             return this;
         }
+
+        public TransitionConfiguration<TStateController, TAction> WhenTransitionTo<TState>(
+            Action<TStateController, TAction> action) where TState : class, IState<TStateController, TAction>, new()
+        {
+            var stateContainer = _factory.GetContainer<TState>();
+            _state.EventWhenTransitionTo.Add(new WhenTransitionToConfig<TStateController, TAction>(typeof(TState), action));
+            return this;
+        }
     }
 }
