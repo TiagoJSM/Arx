@@ -11,7 +11,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
             base.OnStateEnter(action);
-            StateController.JumpUp(action.Jump.Value);
+            StateController.JumpUp(1);
         }
 
         protected override void PerformAttack()

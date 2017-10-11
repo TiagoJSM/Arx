@@ -25,6 +25,7 @@ public class PlatformerCharacterController : BasePlatformerController
     private float _defaultGravity;
     private bool _detectPlatform = true;
     private bool _applyMovementAndGravity;
+    private bool _isGrounded;
 
     private Vector2 _pushImpact;
     private Vector2 _impactMovement;
@@ -53,13 +54,14 @@ public class PlatformerCharacterController : BasePlatformerController
     public float maxRollSpeed = 12.0f;
 
     public float gravity = -25f;
-    public float minYVelocity = -40f;
     public float runSpeed = 8f;
     public float walkSpeed = 5f;
     public float groundDamping = 20f; // how fast do we change direction? higher means faster
     public float inAirDamping = 5f;
-    public float minJumpHeight = 7f;
-    public float maxJumpHeight = 13f;
+    public float jumpHeight = 5f;
+
+    public event Action OnGrounded;
+    public event Action OnJump;
 
     private bool DetectingPreviousGrabbedLedge
     {
@@ -81,7 +83,24 @@ public class PlatformerCharacterController : BasePlatformerController
         }
     }
 
-    public bool IsGrounded { get; private set; }
+    public bool IsGrounded
+    {
+        get
+        {
+            return _isGrounded;
+        }
+        private set
+        {
+            if(_isGrounded != value)
+            {
+                _isGrounded = value;
+                if (_isGrounded && OnGrounded != null)
+                {
+                    OnGrounded();
+                }
+            }
+        }
+    }
 
     public bool CanStand { get; private set; }
 
@@ -230,9 +249,15 @@ public class PlatformerCharacterController : BasePlatformerController
     public void JumpUp(float jumpRatio)
     {
         jumpRatio = Mathf.Clamp01(jumpRatio);
-        var jumpHeight = Mathf.Lerp(minJumpHeight, maxJumpHeight, jumpRatio);
-        _desiredMovementVelocity.y = Mathf.Sqrt(2f * jumpHeight * -gravity);
+        //var jumpHeight = Mathf.Lerp(minJumpHeight, maxJumpHeight, jumpRatio);
+        //_desiredMovementVelocity.y = Mathf.Sqrt(2f * jumpHeight * -gravity);
+        _desiredMovementVelocity.y = jumpHeight;
         _jumpSound.Play();
+
+        if(OnJump != null)
+        {
+            OnJump();
+        }
     }
 
     public void DropLedge()
@@ -402,16 +427,13 @@ public class PlatformerCharacterController : BasePlatformerController
         //var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
 
         _desiredMovementVelocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
+        var gravityForce = new Vector3(0, gravity * Time.deltaTime, 0);
 
-        if(_desiredMovementVelocity.y < minYVelocity)
-        {
-            _desiredMovementVelocity.y = minYVelocity;
-        }
-
+        var movement = _desiredMovementVelocity * Time.deltaTime;
+        movement = new Vector3(movement.x * VelocityMultiplier.x, movement.y * VelocityMultiplier.y, 0);
+        
         _characterController2D.move(
-            _desiredMovementVelocity * Time.deltaTime + 
-            new Vector3(_impactMovement.x, _impactMovement.y, 0));
-        //_desiredMovementVelocity = _characterController2D.velocity;
+            movement + new Vector3(_impactMovement.x, _impactMovement.y, 0));
     }
 
     private void OnAllControllerCollidedEventHandler(IEnumerable<RaycastHit2D> hits)

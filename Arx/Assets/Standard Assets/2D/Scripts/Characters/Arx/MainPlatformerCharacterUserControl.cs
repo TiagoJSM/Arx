@@ -41,7 +41,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     private InputAction _currentInputAction = InputAction.None;
     private float _attackButtonDownTime;
-    private float? _jumpHoldTime = 0;
+    private bool _waitForJumpButtonUp = false;
 
     private MainPlatformerController _characterController;
     private ItemFinderController _itemFinderController;
@@ -103,6 +103,25 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         _ladderFinder = GetComponent<LadderFinder>();
         _uiController.OnActiveQuestSelected += OnActiveQuestSelectedHandler;
         _questLogComponent.OnQuestAssigned += SetActiveQuest;
+        _characterController.OnGrounded += OnGroundedHandler;
+        _characterController.OnJump += OnJumpHandler;
+    }
+
+    private void OnJumpHandler()
+    {
+        
+    }
+
+    private void OnGroundedHandler()
+    {
+        var inputDevice = InputManager.Instance.GetInputDevice();
+        var jumpButton = inputDevice.GetButton(DeviceButton.Jump);
+
+        if (jumpButton)
+        {
+            _waitForJumpButtonUp = true;
+        }
+        
     }
 
     private void Start()
@@ -125,66 +144,29 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         var releaseRope = grabLadder = inputDevice.GetButtonDown(DeviceButton.Interact);
         var aiming = inputDevice.GetButton(DeviceButton.AimWeapon);
         var teleport = inputDevice.GetButtonDown(DeviceButton.Vertical);
+        var jump = HandleJump(inputDevice);
 
         HandleTeleporter(teleport);
 
         SetAimAngle(inputDevice);
         HandleLadderGrab(grabLadder);
         HandleInteraction();
-        var jump = HandleJump(inputDevice);
-
+        
         _characterController.Move(horizontal, vertical, jump, roll, releaseRope, aiming);
 
         HandleAttack(inputDevice);
         SwitchActiveWeapon(inputDevice);
     }
 
-    private float? HandleJump(IInputDevice inputDevice)
+    private bool HandleJump(IInputDevice inputDevice)
     {
-        var jumpUp = inputDevice.GetButtonUp(DeviceButton.Jump);
-
-        if(_jumpHoldTime == null && jumpUp)
+        if (_waitForJumpButtonUp)
         {
-            return null;
+            _waitForJumpButtonUp = !inputDevice.GetButtonUp(DeviceButton.Jump);
+            return false;
         }
 
-        var jump = inputDevice.GetButton(DeviceButton.Jump);
-        var jumpDown = inputDevice.GetButtonDown(DeviceButton.Jump);
-
-        if(jumpDown)
-        {
-            _jumpHoldTime = 0;
-        }
-
-        if(_jumpHoldTime == null)
-        {
-            return null;
-        }
-
-        if (jump)
-        {
-            _jumpHoldTime += Time.deltaTime;
-        }
-
-        if(jumpUp)
-        {
-            var totalTime = JumpHoldMaxTime - JumpHoldMinLimitTime;
-            var elapsed = JumpHoldMaxTime - _jumpHoldTime.Value;
-            var result = 
-                _jumpHoldTime > JumpHoldMinLimitTime 
-                    ? Math.Min(elapsed / totalTime, 1)
-                    : 0;
-            _jumpHoldTime = null;
-            return result;
-        }
-
-        if(_jumpHoldTime > JumpHoldMaxTime)
-        {
-            _jumpHoldTime = null;
-            return 1;
-        }
-
-        return null;
+        return inputDevice.GetButton(DeviceButton.Jump);
     }
 
     private void HandleLadderGrab(bool grabLadder)

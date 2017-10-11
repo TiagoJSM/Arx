@@ -146,6 +146,9 @@ public class CharacterController2D : MonoBehaviour
     [Range(2, 20)]
     public int totalVerticalRays = 4;
 
+    [SerializeField]
+    private float _minYVelocity = -2f;
+
 
     /*
     /// <summary>
@@ -174,6 +177,11 @@ public class CharacterController2D : MonoBehaviour
     [NonSerialized]
     public Vector3 velocity;
     public bool isGrounded { get { return collisionState.below; } }
+    public float MinYVelocity
+    {
+        get { return _minYVelocity; }
+        set { _minYVelocity = value; }
+    }
 
     const float kSkinWidthFloatFudgeFactor = 0.001f;
 
@@ -296,6 +304,10 @@ public class CharacterController2D : MonoBehaviour
 
         // move then update our state
         deltaMovement.z = 0;
+
+        var minMovement = _minYVelocity * Time.deltaTime;
+
+        deltaMovement.y = Math.Max(deltaMovement.y, minMovement);
         transform.Translate(deltaMovement, Space.World);
         
         // only calculate velocity if we have a non-zero deltaTime
@@ -640,8 +652,8 @@ public class CharacterController2D : MonoBehaviour
 
                 // we add a small fudge factor for the float operations here. if our rayDistance is smaller
                 // than the width + fudge bail out because we have a direct impact
-                //if (rayDistance < _skinWidth + kSkinWidthFloatFudgeFactor)
-                  //  break;
+                if (rayDistance < _skinWidth + kSkinWidthFloatFudgeFactor)
+                    break;
             }
         }
     }

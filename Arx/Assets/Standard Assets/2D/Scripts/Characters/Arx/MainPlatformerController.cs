@@ -43,6 +43,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private Vector3? _hitPointThisFrame;
     private LadderFinder _ladderFinder;
     private Coroutine _flashRoutine;
+    private float _defaultMinYVelocity;
 
     [SerializeField]
     private float _rollingDuration = 1;
@@ -73,7 +74,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     private float _move;
     private float _vertical;
-    private float? _jump;
+    private bool _jump;
     private bool _roll;
     private bool _releaseRope;
     private bool _aiming;
@@ -189,7 +190,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public bool LadderFound { get { return _ladderFinder.LadderGameObject; } }
 
-    public void Move(float move, float vertical, float? jump, bool roll, bool releaseRope, bool aiming)
+    public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming)
     {
         _move = move;
         _vertical = vertical;
@@ -275,6 +276,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public void AirSlash()
     {
+        CharacterController2D.MinYVelocity = 2 * _defaultMinYVelocity;
         VelocityMultiplier = new Vector3(VelocityMultiplier.x, VelocityMultiplier.y * 4f);
         _combatModule.StartDiveAttack();
         _slamAttackAir.Play();
@@ -282,6 +284,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public void StopAirSlash()
     {
+        CharacterController2D.MinYVelocity = _defaultMinYVelocity;
         VelocityMultiplier = Vector2.one;
         _attackAction = AttackType.None;
         Attacking = false;
@@ -530,6 +533,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _combatModule.OnCombatFinish += OnCombatFinishHandler;
         CharacterController2D.onTriggerEnterEvent += OnTriggerEnterEventHandler;
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
+        _defaultMinYVelocity = CharacterController2D.MinYVelocity;
     }
 
     protected override void Update()
@@ -545,7 +549,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _stateManager.Perform(action);
         _move = 0;
         _vertical = 0;
-        _jump = null;
+        _jump = false;
         _roll = false;
         _aiming = false;
         _shoot = false;
