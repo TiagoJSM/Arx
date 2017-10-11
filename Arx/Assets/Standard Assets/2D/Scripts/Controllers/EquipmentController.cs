@@ -1,4 +1,5 @@
 ﻿using ArxGame.Components.Weapons;
+using Assets.Standard_Assets.Common.Attributes;
 using CommonInterfaces.Weapons;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,12 @@ public class EquipmentController : MonoBehaviour
     private ICloseCombatWeapon _equippedCloseCombatWeapon;
     private IShooterWeapon _equippedShooterWeapon;
     private ChainThrow _equippedChainThrowWeapon;
+
+    [SerializeField]
+    [Layer]
+    private int _sortingLayer;
+    [SerializeField]
+    private int _orderInLayer;
 
     [SerializeField]
     private BaseCloseCombatWeapon _closeCombatWeapon1;
@@ -98,19 +105,22 @@ public class EquipmentController : MonoBehaviour
         _equippedChainThrowWeapon = EquipWeapon(weaponObject, _equippedChainThrowWeapon, ref _equippedThrowWeaponVisual);
     }
 
-    private TWeapon EquipWeapon<TWeapon>(TWeapon weaponObject, TWeapon equipedWeapon, ref GameObject weaponVisual) 
+    private TWeapon EquipWeapon<TWeapon>(TWeapon weaponObject, TWeapon equipedWeapon, ref GameObject weaponVisualGO) 
         where TWeapon : class, IWeapon
     {
-        if (weaponVisual != null)
+        if (weaponVisualGO != null)
         {
-            Destroy(weaponVisual);
+            Destroy(weaponVisualGO);
             equipedWeapon.Unequipped();
         }
 
         equipedWeapon = UnityEngine.Object.Instantiate(weaponObject as UnityEngine.Object) as TWeapon;
         equipedWeapon.RightHandSocket = _weaponSocket;
-        weaponVisual = Instantiate(equipedWeapon.RightHandWeapon);
-        weaponVisual.transform.SetParent(_weaponSocket.transform, false);
+        var weaponVisualComponent = Instantiate(equipedWeapon.RightHandWeapon);
+        weaponVisualComponent.SortingLayer = _sortingLayer;
+        weaponVisualComponent.OrderInLayer = _orderInLayer;
+        weaponVisualGO = weaponVisualComponent.gameObject;
+        weaponVisualGO.transform.SetParent(_weaponSocket.transform, false);
         equipedWeapon.Equipped();
 
         return equipedWeapon;

@@ -61,6 +61,7 @@
     <Compile Include="Weapons\ICloseCombatWeapon.cs" />
     <Compile Include="Weapons\IGrapple.cs" />
     <Compile Include="Weapons\IShooterWeapon.cs" />
+    <Compile Include="Weapons\CommonVisualWeaponComponent.cs" />
     <Compile Include="Weapons\IWeapon.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

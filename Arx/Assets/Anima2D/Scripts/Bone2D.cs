@@ -1,31 +1,74 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine.Serialization;
 
 namespace Anima2D 
 {
 	public class Bone2D : MonoBehaviour
 	{
-		public Color color = Color.white;
+		[SerializeField][FormerlySerializedAs("color")]
+		Color m_Color = Color.white;
 
-		public Ik2D attachedIK { get; set; }
+		[SerializeField][FormerlySerializedAs("mLength")]
+		float m_Length = 1f;
 
-		[SerializeField][HideInInspector] Bone2D mChild;
+		//DEPRECATED
+		[SerializeField][HideInInspector][FormerlySerializedAs("mChild")]
+		Bone2D m_Child;
+
+		[SerializeField][HideInInspector]
+		Transform m_ChildTransform;
+
+		[SerializeField]
+		Ik2D m_AttachedIK;
+		public Ik2D attachedIK
+		{
+			get { return m_AttachedIK; }
+			set { m_AttachedIK = value; }
+		}
+
+		public Color color {
+			get {
+				return m_Color;
+			}
+			set {
+				m_Color = color;
+			}
+		}
+
+		Bone2D m_CachedChild;
+
 		public Bone2D child
 		{
 			get {
-				if(mChild &&
-				   (mChild == this || mChild.transform.parent != transform))
+				if(m_Child)
 				{
-					return null;
+					child = m_Child;
 				}
 
-				return mChild;
+				if(m_CachedChild && m_ChildTransform != m_CachedChild.transform)
+				{
+					m_CachedChild = null;
+				}
+
+				if(m_ChildTransform && m_ChildTransform.parent != transform)
+				{
+					m_CachedChild = null;
+				}
+
+				if(!m_CachedChild && m_ChildTransform && m_ChildTransform.parent == transform)
+				{
+					m_CachedChild = m_ChildTransform.GetComponent<Bone2D>();
+				}
+
+				return m_CachedChild;
 			}
 
 			set {
-				mChild = value;
-				mChild = child;
+				m_Child = null;
+				m_CachedChild = value;
+				m_ChildTransform = m_CachedChild.transform;
 			}
 		}
 
@@ -43,28 +86,27 @@ namespace Anima2D
 			}
 		}
 
-		[HideInInspector][SerializeField]float mLength = 1f;
 		public float localLength {
 			get {
 				if(child)
 				{
 					Vector3 childPosition = transform.InverseTransformPoint(child.transform.position);
-					mLength = Mathf.Clamp(childPosition.x,0f,childPosition.x);
+					m_Length = Mathf.Clamp(childPosition.x,0f,childPosition.x);
 				}
 
-				return mLength;
+				return m_Length;
 			}
 			set {
 				if(!child)
 				{
-					mLength = value;
+					m_Length = value;
 				}
 			}
 		}
 
 		public float length {
 			get {
-				return transform.lossyScale.x * localLength;
+				return transform.TransformVector(localEndPosition).magnitude;
 			}
 		}
 

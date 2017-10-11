@@ -68,13 +68,23 @@ public class MeleeEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI
         }
     }
 
+    protected override Vector2 Velocity
+    {
+        get
+        {
+            return _controller.Velocity;
+        }
+    }
+
     public void MoveToTarget()
     {
+        _controller.MovementType = MovementType.Run;
         FollowTarget();
     }
 
     public void StartIddle()
     {
+        _controller.MovementType = MovementType.Walk;
         IddleMovement();
     }
 
@@ -119,6 +129,7 @@ public class MeleeEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI
 
     private void FollowTarget()
     {
+        _controller.MovementType = MovementType.Run;
         SetActiveCoroutine(FollowTargetCoroutine());
     }
 

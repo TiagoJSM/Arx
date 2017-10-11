@@ -1,4 +1,6 @@
-﻿Shader "Sprites/Interactable"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Sprites/Interactable"
 {
 	Properties
 	{
@@ -53,7 +55,7 @@
 			v2f vert(appdata_t IN)
 			{
 				v2f OUT;
-				OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
+				OUT.vertex = UnityObjectToClipPos(IN.vertex);
 				OUT.texcoord = IN.texcoord;
 				fixed4 spriteColor = IN.color * _Color;
 				OUT.color = spriteColor;

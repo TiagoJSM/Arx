@@ -66,7 +66,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies.Melee_enemy
         void Update()
         {
             HorizontalVelocity = _controller.HorizontalSpeed;
-            AttackType = (int)_combatModule.ComboType;
+            AttackType = (int)_combatModule.AttackType;
             DeathFront = _controller.Dead;
         }
     }

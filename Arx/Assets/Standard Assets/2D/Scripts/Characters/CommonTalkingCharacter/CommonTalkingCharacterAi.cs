@@ -27,6 +27,14 @@ public class CommonTalkingCharacterAi : PlatformerCharacterAiControl
         }
     }
 
+    protected override Vector2 Velocity
+    {
+        get
+        {
+            return _controller.Velocity;
+        }
+    }
+
     protected override void Awake()
     {
         base.Awake();

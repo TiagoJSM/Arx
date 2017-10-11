@@ -8,13 +8,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 {
     public class StrongAirAttackState : BasePlatformerCharacterState
     {
-        /*public override void Perform(PlatformerCharacterAction action)
+        public override void Perform(PlatformerCharacterAction action)
         {
-            base.Perform(action);
-            if (StateController.FrameHits.Any())
-            {
-                StateController.StopAirSlash();
-            }
-        }*/
+        }
     }
 }

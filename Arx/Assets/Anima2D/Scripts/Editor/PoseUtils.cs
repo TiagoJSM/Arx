@@ -75,8 +75,15 @@ namespace Anima2D
 					Undo.RecordObject(ik.transform,"Load Pose");
 
 					ik.transform.position = ik.target.endPosition;
+
+					if(ik.orientChild && ik.target.child)
+					{
+						ik.transform.rotation = ik.target.child.transform.rotation;
+					}
 				}
 			}
+
+			EditorUpdater.SetDirty("Load Pose");
 		}
 	}
 }

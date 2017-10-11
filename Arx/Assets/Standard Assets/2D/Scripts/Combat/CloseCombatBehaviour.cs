@@ -45,7 +45,7 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
 
     void OnEnable()
     {
-        ComboType = AttackType.None;
+        AttackType = AttackType.None;
         ComboNumber = 0;
     }
 
@@ -66,7 +66,7 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     public void StartSlashAttack()
     {
         _executedAttackType = AttackType.Secundary;
-        ComboType = AttackType.None;
+        AttackType = AttackType.None;
     }
 
     public void FinishSlashAttack()
@@ -99,7 +99,7 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     public void NotifyAttackStart(AttackType attackType, AttackStyle attackStyle, int combo)
     {
         _executedAttackType = attackType;
-        ComboType = AttackType.None;
+        AttackType = AttackType.None;
         ComboNumber = combo;
         AttackStyle = attackStyle;
         if (OnAttackStart != null)
@@ -118,13 +118,13 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
 
     public bool PrimaryAttack()
     {
-        ComboType = AttackType.Primary;
+        AttackType = AttackType.Primary;
         return true;
     }
 
     public bool SecundaryAttack()
     {
-        ComboType = AttackType.Secundary;
+        AttackType = AttackType.Secundary;
         return true;
     }
 

@@ -7,6 +7,12 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+public enum MovementType
+{
+    Walk,
+    Run
+}
+
 [RequireComponent(typeof(CharacterController2D))]
 [RequireComponent(typeof(LedgeChecker))]
 [RequireComponent(typeof(RoofChecker))]
@@ -15,10 +21,11 @@ public class PlatformerCharacterController : BasePlatformerController
 {
     private Collider2D _activePlatformCollider;
     private bool _grabbingLedge = false;
-    private Vector3 _velocity;
+    private Vector3 _desiredMovementVelocity;
     private float _defaultGravity;
     private bool _detectPlatform = true;
     private bool _applyMovementAndGravity;
+    private bool _isGrounded;
 
     private Vector2 _pushImpact;
     private Vector2 _impactMovement;
@@ -37,6 +44,10 @@ public class PlatformerCharacterController : BasePlatformerController
     private bool _constantVelocity = false;
     [SerializeField]
     private GameObject _grabHand;
+    [SerializeField]
+    private AudioSource _jumpSound;
+    [SerializeField]
+    private AudioSource _grabLedgeSound;
 
     public BoxCollider2D standingCollider;
     public BoxCollider2D duckingCollider;
@@ -44,9 +55,13 @@ public class PlatformerCharacterController : BasePlatformerController
 
     public float gravity = -25f;
     public float runSpeed = 8f;
+    public float walkSpeed = 5f;
     public float groundDamping = 20f; // how fast do we change direction? higher means faster
     public float inAirDamping = 5f;
-    public float jumpHeight = 3f;
+    public float jumpHeight = 5f;
+
+    public event Action OnGrounded;
+    public event Action OnJump;
 
     private bool DetectingPreviousGrabbedLedge
     {
@@ -68,7 +83,24 @@ public class PlatformerCharacterController : BasePlatformerController
         }
     }
 
-    public bool IsGrounded { get; private set; }
+    public bool IsGrounded
+    {
+        get
+        {
+            return _isGrounded;
+        }
+        private set
+        {
+            if(_isGrounded != value)
+            {
+                _isGrounded = value;
+                if (_isGrounded && OnGrounded != null)
+                {
+                    OnGrounded();
+                }
+            }
+        }
+    }
 
     public bool CanStand { get; private set; }
 
@@ -76,7 +108,7 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         get
         {
-            return _velocity.y;
+            return Velocity.y;
         }
     }
 
@@ -84,7 +116,7 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         get
         {
-            return _velocity.x;
+            return Velocity.x;
         }
     }
 
@@ -131,7 +163,7 @@ public class PlatformerCharacterController : BasePlatformerController
             _applyMovementAndGravity = value;
             if (!_applyMovementAndGravity)
             {
-                _velocity = Vector2.zero;
+                DesiredMovementVelocity = Vector2.zero;
             }
         }
     }
@@ -156,23 +188,27 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         get
         {
-            return _velocity;
+            return _characterController2D.velocity;
         }
-        protected set
-        {
-            _velocity = value;
-        }
+    }
+
+    protected Vector2 DesiredMovementVelocity
+    {
+        get { return _desiredMovementVelocity; }
+        set { _desiredMovementVelocity = value; }
     }
 
     public Vector2 VelocityMultiplier { get; protected set; }
     public IEnumerable<RaycastHit2D> FrameHits { get; private set; }
 
     public CharacterController2D CharacterController2D { get { return _characterController2D; } }
+    public MovementType MovementType { get; set; }
 
     public PlatformerCharacterController()
     {
         ApplyMovementAndGravity = true;
         SteadyRotation = true;
+        MovementType = MovementType.Run;
     }
 
     public void LedgeDetected(bool detected, Collider2D ledgeCollider)
@@ -201,22 +237,32 @@ public class PlatformerCharacterController : BasePlatformerController
         {
             return;
         }
-        _grabHand.SetActive(true);
+        //_grabHand.SetActive(true);
         _lastGrabbedLedge = _detectedLedge;
         transform.parent = _lastGrabbedLedge.gameObject.transform;
-        _velocity = Vector2.zero;
+        DesiredMovementVelocity = Vector2.zero;
         gravity = 0;
         _grabbingLedge = true;
+        _grabLedgeSound.Play();
     }
 
-    public void JumpUp()
+    public void JumpUp(float jumpRatio)
     {
-        _velocity.y = Mathf.Sqrt(2f * jumpHeight * -gravity);
+        jumpRatio = Mathf.Clamp01(jumpRatio);
+        //var jumpHeight = Mathf.Lerp(minJumpHeight, maxJumpHeight, jumpRatio);
+        //_desiredMovementVelocity.y = Mathf.Sqrt(2f * jumpHeight * -gravity);
+        _desiredMovementVelocity.y = jumpHeight;
+        _jumpSound.Play();
+
+        if(OnJump != null)
+        {
+            OnJump();
+        }
     }
 
     public void DropLedge()
     {
-        _grabHand.SetActive(false);
+        //_grabHand.SetActive(false);
         _grabbingLedge = false;
         transform.parent = null;
         gravity = _defaultGravity;
@@ -241,13 +287,13 @@ public class PlatformerCharacterController : BasePlatformerController
     public void StayStill()
     {
         //_normalizedHorizontalSpeed = 0;
-        _velocity = new Vector2(0, _velocity.y);
+        _desiredMovementVelocity = new Vector2(0, _desiredMovementVelocity.y);
     }
 
     public void Roll(float move)
     {
         var direction = DirectionOfMovement(move, Direction);
-        _velocity.x = DirectionValue(direction) * runSpeed * VelocityMultiplier.x;
+        _desiredMovementVelocity.x = DirectionValue(direction) * runSpeed * VelocityMultiplier.x;
         Flip(direction);
     }
 
@@ -261,10 +307,11 @@ public class PlatformerCharacterController : BasePlatformerController
     protected void DoMove(float move, bool setDirectionToMovement)
     {
         var direction = DirectionOfMovement(move, Direction);
-        _velocity.x = DirectionValue(direction) * runSpeed * VelocityMultiplier.x;
+        var speed = MovementType == MovementType.Run ? runSpeed : walkSpeed;
+        _desiredMovementVelocity.x = DirectionValue(direction) * speed * VelocityMultiplier.x;
         if (Math.Abs(move) < 0.2)
         {
-            _velocity.x = 0;
+            _desiredMovementVelocity.x = 0;
         }
         else
         {
@@ -379,12 +426,14 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         //var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
 
-        _velocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
+        _desiredMovementVelocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
+        var gravityForce = new Vector3(0, gravity * Time.deltaTime, 0);
 
+        var movement = _desiredMovementVelocity * Time.deltaTime;
+        movement = new Vector3(movement.x * VelocityMultiplier.x, movement.y * VelocityMultiplier.y, 0);
+        
         _characterController2D.move(
-            _velocity * Time.deltaTime + 
-            new Vector3(_impactMovement.x, _impactMovement.y, 0));
-        _velocity = _characterController2D.velocity;
+            movement + new Vector3(_impactMovement.x, _impactMovement.y, 0));
     }
 
     private void OnAllControllerCollidedEventHandler(IEnumerable<RaycastHit2D> hits)

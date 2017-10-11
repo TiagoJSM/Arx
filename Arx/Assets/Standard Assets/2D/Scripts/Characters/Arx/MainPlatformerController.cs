@@ -21,6 +21,7 @@ using Assets.Standard_Assets._2D.Scripts.Helpers;
 using System.Collections;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
 using Assets.Standard_Assets._2D.Scripts.Interaction;
+using Assets.Standard_Assets.Common;
 
 [RequireComponent(typeof(CombatModule))]
 [RequireComponent(typeof(LadderMovement))]
@@ -41,6 +42,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private Vector3? _safeSpot;
     private Vector3? _hitPointThisFrame;
     private LadderFinder _ladderFinder;
+    private Coroutine _flashRoutine;
+    private float _defaultMinYVelocity;
 
     [SerializeField]
     private float _rollingDuration = 1;
@@ -60,6 +63,14 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private Transform _pushableAreaP2;
     [SerializeField]
     private float _groundAttackVelocity = 0.75f;
+    [SerializeField]
+    private GameObject[] _flashingObjects;
+    [SerializeField]
+    private AudioSource _slamAttackAir;
+    [SerializeField]
+    private AudioSource _slamAttackLand;
+    [SerializeField]
+    private AudioSource _landed;
 
     private float _move;
     private float _vertical;
@@ -265,12 +276,15 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public void AirSlash()
     {
+        CharacterController2D.MinYVelocity = 2 * _defaultMinYVelocity;
         VelocityMultiplier = new Vector3(VelocityMultiplier.x, VelocityMultiplier.y * 4f);
         _combatModule.StartDiveAttack();
+        _slamAttackAir.Play();
     }
 
     public void StopAirSlash()
     {
+        CharacterController2D.MinYVelocity = _defaultMinYVelocity;
         VelocityMultiplier = Vector2.one;
         _attackAction = AttackType.None;
         Attacking = false;
@@ -465,7 +479,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         {
             horizontalMovement = Math.Sign(transform.position.x - _hitPointThisFrame.Value.x);
         }
-        Velocity = Vector2.zero;
+        DesiredMovementVelocity = Vector2.zero;
         //ToDo: move this into globals?
         Push(new Vector2(2 * horizontalMovement, 30));
     }
@@ -496,6 +510,16 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         return damageTaken;
     }
 
+    public void OnLanded()
+    {
+        _landed.Play();
+    }
+
+    public void OnAirSlashLanded()
+    {
+        _slamAttackLand.Play();
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -509,6 +533,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _combatModule.OnCombatFinish += OnCombatFinishHandler;
         CharacterController2D.onTriggerEnterEvent += OnTriggerEnterEventHandler;
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
+        _defaultMinYVelocity = CharacterController2D.MinYVelocity;
     }
 
     protected override void Update()
@@ -614,5 +639,24 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
         //character can only move up if its at a distance from the rope top
         return _minimumDistanceFromRopeOrigin <= ropeSizeAfterMove;
+    }
+
+    public void StartFlashing()
+    {
+        if(_flashRoutine == null)
+        {
+            _flashRoutine = StartCoroutine(CoroutineHelpers.Flash(() => StopFlashing(), _flashingObjects));
+        }
+    }
+
+    public void StopFlashing()
+    {
+        CanBeAttacked = true;
+        StopCoroutine(_flashRoutine);
+        _flashRoutine = null;
+        for (var idx = 0; idx < _flashingObjects.Length; idx++)
+        {
+            _flashingObjects[idx].SetActive(true);
+        }
     }
 }

@@ -6,238 +6,307 @@ using System.Collections.Generic;
 
 namespace Anima2D
 {
+	[DisallowMultipleComponent]
+	[CanEditMultipleObjects]
 	[CustomEditor(typeof(SpriteMeshInstance))]
 	public class SpriteMeshInstanceEditor : Editor
 	{
-		SpriteMeshInstance mSpriteMeshInstance;
+		SpriteMeshInstance m_SpriteMeshInstance;
+		SpriteMeshData m_SpriteMeshData;
 
 		ReorderableList mBoneList = null;
 
+		SerializedProperty m_SortingOrder;
+		SerializedProperty m_SortingLayerID;
+		SerializedProperty m_SpriteMeshProperty;
+		SerializedProperty m_ColorProperty;
+		SerializedProperty m_MaterialsProperty;
+		SerializedProperty m_BonesProperty;
+		SerializedProperty m_BoneTransformsProperty;
+
+		int m_UndoGroup = -1;
+
 		void OnEnable()
 		{
-			mSpriteMeshInstance = target as SpriteMeshInstance;
+			m_SpriteMeshInstance = target as SpriteMeshInstance;
+			m_SortingOrder = serializedObject.FindProperty("m_SortingOrder");
+			m_SortingLayerID = serializedObject.FindProperty("m_SortingLayerID");
+			m_SpriteMeshProperty = serializedObject.FindProperty("m_SpriteMesh");
+			m_ColorProperty = serializedObject.FindProperty("m_Color");
+			m_MaterialsProperty = serializedObject.FindProperty("m_Materials.Array");
+			m_BonesProperty = serializedObject.FindProperty("m_Bones.Array");
+			m_BoneTransformsProperty = serializedObject.FindProperty("m_BoneTransforms.Array");
 
-			SetupList();
+			UpgradeToMaterials();
+			UpgradeToBoneTransforms();
+
+			/*
+			if(m_SpriteMeshInstance.cachedRenderer)
+			{
+				foreach(Material material in m_SpriteMeshInstance.cachedRenderer.sharedMaterials)
+				{
+					if(material)
+					{
+						material.hideFlags = HideFlags.HideInInspector;
+					}
+				}
+			}
+			*/
+
+			UpdateSpriteMeshData();
+			SetupBoneList();
+
+#if UNITY_5_5_OR_NEWER
+			
+#else
+			EditorUtility.SetSelectedWireframeHidden(m_SpriteMeshInstance.cachedRenderer, !m_SpriteMeshInstance.cachedSkinnedRenderer);
+#endif
 		}
 
-		void SetupList()
+		void UpgradeToMaterials()
 		{
-			SerializedProperty bonesProperty = serializedObject.FindProperty("bones");
-
-			if(bonesProperty != null)
+			if(Selection.transforms.Length == 1 && m_MaterialsProperty.arraySize == 0)
 			{
-				mBoneList = new ReorderableList(serializedObject,bonesProperty,true,true,true,true);
-
-				mBoneList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) => {
-
-					SerializedProperty boneProperty = mBoneList.serializedProperty.GetArrayElementAtIndex(index);
-
-					rect.y += 1.5f;
-
-					EditorGUI.PropertyField( new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight), boneProperty, GUIContent.none);
-				};
-
-				mBoneList.drawHeaderCallback = (Rect rect) => {  
-					EditorGUI.LabelField(rect, "Bones");
-				};
-
-				mBoneList.onSelectCallback = (ReorderableList list) => {};
+				serializedObject.Update();
+				m_MaterialsProperty.InsertArrayElementAtIndex(0);
+				m_MaterialsProperty.GetArrayElementAtIndex(0).objectReferenceValue = SpriteMeshUtils.defaultMaterial;
+				serializedObject.ApplyModifiedProperties();
 			}
 		}
 
+		void UpgradeToBoneTransforms()
+		{
+			if(Selection.transforms.Length == 1 && m_BoneTransformsProperty.arraySize == 0 && m_BonesProperty.arraySize > 0)
+			{
+				serializedObject.Update();
+				
+				m_BoneTransformsProperty.arraySize = m_BonesProperty.arraySize;
+				
+				for(int i = 0; i < m_BonesProperty.arraySize; ++i)
+				{
+					SerializedProperty boneElement = m_BonesProperty.GetArrayElementAtIndex(i);
+					SerializedProperty transformElement = m_BoneTransformsProperty.GetArrayElementAtIndex(i);
+					
+					if(boneElement.objectReferenceValue)
+					{
+						Bone2D bone = boneElement.objectReferenceValue as Bone2D;
+						transformElement.objectReferenceValue = bone.transform;
+					}
+				}
+
+				m_BonesProperty.arraySize = 0;
+
+				serializedObject.ApplyModifiedProperties();
+			}
+		}
+
+		public void OnDisable()
+		{
+			if(target)
+			{
+#if UNITY_5_5_OR_NEWER
+
+#else
+				EditorUtility.SetSelectedWireframeHidden(m_SpriteMeshInstance.cachedRenderer, false);
+#endif
+			}
+		}
+
+		bool HasBindPoses()
+		{
+			bool hasBindPoses = false;
+			
+			if(m_SpriteMeshData && m_SpriteMeshData.bindPoses != null && m_SpriteMeshData.bindPoses.Length > 0)
+			{
+				hasBindPoses = true;
+			}
+
+			return hasBindPoses;
+		}
+
+		void SetupBoneList()
+		{
+			if(HasBindPoses() && m_BoneTransformsProperty.arraySize != m_SpriteMeshData.bindPoses.Length)
+			{
+				int oldSize = m_BoneTransformsProperty.arraySize;
+
+				serializedObject.Update();
+
+				m_BoneTransformsProperty.arraySize = m_SpriteMeshData.bindPoses.Length;
+
+				for(int i = oldSize; i < m_BoneTransformsProperty.arraySize; ++i)
+				{
+					SerializedProperty element = m_BoneTransformsProperty.GetArrayElementAtIndex(i);
+					element.objectReferenceValue = null;
+				}
+				
+				serializedObject.ApplyModifiedProperties();
+			}
+
+			mBoneList = new ReorderableList(serializedObject,m_BoneTransformsProperty,!HasBindPoses(),true,!HasBindPoses(),!HasBindPoses());
+
+			mBoneList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) => {
+
+				SerializedProperty boneProperty = mBoneList.serializedProperty.GetArrayElementAtIndex(index);
+
+				rect.y += 1.5f;
+
+				float labelWidth = 0f;
+
+				if(HasBindPoses() && index < m_SpriteMeshData.bindPoses.Length)
+				{
+					labelWidth = EditorGUIUtility.labelWidth;
+					EditorGUI.LabelField( new Rect(rect.x, rect.y, labelWidth, EditorGUIUtility.singleLineHeight), new GUIContent(m_SpriteMeshData.bindPoses[index].name));
+				}
+
+				EditorGUI.BeginChangeCheck();
+
+				EditorGUI.PropertyField( new Rect(rect.x + labelWidth, rect.y, rect.width - labelWidth, EditorGUIUtility.singleLineHeight), boneProperty, GUIContent.none);
+
+				if(EditorGUI.EndChangeCheck())
+				{
+					Transform l_NewTransform = boneProperty.objectReferenceValue as Transform;
+					if(l_NewTransform && !l_NewTransform.GetComponent<Bone2D>())
+					{
+						boneProperty.objectReferenceValue = null;
+					}
+				}
+			};
+
+			mBoneList.drawHeaderCallback = (Rect rect) => {  
+				EditorGUI.LabelField(rect, "Bones");
+			};
+
+			mBoneList.onSelectCallback = (ReorderableList list) => {};
+		}
+
+
 		public override void OnInspectorGUI()
 		{
-			if(DrawDefaultInspector())
+#if UNITY_5_5_OR_NEWER
+
+#else
+			EditorUtility.SetSelectedWireframeHidden(m_SpriteMeshInstance.cachedRenderer, !m_SpriteMeshInstance.cachedSkinnedRenderer);
+#endif
+
+			EditorGUI.BeginChangeCheck();
+
+			serializedObject.Update();
+
+			EditorGUILayout.PropertyField(m_SpriteMeshProperty);
+
+			serializedObject.ApplyModifiedProperties();
+
+			if(EditorGUI.EndChangeCheck())
 			{
-				mSpriteMeshInstance.UpdateRenderer();
-
-				if(mSpriteMeshInstance.cachedRenderer)
-				{
-					EditorUtility.SetDirty(mSpriteMeshInstance.cachedRenderer);
-				}
-
-				if(mSpriteMeshInstance.cachedSkinnedRenderer)
-				{
-					EditorUtility.SetDirty(mSpriteMeshInstance.cachedSkinnedRenderer);
-				}
+				UpdateSpriteMeshData();
+				UpdateRenderers();
+				SetupBoneList();
 			}
 
 			serializedObject.Update();
 
-			Transform root = EditorGUILayout.ObjectField("Set bones",null,typeof(Transform),true) as Transform;
+			EditorGUILayout.PropertyField(m_ColorProperty);
 
-			Bone2D childBone = null;
-
-			if(root)
+			if(m_MaterialsProperty.arraySize == 0)
 			{
-				childBone = root.GetComponent<Bone2D>();
+				m_MaterialsProperty.InsertArrayElementAtIndex(0);
+			}
+			EditorGUILayout.PropertyField(m_MaterialsProperty.GetArrayElementAtIndex(0), new GUIContent("Material"), true, new GUILayoutOption[0]);
+			
+			EditorGUILayout.Space();
+			
+			EditorGUIExtra.SortingLayerField(new GUIContent("Sorting Layer"), m_SortingLayerID, EditorStyles.popup, EditorStyles.label);
+			EditorGUILayout.PropertyField(m_SortingOrder, new GUIContent("Order in Layer"));
+
+			EditorGUILayout.Space();
+
+			if(!HasBindPoses())
+			{
+				List<Bone2D> bones = new List<Bone2D>();
+
+				EditorGUI.BeginChangeCheck();
+
+				Transform root = EditorGUILayout.ObjectField("Set bones",null,typeof(Transform),true) as Transform;
+
+				if(EditorGUI.EndChangeCheck())
+				{
+					if(root)
+					{
+						root.GetComponentsInChildren<Bone2D>(bones);
+					}
+
+					Undo.RegisterCompleteObjectUndo(m_SpriteMeshInstance,"set bones");
+
+					m_BoneTransformsProperty.arraySize = bones.Count;
+
+					for(int i = 0; i < bones.Count; ++i)
+					{
+						m_BoneTransformsProperty.GetArrayElementAtIndex(i).objectReferenceValue = bones[i].transform;
+					}
+
+					UpdateRenderers();
+				}
 			}
 
-			if(root && !childBone)
-			{
-				childBone = root.GetComponentInChildren<Bone2D>();
-				childBone = childBone.root;
-			}
-
-			if(childBone)
-			{
-				Undo.RegisterCompleteObjectUndo(mSpriteMeshInstance,"set bones");
-
-				childBone.GetComponentsInChildren<Bone2D>(true,mSpriteMeshInstance.bones);
-
-				EditorUtility.SetDirty(mSpriteMeshInstance);
-			}
+			EditorGUI.BeginChangeCheck();
 
 			if(mBoneList != null)
 			{
 				mBoneList.DoLayoutList();
 			}
-			
-			EditorGUILayout.BeginHorizontal();
-			GUILayout.FlexibleSpace();
-			
-			EditorGUI.BeginDisabledGroup(HasNullBones() ||
-			                             mSpriteMeshInstance.bones.Count == 0 ||
-			                             mSpriteMeshInstance.spriteMesh.bindPoses.Count != mSpriteMeshInstance.bones.Count);
-			
-			if(GUILayout.Button("Set skinned renderer",GUILayout.MaxWidth(150f)))
-			{
-				EditorApplication.delayCall += DoSetSkinnedRenderer;
-			}
-			
-			EditorGUI.EndDisabledGroup();
-			
-			GUILayout.FlexibleSpace();
-			EditorGUILayout.EndHorizontal();
-			
-			EditorGUILayout.BeginHorizontal();
-			GUILayout.FlexibleSpace();
-			
-			
-			if(GUILayout.Button("Set mesh renderer",GUILayout.MaxWidth(150f)))
-			{
-				EditorApplication.delayCall += DoSetMeshRenderer;
-			}
-			
-			GUILayout.FlexibleSpace();
-			EditorGUILayout.EndHorizontal();
-			
-			if(HasNullBones())
-			{
-				EditorGUILayout.HelpBox("Warning:\nBone list contains null references.", MessageType.Warning);
-			}
-			
-			if(mSpriteMeshInstance.spriteMesh.bindPoses.Count != mSpriteMeshInstance.bones.Count)
-			{
-				EditorGUILayout.HelpBox("Warning:\nNumber of SpriteMesh Bind Poses and number of Bones does not match.", MessageType.Warning);
-			}
-			
+
 			serializedObject.ApplyModifiedProperties();
-		}
 
-		bool HasNullBones()
-		{
-			return mSpriteMeshInstance.bones.Contains(null);
-		}
-
-		void DoSetSkinnedRenderer()
-		{
-			SpriteMesh spriteMesh = mSpriteMeshInstance.spriteMesh;
-
-			if(spriteMesh)
+			if(EditorGUI.EndChangeCheck())
 			{
-				MeshFilter meshFilter = mSpriteMeshInstance.GetComponent<MeshFilter>();
-				MeshRenderer meshRenderer = mSpriteMeshInstance.GetComponent<MeshRenderer>();
-				Material material = null;
-				if(meshFilter)
-				{
-					DestroyImmediate(meshFilter);
-				}
-				if(meshRenderer)
-				{
-					material = meshRenderer.sharedMaterial;
-					DestroyImmediate(meshRenderer);
-				}
+				UpdateRenderers();
+			}
 
-				string path = AssetDatabase.GetAssetPath(spriteMesh);
-
-				if(!material)
+			if(m_SpriteMeshInstance.spriteMesh)
+			{
+				if(SpriteMeshUtils.HasNullBones(m_SpriteMeshInstance))
 				{
-					material = AssetDatabase.LoadAssetAtPath(path, typeof(Material)) as Material;
+					EditorGUILayout.HelpBox("Warning:\nBone list contains null references.", MessageType.Warning);
 				}
-
-				Mesh mesh = AssetDatabase.LoadAssetAtPath(path, typeof(Mesh)) as Mesh;
 				
-				SkinnedMeshRenderer skinnedMeshRenderer = mSpriteMeshInstance.GetComponent<SkinnedMeshRenderer>();
-
-				if(!skinnedMeshRenderer)
+				if(m_SpriteMeshInstance.spriteMesh.sharedMesh.bindposes.Length != m_SpriteMeshInstance.bones.Count)
 				{
-					skinnedMeshRenderer = mSpriteMeshInstance.gameObject.AddComponent<SkinnedMeshRenderer>();
-				}
-
-				if(skinnedMeshRenderer)
-				{
-					skinnedMeshRenderer.sharedMesh = mesh;
-					skinnedMeshRenderer.sharedMaterial = material;
-
-					skinnedMeshRenderer.bones = mSpriteMeshInstance.bones.ConvertAll( bone => bone.transform ).ToArray();
-
-					if(mSpriteMeshInstance.bones.Count > 0)
-					{
-						skinnedMeshRenderer.rootBone = mSpriteMeshInstance.bones[0].transform;
-					}
+					EditorGUILayout.HelpBox("Warning:\nNumber of SpriteMesh Bind Poses and number of Bones does not match.", MessageType.Warning);
 				}
 			}
 
-			mSpriteMeshInstance.UpdateRenderer();
 		}
 
-		void DoSetMeshRenderer()
+		void UpdateSpriteMeshData()
 		{
-			SpriteMesh spriteMesh = mSpriteMeshInstance.spriteMesh;
+			m_SpriteMeshData = null;
 			
-			if(spriteMesh)
+			if(m_SpriteMeshProperty != null && m_SpriteMeshProperty.objectReferenceValue)
 			{
-				SkinnedMeshRenderer skinnedMeshRenderer = mSpriteMeshInstance.GetComponent<SkinnedMeshRenderer>();
-				MeshFilter meshFilter = mSpriteMeshInstance.GetComponent<MeshFilter>();
-				MeshRenderer meshRenderer = mSpriteMeshInstance.GetComponent<MeshRenderer>();
-
-				Material material = null;
-
-				if(skinnedMeshRenderer)
-				{
-					material = skinnedMeshRenderer.sharedMaterial;
-					DestroyImmediate(skinnedMeshRenderer);
-				}else if(meshRenderer)
-				{
-					material = meshRenderer.sharedMaterial;
-				}
-
-				string path = AssetDatabase.GetAssetPath(spriteMesh);
-				Mesh mesh = AssetDatabase.LoadAssetAtPath(path, typeof(Mesh)) as Mesh;
-
-				if(!meshFilter)
-				{
-					meshFilter = mSpriteMeshInstance.gameObject.AddComponent<MeshFilter>();
-				}
-
-				if(meshFilter)
-				{
-					meshFilter.sharedMesh = mesh;
-				}
-			
-				if(!meshRenderer)
-				{
-					meshRenderer = mSpriteMeshInstance.gameObject.AddComponent<MeshRenderer>();
-				}
-
-				if(meshRenderer)
-				{
-					meshRenderer.sharedMaterial = material;
-				}
+				m_SpriteMeshData = SpriteMeshUtils.LoadSpriteMeshData(m_SpriteMeshProperty.objectReferenceValue as SpriteMesh);
 			}
+		}
 
-			mSpriteMeshInstance.UpdateRenderer();
+		void UpdateRenderers()
+		{
+			m_UndoGroup = Undo.GetCurrentGroup();
+
+			EditorApplication.delayCall += DoUpdateRenderer;
+		}
+
+		void DoUpdateRenderer()
+		{
+			SpriteMeshUtils.UpdateRenderer(m_SpriteMeshInstance);
+
+#if UNITY_5_5_OR_NEWER
+
+#else
+			EditorUtility.SetSelectedWireframeHidden(m_SpriteMeshInstance.cachedRenderer, !m_SpriteMeshInstance.cachedSkinnedRenderer);
+#endif
+
+			Undo.CollapseUndoOperations(m_UndoGroup);
+			SceneView.RepaintAll();
 		}
 	}
 }

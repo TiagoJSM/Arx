@@ -1,4 +1,6 @@
-﻿Shader "_Shaders/Terrain2DShader"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "_Shaders/Terrain2DShader"
 {
 	Properties
 	{
@@ -35,7 +37,7 @@
 			FragmentInput vert(VertexInput input)
 			{
 				FragmentInput input;
-				fragment.pos = mul(UNITY_MATRIX_MVP, input.vertex);
+				fragment.pos = UnityObjectToClipPos(input.vertex);
 				input.uv = TRANSFORM_TEX(input.texcoord, _FloorTexture);
 				input.uv2 = TRANSFORM_TEX(input.texcoord, _SlopeTexture);
 				return input;

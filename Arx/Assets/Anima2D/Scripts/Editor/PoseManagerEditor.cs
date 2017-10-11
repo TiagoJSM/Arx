@@ -111,7 +111,7 @@ namespace Anima2D
 		{
 			serializedObject.Update();
 
-			Pose newPose = ScriptableObjectUtility.CreateAssetWithSavePanel<Pose>();
+			Pose newPose = ScriptableObjectUtility.CreateAssetWithSavePanel<Pose>("Create a pose asset","pose.asset","asset","Create a new pose");
 			
 			mList.serializedProperty.arraySize += 1;
 			

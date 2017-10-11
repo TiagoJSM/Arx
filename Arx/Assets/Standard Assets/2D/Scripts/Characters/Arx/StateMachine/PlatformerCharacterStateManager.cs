@@ -66,14 +66,18 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<DamagedAndMovedState>((c, a, t) => c.SafeSpot.HasValue)
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .WhenTransitionTo<SlidingDownState>((c, a) => c.OnLanded())
                     .To<FallingAimState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && a.Aiming)
                     .To<LightAirAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.Attacking && c.WeaponType != null)
                     .To<StrongAirAttackState>((c, a, t) => 
                         a.AttackType == AttackType.Secundary && c.Attacking && c.WeaponType != null)
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
+                    .WhenTransitionTo<IddleState>((c, a) => c.OnLanded())
                     .To<MovingAimState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming)
+                    .WhenTransitionTo<MovingAimState>((c, a) => c.OnLanded())
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0)
+                    .WhenTransitionTo<MovingState>((c, a) => c.OnLanded())
                     .To<RopeGrabState>((c, a, t) => c.RopeFound)
                     .To<LadderGrabState>((c, a, t) => c.LadderFound && a.GrabLadder);
 
@@ -81,12 +85,16 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                 .From<FallingAimState>()
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .WhenTransitionTo<SlidingDownState>((c, a) => c.OnLanded())
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && !a.Aiming)
                     .To<ThrowState>((c, a, t) => a.Throw)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
+                    .WhenTransitionTo<IddleState>((c, a) => c.OnLanded())
                     .To<MovingAimState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming)
+                    .WhenTransitionTo<MovingAimState>((c, a) => c.OnLanded())
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0)
+                    .WhenTransitionTo<MovingState>((c, a) => c.OnLanded())
                     .To<RopeGrabState>((c, a, t) => c.RopeFound)
                     .To<LadderGrabState>((c, a, t) => c.LadderFound && a.GrabLadder);
 
@@ -95,7 +103,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<DamagedAndMovedState>((c, a, t) => c.SafeSpot.HasValue)
                     .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
-                    .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
+                    .To<GhostJumpFallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
+                    //.To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<GroundAttackState>((c, a, t) => a.AttackType != AttackType.None && c.Attacking)
                     .To<MovingAimState>((c, a, t) => a.Aiming && c.IsGrounded)
                     .To<ChargeAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null && c.IsCharging)
@@ -103,6 +112,15 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
                     .To<PushState>((c, a, t) => c.IsGrounded && c.Pushable != null && a.Move != 0)
                     .To<LadderGrabState>((c, a, t) => c.LadderFound && a.GrabLadder);
+
+            this
+                .From<GhostJumpFallingState>()
+                    .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && t > 0.1f)
+                    .To<JumpingState>((c, a, t) => a.Jump)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
+                    .WhenTransitionTo<IddleState>((c, a) => c.OnLanded())
+                    .To<MovingAimState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming)
+                    .WhenTransitionTo<MovingAimState>((c, a) => c.OnLanded());
 
             this
                 .From<GrabbingLedgeState>()
@@ -149,7 +167,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                         a.AttackType == AttackType.Secundary && !c.Attacking && c.WeaponType != null)
                     .To<IddleState>((c, a, t) =>
                         c.IsGrounded && a.Move == 0)
+                    .WhenTransitionTo<IddleState>((c, a) => c.OnAirSlashLanded())
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0)
+                    .WhenTransitionTo<MovingState>((c, a) => c.OnAirSlashLanded())
                     .To<FallingState>((c, a, t) => !c.IsGrounded && !c.Attacking);
 
             this

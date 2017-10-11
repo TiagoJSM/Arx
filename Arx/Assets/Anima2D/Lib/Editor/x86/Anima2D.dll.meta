@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 05efd39ee25eb478ea2d11af722be602
-timeCreated: 1438037856
+guid: 787597feda35ae547bbad2ef6a1119a7
+timeCreated: 1479358108
 licenseType: Store
 PluginImporter:
   serializedVersion: 1
@@ -37,6 +37,12 @@ PluginImporter:
       enabled: 0
       settings:
         CPU: AnyCPU
+    WP8:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
+        DontProcess: False
+        PlaceholderPath: 
     Win:
       enabled: 0
       settings:
@@ -45,6 +51,13 @@ PluginImporter:
       enabled: 0
       settings:
         CPU: AnyCPU
+    WindowsStoreApps:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
+        DontProcess: False
+        PlaceholderPath: 
+        SDK: AnySDK
     iOS:
       enabled: 0
       settings:

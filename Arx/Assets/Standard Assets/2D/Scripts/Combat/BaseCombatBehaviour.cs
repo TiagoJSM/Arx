@@ -8,7 +8,7 @@ using UnityEngine;
 
 public abstract class BaseCombatBehaviour : MonoBehaviour
 {
-    public AttackType ComboType { get; protected set; }
+    public AttackType AttackType { get; protected set; }
     public int ComboNumber { get; set; }
     public AttackStyle AttackStyle { get; protected set; }
     public float AimAngle { get; set; }

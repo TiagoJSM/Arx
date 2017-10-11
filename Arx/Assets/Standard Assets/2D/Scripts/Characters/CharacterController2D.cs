@@ -146,6 +146,9 @@ public class CharacterController2D : MonoBehaviour
     [Range(2, 20)]
     public int totalVerticalRays = 4;
 
+    [SerializeField]
+    private float _minYVelocity = -2f;
+
 
     /*
     /// <summary>
@@ -174,6 +177,11 @@ public class CharacterController2D : MonoBehaviour
     [NonSerialized]
     public Vector3 velocity;
     public bool isGrounded { get { return collisionState.below; } }
+    public float MinYVelocity
+    {
+        get { return _minYVelocity; }
+        set { _minYVelocity = value; }
+    }
 
     const float kSkinWidthFloatFudgeFactor = 0.001f;
 
@@ -287,7 +295,8 @@ public class CharacterController2D : MonoBehaviour
         }
 
         // now we check movement in the horizontal dir
-        moveHorizontally(ref deltaMovement);
+        if (!slidingSlope)
+            moveHorizontally(ref deltaMovement);
 
         // next, check movement in the vertical dir
         if (!slidingSlope && deltaMovement.y != 0f)
@@ -295,6 +304,10 @@ public class CharacterController2D : MonoBehaviour
 
         // move then update our state
         deltaMovement.z = 0;
+
+        var minMovement = _minYVelocity * Time.deltaTime;
+
+        deltaMovement.y = Math.Max(deltaMovement.y, minMovement);
         transform.Translate(deltaMovement, Space.World);
         
         // only calculate velocity if we have a non-zero deltaTime
@@ -494,7 +507,7 @@ public class CharacterController2D : MonoBehaviour
         {
             var ray = new Vector2(initialRayOrigin.x, initialRayOrigin.y + i * _verticalDistanceBetweenRays);
 
-            DrawRay(ray, rayDirection * rayDistance, Color.red);
+            //DrawRay(ray, rayDirection * rayDistance, Color.red);
 
             // if we are grounded we will include oneWayPlatforms only on the first ray (the bottom one). this will allow us to
             // walk up sloped oneWayPlatforms
@@ -510,7 +523,7 @@ public class CharacterController2D : MonoBehaviour
                     bottomRay = raycastHit;
                 }
 
-                var distance = raycastHit.point.x - ray.x;
+                var distance = Math.Abs(raycastHit.point.x - ray.x);
                 if(distance < closestDistance)
                 {
                     closestDistance = distance;
@@ -604,13 +617,13 @@ public class CharacterController2D : MonoBehaviour
         var mask = platformMask;
         if ((isGoingUp && !collisionState.wasGroundedLastFrame) || ignoreOneWayPlatformsThisFrame)
             mask &= ~oneWayPlatformMask;
-
+        
         for (var i = 0; i < totalVerticalRays; i++)
         {
             var ray = new Vector2(initialRayOrigin.x + i * _horizontalDistanceBetweenRays, initialRayOrigin.y);
 
             //DrawRay(ray, rayDirection * rayDistance, Color.red);
-            //_raycastHit = Physics2D.Raycast(ray, rayDirection, rayDistance, mask);
+            
             raycastHit = Raycast(ray, rayDirection, rayDistance, mask);
             if (raycastHit)
             {
@@ -629,7 +642,7 @@ public class CharacterController2D : MonoBehaviour
                     deltaMovement.y += _skinWidth;
                     collisionState.below = true;
                 }
-
+                
                 _raycastHitsThisFrame.Add(raycastHit);
 
                 // this is a hack to deal with the top of slopes. if we walk up a slope and reach the apex we can get in a situation
@@ -680,11 +693,11 @@ public class CharacterController2D : MonoBehaviour
                 // bail out if we have no slope
                 SlopeNormal = raycastHit.normal;
                 var angle = Vector2.Angle(raycastHit.normal, Vector2.up);
-                if (angle < 1)
-                {
-                    onlyOverLimitSlopes = false;
-                    continue;
-                }
+                //if (angle < 1)
+                //{
+                //    onlyOverLimitSlopes = false;
+                //    continue;
+                //}
                 if (angle > slopeMinLimit)
                 {
                     slopeRaycast = raycastHit;
@@ -701,8 +714,11 @@ public class CharacterController2D : MonoBehaviour
         //if found normal slope
         if (slopeRaycast)
         {
-            var isMovingDownSlope = Mathf.Sign(slopeRaycast.normal.x) == Mathf.Sign(deltaMovement.x);
+            var isMovingDownSlope = 
+                !Mathf.Approximately(deltaMovement.x, 0) && 
+                Mathf.Sign(slopeRaycast.normal.x) == Mathf.Sign(deltaMovement.x);
             var slopeAngle = Vector2.Angle(slopeRaycast.normal, Vector2.up);
+
             if (isMovingDownSlope && slopeAngle <= slopeMinLimit)
             {
                 // going down we want to speed up in most cases so the slopeSpeedMultiplier curve should be > 1 for negative angles
@@ -713,7 +729,6 @@ public class CharacterController2D : MonoBehaviour
                 collisionState.movingDownSlope = true;
                 collisionState.slopeAngle = slopeAngle;
             }
-            //Experimental
             else if(slopeAngle > slopeMinLimit && onlyOverLimitSlopes)
             {
                 var down = new Vector2(1 / slopeRaycast.normal.x, -(1 / slopeRaycast.normal.y)).normalized;

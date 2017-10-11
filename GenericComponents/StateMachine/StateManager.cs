@@ -61,8 +61,15 @@ namespace GenericComponents.StateMachine
             var child = current.Transitions.FirstOrDefault(t => t.Condition(_controller, action, current.State.TimeInState));
             if(child != null)
             {
+                var transictionEvent = current.EventWhenTransitionTo.FirstOrDefault(c => c.Type == child.State.GetType());
                 current = child.StateContainer;
                 _currentStateContainer.State.OnStateExit(action);
+
+                if(transictionEvent != null)
+                {
+                    transictionEvent.Action(Controller, action);           
+                }
+
                 _currentStateContainer = current;
                 _currentStateContainer.State.TimeInState = 0;
                 _currentStateContainer.State.OnStateEnter(action);

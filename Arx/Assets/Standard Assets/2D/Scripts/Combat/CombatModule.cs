@@ -99,11 +99,11 @@ public class CombatModule : MonoBehaviour//, ICombatComponent
         }
     }
 
-    public AttackType ComboType
+    public AttackType AttackType
     {
         get
         {
-            return _closeCombat.ComboType;
+            return _closeCombat.AttackType;
         }
     }
 

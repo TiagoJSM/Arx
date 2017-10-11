@@ -10,19 +10,19 @@ namespace ArxGame.Components.Weapons
     public abstract class BaseWeapon : ScriptableObject, IWeapon
     {
         [SerializeField]
-        private GameObject _leftHandWeapon;
+        private CommonVisualWeaponComponent _leftHandWeapon;
         [SerializeField]
-        private GameObject _rightHandWeapon;
+        private CommonVisualWeaponComponent _rightHandWeapon;
 
         public WeaponType WeaponType { get; protected set; }
-        public GameObject LeftHandWeapon
+        public CommonVisualWeaponComponent LeftHandWeapon
         {
             get
             {
                 return _leftHandWeapon;
             }
         }
-        public GameObject RightHandWeapon
+        public CommonVisualWeaponComponent RightHandWeapon
         {
             get
             {

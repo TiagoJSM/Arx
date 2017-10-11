@@ -18,6 +18,7 @@ public abstract class PlatformerCharacterAiControl : BaseCharacterAiController
     private float _maxStoppedIddleTime = 5;
 
     protected abstract Direction CurrentDirection{ get; }
+    protected abstract Vector2 Velocity { get; }
 
     protected virtual void Awake()
     {
@@ -41,12 +42,31 @@ public abstract class PlatformerCharacterAiControl : BaseCharacterAiController
             yield return null;
             var distance = Vector2.Distance(_startingPosition, this.transform.position);
             var directionOfStartingPoint = (this.transform.position.x - _startingPosition.x) >= 0 ? Direction.Right : Direction.Left;
-            if (distance >= _maxDistanceFromStartingPoint && directionOfStartingPoint == currentDirectionMovement)
+            if (WaitForDirectionChange(distance, directionOfStartingPoint, currentDirectionMovement))
             {
                 currentDirectionMovement = currentDirectionMovement == Direction.Left ? Direction.Right : Direction.Left;
                 var stopTime = UnityEngine.Random.Range(0, _maxStoppedIddleTime);
                 yield return new WaitForSeconds(stopTime);
             }
         }
+    }
+
+    private bool WaitForDirectionChange(
+        float distance, 
+        Direction directionOfStartingPoint, 
+        Direction currentDirectionMovement)
+    {
+        var arrivedToDestination = distance >= _maxDistanceFromStartingPoint && directionOfStartingPoint == currentDirectionMovement;
+
+        if (arrivedToDestination)
+        {
+            return true;
+        }
+
+        if(Velocity.x == 0)
+        {
+        }
+
+        return Velocity.x == 0;
     }
 }

@@ -5,9 +5,9 @@ namespace Anima2D
 {
 	public static class ScriptableObjectUtility
 	{
-		public static T CreateAssetWithSavePanel<T>() where T : ScriptableObject
+		public static T CreateAssetWithSavePanel<T>(string title, string defaultName, string extension, string message) where T : ScriptableObject
 		{
-			string path = EditorUtility.SaveFilePanelInProject("Create a pose asset","pose.asset","asset","Create a new pose");
+			string path = EditorUtility.SaveFilePanelInProject(title,defaultName,extension,message);
 
 			T asset = null;
 
@@ -23,6 +23,24 @@ namespace Anima2D
 			return asset;
 		}
 
+		public static T CreateAssetWithSavePanel<T>(T obj, string title, string defaultName, string extension, string message) where T : Object
+		{
+			string path = EditorUtility.SaveFilePanelInProject(title,defaultName,extension,message);
+
+			T asset = null;
+
+			if(path.Length != 0)
+			{
+				AssetDatabase.CreateAsset(obj,path);
+				
+				AssetDatabase.Refresh();
+
+				asset = AssetDatabase.LoadAssetAtPath(path,typeof(T)) as T;
+			}
+			
+			return asset;
+		}
+
 		public static T CreateAsset<T>() where T : ScriptableObject
 		{
 			return CreateAsset<T>("Assets/New " + typeof(T).Name + ".asset");
@@ -31,11 +49,11 @@ namespace Anima2D
 		public static T CreateAsset<T>(string path) where T : ScriptableObject
 		{
 			T asset = ScriptableObject.CreateInstance<T> ();
-
+			
 			ProjectWindowUtil.CreateAsset(asset, AssetDatabase.GenerateUniqueAssetPath(path));
-
+			
 			AssetDatabase.Refresh();
-
+			
 			return asset;
 		}
 

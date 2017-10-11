@@ -36,9 +36,12 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     }
 
     private const float MinAttackChargeTime = 0.5f;
+    private const float JumpHoldMaxTime = 0.14f;
+    private const float JumpHoldMinLimitTime = 0.11f;
 
     private InputAction _currentInputAction = InputAction.None;
     private float _attackButtonDownTime;
+    private bool _waitForJumpButtonUp = false;
 
     private MainPlatformerController _characterController;
     private ItemFinderController _itemFinderController;
@@ -100,6 +103,25 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         _ladderFinder = GetComponent<LadderFinder>();
         _uiController.OnActiveQuestSelected += OnActiveQuestSelectedHandler;
         _questLogComponent.OnQuestAssigned += SetActiveQuest;
+        _characterController.OnGrounded += OnGroundedHandler;
+        _characterController.OnJump += OnJumpHandler;
+    }
+
+    private void OnJumpHandler()
+    {
+        
+    }
+
+    private void OnGroundedHandler()
+    {
+        var inputDevice = InputManager.Instance.GetInputDevice();
+        var jumpButton = inputDevice.GetButton(DeviceButton.Jump);
+
+        if (jumpButton)
+        {
+            _waitForJumpButtonUp = true;
+        }
+        
     }
 
     private void Start()
@@ -118,22 +140,33 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         var horizontal = inputDevice.GetAxis(DeviceAxis.Movement).x;
         var vertical = inputDevice.GetAxis(DeviceAxis.Movement).y;
         var roll = inputDevice.GetButton(DeviceButton.Jump);
-        var jump = inputDevice.GetButtonDown(DeviceButton.Jump);
         var grabLadder = false;
         var releaseRope = grabLadder = inputDevice.GetButtonDown(DeviceButton.Interact);
         var aiming = inputDevice.GetButton(DeviceButton.AimWeapon);
         var teleport = inputDevice.GetButtonDown(DeviceButton.Vertical);
+        var jump = HandleJump(inputDevice);
 
         HandleTeleporter(teleport);
 
         SetAimAngle(inputDevice);
         HandleLadderGrab(grabLadder);
         HandleInteraction();
-
+        
         _characterController.Move(horizontal, vertical, jump, roll, releaseRope, aiming);
 
         HandleAttack(inputDevice);
         SwitchActiveWeapon(inputDevice);
+    }
+
+    private bool HandleJump(IInputDevice inputDevice)
+    {
+        if (_waitForJumpButtonUp)
+        {
+            _waitForJumpButtonUp = !inputDevice.GetButtonUp(DeviceButton.Jump);
+            return false;
+        }
+
+        return inputDevice.GetButton(DeviceButton.Jump);
     }
 
     private void HandleLadderGrab(bool grabLadder)
@@ -277,11 +310,6 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
             _attackButtonDownTime = 0;
             _currentInputAction = InputAction.AttackButtonDown;
         }
-
-        if (secundary)
-        {
-            _characterController.StrongAttack();
-        }
     }
 
     private void AttackButtonDownState(IInputDevice inputDevice)
@@ -298,6 +326,13 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         if (primary)
         {
             _characterController.LightAttack();
+            _currentInputAction = InputAction.None;
+        }
+
+        var vertical = inputDevice.GetAxis(DeviceAxis.Movement).y;
+        if (primary && vertical < 0)
+        {
+            _characterController.StrongAttack();
             _currentInputAction = InputAction.None;
         }
     }

@@ -34,7 +34,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
                 _movementDirection = value;
                 var dir = base.DirectionOfMovement(_movementDirection.x, Direction);
                 Flip(dir);
-                Velocity = new Vector2(
+                DesiredMovementVelocity = new Vector2(
                     _movementVelocity.x * _movementDirection.x, 
                     _movementVelocity.y * _movementDirection.y);
             }
@@ -57,7 +57,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
         protected override void Awake()
         {
             base.Awake();
-            Velocity = _movementVelocity;
+            DesiredMovementVelocity = _movementVelocity;
             MovementDirection = Vector2.zero;
             CharacterController2D.onTriggerEnterEvent += OnTriggerEnterEventHandler;
         }
@@ -80,7 +80,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
             var targetPosition = character.transform.position;
             var direction = (character.transform.position - transform.position).normalized;
             MovementDirection = direction;
-            Velocity = new Vector2(
+            DesiredMovementVelocity = new Vector2(
                     _attackVelocity.x * _movementDirection.x,
                     _attackVelocity.y * _movementDirection.y);
 

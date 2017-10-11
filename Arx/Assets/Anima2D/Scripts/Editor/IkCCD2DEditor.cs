@@ -11,16 +11,17 @@ namespace Anima2D
 	{
 		override public void OnInspectorGUI()
 		{
+			IkCCD2D ikCCD2D = target as IkCCD2D;
+
 			base.OnInspectorGUI();
 
-			serializedObject.Update();
-
-			SerializedProperty targetBoneProp = serializedObject.FindProperty("m_Target");
 			SerializedProperty numBonesProp = serializedObject.FindProperty("m_NumBones");
 			SerializedProperty iterationsProp = serializedObject.FindProperty("iterations");
 			SerializedProperty dampingProp = serializedObject.FindProperty("damping");
 
-			Bone2D targetBone = targetBoneProp.objectReferenceValue as Bone2D;
+			Bone2D targetBone = ikCCD2D.target;
+
+			serializedObject.Update();
 
 			EditorGUI.BeginDisabledGroup(!targetBone);
 
@@ -37,9 +38,10 @@ namespace Anima2D
 			
 			if(EditorGUI.EndChangeCheck())
 			{
-				IkUtils.InitializeIk2D(serializedObject);
+				Undo.RegisterCompleteObjectUndo(ikCCD2D,"Set num bones");
 
-				DoUpdateIK();
+				IkUtils.InitializeIk2D(serializedObject);
+				EditorUpdater.SetDirty("Set num bones");
 			}
 
 			EditorGUI.EndDisabledGroup();
@@ -51,7 +53,7 @@ namespace Anima2D
 
 			if(EditorGUI.EndChangeCheck())
 			{
-				DoUpdateIK();
+				EditorUpdater.SetDirty(Undo.GetCurrentGroupName());
 			}
 
 			serializedObject.ApplyModifiedProperties();

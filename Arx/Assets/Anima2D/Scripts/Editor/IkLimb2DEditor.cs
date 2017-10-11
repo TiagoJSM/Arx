@@ -21,7 +21,7 @@ namespace Anima2D
 
 			if(EditorGUI.EndChangeCheck())
 			{
-				DoUpdateIK();
+				EditorUpdater.SetDirty("Flip");
 			}
 
 			serializedObject.ApplyModifiedProperties();

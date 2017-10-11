@@ -1,4 +1,6 @@
-﻿Shader "_Shaders/NodeMesh"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "_Shaders/NodeMesh"
 {
 	Properties
 	{
@@ -44,7 +46,7 @@
 			FragmentInput vert(VertexInput input)
 			{
 				FragmentInput fragment;
-				fragment.pos = mul(UNITY_MATRIX_MVP, input.vertex);
+				fragment.pos = UnityObjectToClipPos(input.vertex);
 				fragment.uv = TRANSFORM_TEX(input.texcoord, _MainTex);
 				fragment.color = input.color;
 				return fragment;
