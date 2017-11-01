@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneOSXIntel:4</UnityBuildTarget>
     <UnityVersion>2017.1.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -112,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\2D\Cameras\Scripts\Camera2DAhead.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Cameras\Scripts\CameraShake.cs" />
     <Compile Include="Assets\Standard Assets\2D\Platforms\Hinge Platform\Scripts\HingePlatformController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Prefabs\Items\Weapons\GrappleShooter.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\AirSlashCombatStateBehaviour.cs" />
@@ -122,6 +125,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Camera2DFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\ArxAnimationController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\CombatHitEffects.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\EnemyProximityDetector.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\IPlatformerCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\MainCharacterNotification.cs" />

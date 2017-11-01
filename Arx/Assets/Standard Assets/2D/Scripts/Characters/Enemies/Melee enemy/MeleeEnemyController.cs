@@ -17,19 +17,25 @@ public class MeleeEnemyControllerStateManager : StateManager<Character, StateAct
     public MeleeEnemyControllerStateManager(Character controller) : base(controller)
     {
         this.SetInitialState<StandStillState>()
+            .To<TackingDamageState>((c, a, t) => c.HitLastTurn)
             .To<DeathState>((c, a, t) => c.Dead)
             .To<AttackState>((c, a, t) => a.Attack)
             .To<MoveState>((c, a, t) => a.Move != 0);
 
         this.From<AttackState>()
+            .To<TackingDamageState>((c, a, t) => c.HitLastTurn)
             .To<DeathState>((c, a, t) => c.Dead)
             .To<StandStillState>((c, a, t) => a.Move == 0)
             .To<MoveState>((c, a, t) => a.Move != 0);
 
         this.From<MoveState>()
+            .To<TackingDamageState>((c, a, t) => c.HitLastTurn)
             .To<DeathState>((c, a, t) => c.Dead)
             .To<AttackState>((c, a, t) => a.Attack)
             .To<StandStillState>((c, a, t) => a.Move == 0);
+
+        this.From<TackingDamageState>()
+            .To<StandStillState>((c, a, t) => c.InPainTime < t);
     }
 }
 
@@ -47,11 +53,14 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
     private BaseCloseCombatWeapon _weaponPrefab;
     [SerializeField]
     public GameObject _weaponSocket;
-
+    [SerializeField]
+    private float _inPainTime = 0.4f;
 
     public bool Attacking { get; private set; }
-
+    public bool HitLastTurn { get; private set; }
     public bool Dead { get; private set; }
+    public bool InPain { get; private set; }
+    public float InPainTime { get { return _inPainTime; } }
 
     public void Move(float move)
     {
@@ -77,6 +86,7 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
         var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType);
         var damageOriginPosition = hitPoint ?? attacker.transform.position;
         _lastHitDirection = Math.Sign(transform.position.x - damageOriginPosition.x);
+        HitLastTurn = true;
         return damage;
     }
 
@@ -104,6 +114,7 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
         base.Update();
         _move = 0;
         _attack = false;
+        HitLastTurn = false;
     }
 
     protected override void OnDestroy()
@@ -129,5 +140,10 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
 
     public void Die()
     {
+    }
+
+    public void ShowDamageTaken(bool taken)
+    {
+        InPain = taken;
     }
 }

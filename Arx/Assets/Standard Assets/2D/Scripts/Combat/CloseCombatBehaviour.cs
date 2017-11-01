@@ -1,4 +1,5 @@
-﻿using CommonInterfaces.Controllers;
+﻿using Assets.Standard_Assets._2D.Cameras.Scripts;
+using CommonInterfaces.Controllers;
 using CommonInterfaces.Weapons;
 using GenericComponents.Enums;
 using System;
@@ -32,6 +33,7 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     public event Action OnEnterCombatState;
     public event Action<AttackType, AttackStyle, int> OnAttackStart;
     public event Action OnCombatFinish;
+    public event Action<AttackType> OnHit;
 
     public CloseCombatBehaviour()
     {
@@ -53,13 +55,20 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     {
         var enemiesInRange = GetCharactersInRange(_attackAreaP1.position, _attackAreaP2.position, _enemyLayer);
 
+        if(enemiesInRange.Length == 0)
+        {
+            return;
+        }
+
         if (_executedAttackType == AttackType.Primary)
         {
             Weapon.LightAttack(ComboNumber, enemiesInRange, this.gameObject);
+            RaiseOnHit();
         }
         else if (_executedAttackType == AttackType.Secundary)
         {
             Weapon.StrongAttack(ComboNumber, enemiesInRange, this.gameObject);
+            RaiseOnHit();
         }
     }
 
@@ -135,6 +144,14 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
             var enemiesInRange = GetCharactersInRange(_diveAttackAreaP1.position, _diveAttackAreaP2.position, _enemyLayer);
             Weapon.DiveAttack(enemiesInRange, this.gameObject);
             yield return null;
+        }
+    }
+
+    private void RaiseOnHit()
+    {
+        if(OnHit != null)
+        {
+            OnHit(_executedAttackType);
         }
     }
 }

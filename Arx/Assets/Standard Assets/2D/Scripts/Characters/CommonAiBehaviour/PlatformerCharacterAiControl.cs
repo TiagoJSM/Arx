@@ -25,7 +25,7 @@ public abstract class PlatformerCharacterAiControl : BaseCharacterAiController
         _startingPosition = this.transform.position;
     }
 
-    protected abstract void Move(float directionValue);
+    public abstract void Move(float directionValue);
 
     protected void IddleMovement()
     {

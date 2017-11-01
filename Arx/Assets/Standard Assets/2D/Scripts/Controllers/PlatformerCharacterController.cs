@@ -252,7 +252,11 @@ public class PlatformerCharacterController : BasePlatformerController
         //var jumpHeight = Mathf.Lerp(minJumpHeight, maxJumpHeight, jumpRatio);
         //_desiredMovementVelocity.y = Mathf.Sqrt(2f * jumpHeight * -gravity);
         _desiredMovementVelocity.y = jumpHeight;
-        _jumpSound.Play();
+
+        if (!_jumpSound.isPlaying)
+        {
+            _jumpSound.Play();
+        }
 
         if(OnJump != null)
         {
@@ -304,7 +308,7 @@ public class PlatformerCharacterController : BasePlatformerController
         _pushStartTime = Time.time;
     }
 
-    protected void DoMove(float move, bool setDirectionToMovement)
+    public void DoMove(float move, bool setDirectionToMovement)
     {
         var direction = DirectionOfMovement(move, Direction);
         var speed = MovementType == MovementType.Run ? runSpeed : walkSpeed;
@@ -386,7 +390,7 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         _impactMovement =
             new Vector2(
-                Mathf.Lerp(_pushImpact.x, 0, Mathf.Clamp01((Time.time - _pushStartTime) / 1)),
+                Mathf.Lerp(_pushImpact.x, 0, Mathf.Clamp01(Time.time - _pushStartTime)),
                 _pushImpact.y) *
             Time.deltaTime;
         _pushImpact = new Vector2(_pushImpact.x, 0);
@@ -431,7 +435,7 @@ public class PlatformerCharacterController : BasePlatformerController
 
         var movement = _desiredMovementVelocity * Time.deltaTime;
         movement = new Vector3(movement.x * VelocityMultiplier.x, movement.y * VelocityMultiplier.y, 0);
-        
+
         _characterController2D.move(
             movement + new Vector3(_impactMovement.x, _impactMovement.y, 0));
     }

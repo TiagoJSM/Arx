@@ -481,7 +481,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
         DesiredMovementVelocity = Vector2.zero;
         //ToDo: move this into globals?
-        Push(new Vector2(2 * horizontalMovement, 30));
+        Push(new Vector2(20 * horizontalMovement, 600));
     }
 
     public void AttackStateDone()

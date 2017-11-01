@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace _2DDynamicCamera
+namespace Assets.Standard_Assets._2D.Cameras.Scripts
 {
     public class CameraShake : MonoBehaviour
     {
-
         public bool debugMode = false;//Test-run/Call ShakeCamera() on start
 
         public float shakeAmount;//The amount to shake this frame.
@@ -52,29 +51,36 @@ namespace _2DDynamicCamera
         }
 
 
-        IEnumerator Shake()
+        private IEnumerator Shake()
         {
             isRunning = true;
 
             while (shakeDuration > 0.01f)
             {
-                Vector3 rotationAmount = UnityEngine.Random.insideUnitSphere * shakeAmount;//A Vector3 to add to the Local Rotation
-                rotationAmount.z = 0;//Don't change the Z; it looks funny.
+                Vector3 translationAmount = UnityEngine.Random.insideUnitSphere * shakeAmount;//A Vector3 to add to the Local Rotation
+                translationAmount.z = 0;//Don't change the Z; it looks funny.
 
                 shakePercentage = shakeDuration / startDuration;//Used to set the amount of shake (% * startAmount).
 
                 shakeAmount = startAmount * shakePercentage;//Set the amount of shake (% * startAmount).
-                shakeDuration = Mathf.Lerp(shakeDuration, 0, Time.deltaTime);//Lerp the time, so it is less and tapers off towards the end.
-
+                //shakeDuration = Mathf.Lerp(shakeDuration, 0, Time.deltaTime);//Lerp the time, so it is less and tapers off towards the end.
+                shakeDuration -= Time.deltaTime;
 
                 if (smooth)
-                    transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotationAmount), Time.deltaTime * smoothAmount);
+                {
+                    transform.localPosition += Vector3.Lerp(Vector3.zero, translationAmount, Time.deltaTime * smoothAmount);
+                    //transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotationAmount), Time.deltaTime * smoothAmount);
+                }
                 else
-                    transform.localRotation = Quaternion.Euler(rotationAmount);//Set the local rotation the be the rotation amount.
+                {
+                    transform.localPosition += translationAmount;
+                    //transform.localRotation = Quaternion.Euler(rotationAmount);//Set the local rotation the be the rotation amount.
+                }
 
-                yield return null;
+
+                yield return new WaitForEndOfFrame();
             }
-            transform.localRotation = Quaternion.identity;//Set the local rotation to 0 when done, just to get rid of any fudging stuff.
+            //transform.localRotation = Quaternion.identity;//Set the local rotation to 0 when done, just to get rid of any fudging stuff.
             isRunning = false;
         }
 

@@ -16,6 +16,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         private readonly int _AttackType = Animator.StringToHash("Attack Type");
         private readonly int _DeathFront = Animator.StringToHash("Death front");
         private readonly int _Surprised = Animator.StringToHash("Surprised");
+        private readonly int _Attacked = Animator.StringToHash("Attacked");
 
         private Animator _animator;
         private MeleeEnemyController _controller;
@@ -50,6 +51,13 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
                 _animator.SetTrigger(_Surprised);
             }
         }
+        private bool Attacked
+        {
+            set
+            {
+                _animator.SetBool(_Attacked, value);
+            }
+        }
 
         public bool IsCurrentAnimationOver
         {
@@ -75,6 +83,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
             HorizontalVelocity = _controller.HorizontalSpeed;
             AttackType = (int)_combatModule.AttackType;
             DeathFront = _controller.Dead;
+            Attacked = _aiController.Attacked;
         }
 
         private void OnDestroy()

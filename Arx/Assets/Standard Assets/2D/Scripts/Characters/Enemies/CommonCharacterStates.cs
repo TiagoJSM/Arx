@@ -9,10 +9,14 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
     public interface ICharacter
     {
         bool Dead { get; }
+        bool HitLastTurn { get; }
+        float InPainTime { get; }
 
         void DoMove(float move);
+        void DoMove(float move, bool setDirectionToMovement);
         void StayStill();
         void Die();
+        void ShowDamageTaken(bool taken);
     }
 
     public class StateAction
@@ -101,6 +105,28 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
 
         public void Perform(StateAction action)
         {
+        }
+    }
+
+    public class TackingDamageState : IState<ICharacter, StateAction>
+    {
+        public ICharacter StateController { get; set; }
+
+        public float TimeInState { get; set; }
+
+        public void OnStateEnter(StateAction action)
+        {
+            StateController.ShowDamageTaken(true);
+        }
+
+        public void OnStateExit(StateAction action)
+        {
+            StateController.ShowDamageTaken(false);
+        }
+
+        public void Perform(StateAction action)
+        {
+            StateController.DoMove(1, false);
         }
     }
 }
