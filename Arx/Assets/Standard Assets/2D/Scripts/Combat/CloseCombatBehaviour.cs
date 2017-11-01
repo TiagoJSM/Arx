@@ -1,4 +1,5 @@
 ﻿using Assets.Standard_Assets._2D.Cameras.Scripts;
+using Assets.Standard_Assets.Extensions;
 using CommonInterfaces.Controllers;
 using CommonInterfaces.Weapons;
 using GenericComponents.Enums;
@@ -29,6 +30,8 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     private Transform _diveAttackAreaP2;
     [SerializeField]
     private LayerMask _enemyLayer;
+    [SerializeField]
+    private AudioSource[] _hitSounds;
 
     public event Action OnEnterCombatState;
     public event Action<AttackType, AttackStyle, int> OnAttackStart;
@@ -62,6 +65,7 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
 
         if (_executedAttackType == AttackType.Primary)
         {
+            _hitSounds.PlayRandom();
             Weapon.LightAttack(ComboNumber, enemiesInRange, this.gameObject);
             RaiseOnHit();
         }

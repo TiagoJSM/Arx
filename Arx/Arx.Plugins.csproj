@@ -371,6 +371,7 @@
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\Water.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterBase.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterTile.cs" />
+    <Compile Include="Assets\Standard Assets\Extensions\AudioSourceExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\CameraExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\GameObjectExtensions.cs" />
     <Compile Include="Assets\Standard Assets\Extensions\IEnumerableExtensions.cs" />

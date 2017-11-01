@@ -10,6 +10,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
     {
         bool Dead { get; }
         bool HitLastTurn { get; }
+        float LastHitDirection { get; }
         float InPainTime { get; }
 
         void DoMove(float move);
@@ -126,7 +127,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
 
         public void Perform(StateAction action)
         {
-            StateController.DoMove(1, false);
+            StateController.DoMove(StateController.LastHitDirection, false);
         }
     }
 }
