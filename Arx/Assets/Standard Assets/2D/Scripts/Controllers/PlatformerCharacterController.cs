@@ -48,6 +48,8 @@ public class PlatformerCharacterController : BasePlatformerController
     private AudioSource _jumpSound;
     [SerializeField]
     private AudioSource _grabLedgeSound;
+    [SerializeField]
+    private AudioSource _rollSound;
 
     public BoxCollider2D standingCollider;
     public BoxCollider2D duckingCollider;
@@ -56,6 +58,7 @@ public class PlatformerCharacterController : BasePlatformerController
     public float gravity = -25f;
     public float runSpeed = 8f;
     public float walkSpeed = 5f;
+    public float airSpeed = 8f;
     public float groundDamping = 20f; // how fast do we change direction? higher means faster
     public float inAirDamping = 5f;
     public float jumpHeight = 5f;
@@ -294,8 +297,17 @@ public class PlatformerCharacterController : BasePlatformerController
         _desiredMovementVelocity = new Vector2(0, _desiredMovementVelocity.y);
     }
 
+    public void StartRoll()
+    {
+        _rollSound.Play();
+    }
+
     public void Roll(float move)
     {
+        /*if (!_rollSound.isPlaying)
+        {
+            _rollSound.Play();
+        }*/
         var direction = DirectionOfMovement(move, Direction);
         _desiredMovementVelocity.x = DirectionValue(direction) * runSpeed * VelocityMultiplier.x;
         Flip(direction);
@@ -308,10 +320,9 @@ public class PlatformerCharacterController : BasePlatformerController
         _pushStartTime = Time.time;
     }
 
-    public void DoMove(float move, bool setDirectionToMovement)
+    public void DoMove(float move, float speed, bool setDirectionToMovement)
     {
         var direction = DirectionOfMovement(move, Direction);
-        var speed = MovementType == MovementType.Run ? runSpeed : walkSpeed;
         _desiredMovementVelocity.x = DirectionValue(direction) * speed * VelocityMultiplier.x;
         if (Math.Abs(move) < 0.2)
         {
@@ -323,7 +334,17 @@ public class PlatformerCharacterController : BasePlatformerController
             {
                 Flip(direction);
             }
-        }        
+        }
+    }
+
+    public void DoMove(float move, bool setDirectionToMovement)
+    {
+        var moveSpeed = MovementType == MovementType.Run ? runSpeed : walkSpeed;
+        if (!IsGrounded)
+        {
+            moveSpeed = airSpeed;
+        }
+        DoMove(move, moveSpeed, setDirectionToMovement);       
     }
 
     protected IEnumerator MoveInParabola(

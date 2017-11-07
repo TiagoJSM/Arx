@@ -9,44 +9,48 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
 {
-    [RequireComponent(typeof(CloseCombatBehaviour))]
     public class CombatHitEffects : MonoBehaviour
     {
-        private CloseCombatBehaviour _closeCombat;
+        //private CloseCombatBehaviour _closeCombat;
 
         [SerializeField]
-        private float _amount = 0.5f;
+        private float _shakeAmount = 0.3f;
         [SerializeField]
-        private float _duration = 0.3f;
+        private float _shakeDuration = 0.2f;
         [SerializeField]
-        private float _slowDownTime = 0.3f;
+        private float _slowDownTime = 0.08f;
+        [SerializeField]
+        private float _strongShakeAmount = 0.5f;
+        [SerializeField]
+        private float _strongShakeDuration = 0.3f;
+        [SerializeField]
+        private float _longSlowDownTime = 0.2f;
 
-        private void Awake()
+        public void EnemyHit()
         {
-            _closeCombat = GetComponent<CloseCombatBehaviour>();
-
-            _closeCombat.OnHit += OnHitHandler;
+            ShakeCamera(_shakeAmount, _shakeDuration);
+            StartCoroutine(SlowDownTime(_slowDownTime));
         }
 
-        private void OnHitHandler(AttackType attackType)
+        public void EnemyStrongHit()
         {
-            ShakeCamera();
-            StartCoroutine(SlowDownTime());
+            ShakeCamera(_strongShakeAmount, _strongShakeDuration);
+            StartCoroutine(SlowDownTime(_longSlowDownTime));
         }
 
-        private void ShakeCamera()
+        private void ShakeCamera(float shakeAmount, float shakeDuration)
         {
             var camShake = Camera.main.GetComponent<CameraShake>();
             if(camShake != null)
             {
-                camShake.ShakeCamera(_amount, _duration);
+                camShake.ShakeCamera(shakeAmount, shakeDuration);
             }
         }
 
-        private IEnumerator SlowDownTime()
+        private IEnumerator SlowDownTime(float slowDownTime)
         {
             Time.timeScale = 0;
-            yield return new WaitForSecondsRealtime(_slowDownTime);
+            yield return new WaitForSecondsRealtime(slowDownTime);
             Time.timeScale = 1.0f;
         }
     }
