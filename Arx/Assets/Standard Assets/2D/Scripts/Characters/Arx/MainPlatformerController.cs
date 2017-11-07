@@ -22,6 +22,7 @@ using System.Collections;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
 using Assets.Standard_Assets._2D.Scripts.Interaction;
 using Assets.Standard_Assets.Common;
+using Assets.Standard_Assets.Extensions;
 
 [RequireComponent(typeof(CombatModule))]
 [RequireComponent(typeof(LadderMovement))]
@@ -71,6 +72,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private AudioSource _slamAttackLand;
     [SerializeField]
     private AudioSource _landed;
+    [SerializeField]
+    private AudioSource[] _attackShouts;
 
     private float _move;
     private float _vertical;
@@ -481,7 +484,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         }
         DesiredMovementVelocity = Vector2.zero;
         //ToDo: move this into globals?
-        Push(new Vector2(2 * horizontalMovement, 30));
+        Push(new Vector2(20 * horizontalMovement, 600));
     }
 
     public void AttackStateDone()
@@ -587,7 +590,8 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     private void OnAttackStartHandler(AttackType attackType, AttackStyle attackStyle, int combo)
     {
-        if(attackStyle == AttackStyle.Ground)
+        _attackShouts.PlayRandom();
+        if (attackStyle == AttackStyle.Ground)
         {
             var x = attackType == AttackType.Primary ? _groundAttackVelocity : 0;
             VelocityMultiplier = new Vector2(x, VelocityMultiplier.y);

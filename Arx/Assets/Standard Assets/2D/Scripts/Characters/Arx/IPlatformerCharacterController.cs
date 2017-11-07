@@ -37,6 +37,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void Duck();
         void Stand();
         void StayStill();
+        void StartRoll();
         void Roll(float move);
         void StartIddle();
         void StopIddle();

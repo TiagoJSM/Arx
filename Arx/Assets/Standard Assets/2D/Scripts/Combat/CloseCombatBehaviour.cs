@@ -1,4 +1,7 @@
-﻿using CommonInterfaces.Controllers;
+﻿using Assets.Standard_Assets._2D.Cameras.Scripts;
+using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
+using Assets.Standard_Assets.Extensions;
+using CommonInterfaces.Controllers;
 using CommonInterfaces.Weapons;
 using GenericComponents.Enums;
 using System;
@@ -8,6 +11,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+[RequireComponent(typeof(CombatHitEffects))]
 public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapon>
 {
     private AttackType _executedAttackType;
@@ -15,6 +19,7 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
 
     private List<ICharacter> _charactersAttackedOnDive;
     private Coroutine _diveAttackDetector;
+    private CombatHitEffects _combatHitEffects;
 
     [SerializeField]
     private int maxCombos = 3;
@@ -28,10 +33,13 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     private Transform _diveAttackAreaP2;
     [SerializeField]
     private LayerMask _enemyLayer;
+    [SerializeField]
+    private AudioSource[] _hitSounds;
 
     public event Action OnEnterCombatState;
     public event Action<AttackType, AttackStyle, int> OnAttackStart;
     public event Action OnCombatFinish;
+    public event Action<AttackType> OnHit;
 
     public CloseCombatBehaviour()
     {
@@ -40,6 +48,7 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
 
     void Awake()
     {
+        _combatHitEffects = GetComponent<CombatHitEffects>();
         this.enabled = false;
     }
 
@@ -53,13 +62,23 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     {
         var enemiesInRange = GetCharactersInRange(_attackAreaP1.position, _attackAreaP2.position, _enemyLayer);
 
+        if(enemiesInRange.Length == 0)
+        {
+            return;
+        }
+
         if (_executedAttackType == AttackType.Primary)
         {
+            _hitSounds.PlayRandom();
             Weapon.LightAttack(ComboNumber, enemiesInRange, this.gameObject);
+            _combatHitEffects.EnemyHit();
+            RaiseOnHit();
         }
         else if (_executedAttackType == AttackType.Secundary)
         {
             Weapon.StrongAttack(ComboNumber, enemiesInRange, this.gameObject);
+            _combatHitEffects.EnemyStrongHit();
+            RaiseOnHit();
         }
     }
 
@@ -133,8 +152,20 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
         while (true)
         {
             var enemiesInRange = GetCharactersInRange(_diveAttackAreaP1.position, _diveAttackAreaP2.position, _enemyLayer);
+            if(enemiesInRange.Count() > 0)
+            {
+                _combatHitEffects.EnemyStrongHit();
+            }
             Weapon.DiveAttack(enemiesInRange, this.gameObject);
             yield return null;
+        }
+    }
+
+    private void RaiseOnHit()
+    {
+        if(OnHit != null)
+        {
+            OnHit(_executedAttackType);
         }
     }
 }

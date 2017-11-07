@@ -9,6 +9,7 @@ public interface ICharacterAI
     bool Attacking { get; }
     bool IsTargetInRange { get; }
     void MoveToTarget();
+    void Move(float direction);
     void StopMoving();
     void StartIddle();
     void StopIddle();
@@ -69,6 +70,10 @@ public class IddleState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
     {
         StateController.StopIddle();
     }
+}
+
+public class AttackedState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
+{
 }
 
 public class AttackTargetState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI

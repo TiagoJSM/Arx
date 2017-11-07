@@ -105,6 +105,11 @@ namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
                     () => MovedAwayFromTarget = true));
         }
 
+        public void Move(float direction)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void OnDrawGizmosSelected()
         {
             base.OnDrawGizmosSelected();
@@ -141,6 +146,11 @@ namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
                     Target = null;
                 }
             }
+        }
+
+        public void OnAttacked()
+        {
+            throw new NotImplementedException();
         }
     }
 }

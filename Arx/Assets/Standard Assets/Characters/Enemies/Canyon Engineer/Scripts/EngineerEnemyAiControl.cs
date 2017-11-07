@@ -6,6 +6,7 @@ using Extensions;
 using Assets.Standard_Assets._2D.Scripts.Characters;
 using CommonInterfaces.Enums;
 using GenericComponents.Controllers.Characters;
+using CharController = GenericComponents.Controllers.Characters.CharacterController;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
 {
@@ -14,18 +15,26 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         public EngineerEnemyAiStateManager(EngineerEnemyAiControl controller) : base(controller)
         {
             this.SetInitialState<IddleState<EngineerEnemyAiControl>>()
+                .To<AttackedState<EngineerEnemyAiControl>>((c, a, t) => c.Attacked)
                 .To<SurprisedState>((c, a, t) => c.Target != null && c.CanBeSurprised)
                 .To<FollowState<EngineerEnemyAiControl>>((c, a, t) => c.Target != null);
 
             this.From<FollowState<EngineerEnemyAiControl>>()
+                .To<AttackedState<EngineerEnemyAiControl>>((c, a, t) => c.Attacked)
                 .To<AttackTargetState<EngineerEnemyAiControl>>((c, a, t) => c.IsTargetInRange)
                 .To<IddleState<EngineerEnemyAiControl>>((c, a, t) => c.Target == null);
 
             this.From<AttackTargetState<EngineerEnemyAiControl>>()
-                .To<FollowState<EngineerEnemyAiControl>>((c, a, t) => !c.IsTargetInRange && !c.Attacking);
+                .To<AttackedState<EngineerEnemyAiControl>>((c, a, t) => c.Attacked)
+                .To<FollowState<EngineerEnemyAiControl>>((c, a, t) => !c.IsTargetInRange && !c.Attacking)
+                .To<AttackTargetState<EngineerEnemyAiControl>>((c, a, t) => c.IsTargetInRange && !c.Attacking);
 
             this.From<SurprisedState>()
+                .To<AttackedState<EngineerEnemyAiControl>>((c, a, t) => c.Attacked)
                 .To<FollowState<EngineerEnemyAiControl>>((c, a, t) => !c.IsSurprise);
+
+            this.From<AttackedState<EngineerEnemyAiControl>>()
+               .To<IddleState<EngineerEnemyAiControl>>((c, a, t) => !c.Attacked);
         }
     }
 
@@ -44,6 +53,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         private GameObject _target;
         private MeleeEnemyController _controller;
         private EngineerEnemyAiStateManager _stateManager;
+
+        public bool Attacked { get { return _controller.InPain; } }
 
         public GameObject Target
         {
@@ -152,7 +163,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
             _characterFinder.OnCharacterFound += OnCharacterFoundHandler;
         }
 
-        protected override void Move(float directionValue)
+        public override void Move(float directionValue)
         {
             _controller.Move(directionValue);
         }

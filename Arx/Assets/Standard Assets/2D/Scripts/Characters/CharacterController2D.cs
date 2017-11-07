@@ -147,7 +147,7 @@ public class CharacterController2D : MonoBehaviour
     public int totalVerticalRays = 4;
 
     [SerializeField]
-    private float _minYVelocity = -2f;
+    private float _minYVelocity = -35f;
 
 
     /*

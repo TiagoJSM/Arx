@@ -43,7 +43,7 @@ public class CommonTalkingCharacterAi : PlatformerCharacterAiControl
         _previousIsInteracting = _interactiveCharacter.IsInteracting;
     }
 
-    protected override void Move(float directionValue)
+    public override void Move(float directionValue)
     {
         _controller.Move(directionValue);
     }

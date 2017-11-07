@@ -112,7 +112,7 @@ public class MeleeEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI
         _characterFinder.OnCharacterFound += OnCharacterFoundHandler;
     }
 
-    protected override void Move(float directionValue)
+    public override void Move(float directionValue)
     {
         _controller.Move(directionValue);
     }

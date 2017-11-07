@@ -163,6 +163,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<StrongAirAttackState>()
+                    .To<DamagedAndMovedState>((c, a, t) => c.SafeSpot.HasValue)
                     .To<StrongAirAttackState>((c, a, t) =>
                         a.AttackType == AttackType.Secundary && !c.Attacking && c.WeaponType != null)
                     .To<IddleState>((c, a, t) =>

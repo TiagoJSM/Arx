@@ -1,0 +1,57 @@
+﻿using Assets.Standard_Assets._2D.Cameras.Scripts;
+using GenericComponents.Enums;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+
+namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
+{
+    public class CombatHitEffects : MonoBehaviour
+    {
+        //private CloseCombatBehaviour _closeCombat;
+
+        [SerializeField]
+        private float _shakeAmount = 0.3f;
+        [SerializeField]
+        private float _shakeDuration = 0.2f;
+        [SerializeField]
+        private float _slowDownTime = 0.08f;
+        [SerializeField]
+        private float _strongShakeAmount = 0.5f;
+        [SerializeField]
+        private float _strongShakeDuration = 0.3f;
+        [SerializeField]
+        private float _longSlowDownTime = 0.2f;
+
+        public void EnemyHit()
+        {
+            ShakeCamera(_shakeAmount, _shakeDuration);
+            StartCoroutine(SlowDownTime(_slowDownTime));
+        }
+
+        public void EnemyStrongHit()
+        {
+            ShakeCamera(_strongShakeAmount, _strongShakeDuration);
+            StartCoroutine(SlowDownTime(_longSlowDownTime));
+        }
+
+        private void ShakeCamera(float shakeAmount, float shakeDuration)
+        {
+            var camShake = Camera.main.GetComponent<CameraShake>();
+            if(camShake != null)
+            {
+                camShake.ShakeCamera(shakeAmount, shakeDuration);
+            }
+        }
+
+        private IEnumerator SlowDownTime(float slowDownTime)
+        {
+            Time.timeScale = 0;
+            yield return new WaitForSecondsRealtime(slowDownTime);
+            Time.timeScale = 1.0f;
+        }
+    }
+}

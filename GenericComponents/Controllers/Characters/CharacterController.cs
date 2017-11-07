@@ -9,6 +9,7 @@ using UnityEngine;
 namespace GenericComponents.Controllers.Characters
 {
     public delegate void OnKilled(CharacterController character);
+    public delegate void OnAttacked(CharacterController character);
 
     [RequireComponent(typeof(CharacterStatus))]
     public class CharacterController : MonoBehaviour, ICharacter
@@ -17,6 +18,7 @@ namespace GenericComponents.Controllers.Characters
 
         public bool CanBeAttacked { get; protected set; }
         public event OnKilled OnKilled;
+        public event OnAttacked OnAttacked;
 
         public virtual bool IsEnemy
         {
@@ -63,6 +65,12 @@ namespace GenericComponents.Controllers.Characters
                 return 0;
             }
             _status.Damage(damage);
+
+            if(OnAttacked != null)
+            {
+                OnAttacked(this);
+            }
+
             if (_status.HealthDepleted)
             {
                 Kill();

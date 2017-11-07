@@ -46,7 +46,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CameraShake.cs" />
     <Compile Include="DynamicCamera.cs" />
     <Compile Include="Interfaces\ICameraTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
