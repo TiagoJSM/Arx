@@ -26,7 +26,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
 
             this.From<AttackTargetState<EngineerEnemyAiControl>>()
                 .To<AttackedState<EngineerEnemyAiControl>>((c, a, t) => c.Attacked)
-                .To<FollowState<EngineerEnemyAiControl>>((c, a, t) => !c.IsTargetInRange && !c.Attacking);
+                .To<FollowState<EngineerEnemyAiControl>>((c, a, t) => !c.IsTargetInRange && !c.Attacking)
+                .To<AttackTargetState<EngineerEnemyAiControl>>((c, a, t) => c.IsTargetInRange && !c.Attacking);
 
             this.From<SurprisedState>()
                 .To<AttackedState<EngineerEnemyAiControl>>((c, a, t) => c.Attacked)
