@@ -89,7 +89,12 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
         {
             _death.Play();
         }
-        StartCoroutine(CoroutineHelpers.DeathMovement(gameObject, LastHitDirection, () => Destroy(gameObject)));
+        ;
+        var angle = Vector2.Angle(CharacterController2D.SlopeNormal, Vector2.up);
+        var euler = transform.rotation.eulerAngles;
+        SteadyRotation = false;
+        transform.rotation = Quaternion.Euler(euler.x, euler.y, -angle);
+        //StartCoroutine(CoroutineHelpers.DeathMovement(gameObject, LastHitDirection, () => Destroy(gameObject)));
     }
 
     public override int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1)

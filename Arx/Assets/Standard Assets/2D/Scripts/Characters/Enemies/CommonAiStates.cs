@@ -76,6 +76,10 @@ public class AttackedState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
 {
 }
 
+public class DeadState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
+{
+}
+
 public class AttackTargetState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
 {
     public override void OnStateEnter(object action)

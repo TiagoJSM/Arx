@@ -35,6 +35,9 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
 
             this.From<AttackedState<EngineerEnemyAiControl>>()
                .To<IddleState<EngineerEnemyAiControl>>((c, a, t) => !c.Attacked);
+
+            this.FromAny()
+                .To<DeadState<EngineerEnemyAiControl>>((c, a, t) => !c.Dead);
         }
     }
 
@@ -55,6 +58,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         private EngineerEnemyAiStateManager _stateManager;
 
         public bool Attacked { get { return _controller.InPain; } }
+        public bool Dead { get { return _controller.Dead; } }
 
         public GameObject Target
         {
