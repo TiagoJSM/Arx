@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonInterfaces.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         private readonly int _HorizontalVelocity = Animator.StringToHash("Velocity");
         private readonly int _AttackType = Animator.StringToHash("Attack Type");
         private readonly int _DeathFront = Animator.StringToHash("Death front");
+        private readonly int _DeathBehind = Animator.StringToHash("Death behind");
         private readonly int _Surprised = Animator.StringToHash("Surprised");
         private readonly int _Attacked = Animator.StringToHash("Attacked");
 
@@ -35,6 +37,13 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
             set
             {
                 _animator.SetInteger(_AttackType, value);
+            }
+        }
+        private bool DeathBehind
+        {
+            set
+            {
+                _animator.SetBool(_DeathBehind, value);
             }
         }
         private bool DeathFront
@@ -80,9 +89,19 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
 
         void Update()
         {
+            var hitFromTheFront = false;
+            if (_controller.Direction == Direction.Right)
+            {
+                hitFromTheFront = _controller.LastHitDirection > 0;
+            }
+            else
+            {
+                hitFromTheFront = _controller.LastHitDirection < 0;
+            }
             HorizontalVelocity = _controller.HorizontalSpeed;
             AttackType = (int)_combatModule.AttackType;
-            DeathFront = _controller.Dead;
+            DeathFront = _controller.Dead && hitFromTheFront;
+            DeathBehind = _controller.Dead && !hitFromTheFront;
             Attacked = _aiController.Attacked;
         }
 

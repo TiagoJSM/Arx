@@ -127,7 +127,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
 
         public void Perform(StateAction action)
         {
-            StateController.DoMove(StateController.LastHitDirection, false);
+            StateController.DoMove(-StateController.LastHitDirection, false);
         }
     }
 }

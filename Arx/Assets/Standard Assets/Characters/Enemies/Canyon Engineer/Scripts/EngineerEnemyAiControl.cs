@@ -7,6 +7,7 @@ using Assets.Standard_Assets._2D.Scripts.Characters;
 using CommonInterfaces.Enums;
 using GenericComponents.Controllers.Characters;
 using CharController = GenericComponents.Controllers.Characters.CharacterController;
+using Assets.Standard_Assets.Extensions;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
 {
@@ -37,7 +38,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
                .To<IddleState<EngineerEnemyAiControl>>((c, a, t) => !c.Attacked);
 
             this.FromAny()
-                .To<DeadState<EngineerEnemyAiControl>>((c, a, t) => !c.Dead);
+                .To<DeadState<EngineerEnemyAiControl>>((c, a, t) => c.Dead);
         }
     }
 
@@ -165,6 +166,15 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
             _controller = GetComponent<MeleeEnemyController>();
             _stateManager = new EngineerEnemyAiStateManager(this);
             _characterFinder.OnCharacterFound += OnCharacterFoundHandler;
+            _controller.OnAttacked += OnAttackedHandler;
+        }
+
+        private void OnAttackedHandler(CharController character, GameObject attacker)
+        {
+            if (attacker.IsPlayer())
+            {
+                OnCharacterFoundHandler(attacker.GetComponent<CharController>());
+            }
         }
 
         public override void Move(float directionValue)
@@ -180,6 +190,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         void OnDestroy()
         {
             _characterFinder.OnCharacterFound -= OnCharacterFoundHandler;
+            _controller.OnAttacked -= OnAttackedHandler;
         }
 
         private void FollowTarget()
@@ -188,7 +199,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
             SetActiveCoroutine(FollowTargetCoroutine());
         }
 
-        private void OnCharacterFoundHandler(BasePlatformerController controller)
+        private void OnCharacterFoundHandler(CharController controller)
         {
             if (_target == null)
             {

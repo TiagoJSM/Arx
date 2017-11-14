@@ -101,7 +101,7 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
     {
         var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType);
         var damageOriginPosition = hitPoint ?? attacker.transform.position;
-        LastHitDirection = Math.Sign(transform.position.x - damageOriginPosition.x);
+        LastHitDirection = Math.Sign(damageOriginPosition.x - transform.position.x);
         HitLastTurn = true;
         if (_death != null)
         {

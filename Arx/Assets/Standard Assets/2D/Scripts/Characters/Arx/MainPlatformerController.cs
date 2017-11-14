@@ -267,12 +267,12 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public void FlipToSlideDownDirection()
     {
-        if(CharacterController2D.SlopeNormal.x == 0)
+        if(Velocity.x == 0)
         {
             return;
         }
         Flip(
-            CharacterController2D.SlopeNormal.x > 0 
+            Velocity.x > 0 
             ? CommonInterfaces.Enums.Direction.Right 
             : CommonInterfaces.Enums.Direction.Left);
     }
