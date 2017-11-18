@@ -123,8 +123,11 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
     protected override void Start()
     {
         base.Start();
-        _equippedWeapon = Instantiate(_weaponPrefab.RightHandWeapon.gameObject);
-        _equippedWeapon.transform.SetParent(_weaponSocket.transform, false);
+        if(_weaponPrefab.RightHandWeapon != null)
+        {
+            _equippedWeapon = Instantiate(_weaponPrefab.RightHandWeapon.gameObject);
+            _equippedWeapon.transform.SetParent(_weaponSocket.transform, false);
+        }
         _combatModule.CloseCombatWeapon = _weaponPrefab;
     }
 
