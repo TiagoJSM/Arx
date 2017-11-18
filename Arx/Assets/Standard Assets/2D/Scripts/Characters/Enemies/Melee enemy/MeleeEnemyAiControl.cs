@@ -5,6 +5,7 @@ using GenericComponents.StateMachine;
 using Extensions;
 using Assets.Standard_Assets._2D.Scripts.Characters;
 using CommonInterfaces.Enums;
+using CharController = GenericComponents.Controllers.Characters.CharacterController;
 
 public class MeleeEnemyAiStateManager : StateManager<ICharacterAI, object>
 {
@@ -133,7 +134,7 @@ public class MeleeEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI
         SetActiveCoroutine(FollowTargetCoroutine());
     }
 
-    private void OnCharacterFoundHandler(GenericComponents.Controllers.Characters.BasePlatformerController controller)
+    private void OnCharacterFoundHandler(CharController controller)
     {
         if(_target == null)
         {

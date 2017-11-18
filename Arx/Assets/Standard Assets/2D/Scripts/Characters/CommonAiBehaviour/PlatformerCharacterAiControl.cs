@@ -63,10 +63,6 @@ public abstract class PlatformerCharacterAiControl : BaseCharacterAiController
             return true;
         }
 
-        if(Velocity.x == 0)
-        {
-        }
-
-        return Velocity.x == 0;
+        return Mathf.Approximately(Velocity.x, 0);
     }
 }

@@ -16,6 +16,7 @@ namespace GenericComponents.StateMachine
         private StateContainer<TController, TAction> _currentStateContainer;
 
         private Dictionary<Type, StateContainer<TController, TAction>> _states;
+        private StateContainer<TController, TAction> _anyState;
 
         public TController Controller
         {
@@ -41,6 +42,7 @@ namespace GenericComponents.StateMachine
         {
             _controller = controller;
             _states = new Dictionary<Type, StateContainer<TController, TAction>>();
+            _anyState = new StateContainer<TController, TAction>(null, _controller);
         }
 
         public void Perform(TAction action)
@@ -58,7 +60,19 @@ namespace GenericComponents.StateMachine
             var current = _currentStateContainer;
             current.State.TimeInState += Time.deltaTime;
 
-            var child = current.Transitions.FirstOrDefault(t => t.Condition(_controller, action, current.State.TimeInState));
+            var timeInState = current.State.TimeInState;
+            var child = current.GetTransition(action, timeInState);
+
+            if(child == null)
+            {
+                child = _anyState.GetTransition(action, timeInState);
+
+                if(child != null)
+                {
+
+                }
+            }
+
             if(child != null)
             {
                 var transictionEvent = current.EventWhenTransitionTo.FirstOrDefault(c => c.Type == child.State.GetType());
@@ -75,7 +89,6 @@ namespace GenericComponents.StateMachine
                 _currentStateContainer.State.OnStateEnter(action);
             }
 
-            //Debug.Log(_currentStateContainer.State.GetType());
             _currentStateContainer.State.Perform(action);
             
         }
@@ -96,6 +109,11 @@ namespace GenericComponents.StateMachine
             return new TransitionConfiguration<TController, TAction>(this, container);
         }
 
+        public TransitionConfiguration<TController, TAction> FromAny()
+        {
+            return new TransitionConfiguration<TController, TAction>(this, _anyState);
+        }
+
         public TState State<TState>() where TState : class, IState<TController, TAction>, new()
         {
             var type = typeof(TState);
@@ -109,7 +127,7 @@ namespace GenericComponents.StateMachine
                 StateController = _controller
             };
 
-            var stateContainer = new StateContainer<TController, TAction>(state);
+            var stateContainer = new StateContainer<TController, TAction>(state, _controller);
             _states.Add(type, stateContainer);
             return state;
         }

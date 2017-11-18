@@ -139,7 +139,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
         var horizontal = inputDevice.GetAxis(DeviceAxis.Movement).x;
         var vertical = inputDevice.GetAxis(DeviceAxis.Movement).y;
-        var roll = inputDevice.GetButton(DeviceButton.Jump);
+        var roll = inputDevice.GetButton(DeviceButton.Roll);
         var grabLadder = false;
         var releaseRope = grabLadder = inputDevice.GetButtonDown(DeviceButton.Interact);
         var aiming = inputDevice.GetButton(DeviceButton.AimWeapon);

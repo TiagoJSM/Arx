@@ -284,7 +284,7 @@ public class CharacterController2D : MonoBehaviour
         var slidingSlope = default(RaycastHit2D);
         // first, we check for a slope below us before moving
         // only check slopes if we are going down and grounded
-        if (deltaMovement.y < 0f && collisionState.wasGroundedLastFrame)
+        if (deltaMovement.y < 0f /*&& collisionState.wasGroundedLastFrame*/)
             slidingSlope = handleVerticalSlope(ref deltaMovement);
 
         SlidingDown = false;

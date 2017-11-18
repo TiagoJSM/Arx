@@ -5,10 +5,11 @@ using System.Text;
 using UnityEngine;
 using Extensions;
 using GenericComponents.Controllers.Characters;
+using CharController = GenericComponents.Controllers.Characters.CharacterController;
 
 namespace Assets.Standard_Assets._2D.Scripts.Characters
 {
-    public delegate void OnCharacterFound(BasePlatformerController controller);
+    public delegate void OnCharacterFound(CharController controller);
 
     public class CharacterFinder : MonoBehaviour
     {

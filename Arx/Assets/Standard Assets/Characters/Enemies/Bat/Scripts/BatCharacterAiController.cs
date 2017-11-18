@@ -8,6 +8,7 @@ using UnityEngine;
 using GenericComponents.StateMachine;
 using Assets.Standard_Assets._2D.Scripts.Characters;
 using GenericComponents.Controllers.Characters;
+using CharController = GenericComponents.Controllers.Characters.CharacterController;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
 {
@@ -128,7 +129,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
             _characterFinder.OnCharacterFound -= OnCharacterFoundHandler;
         }
 
-        private void OnCharacterFoundHandler(BasePlatformerController controller)
+        private void OnCharacterFoundHandler(CharController controller)
         {
             if (Target == null)
             {

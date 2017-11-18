@@ -50,6 +50,8 @@ public class PlatformerCharacterController : BasePlatformerController
     private AudioSource _grabLedgeSound;
     [SerializeField]
     private AudioSource _rollSound;
+    [SerializeField]
+    private ParticleSystem _runningParticles;
 
     public BoxCollider2D standingCollider;
     public BoxCollider2D duckingCollider;
@@ -430,6 +432,8 @@ public class PlatformerCharacterController : BasePlatformerController
         {
             transform.rotation = Quaternion.identity;
         }
+
+        HandleMovementParticles();
     }
 
     protected virtual void FixedUpdate()
@@ -511,5 +515,21 @@ public class PlatformerCharacterController : BasePlatformerController
             elapsed += Time.deltaTime;
         }
         onFinish();
+    }
+
+    private void HandleMovementParticles()
+    {
+        if(_runningParticles != null)
+        {
+            var isMoving = !Mathf.Approximately(Velocity.x, 0);
+            if(isMoving && !_runningParticles.isPlaying && IsGrounded)
+            {
+                _runningParticles.Play();
+            }
+            else if (!isMoving && _runningParticles.isPlaying || IsGrounded)
+            {
+                _runningParticles.Stop();
+            }
+        }
     }
 }

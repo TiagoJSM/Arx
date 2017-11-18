@@ -9,7 +9,7 @@ using UnityEngine;
 namespace GenericComponents.Controllers.Characters
 {
     public delegate void OnKilled(CharacterController character);
-    public delegate void OnAttacked(CharacterController character);
+    public delegate void OnAttacked(CharacterController character, GameObject attacker);
 
     [RequireComponent(typeof(CharacterStatus))]
     public class CharacterController : MonoBehaviour, ICharacter
@@ -68,7 +68,7 @@ namespace GenericComponents.Controllers.Characters
 
             if(OnAttacked != null)
             {
-                OnAttacked(this);
+                OnAttacked(this, attacker);
             }
 
             if (_status.HealthDepleted)

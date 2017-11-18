@@ -25,6 +25,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         GrappleRope GrappleRope { get; }
         Pushable Pushable { get; }
         Vector3? SafeSpot { get; }
+
         bool AttackedThisFrame { get; }
         bool CanBeAttacked { get; set; }
         bool Attacking { get; }
@@ -68,5 +69,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         void StopFlashing();
         void OnLanded();
         void OnAirSlashLanded();
+        void EndLightAirAttack();
     }
 }

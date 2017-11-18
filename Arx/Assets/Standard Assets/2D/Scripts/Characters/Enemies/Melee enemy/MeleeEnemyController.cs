@@ -89,14 +89,19 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
         {
             _death.Play();
         }
-        StartCoroutine(CoroutineHelpers.DeathMovement(gameObject, LastHitDirection, () => Destroy(gameObject)));
+        ;
+        var angle = Vector2.Angle(CharacterController2D.SlopeNormal, Vector2.up);
+        var euler = transform.rotation.eulerAngles;
+        SteadyRotation = false;
+        transform.rotation = Quaternion.Euler(euler.x, euler.y, -angle);
+        //StartCoroutine(CoroutineHelpers.DeathMovement(gameObject, LastHitDirection, () => Destroy(gameObject)));
     }
 
     public override int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1)
     {
         var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType);
         var damageOriginPosition = hitPoint ?? attacker.transform.position;
-        LastHitDirection = Math.Sign(transform.position.x - damageOriginPosition.x);
+        LastHitDirection = Math.Sign(damageOriginPosition.x - transform.position.x);
         HitLastTurn = true;
         if (_death != null)
         {
@@ -118,8 +123,11 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
     protected override void Start()
     {
         base.Start();
-        _equippedWeapon = Instantiate(_weaponPrefab.RightHandWeapon.gameObject);
-        _equippedWeapon.transform.SetParent(_weaponSocket.transform, false);
+        if(_weaponPrefab.RightHandWeapon != null)
+        {
+            _equippedWeapon = Instantiate(_weaponPrefab.RightHandWeapon.gameObject);
+            _equippedWeapon.transform.SetParent(_weaponSocket.transform, false);
+        }
         _combatModule.CloseCombatWeapon = _weaponPrefab;
     }
 

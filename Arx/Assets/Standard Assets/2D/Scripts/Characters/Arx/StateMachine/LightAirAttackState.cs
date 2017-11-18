@@ -8,6 +8,11 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 {
     public class LightAirAttackState : BasePlatformerCharacterState
     {
+        public override void OnStateEnter(PlatformerCharacterAction action)
+        {
+            base.OnStateEnter(action);
+        }
+
         public override void Perform(PlatformerCharacterAction action)
         {
             base.Perform(action);
@@ -15,6 +20,12 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             {
                 StateController.StayStill();
             }
+        }
+
+        public override void OnStateExit(PlatformerCharacterAction action)
+        {
+            base.OnStateExit(action);
+            StateController.EndLightAirAttack();
         }
     }
 }
