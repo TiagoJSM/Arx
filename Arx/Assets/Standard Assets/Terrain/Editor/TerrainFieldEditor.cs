@@ -136,6 +136,10 @@ namespace Assets.Standard_Assets.Terrain.Editor
 
         private void BuildTerrain()
         {
+            if(TerrainField.mesh == null)
+            {
+                TerrainField.mesh = new Mesh();
+            }
             _builder.BuildMeshFor(TerrainField);
             TerrainColliderBuilder.BuildColliderFor(TerrainField);
         }

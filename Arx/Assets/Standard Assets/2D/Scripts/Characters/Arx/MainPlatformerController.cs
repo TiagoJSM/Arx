@@ -45,6 +45,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private LadderFinder _ladderFinder;
     private Coroutine _flashRoutine;
     private float _defaultMinYVelocity;
+    private bool _canSlowGravityForAirAttack = true;
 
     [SerializeField]
     private float _rollingDuration = 1;
@@ -523,6 +524,20 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         _slamAttackLand.Play();
     }
 
+    public void StartLightAirAttack()
+    {
+        if (_canSlowGravityForAirAttack)
+        {
+            VelocityMultiplier = new Vector2(VelocityMultiplier.x, 0.2f);
+            _canSlowGravityForAirAttack = false;
+        }
+    }
+
+    public void EndLightAirAttack()
+    {
+        VelocityMultiplier = Vector2.one;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -560,6 +575,11 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         AttackedThisFrame = false;
         _hitPointThisFrame = null;
         _grabLadder = false;
+
+        if (IsGrounded)
+        {
+            _canSlowGravityForAirAttack = true;
+        }
     }
 
     protected override void FixedUpdate()
