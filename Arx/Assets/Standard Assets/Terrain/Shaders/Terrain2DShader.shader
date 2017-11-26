@@ -138,7 +138,9 @@
 		{
 			return lerp(color, _FillingInterpolationColour, _FillingInterpolationFactor);
 		}
-		return lerp(color, _InterpolationColour, _InterpolationFactor);
+		fixed4 r = lerp(color, _InterpolationColour, _InterpolationFactor);
+		r.a = color.a;
+		return r;
 	}
 
 	void surf(Input IN, inout SurfaceOutput o)

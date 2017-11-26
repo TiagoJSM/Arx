@@ -89,6 +89,30 @@ namespace Assets.Standard_Assets.Common
             onEnd();
         }
 
+        public static IEnumerator FollowTargetCoroutine(
+            Transform self, 
+            GameObject target, 
+            Action<float> horizontalMove,
+            Func<bool> isTargetInRange)
+        {
+            if (target == null)
+            {
+                yield break;
+            }
+
+            while (true)
+            {
+                if (isTargetInRange())
+                {
+                    yield break;
+                }
+                var currentPosition = self.position;
+                var xDifference = target.transform.position.x - currentPosition.x;
+                horizontalMove(xDifference);
+                yield return null;
+            }
+        }
+
         private static void SetActive(GameObject[] gos, bool active)
         {
             for(var idx = 0; idx < gos.Length; idx++)

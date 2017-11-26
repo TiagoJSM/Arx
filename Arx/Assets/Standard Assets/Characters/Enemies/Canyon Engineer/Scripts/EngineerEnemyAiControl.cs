@@ -8,6 +8,7 @@ using CommonInterfaces.Enums;
 using GenericComponents.Controllers.Characters;
 using CharController = GenericComponents.Controllers.Characters.CharacterController;
 using Assets.Standard_Assets.Extensions;
+using Assets.Standard_Assets.Common;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
 {
@@ -196,7 +197,13 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         private void FollowTarget()
         {
             _controller.MovementType = MovementType.Run;
-            SetActiveCoroutine(FollowTargetCoroutine());
+            SetActiveCoroutine(
+                CoroutineHelpers.FollowTargetCoroutine(
+                    transform,
+                    _target,
+                    movement => _controller.Move(movement),
+                    () => IsTargetInRange));
+            //SetActiveCoroutine(FollowTargetCoroutine());
         }
 
         private void OnCharacterFoundHandler(CharController controller)
@@ -207,7 +214,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
             }
         }
 
-        private IEnumerator FollowTargetCoroutine()
+        /*private IEnumerator FollowTargetCoroutine()
         {
             if (_target == null)
             {
@@ -225,6 +232,6 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
                 _controller.Move(xDifference);
                 yield return null;
             }
-        }
+        }*/
     }
 }

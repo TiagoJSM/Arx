@@ -269,6 +269,11 @@
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeAI.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeRoom.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Sparring Dummy\Scripts\SparringDummyController.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\ExplosionCountdownOverBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAi.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAiStates.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAnimationController.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\WakeUpBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Wall Shooter\Scripts\WallShooterCharacterAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Wall Shooter\Scripts\WallShooterCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs" />
@@ -643,6 +648,7 @@
     <None Include="Assets\Universal Sound FX\%23Game Genre References\Shoot em Up.txt" />
     <None Include="Assets\Universal Sound FX\%23version_history.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>
