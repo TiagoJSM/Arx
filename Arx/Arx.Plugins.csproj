@@ -205,6 +205,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\LedgeChecker.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\Pushable.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\RoofChecker.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\FixedRotation.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\FootstepPlayer.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\GroundComponent.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\GroundMaterial.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEye.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeAI.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeRoom.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Platform Patrol\Scripts\PlatformPatrol.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Sparring Dummy\Scripts\SparringDummyController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\ExplosionCountdownOverBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAi.cs" />
@@ -346,6 +348,7 @@
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Checkpoints\Scripts\CheckpointTrigger.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Double Side Lazer\Scripts\DoubleSideLazer.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Enemy Secure Door\Scripts\EnemySecureDoor.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Enemy Activation Trigger\Scripts\EnemyActivationTrigger.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Flamethrower\Scripts\FlamethrowerController.cs" />
@@ -363,6 +366,7 @@
     <Compile Include="Assets\Standard Assets\Environment\Platforms\PressurePlatform\Scripts\PressurePlatform.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Raising Pillar\Scripts\PillarButtonController.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Raising Pillar\Scripts\RaisingPillar.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Platforms\Timed Rotating\Scripts\TimedRotatingPlatform.cs" />
     <Compile Include="Assets\Standard Assets\Environment\SaveBoard\Scripts\SaveGameOnInteract.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Teleports\Teleport On Use\Scripts\TeleportOnUseNotification.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Treadmill\Scripts\Treadmill.cs" />

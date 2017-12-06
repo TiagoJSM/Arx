@@ -9,6 +9,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Footsteps
     {
         Rock,
         Wood,
-        Sand
+        Sand,
+        Metal
     }
 }
