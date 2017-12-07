@@ -11,6 +11,7 @@ namespace Assets.Standard_Assets.Environment.Double_Side_Lazer.Scripts
     public class DoubleSideLazer : MonoBehaviour
     {
         private Coroutine _lazerCoroutine;
+        private RaycastHit2D[] _hits;
 
         [SerializeField]
         private LineRenderer _p1;
@@ -22,6 +23,12 @@ namespace Assets.Standard_Assets.Environment.Double_Side_Lazer.Scripts
         private int _damage = 1;
         [SerializeField]
         private bool _startEnabled;
+
+
+        public DoubleSideLazer()
+        {
+            _hits = new RaycastHit2D[10];
+        }
 
         private void Start()
         {
@@ -50,11 +57,11 @@ namespace Assets.Standard_Assets.Environment.Double_Side_Lazer.Scripts
             {
                 var p1 = _p1.transform.position;
                 var p2 = _p2.transform.position;
-                var hit1 = Physics2D.Linecast(p1, p2, _targetLayer);
+                var hit1 = GetClosestHit(p1, p2);
                 var hit2 = default(RaycastHit2D);
                 if (hit1)
                 {
-                    hit2 = Physics2D.Linecast(p2, p1, _targetLayer);
+                    hit2 = GetClosestHit(p2, p1);
                     var character1 = hit1.transform.GetComponent<ICharacter>();
                     var character2 = hit2.transform.GetComponent<ICharacter>();
 
@@ -65,6 +72,31 @@ namespace Assets.Standard_Assets.Environment.Double_Side_Lazer.Scripts
                 ResizeLazer(hit1, hit2);
                 yield return null;
             }
+        }
+
+        private RaycastHit2D GetClosestHit(Vector3 origin, Vector3 target)
+        {
+            var hitCount = Physics2D.LinecastNonAlloc(origin, target, _hits, _targetLayer);
+            var hit = default(RaycastHit2D);
+            for(var idx = 0; idx < hitCount; idx++)
+            {
+                if (_hits[idx].collider.isTrigger)
+                {
+                    continue;
+                }
+                if (hit)
+                {
+                    hit =
+                        Vector2.Distance(hit.point, origin) < Vector2.Distance(_hits[idx].point, origin)
+                            ? hit
+                            : _hits[idx];
+                }
+                else
+                {
+                    hit = _hits[idx];
+                }
+            }
+            return hit;
         }
 
         private void DealDamage(ICharacter character, RaycastHit2D hit)
