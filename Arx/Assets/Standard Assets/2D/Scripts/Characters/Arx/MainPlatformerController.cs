@@ -28,12 +28,12 @@ using Assets.Standard_Assets.Extensions;
 [RequireComponent(typeof(LadderMovement))]
 [RequireComponent(typeof(LadderFinder))]
 [RequireComponent(typeof(MainCharacterNotification))]
-public class MainPlatformerController : PlatformerCharacterController, IPlatformerCharacterController
+public class MainPlatformerController : PlatformerCharacterController/*, IPlatformerCharacterController*/
 {
     private CombatModule _combatModule;
     private LadderMovement _ladderMovement;
     private MainCharacterNotification _notifications;
-    private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
+    private StateManager<MainPlatformerController, PlatformerCharacterAction> _stateManager;
 
     private Rope _rope;
     private RopePart _currentRopePart;
@@ -88,7 +88,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     private AttackType _attackAction;
 
-    public StateManager<IPlatformerCharacterController, PlatformerCharacterAction> StateManager
+    public StateManager<MainPlatformerController, PlatformerCharacterAction> StateManager
     {
         get
         {
@@ -180,19 +180,9 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public bool AttackedThisFrame { get; private set; }
 
-    bool IPlatformerCharacterController.CanBeAttacked
-    {
-        get
-        {
-            return base.CanBeAttacked;
-        }
-        set
-        {
-            base.CanBeAttacked = value;
-        }
-    }
-
     public bool LadderFound { get { return _ladderFinder.LadderGameObject; } }
+
+    public bool CollidesAbove { get { return CharacterController2D.collisionState.above; } }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming)
     {

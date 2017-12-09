@@ -36,7 +36,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
                 .To<FollowState<EngineerEnemyAiControl>>((c, a, t) => !c.IsSurprise);
 
             this.From<AttackedState<EngineerEnemyAiControl>>()
-               .To<IddleState<EngineerEnemyAiControl>>((c, a, t) => !c.Attacked);
+               .To<FollowState<EngineerEnemyAiControl>>((c, a, t) => !c.Attacked);
 
             this.FromAny()
                 .To<DeadState<EngineerEnemyAiControl>>((c, a, t) => c.Dead);

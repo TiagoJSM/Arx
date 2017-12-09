@@ -16,7 +16,7 @@ namespace GenericComponents.Controllers.Characters
     {
         private CharacterStatus _status;
 
-        public bool CanBeAttacked { get; protected set; }
+        public bool CanBeAttacked { get; set; }
         public event OnKilled OnKilled;
         public event OnAttacked OnAttacked;
 

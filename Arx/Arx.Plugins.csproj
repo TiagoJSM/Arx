@@ -291,6 +291,8 @@
     <Compile Include="Assets\Standard Assets\Common\Attributes\LayerAttribute.cs" />
     <Compile Include="Assets\Standard Assets\Common\Attributes\SceneFieldAttribute.cs" />
     <Compile Include="Assets\Standard Assets\Common\CoroutineHelpers.cs" />
+    <Compile Include="Assets\Standard Assets\Common\StunDamage.cs" />
+    <Compile Include="Assets\Standard Assets\Common\StunDamageFilter.cs" />
     <Compile Include="Assets\Standard Assets\Common\SceneField.cs" />
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\AxisTouchButton.cs" />
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\ButtonHandler.cs" />

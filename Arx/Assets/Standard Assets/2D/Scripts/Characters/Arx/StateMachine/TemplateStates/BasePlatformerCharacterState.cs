@@ -7,9 +7,9 @@ using GenericComponents.Interfaces;
 
 namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.TemplateStates
 {
-    public class BasePlatformerCharacterState : IState<IPlatformerCharacterController, PlatformerCharacterAction>
+    public class BasePlatformerCharacterState : IState<MainPlatformerController, PlatformerCharacterAction>
     {
-        public IPlatformerCharacterController StateController { get; set; }
+        public MainPlatformerController StateController { get; set; }
         public float TimeInState { get; set; }
 
         public virtual void OnStateEnter(PlatformerCharacterAction action)

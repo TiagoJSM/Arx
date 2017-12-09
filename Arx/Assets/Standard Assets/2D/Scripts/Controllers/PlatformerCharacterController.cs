@@ -306,10 +306,6 @@ public class PlatformerCharacterController : BasePlatformerController
 
     public void Roll(float move)
     {
-        /*if (!_rollSound.isPlaying)
-        {
-            _rollSound.Play();
-        }*/
         var direction = DirectionOfMovement(move, Direction);
         _desiredMovementVelocity.x = DirectionValue(direction) * runSpeed * VelocityMultiplier.x;
         Flip(direction);
@@ -454,7 +450,7 @@ public class PlatformerCharacterController : BasePlatformerController
     private void ApplyMovement()
     {
         //var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
-
+        
         _desiredMovementVelocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
         var gravityForce = new Vector3(0, gravity * Time.deltaTime, 0);
 
@@ -463,6 +459,11 @@ public class PlatformerCharacterController : BasePlatformerController
 
         _characterController2D.move(
             movement + new Vector3(_impactMovement.x, _impactMovement.y, 0));
+
+        if(_characterController2D.velocity.y < 0 && _desiredMovementVelocity.y > 0)
+        {
+            _desiredMovementVelocity.y = 0;
+        }
     }
 
     private void OnAllControllerCollidedEventHandler(IEnumerable<RaycastHit2D> hits)

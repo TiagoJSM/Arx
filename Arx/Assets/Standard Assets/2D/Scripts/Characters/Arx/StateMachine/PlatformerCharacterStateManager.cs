@@ -10,9 +10,9 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 {
-    public class PlatformerCharacterStateManager : StateManager<IPlatformerCharacterController, PlatformerCharacterAction>
+    public class PlatformerCharacterStateManager : StateManager<MainPlatformerController, PlatformerCharacterAction>
     {
-        public PlatformerCharacterStateManager(IPlatformerCharacterController context, float rollingDuration)
+        public PlatformerCharacterStateManager(MainPlatformerController context, float rollingDuration)
             : base(context)
         {
             this
@@ -44,7 +44,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                         a.AttackType == AttackType.Secundary &&
                         c.Attacking &&
                         c.WeaponType != null)
-                    .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
+                    .To<FallingState>((c, a, t) => (c.VerticalSpeed < 0 && !c.IsGrounded) || c.CollidesAbove)
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<IddleState>((c, a, t) => c.IsGrounded && t > 0.5)
                     .To<RopeGrabState>((c, a, t) => c.RopeFound)
@@ -150,6 +150,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<GroundAttackState>()
+                    .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && !c.Attacking)
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && !c.Attacking);
 
