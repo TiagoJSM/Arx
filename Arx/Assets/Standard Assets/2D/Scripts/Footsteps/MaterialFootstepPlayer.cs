@@ -18,6 +18,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Footsteps
         private AudioSource[] _woodFootSteps;
         [SerializeField]
         private AudioSource[] _sandFootSteps;
+        [SerializeField]
+        private AudioSource[] _metalFootSteps;
 
         public AudioSource[] GetFor(GroundMaterial? material)
         {
@@ -34,6 +36,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Footsteps
                     return _woodFootSteps;
                 case GroundMaterial.Sand:
                     return _sandFootSteps;
+                case GroundMaterial.Metal:
+                    return _metalFootSteps;
                 default:
                     return _defaultFootsteps;
             }
@@ -62,7 +66,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Footsteps
             {
                 return;
             }
-            audioClips.Random().Play();
+            var audio = audioClips.Random();
+            audio.Play();
         }
 
         void Update()

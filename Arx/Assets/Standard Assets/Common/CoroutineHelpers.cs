@@ -67,18 +67,18 @@ namespace Assets.Standard_Assets.Common
 
         public static IEnumerator Flash(Action onEnd, params GameObject[] gos)
         {
-            return Flash(0.3f, 3.5f, onEnd, gos);
+            return Flash(0.3f, 0.6f, 3f, onEnd, gos);
         }
 
-        public static IEnumerator Flash(float flashPeriod, float duration, Action onEnd, params GameObject[] gos)
+        public static IEnumerator Flash(float fadeOutPeriod, float fadeInPeriod, float duration, Action onEnd, params GameObject[] gos)
         {
             var startTime = Time.time;
             while (true)
             {
-                SetActive(gos, false);
-                yield return new WaitForSeconds(flashPeriod);
                 SetActive(gos, true);
-                yield return new WaitForSeconds(flashPeriod);
+                yield return new WaitForSeconds(fadeInPeriod);
+                SetActive(gos, false);
+                yield return new WaitForSeconds(fadeOutPeriod);
 
                 var delta = Time.time - startTime;
                 if(delta >= duration)
@@ -86,6 +86,7 @@ namespace Assets.Standard_Assets.Common
                     break;
                 }
             }
+            SetActive(gos, true);
             onEnd();
         }
 

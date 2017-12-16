@@ -12,6 +12,13 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.Attacke
         {
             base.OnStateEnter(action);
             StateController.LaunchCharacter();
+            StateController.TakingDamage = true;
+        }
+
+        public override void OnStateExit(PlatformerCharacterAction action)
+        {
+            base.OnStateExit(action);
+            StateController.TakingDamage = false;
         }
     }
 }

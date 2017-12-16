@@ -28,12 +28,12 @@ using Assets.Standard_Assets.Extensions;
 [RequireComponent(typeof(LadderMovement))]
 [RequireComponent(typeof(LadderFinder))]
 [RequireComponent(typeof(MainCharacterNotification))]
-public class MainPlatformerController : PlatformerCharacterController, IPlatformerCharacterController
+public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
     private LadderMovement _ladderMovement;
     private MainCharacterNotification _notifications;
-    private StateManager<IPlatformerCharacterController, PlatformerCharacterAction> _stateManager;
+    private StateManager<MainPlatformerController, PlatformerCharacterAction> _stateManager;
 
     private Rope _rope;
     private RopePart _currentRopePart;
@@ -75,20 +75,24 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     private AudioSource _landed;
     [SerializeField]
     private AudioSource[] _attackShouts;
+    [SerializeField]
+    private AudioSource _rollSound;
 
     private float _move;
     private float _vertical;
     private bool _jump;
     private bool _roll;
+    private bool _rollAfterAttack;
     private bool _releaseRope;
     private bool _aiming;
     private bool _shoot;
     private bool _throw;
     private bool _grabLadder;
+    private bool _jumpOnLedge;
 
     private AttackType _attackAction;
 
-    public StateManager<IPlatformerCharacterController, PlatformerCharacterAction> StateManager
+    public StateManager<MainPlatformerController, PlatformerCharacterAction> StateManager
     {
         get
         {
@@ -180,28 +184,29 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public bool AttackedThisFrame { get; private set; }
 
-    bool IPlatformerCharacterController.CanBeAttacked
-    {
-        get
-        {
-            return base.CanBeAttacked;
-        }
-        set
-        {
-            base.CanBeAttacked = value;
-        }
-    }
-
     public bool LadderFound { get { return _ladderFinder.LadderGameObject; } }
 
-    public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming)
+    public bool CollidesAbove { get { return CharacterController2D.collisionState.above; } }
+
+    public bool TakingDamage { get; set; }
+
+    public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming, bool jumpOnLedge)
     {
         _move = move;
         _vertical = vertical;
         _jump = jump;
-        _roll = roll;
         _releaseRope = releaseRope;
         _aiming = aiming;
+        _jumpOnLedge = jumpOnLedge;
+
+        if (Attacking)
+        {
+            _rollAfterAttack = roll | _rollAfterAttack;
+        }
+        else
+        {
+            _roll = roll;
+        }
     }
 
     public void RequestGrabLadder()
@@ -260,7 +265,14 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
     {
         _combatModule.ComboNumber = 0;
         Attacking = false;
+        _rollAfterAttack = false;
         base.Stand();
+    }
+
+    public void StartRoll()
+    {
+        _rollAfterAttack = false;
+        _rollSound.Play();
     }
 
     public void StartIddle() { }
@@ -563,22 +575,27 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
         var action = 
             new PlatformerCharacterAction(
                 _move, _vertical, _jump, _roll, _attackAction, 
-                _releaseRope, _aiming, _shoot, _throw, _grabLadder);
+                _releaseRope, _aiming, _shoot, _throw, _grabLadder, 
+                _jumpOnLedge, _rollAfterAttack);
         _stateManager.Perform(action);
         _move = 0;
         _vertical = 0;
         _jump = false;
-        _roll = false;
         _aiming = false;
         _shoot = false;
         _throw = false;
         AttackedThisFrame = false;
         _hitPointThisFrame = null;
         _grabLadder = false;
+        _jumpOnLedge = false;
 
         if (IsGrounded)
         {
             _canSlowGravityForAirAttack = true;
+        }
+        if (!Attacking)
+        {
+            _roll = false;
         }
     }
 
@@ -667,7 +684,7 @@ public class MainPlatformerController : PlatformerCharacterController, IPlatform
 
     public void StartFlashing()
     {
-        if(_flashRoutine == null)
+        if (_flashRoutine == null)
         {
             _flashRoutine = StartCoroutine(CoroutineHelpers.Flash(() => StopFlashing(), _flashingObjects));
         }

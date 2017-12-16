@@ -12,12 +12,12 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
         bool HitLastTurn { get; }
         float LastHitDirection { get; }
         float InPainTime { get; }
+        bool InPain { get; set; }
 
         void DoMove(float move);
         void DoMove(float move, bool setDirectionToMovement);
         void StayStill();
         void Die();
-        void ShowDamageTaken(bool taken);
     }
 
     public class StateAction
@@ -117,12 +117,11 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
 
         public void OnStateEnter(StateAction action)
         {
-            StateController.ShowDamageTaken(true);
         }
 
         public void OnStateExit(StateAction action)
         {
-            StateController.ShowDamageTaken(false);
+            StateController.InPain = false;
         }
 
         public void Perform(StateAction action)

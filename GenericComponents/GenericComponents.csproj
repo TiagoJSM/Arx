@@ -62,8 +62,6 @@
     <Compile Include="Behaviours\SerializedScriptableObject.cs" />
     <Compile Include="Containers\Health.cs" />
     <Compile Include="Containers\PlatformerCharacterAnimations.cs" />
-    <Compile Include="Controllers\Characters\BasePlatformerController.cs" />
-    <Compile Include="Controllers\Characters\CharacterController.cs" />
     <Compile Include="Controllers\Characters\CharacterGrounding.cs" />
     <Compile Include="Controllers\Characters\PlatformerCharacterController.cs" />
     <Compile Include="Controllers\Interaction\TemplateSpeechController.cs" />

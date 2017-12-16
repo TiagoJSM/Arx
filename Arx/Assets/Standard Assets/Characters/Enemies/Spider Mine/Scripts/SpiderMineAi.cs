@@ -8,8 +8,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using GenericComponents.Controllers.Characters;
-using CharController = GenericComponents.Controllers.Characters.CharacterController;
 using Assets.Standard_Assets.Extensions;
+using Assets.Standard_Assets._2D.Scripts.Controllers;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
 {
@@ -103,7 +103,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
             _aiManager.Perform(null);
         }
 
-        private void OnCharacterFoundHandler(CharController controller)
+        private void OnCharacterFoundHandler(BasePlatformerController controller)
         {
             Enemy = controller.gameObject;
         }

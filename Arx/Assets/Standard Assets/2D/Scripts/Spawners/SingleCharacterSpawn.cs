@@ -7,10 +7,10 @@ using UnityEngine;
 
 public class SingleCharacterSpawn : MonoBehaviour
 {
-    private GenericComponents.Controllers.Characters.CharacterController _currentCharacter;
+    private Assets.Standard_Assets._2D.Scripts.Controllers.BasePlatformerController _currentCharacter;
 
     [SerializeField]
-    private GenericComponents.Controllers.Characters.CharacterController _characterPrefab;
+    private Assets.Standard_Assets._2D.Scripts.Controllers.BasePlatformerController _characterPrefab;
     [SerializeField]
     [Range(1, 60*3)]
     private int _spawnInSecondsDelay = 5;
@@ -23,7 +23,7 @@ public class SingleCharacterSpawn : MonoBehaviour
     private void InstantiateCharacter()
     {
         _currentCharacter = Instantiate(_characterPrefab, this.transform.position, Quaternion.identity)
-                as GenericComponents.Controllers.Characters.CharacterController;
+                as Assets.Standard_Assets._2D.Scripts.Controllers.BasePlatformerController;
     }
 
     private IEnumerator Spawn()

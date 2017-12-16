@@ -145,6 +145,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         var aiming = inputDevice.GetButton(DeviceButton.AimWeapon);
         var teleport = inputDevice.GetButtonDown(DeviceButton.Vertical);
         var jump = HandleJump(inputDevice);
+        var jumpOnLedge = inputDevice.GetButtonDown(DeviceButton.Jump);
 
         HandleTeleporter(teleport);
 
@@ -152,7 +153,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         HandleLadderGrab(grabLadder);
         HandleInteraction();
         
-        _characterController.Move(horizontal, vertical, jump, roll, releaseRope, aiming);
+        _characterController.Move(horizontal, vertical, jump, roll, releaseRope, aiming, jumpOnLedge);
 
         HandleAttack(inputDevice);
         SwitchActiveWeapon(inputDevice);

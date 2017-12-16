@@ -1,70 +1,197 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ProductVersion>10.0.20506</ProductVersion>
-	<SchemaVersion>2.0</SchemaVersion>
-	<RootNamespace></RootNamespace>
-	<ProjectGuid>{63037139-4DD7-A088-07D4-6EF8877F3CA2}</ProjectGuid>
-	<OutputType>Library</OutputType>
-	<AppDesignerFolder>Properties</AppDesignerFolder>
-	<AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	<FileAlignment>512</FileAlignment>
-	<BaseDirectory>Assets</BaseDirectory>
+    <LangVersion>4</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{63037139-4DD7-A088-07D4-6EF8877F3CA2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	<DebugSymbols>true</DebugSymbols>
-	<DebugType>full</DebugType>
-	<Optimize>false</Optimize>
-	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_5_2_2;UNITY_5_2;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_REFLECTION_BUFFERS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_LOG_MIXED_STACKTRACE;ENABLE_UNITYWEBREQUEST;ENABLE_EVENT_QUEUE;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;CROSS_PLATFORM_INPUT</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_1_0;UNITY_2017_1;UNITY_2017;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_DIRECTOR;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_TIMELINE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;ENABLE_SPRITE_MASKING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;ENABLE_MONO_BDWGC;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_VIDEO;ENABLE_RMGUI;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_STYLE_SHEETS;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;CROSS_PLATFORM_INPUT</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	<DebugType>pdbonly</DebugType>
-	<Optimize>true</Optimize>
-	<OutputPath>Temp\bin\Release\</OutputPath>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="System" />
+    <Reference Include="System" />
     <Reference Include="System.XML" />
-	<Reference Include="System.Core" />
-	<Reference Include="System.Xml.Linq" />
-	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
-	</Reference>
-	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
-	</Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\2D\Cameras\Scripts\Camera2DAhead.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Cameras\Scripts\CameraShake.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Platforms\Hinge Platform\Scripts\HingePlatformController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Prefabs\Items\Weapons\GrappleShooter.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\AirSlashCombatStateBehaviour.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\ChainThrowStateBehaviour.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\CloseCombatStateMachineBehaviour.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\GroundCloseCombatAttackBehaviour.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Animator Behaviours\Combat\GroundCloseCombatStateBehaviour.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Camera2DFollow.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\ArxAnimationController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\CombatHitEffects.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\EnemyProximityDetector.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\IPlatformerCharacterController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\MainCharacterNotification.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\MainPlatformerCharacterUserControl.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\MainPlatformerController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\AttackedStates\AttackedOnAirState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\AttackedStates\AttackedOnGrabbingState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\AttackedStates\AttackedOnGroundState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ChargeAttackState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\DamagedAndMovedState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\DuckState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\FallingAimState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\FallingState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\GhostJumpFallingState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\GrabbingLedgeState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\GrappledState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\GroundAttackState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\IddleState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\JumpingAimState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\JumpingState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\LadderGrabState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\LightAirAttackState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\LightGroundAttackState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\MovingAimState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\MovingState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\PlatformerCharacterAction.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\PlatformerCharacterStateManager.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\PushState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ReleaseChargeAttackState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\RollState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\RopeGrabState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\SlidingDownState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\StrongAirAttackState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\StrongGroundAttackState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\AimingState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\AttackedState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\BasePlatformerCharacterState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\DuckingState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\StandingState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ThrowState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\UiController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterController2D.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterFinder.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\BaseCharacterAiController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\FlyingCharacterAiController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\PlatformerCharacterAiControl.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonTalkingCharacter\CommonTalkingCharacterAi.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonTalkingCharacter\CommonTalkingCharacterController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\DemoScene.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Enemies\CommonAiStates.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Enemies\CommonCharacterStates.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Enemies\Melee enemy\MeleeEnemyAiControl.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Enemies\Melee enemy\MeleeEnemyAnimationController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Enemies\Melee enemy\MeleeEnemyController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Nightmare Hunter\NightmareHunterController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Nightmare Hunter\NightmareHunterGateLiftAiControl.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Nightmare Hunter\NightmareHunterGateLiftAnimationController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Shadow Hand\ShadowHandAnimationController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\BaseCombatBehaviour.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\ChainThrowCombatBehaviour.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\CloseCombatBehaviour.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\CombatModule.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\ShooterCombatBehaviour.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Constants\Tags.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\CharacterController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Cutscene Controllers\MainPlatformerControllerCutsceneController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\EquipmentController.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractibleCharacterController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractionNotification.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractiveDialog.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractiveDialogComponent.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\LadderMovement.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
-     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WaypointPathController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\SpeakersAttribute.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\DebugTrigger.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\DummyCharacter.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\ContactDetector.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\LedgeChecker.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\Pushable.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\RoofChecker.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\FixedRotation.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\FootstepPlayer.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\GroundComponent.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\GroundMaterial.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\MaterialFootstepPlayer.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\ArxGameSaveHandler.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\ArxSaveData.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\DreamingBeyondImaginationSaveData.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\GameState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\ItemState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\QuestState.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\Watershed.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Hazards\DamageOnTouch.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Hazards\DeathZone.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Helpers\Physics2DHelpers.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\CompleteTaskOnItemUse.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\InteractionFinder.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\LadderFinder.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\OpenPathOnItemUse.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\OpenPathWithKeyOnInteract.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\PlayAnimatorTrigger.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Interaction\TeleporterFinder.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ILedgeGrabber.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Interfaces\ITriggerable2D.cs" />
-     <Compile Include="Assets\Standard Assets\2D\Scripts\LedgeDetection\ContactDetector.cs" />
-     <Compile Include="Assets\Standard Assets\2D\Scripts\LedgeDetection\LedgeCheck.cs" />
-     <Compile Include="Assets\Standard Assets\2D\Scripts\MyRobotController.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Level Managers\DreamingBeyondImaginationManager.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\CheckpointManager.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\GameStateManager.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\LevelManager.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\Singleton.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\OnDamagedHandlers\PlayAnimatorOnDamaged.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Platformer2DUserControl.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\PlatformerCharacter2D.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Restarter.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Rotating.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\SetActiveStateOnAttacked.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Spawners\PlayerSpawner.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Spawners\SingleCharacterSpawn.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\BaseTeleportToPosition.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\ITeleporter.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\TeleporterSpawner.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\TeleportToLevel.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\TeleportToLevelOnUse.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\TeleportToPositionOnTrigger.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Teleporters\TeleportToPositionOnUse.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\TriggerDetector.cs" />
-     <Compile Include="Assets\Standard Assets\2D\Scripts\UserControls\PlatformerCharacterUserControl.cs" />
+     <Compile Include="Assets\Standard Assets\2D\Scripts\Triggers\PlaySequenceTrigger.cs" />
      <Compile Include="Assets\Standard Assets\2D\Scripts\Waypoint.cs" />
-     <Compile Include="Assets\Standard Assets\2D\Scripts\WaypointPath.cs" />
      <Compile Include="Assets\Standard Assets\Cameras\Scripts\AbstractTargetFollower.cs" />
      <Compile Include="Assets\Standard Assets\Cameras\Scripts\AutoCam.cs" />
      <Compile Include="Assets\Standard Assets\Cameras\Scripts\FreeLookCam.cs" />
@@ -73,15 +200,40 @@
      <Compile Include="Assets\Standard Assets\Cameras\Scripts\PivotBasedCameraRig.cs" />
      <Compile Include="Assets\Standard Assets\Cameras\Scripts\ProtectCameraFromWallClip.cs" />
      <Compile Include="Assets\Standard Assets\Cameras\Scripts\TargetFieldOfView.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Bat\Scripts\BatCharacterAiController.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Bat\Scripts\BatCharacterController.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Bat\Scripts\MoveAwayFromTargetState.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Canyon Engineer\Scripts\EngineerAnimationController.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Canyon Engineer\Scripts\EngineerEnemyAiControl.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Canyon Engineer\Scripts\SurprisedState.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEye.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeAI.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeRoom.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Platform Patrol\Scripts\PlatformPatrol.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Sparring Dummy\Scripts\SparringDummyController.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\ExplosionCountdownOverBehaviour.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAi.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAiStates.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAnimationController.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\WakeUpBehaviour.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Wall Shooter\Scripts\WallShooterCharacterAiController.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Enemies\Wall Shooter\Scripts\WallShooterCharacterController.cs" />
      <Compile Include="Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs" />
      <Compile Include="Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\HeadBob.cs" />
      <Compile Include="Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\MouseLook.cs" />
      <Compile Include="Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\RigidbodyFirstPersonController.cs" />
+     <Compile Include="Assets\Standard Assets\Characters\Friendly\Quest Giver\Scripts\QuestMarkerNotification.cs" />
      <Compile Include="Assets\Standard Assets\Characters\RollerBall\Scripts\Ball.cs" />
      <Compile Include="Assets\Standard Assets\Characters\RollerBall\Scripts\BallUserControl.cs" />
      <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\AICharacterControl.cs" />
      <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonCharacter.cs" />
      <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonUserControl.cs" />
+     <Compile Include="Assets\Standard Assets\Common\Attributes\LayerAttribute.cs" />
+     <Compile Include="Assets\Standard Assets\Common\Attributes\SceneFieldAttribute.cs" />
+     <Compile Include="Assets\Standard Assets\Common\CoroutineHelpers.cs" />
+     <Compile Include="Assets\Standard Assets\Common\SceneField.cs" />
+     <Compile Include="Assets\Standard Assets\Common\StunDamage.cs" />
+     <Compile Include="Assets\Standard Assets\Common\StunDamageFilter.cs" />
      <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\AxisTouchButton.cs" />
      <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\ButtonHandler.cs" />
      <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\CrossPlatformInputManager.cs" />
@@ -93,7 +245,12 @@
      <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\TiltInput.cs" />
      <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\TouchPad.cs" />
      <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\VirtualInput.cs" />
-     <Compile Include="Assets\Standard Assets\DataStructures\Tuple.cs" />
+     <Compile Include="Assets\Standard Assets\Decorators\Builders\NodeMeshBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Decorators\Builders\NodeMeshSegmentBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Decorators\NodeMeshDecoration\NodeMesh.cs" />
+     <Compile Include="Assets\Standard Assets\Dialogs\LocalizationConfig.cs" />
+     <Compile Include="Assets\Standard Assets\Dialogs\LocalizedTexts.cs" />
+     <Compile Include="Assets\Standard Assets\Dialogs\LocalizedUiText.cs" />
      <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Antialiasing.cs" />
      <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Bloom.cs" />
      <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\BloomAndFlares.cs" />
@@ -132,6 +289,30 @@
      <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
      <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
      <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Checkpoints\Scripts\CheckpointTrigger.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Double Side Lazer\Scripts\DoubleSideLazer.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Enemy Secure Door\Scripts\EnemySecureDoor.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Hazards\Enemy Activation Trigger\Scripts\EnemyActivationTrigger.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Hazards\Flamethrower\Scripts\FlamethrowerController.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Hazards\Geyser\Scripts\GeyserController.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Hazards\Patroling Lazer\Scripts\PatrolingLazer.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Hazards\Raising Water\Scripts\RaiseWaterToTop.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Hazards\Raising Water\Scripts\SaveWaterRaiseOnDamage.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Pickup Item\Scripts\ItemId.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Platforms\Elevator\Scripts\ActivateElevatorControllerOnUse.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Platforms\Elevator\Scripts\ElevatorController.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Platforms\Elevator\Scripts\Lift.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Platforms\Gate\Scripts\GateBehaviour.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Platforms\Gate\Scripts\GateOpener.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Platforms\Ladder\Scripts\DropLadder.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Platforms\PressurePlatform\Scripts\PressurePlatform.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Platforms\Raising Pillar\Scripts\PillarButtonController.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Platforms\Raising Pillar\Scripts\RaisingPillar.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Platforms\Timed Rotating\Scripts\TimedRotatingPlatform.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\SaveBoard\Scripts\SaveGameOnInteract.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Teleports\Teleport On Use\Scripts\TeleportOnUseNotification.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Treadmill\Scripts\Treadmill.cs" />
+     <Compile Include="Assets\Standard Assets\Environment\Treadmill\Scripts\TreadmillCrate.cs" />
      <Compile Include="Assets\Standard Assets\Environment\Water (Basic)\Scripts\WaterBasic.cs" />
      <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\Displace.cs" />
      <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\GerstnerDisplace.cs" />
@@ -141,8 +322,37 @@
      <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\Water.cs" />
      <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterBase.cs" />
      <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterTile.cs" />
+     <Compile Include="Assets\Standard Assets\Extensions\AudioSourceExtensions.cs" />
+     <Compile Include="Assets\Standard Assets\Extensions\CameraExtensions.cs" />
+     <Compile Include="Assets\Standard Assets\Extensions\GameObjectExtensions.cs" />
      <Compile Include="Assets\Standard Assets\Extensions\IEnumerableExtensions.cs" />
+     <Compile Include="Assets\Standard Assets\Extensions\ObjectExtensions.cs" />
+     <Compile Include="Assets\Standard Assets\Extensions\Physics2DExtensions.cs" />
      <Compile Include="Assets\Standard Assets\Extensions\Vector2Extensions.cs" />
+     <Compile Include="Assets\Standard Assets\GenericComponents\Animation\AnimatorDelay.cs" />
+     <Compile Include="Assets\Standard Assets\GenericComponents\Behaviours\NodePathBehaviour.cs" />
+     <Compile Include="Assets\Standard Assets\GenericComponents\Builders\BuilderDataContext.cs" />
+     <Compile Include="Assets\Standard Assets\GenericComponents\Builders\SegmentBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\GenericComponents\NodePath.cs" />
+     <Compile Include="Assets\Standard Assets\GenericComponents\Waypoint\WaypointPath.cs" />
+     <Compile Include="Assets\Standard Assets\GenericComponents\Waypoint\WaypointPathController.cs" />
+     <Compile Include="Assets\Standard Assets\InputManagement\InputManager.cs" />
+     <Compile Include="Assets\Standard Assets\InputManagement\KeyboardDevice.cs" />
+     <Compile Include="Assets\Standard Assets\InputManagement\WindowsXboxGamepad.cs" />
+     <Compile Include="Assets\Standard Assets\InventorySystem\Controllers\ItemFinderController.cs" />
+     <Compile Include="Assets\Standard Assets\InventorySystem\Controllers\ItemUseFinderController.cs" />
+     <Compile Include="Assets\Standard Assets\InventorySystem\Events.cs" />
+     <Compile Include="Assets\Standard Assets\InventorySystem\Inventory.cs" />
+     <Compile Include="Assets\Standard Assets\InventorySystem\InventoryComponent.cs" />
+     <Compile Include="Assets\Standard Assets\InventorySystem\InventoryItemPickable.cs" />
+     <Compile Include="Assets\Standard Assets\InventorySystem\InventoryObjects\ExtendedInventoryItem.cs" />
+     <Compile Include="Assets\Standard Assets\InventorySystem\InventoryObjects\InventoryItem.cs" />
+     <Compile Include="Assets\Standard Assets\InventorySystem\InventoryObjects\InventoryItems.cs" />
+     <Compile Include="Assets\Standard Assets\InventorySystem\InventoryObjects\QuestInventoryItem.cs" />
+     <Compile Include="Assets\Standard Assets\InventorySystem\Triggers\ItemUseTrigger.cs" />
+     <Compile Include="Assets\Standard Assets\JSON\JSONObject.cs" />
+     <Compile Include="Assets\Standard Assets\JSON\JSONTemplates.cs" />
+     <Compile Include="Assets\Standard Assets\JSON\VectorTemplates.cs" />
      <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\AfterburnerPhysicsForce.cs" />
      <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\ExplosionFireAndDebris.cs" />
      <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\ExplosionPhysicsForce.cs" />
@@ -153,6 +363,70 @@
      <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\ParticleSystemMultiplier.cs" />
      <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\SmokeParticles.cs" />
      <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\WaterHoseParticles.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Attributes\TaskSelectorAttribute.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Conditions\BaseCondition.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Conditions\ICondition.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Conditions\OnEnemyKilledCondition.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\CompleteTaskOnInteract.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\QuestGiverController.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\QuestRewarderController.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\SetStateOnQuestStatus.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\ToggleOnQuestActive.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Controllers\ToggleOnTaskActive.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\EditorProperties\TaskSelector.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Events.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\IQuestSubscriber.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\QuestStructures\Quest.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\QuestStructures\QuestDatabase.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\QuestStructures\QuestLog.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\QuestStructures\QuestLogComponent.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\QuestStructures\QuestStatus.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\RewardProviders\IRewardProvider.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\RewardProviders\QuestRewardProvider.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\BaseTask.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\ITask.cs" />
+     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\SettableTask.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\ClosedTerrainBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\ClosedTerrainBuilderHelper.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\Interfaces\ICeilingSegmentBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\Interfaces\IFloorSegmentBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\Interfaces\ISegmentBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\Interfaces\ISlopeSegmentBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\Interfaces\ITerrainBuilderHelper.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\OpenTerrainBuilderHelper.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\SegmentBuilders\CeilingSegmentBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\SegmentBuilders\FillingBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\SegmentBuilders\FloorSegmentBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\SegmentBuilders\SlopeSegmentBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\Helper\TerrainBuilderAnalyzer.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\OpenTerrainBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\TerrainBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\TerrainBuilderHelper.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\TerrainColliderBuilder.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\TerrainSegments.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Builder\TerrainType.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\ClosedTerrainField.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\OpenTerrainField.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\TerrainColors.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\TerrainField.cs" />
+     <Compile Include="Assets\Standard Assets\Terrain\Utils\TerrainFillingUtils.cs" />
+     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\CharacterStatusManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\HudManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\QuestSectionManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\TaskItemManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\In Game Menu\Game Section\Scripts\GameSectionManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\In Game Menu\InventorySection\Scripts\InventoryItemManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\In Game Menu\InventorySection\Scripts\InventoryListManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\In Game Menu\InventorySection\Scripts\InventorySectionManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\In Game Menu\InventorySection\Scripts\ItemDescriptionManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\In Game Menu\Quest Section\Scripts\QuestDescriptionManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\In Game Menu\Quest Section\Scripts\QuestItemManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\In Game Menu\Quest Section\Scripts\QuestListManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\In Game Menu\Quest Section\Scripts\QuestSection.cs" />
+     <Compile Include="Assets\Standard Assets\UI\In Game Menu\Scripts\UiMenuManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\Main Menu\Scripts\MainMenuManager.cs" />
+     <Compile Include="Assets\Standard Assets\UI\Speech\Scripts\SpeechBubleController.cs" />
+     <Compile Include="Assets\Standard Assets\UI\Speech\Scripts\SpeechController.cs" />
      <Compile Include="Assets\Standard Assets\Utility\ActivateTrigger.cs" />
      <Compile Include="Assets\Standard Assets\Utility\AutoMobileShaderSwitch.cs" />
      <Compile Include="Assets\Standard Assets\Utility\AutoMoveAndRotate.cs" />
@@ -160,10 +434,10 @@
      <Compile Include="Assets\Standard Assets\Utility\CurveControlledBob.cs" />
      <Compile Include="Assets\Standard Assets\Utility\DragRigidbody.cs" />
      <Compile Include="Assets\Standard Assets\Utility\DynamicShadowSettings.cs" />
-     <Compile Include="Assets\Standard Assets\Utility\FOVKick.cs" />
-     <Compile Include="Assets\Standard Assets\Utility\FPSCounter.cs" />
      <Compile Include="Assets\Standard Assets\Utility\FollowTarget.cs" />
      <Compile Include="Assets\Standard Assets\Utility\ForcedReset.cs" />
+     <Compile Include="Assets\Standard Assets\Utility\FOVKick.cs" />
+     <Compile Include="Assets\Standard Assets\Utility\FPSCounter.cs" />
      <Compile Include="Assets\Standard Assets\Utility\LerpControlledBob.cs" />
      <Compile Include="Assets\Standard Assets\Utility\ObjectResetter.cs" />
      <Compile Include="Assets\Standard Assets\Utility\ParticleSystemDestroyer.cs" />
@@ -177,8 +451,8 @@
      <Compile Include="Assets\Standard Assets\Utility\WaypointProgressTracker.cs" />
      <Compile Include="Assets\Standard Assets\Vehicles\Aircraft\Scripts\AeroplaneAiControl.cs" />
      <Compile Include="Assets\Standard Assets\Vehicles\Aircraft\Scripts\AeroplaneAudio.cs" />
-     <Compile Include="Assets\Standard Assets\Vehicles\Aircraft\Scripts\AeroplaneControlSurfaceAnimator.cs" />
      <Compile Include="Assets\Standard Assets\Vehicles\Aircraft\Scripts\AeroplaneController.cs" />
+     <Compile Include="Assets\Standard Assets\Vehicles\Aircraft\Scripts\AeroplaneControlSurfaceAnimator.cs" />
      <Compile Include="Assets\Standard Assets\Vehicles\Aircraft\Scripts\AeroplanePropellerAnimator.cs" />
      <Compile Include="Assets\Standard Assets\Vehicles\Aircraft\Scripts\AeroplaneUserControl2Axis.cs" />
      <Compile Include="Assets\Standard Assets\Vehicles\Aircraft\Scripts\AeroplaneUserControl4Axis.cs" />
@@ -199,25 +473,34 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
+     <None Include="Assets\Universal Sound FX\#Game Genre References\Platform.txt" />
+     <None Include="Assets\Universal Sound FX\#Game Genre References\Real Time Stategy (RTS) Medieval.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
+     <None Include="Assets\Universal Sound FX\#version_history.txt" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
+     <None Include="Assets\Standard Assets\JSON\readme.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SunShaftsComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceAmbientObscurance.shader" />
+     <None Include="Assets\Standard Assets\Effects\Text Alpha\Shader\Text Alpha.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
-     <None Include="Assets\Standard Assets\2D\Terrain\Shaders\Terrain2DShader.shader" />
+     <None Include="Assets\Universal Sound FX\#Game Genre References\Fighting.txt" />
+     <None Include="Assets\Standard Assets\Terrain\Shaders\Terrain2D_Shader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\TiltShiftHdrLensBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\VignetteShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldScatter.shader" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularSmooth.shader" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Guidelines.txt" />
+     <None Include="Assets\Standard Assets\2D\Shaders\Single Object Bloom.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\MotionBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
+     <None Include="Assets\Universal Sound FX\#Game Genre References\Shoot em Up.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\MinMaxReduction.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\SSAA.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\RadialBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
+     <None Include="Assets\Anima2D\Version.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
      <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />
@@ -225,19 +508,24 @@
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
      <None Include="Assets\Standard Assets\Vehicles\Aircraft\AircraftGuidelines.txt" />
+     <None Include="Assets\Universal Sound FX\#Game Genre References\8bit and Retro.txt" />
+     <None Include="Assets\Standard Assets\Terrain\Shaders\TerrainFieldShader.shader" />
      <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\ReflectiveDiffuseSpecTransp.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\ReflectiveDiffuseSpec.shader" />
+     <None Include="Assets\Standard Assets\Effects\Interactables\Shaders\Interable.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
+     <None Include="Assets\Universal Sound FX\#Game Genre References\Real Time Stategy (RTS) Sci-Fi.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
      <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
+     <None Include="Assets\Standard Assets\Terrain\Shaders\TerrainHelpers.cginc" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
@@ -251,14 +539,21 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorLight.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MultiPassHollywoodFlares.shader" />
+     <None Include="Assets\Anima2D\Examples\Shaders\Unlit-Alpha-Cull-off.shader" />
+     <None Include="Assets\Anima2D\Licenses.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
+     <None Include="Assets\Universal Sound FX\#Game Genre References\Puzzle.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlur.shader" />
      <None Include="Assets\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\DLAA.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrainDX11.shader" />
+     <None Include="Assets\Anima2D\Examples\Shaders\VertexLitOneDirectional.shader" />
+     <None Include="Assets\Plugins\Node_Editor\Resources\LineShader.shader" />
+     <None Include="Assets\Universal Sound FX\#Game Genre References\Physics.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\MotionBlurClear.shader" />
+     <None Include="Assets\Standard Assets\2D\Shaders\UnlitAlphaShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionEffect.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GrayscaleEffect.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SepiaToneEffect.shader" />
@@ -266,6 +561,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\VortexEffect.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Adaptation.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
+     <None Include="Assets\Universal Sound FX\#Game Genre References\First Person Shooter (FPS).txt" />
      <None Include="Assets\Standard Assets\2D\Decorators\NodeMesh.shader" />
      <None Include="Assets\Standard Assets\Vehicles\Car\CarGuidelines.txt" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
@@ -273,12 +569,14 @@
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter.shader" />
+     <None Include="Assets\Standard Assets\Terrain\Shaders\Terrain2DShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA2.shader" />
      <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrection3DLut.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\LensFlareCreate.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\EdgeDetectNormals.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\PrepareSunShaftsBlur.shader" />
+     <None Include="Assets\Anima2D\Readme.txt" />
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
@@ -289,67 +587,68 @@
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA3Console.shader" />
+     <None Include="Assets\Standard Assets\2D\Decorators\SpriteShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEngine.TestRunner">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Timeline">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Analytics">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEngine.HoloLens">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
  <Reference Include="2DDynamicCamera">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/2DDynamicCamera.dll</HintPath>
+ <HintPath>C:/Users/tiago/Documents/Projects/GameDev/Arx/Arx/Assets/2DDynamicCamera.dll</HintPath>
+ </Reference>
+ <Reference Include="ArxGame">
+ <HintPath>C:/Users/tiago/Documents/Projects/GameDev/Arx/Arx/Assets/ArxGame.dll</HintPath>
  </Reference>
  <Reference Include="CommonInterfaces">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/CommonInterfaces.dll</HintPath>
+ <HintPath>C:/Users/tiago/Documents/Projects/GameDev/Arx/Arx/Assets/CommonInterfaces.dll</HintPath>
  </Reference>
  <Reference Include="Decorator">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Decorator.dll</HintPath>
+ <HintPath>C:/Users/tiago/Documents/Projects/GameDev/Arx/Arx/Assets/Decorator.dll</HintPath>
  </Reference>
  <Reference Include="DevelopmentUtils">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/DevelopmentUtils.dll</HintPath>
+ <HintPath>C:/Users/tiago/Documents/Projects/GameDev/Arx/Arx/Assets/DevelopmentUtils.dll</HintPath>
  </Reference>
  <Reference Include="Extensions">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Extensions.dll</HintPath>
+ <HintPath>C:/Users/tiago/Documents/Projects/GameDev/Arx/Arx/Assets/Extensions.dll</HintPath>
  </Reference>
  <Reference Include="GenericComponents">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/GenericComponents.dll</HintPath>
- </Reference>
- <Reference Include="InventorySystem">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/InventorySystem.dll</HintPath>
+ <HintPath>C:/Users/tiago/Documents/Projects/GameDev/Arx/Arx/Assets/GenericComponents.dll</HintPath>
  </Reference>
  <Reference Include="MathHelper">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/MathHelper.dll</HintPath>
+ <HintPath>C:/Users/tiago/Documents/Projects/GameDev/Arx/Arx/Assets/MathHelper.dll</HintPath>
  </Reference>
  <Reference Include="Parallax">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Parallax.dll</HintPath>
- </Reference>
- <Reference Include="QuestSystem">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/QuestSystem.dll</HintPath>
- </Reference>
- <Reference Include="Terrain">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Terrain.dll</HintPath>
+ <HintPath>C:/Users/tiago/Documents/Projects/GameDev/Arx/Arx/Assets/Parallax.dll</HintPath>
  </Reference>
  <Reference Include="Utils">
- <HintPath>C:/Users/Public/Documents/Unity Projects/ArxProject/Arx/Assets/Utils.dll</HintPath>
+ <HintPath>C:/Users/tiago/Documents/Projects/GameDev/Arx/Arx/Assets/Utils.dll</HintPath>
  </Reference>
- <Reference Include="Mono.Cecil">
- <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.iOS.Extensions.Xcode">
- <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ <Reference Include="AnimatorSequencer">
+ <HintPath>C:/Users/tiago/Documents/Projects/GameDev/Arx/Arx/Assets/AnimatorSequencer/AnimatorSequencer.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-	   Other similar extension points exist, see Microsoft.Common.targets.
+       Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">

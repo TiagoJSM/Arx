@@ -1,4 +1,5 @@
-﻿using GenericComponents.Controllers.Characters;
+﻿using Assets.Standard_Assets._2D.Scripts.Controllers;
+using GenericComponents.Controllers.Characters;
 using MathHelper;
 using System;
 using System.Collections;
@@ -43,13 +44,9 @@ public class PlatformerCharacterController : BasePlatformerController
     [SerializeField]
     private bool _constantVelocity = false;
     [SerializeField]
-    private GameObject _grabHand;
-    [SerializeField]
     private AudioSource _jumpSound;
     [SerializeField]
     private AudioSource _grabLedgeSound;
-    [SerializeField]
-    private AudioSource _rollSound;
     [SerializeField]
     private ParticleSystem _runningParticles;
 
@@ -254,8 +251,6 @@ public class PlatformerCharacterController : BasePlatformerController
     public void JumpUp(float jumpRatio)
     {
         jumpRatio = Mathf.Clamp01(jumpRatio);
-        //var jumpHeight = Mathf.Lerp(minJumpHeight, maxJumpHeight, jumpRatio);
-        //_desiredMovementVelocity.y = Mathf.Sqrt(2f * jumpHeight * -gravity);
         _desiredMovementVelocity.y = jumpHeight;
 
         if (!_jumpSound.isPlaying)
@@ -271,7 +266,6 @@ public class PlatformerCharacterController : BasePlatformerController
 
     public void DropLedge()
     {
-        //_grabHand.SetActive(false);
         _grabbingLedge = false;
         transform.parent = null;
         gravity = _defaultGravity;
@@ -299,17 +293,8 @@ public class PlatformerCharacterController : BasePlatformerController
         _desiredMovementVelocity = new Vector2(0, _desiredMovementVelocity.y);
     }
 
-    public void StartRoll()
-    {
-        _rollSound.Play();
-    }
-
     public void Roll(float move)
     {
-        /*if (!_rollSound.isPlaying)
-        {
-            _rollSound.Play();
-        }*/
         var direction = DirectionOfMovement(move, Direction);
         _desiredMovementVelocity.x = DirectionValue(direction) * runSpeed * VelocityMultiplier.x;
         Flip(direction);
@@ -391,10 +376,6 @@ public class PlatformerCharacterController : BasePlatformerController
     protected override void Awake()
     {
         base.Awake();
-        if(_grabHand != null)
-        {
-            _grabHand.SetActive(false);
-        }
         _rigidBody = GetComponent<Rigidbody2D>();
         _ledgeChecker = GetComponent<LedgeChecker>();
         _roofChecker = GetComponent<RoofChecker>();
@@ -426,7 +407,7 @@ public class PlatformerCharacterController : BasePlatformerController
         var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
         LedgeDetected(ledgeDetected, collider);
 
-        IsGrounded = _characterController2D.isGrounded && CheckGrounded();
+        IsGrounded = _characterController2D.isGrounded/* && CheckGrounded()*/;
         CanStand = !_roofChecker.IsTouchingRoof;
         if (SteadyRotation)
         {
@@ -446,15 +427,10 @@ public class PlatformerCharacterController : BasePlatformerController
         _characterController2D.OnFrameAllControllerCollidedEvent -= OnAllControllerCollidedEventHandler;
     }
 
-    void OnDrawGizmosSelected()
-    {
-        base.DrawGizmos();
-    }
-
     private void ApplyMovement()
     {
         //var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
-
+        
         _desiredMovementVelocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
         var gravityForce = new Vector3(0, gravity * Time.deltaTime, 0);
 
@@ -463,6 +439,11 @@ public class PlatformerCharacterController : BasePlatformerController
 
         _characterController2D.move(
             movement + new Vector3(_impactMovement.x, _impactMovement.y, 0));
+
+        if(_characterController2D.velocity.y <= 0 && _desiredMovementVelocity.y > 0)
+        {
+            _desiredMovementVelocity.y = 0;
+        }
     }
 
     private void OnAllControllerCollidedEventHandler(IEnumerable<RaycastHit2D> hits)

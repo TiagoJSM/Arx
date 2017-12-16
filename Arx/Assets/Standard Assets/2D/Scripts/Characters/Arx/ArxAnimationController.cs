@@ -30,6 +30,7 @@ public class ArxAnimationController : MonoBehaviour
     private readonly int _RopeClimbDirection = Animator.StringToHash("Rope Climb Direction");
     private readonly int _VelocityGoingDown = Animator.StringToHash("Velocity Going Down");
     private readonly int _EnemyNearby = Animator.StringToHash("Enemy Nearby");
+    private readonly int _TakingDamage = Animator.StringToHash("Taking Damage");
 
     private float _previousVerticalVelocity = 0;
 
@@ -151,6 +152,13 @@ public class ArxAnimationController : MonoBehaviour
             _animator.SetBool(_EnemyNearby, value);
         }
     }
+    private bool TakingDamage
+    {
+        set
+        {
+            _animator.SetBool(_TakingDamage, value);
+        }
+    }
 
     // Use this for initialization
     void Awake () {
@@ -183,6 +191,7 @@ public class ArxAnimationController : MonoBehaviour
         RopeClimbDirection = _platformerController.RopeClimbDirection;
         VelocityGoingDown = _platformerController.VerticalSpeed < _previousVerticalVelocity;
         EnemyNearby = _enemyProximityDetector.EnemyNearby;
+        TakingDamage = _platformerController.TakingDamage;
 
         var currentState = _animator.GetCurrentAnimatorStateInfo(0);
         if (_animator.GetCurrentAnimatorClipInfo(0).Length > 0)

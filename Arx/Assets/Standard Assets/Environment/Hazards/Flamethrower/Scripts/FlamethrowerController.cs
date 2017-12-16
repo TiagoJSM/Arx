@@ -6,21 +6,20 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Extensions;
-using GC = GenericComponents.Controllers.Characters;
+using GC = Assets.Standard_Assets._2D.Scripts.Controllers;
 
 namespace Assets.Standard_Assets.Environment.Hazards.Flamethrower.Scripts
 {
     public class FlamethrowerController : MonoBehaviour
     {
-        private float? _intersectionHeight;
         private RaycastHit2D[] _hits = new RaycastHit2D[10];
 
-        [SerializeField]
-        private BoxCollider2D _boxCollider;
         [SerializeField]
         private float _height = 5;
         [SerializeField]
         private int _damage = 1;
+        [SerializeField]
+        private LayerMask _hitMask;
 
         private Vector2 HitDetectionStart
         {
@@ -34,73 +33,47 @@ namespace Assets.Standard_Assets.Environment.Hazards.Flamethrower.Scripts
             get
             {
                 var start = HitDetectionStart;
-                var end = start - new Vector2(0, _intersectionHeight ?? _height);
+                var end = start - new Vector2(0, _height);
                 return end.RotateAround(start, Mathf.Deg2Rad * transform.rotation.eulerAngles.z);
             }
         }
 
         private void FixedUpdate()
         {
-            CheckIntersections();
-            //DealDamage();
-        }
-
-        private void CheckIntersections()
-        {
-            var hits =
-                Physics2D
-                    .LinecastAll(HitDetectionStart, HitDetectionEnd)
-                    .Where(hit => !hit.collider.isTrigger)
-                    .ToArray();
-
-            if (hits.Length == 0)
+            var hit = GetClosestHit(HitDetectionStart, HitDetectionEnd);
+            if (hit)
             {
-                _intersectionHeight = null;
-                return;
-            }
-            var position = this.transform.position.ToVector2();
-            var closestCollider =
-                hits
-                    .MinBy(hit => Vector2.Distance(position, hit.point));
-            _intersectionHeight = Vector2.Distance(position, closestCollider.transform.position);
-            if(_intersectionHeight > _height)
-            {
-                _intersectionHeight = _height;
-            }
-            _boxCollider.offset = new Vector2(_boxCollider.offset.x, -_intersectionHeight.Value / 2);
-            _boxCollider.size = new Vector2(_boxCollider.size.x, _intersectionHeight.Value);
-        }
-
-        private void OnTriggerEnter2D(Collider2D collider)
-        {
-            var character = collider.GetComponent<GC.CharacterController>();
-            if(character == null)
-            {
-                return;
-            }
-            var hitCount = _boxCollider.Cast(Vector2.zero, _hits);
-            for(var idx = 0; idx < hitCount; idx++)
-            {
-                if(_hits[idx].collider == collider)
+                var character = hit.transform.GetComponent<GC.BasePlatformerController>();
+                if (character != null)
                 {
-                    character.Attacked(gameObject, _damage, _hits[idx].point, DamageType.Environment);
-                    return;
+                    character.Attacked(gameObject, _damage, hit.point, DamageType.Environment);
                 }
             }
         }
 
-        private void DealDamage(RaycastHit2D[] hits)
+        private RaycastHit2D GetClosestHit(Vector3 origin, Vector3 target)
         {
-            if (hits.Length == 0)
+            var hitCount = Physics2D.LinecastNonAlloc(origin, target, _hits, _hitMask);
+            var hit = default(RaycastHit2D);
+            for (var idx = 0; idx < hitCount; idx++)
             {
-                return;
+                if (_hits[idx].collider.isTrigger)
+                {
+                    continue;
+                }
+                if (hit)
+                {
+                    hit =
+                        Vector2.Distance(hit.point, origin) < Vector2.Distance(_hits[idx].point, origin)
+                            ? hit
+                            : _hits[idx];
+                }
+                else
+                {
+                    hit = _hits[idx];
+                }
             }
-            var characters = hits.GetCharacters();
-            for (var idx = 0; idx < characters.Length; idx++)
-            {
-                var hit = characters[idx].Item1;
-                characters[idx].Item2.Attacked(gameObject, _damage, hit.point, DamageType.Environment);
-            }
+            return hit;
         }
 
         private void OnDrawGizmos()

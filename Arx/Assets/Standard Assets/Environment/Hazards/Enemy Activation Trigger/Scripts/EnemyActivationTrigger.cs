@@ -1,10 +1,10 @@
-﻿using Assets.Standard_Assets.Extensions;
+﻿using Assets.Standard_Assets._2D.Scripts.Controllers;
+using Assets.Standard_Assets.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using CharController = GenericComponents.Controllers.Characters.CharacterController;
 
 namespace Assets.Standard_Assets.Environment.Hazards.Enemy_Activation_Trigger.Scripts
 {
@@ -15,7 +15,7 @@ namespace Assets.Standard_Assets.Environment.Hazards.Enemy_Activation_Trigger.Sc
         private bool _activated;
 
         [SerializeField]
-        private CharController[] _characters;
+        private BasePlatformerController[] _characters;
 
         public event OnActivate OnActivate;
 

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using GenericComponents.Controllers.Characters;
 using UnityEngine;
-using CharController = GenericComponents.Controllers.Characters.CharacterController;
 using Assets.Standard_Assets.Environment.Hazards.Enemy_Activation_Trigger.Scripts;
+using Assets.Standard_Assets._2D.Scripts.Controllers;
 
 namespace Assets.Standard_Assets.Environment.Enemy_Secure_Door.Scripts
 {
@@ -14,7 +14,7 @@ namespace Assets.Standard_Assets.Environment.Enemy_Secure_Door.Scripts
         private int _enemiesAlive;
 
         [SerializeField]
-        private CharController[] _characters;
+        private BasePlatformerController[] _characters;
         [SerializeField]
         private EnemyActivationTrigger _enemyActivationTrigger;
 
@@ -35,7 +35,7 @@ namespace Assets.Standard_Assets.Environment.Enemy_Secure_Door.Scripts
             _enemyActivationTrigger.OnActivate -= OnActivateHandler;
         }
 
-        private void OnKilledHandler(CharController character)
+        private void OnKilledHandler(BasePlatformerController character)
         {
             character.OnKilled -= OnKilledHandler;
             _enemiesAlive--;
