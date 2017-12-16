@@ -66,7 +66,7 @@ public class MainPlatformerController : PlatformerCharacterController
     [SerializeField]
     private float _groundAttackVelocity = 0.75f;
     [SerializeField]
-    private Renderer[] _flashingObjects;
+    private GameObject[] _flashingObjects;
     [SerializeField]
     private AudioSource _slamAttackAir;
     [SerializeField]
@@ -75,16 +75,20 @@ public class MainPlatformerController : PlatformerCharacterController
     private AudioSource _landed;
     [SerializeField]
     private AudioSource[] _attackShouts;
+    [SerializeField]
+    private AudioSource _rollSound;
 
     private float _move;
     private float _vertical;
     private bool _jump;
     private bool _roll;
+    private bool _rollAfterAttack;
     private bool _releaseRope;
     private bool _aiming;
     private bool _shoot;
     private bool _throw;
     private bool _grabLadder;
+    private bool _jumpOnLedge;
 
     private AttackType _attackAction;
 
@@ -184,17 +188,20 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public bool CollidesAbove { get { return CharacterController2D.collisionState.above; } }
 
-    public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming)
+    public bool TakingDamage { get; set; }
+
+    public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming, bool jumpOnLedge)
     {
         _move = move;
         _vertical = vertical;
         _jump = jump;
         _releaseRope = releaseRope;
         _aiming = aiming;
+        _jumpOnLedge = jumpOnLedge;
 
-        if(Attacking)
+        if (Attacking)
         {
-            _roll = roll || _roll;
+            _rollAfterAttack = roll | _rollAfterAttack;
         }
         else
         {
@@ -258,7 +265,14 @@ public class MainPlatformerController : PlatformerCharacterController
     {
         _combatModule.ComboNumber = 0;
         Attacking = false;
+        _rollAfterAttack = false;
         base.Stand();
+    }
+
+    public void StartRoll()
+    {
+        _rollAfterAttack = false;
+        _rollSound.Play();
     }
 
     public void StartIddle() { }
@@ -561,7 +575,8 @@ public class MainPlatformerController : PlatformerCharacterController
         var action = 
             new PlatformerCharacterAction(
                 _move, _vertical, _jump, _roll, _attackAction, 
-                _releaseRope, _aiming, _shoot, _throw, _grabLadder);
+                _releaseRope, _aiming, _shoot, _throw, _grabLadder, 
+                _jumpOnLedge, _rollAfterAttack);
         _stateManager.Perform(action);
         _move = 0;
         _vertical = 0;
@@ -572,6 +587,7 @@ public class MainPlatformerController : PlatformerCharacterController
         AttackedThisFrame = false;
         _hitPointThisFrame = null;
         _grabLadder = false;
+        _jumpOnLedge = false;
 
         if (IsGrounded)
         {
@@ -681,9 +697,7 @@ public class MainPlatformerController : PlatformerCharacterController
         _flashRoutine = null;
         for (var idx = 0; idx < _flashingObjects.Length; idx++)
         {
-            var color = _flashingObjects[idx].material.color;
-            color.a = 0.4f;
-            _flashingObjects[idx].material.color = color;
+            _flashingObjects[idx].SetActive(true);
         }
     }
 }

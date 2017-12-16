@@ -17,7 +17,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             base.OnStateEnter(action);
             _move = action.Move;
             StateController.StartRoll();
-            //StateController.Roll(action.Move);
         }
 
         public override void Perform(PlatformerCharacterAction action)

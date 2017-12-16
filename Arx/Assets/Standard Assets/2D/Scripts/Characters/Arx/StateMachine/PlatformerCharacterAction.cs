@@ -11,13 +11,15 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         public float Move { get; private set; }
         public float Vertical { get; private set; }
         public bool Jump { get; private set; }
+        public bool JumpOnLedge { get; private set; }
         public bool Roll { get; private set; }
         public AttackType AttackType { get; private set; }
         public bool ReleaseRope { get; private set; }
         public bool Shoot { get; private set; }
         public bool Aiming { get; private set; }
         public bool Throw { get; private set; }
-        public bool GrabLadder { get; internal set; }
+        public bool GrabLadder { get; private set; }
+        public bool RollAfterAttack { get; private set; }
 
         public PlatformerCharacterAction(
             float move,
@@ -29,7 +31,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             bool aiming,
             bool shoot,
             bool @throw,
-            bool grabLadder)
+            bool grabLadder,
+            bool jumpOnLedge,
+            bool rollAfterAttack)
         {
             Move = move;
             Vertical = vertical;
@@ -41,6 +45,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             Shoot = shoot;
             Throw = @throw;
             GrabLadder = grabLadder;
+            JumpOnLedge = jumpOnLedge;
+            RollAfterAttack = rollAfterAttack;
         }
     }
 }

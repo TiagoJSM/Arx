@@ -48,8 +48,6 @@ public class PlatformerCharacterController : BasePlatformerController
     [SerializeField]
     private AudioSource _grabLedgeSound;
     [SerializeField]
-    private AudioSource _rollSound;
-    [SerializeField]
     private ParticleSystem _runningParticles;
 
     public BoxCollider2D standingCollider;
@@ -293,11 +291,6 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         //_normalizedHorizontalSpeed = 0;
         _desiredMovementVelocity = new Vector2(0, _desiredMovementVelocity.y);
-    }
-
-    public void StartRoll()
-    {
-        _rollSound.Play();
     }
 
     public void Roll(float move)

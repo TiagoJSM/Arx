@@ -67,7 +67,7 @@ namespace Assets.Standard_Assets.Common
 
         public static IEnumerator Flash(Action onEnd, params GameObject[] gos)
         {
-            return Flash(0.3f, 0.6f, 3.5f, onEnd, gos);
+            return Flash(0.3f, 0.6f, 3f, onEnd, gos);
         }
 
         public static IEnumerator Flash(float fadeOutPeriod, float fadeInPeriod, float duration, Action onEnd, params GameObject[] gos)
@@ -75,10 +75,10 @@ namespace Assets.Standard_Assets.Common
             var startTime = Time.time;
             while (true)
             {
-                SetActive(gos, false);
-                yield return new WaitForSeconds(fadeOutPeriod);
                 SetActive(gos, true);
                 yield return new WaitForSeconds(fadeInPeriod);
+                SetActive(gos, false);
+                yield return new WaitForSeconds(fadeOutPeriod);
 
                 var delta = Time.time - startTime;
                 if(delta >= duration)
@@ -86,52 +86,8 @@ namespace Assets.Standard_Assets.Common
                     break;
                 }
             }
+            SetActive(gos, true);
             onEnd();
-        }
-
-        public static IEnumerator Flash(Action onEnd, params Renderer[] sprites)
-        {
-            return Flash(0.3f, 0.6f, 3.5f, onEnd, sprites);
-        }
-
-        public static IEnumerator Flash(float fadeOutPeriod, float fadeInPeriod, float duration, Action onEnd, params Renderer[] sprites)
-        {
-            var startTime = Time.time;
-            while (true)
-            {
-                var delta = 0.0f;
-                while(delta < fadeOutPeriod)
-                {
-                    SetColor(sprites, 1.0f, 0.4f, fadeOutPeriod / delta);
-                    delta += Time.deltaTime;
-                    yield return null;
-                }
-                delta = 0.0f;
-                while (delta < fadeInPeriod)
-                {
-                    SetColor(sprites, 0.4f, 1.0f, fadeInPeriod / delta);
-                    delta += Time.deltaTime;
-                    yield return null;
-                }
-
-                var elapsed = Time.time - startTime;
-                if (elapsed >= duration)
-                {
-                    break;
-                }
-            }
-            onEnd();
-        }
-
-        private static void SetColor(Renderer[] sprites, float a, float b, float t)
-        {
-            var alpha = Mathf.Lerp(a, b, t);
-            for (var idx = 0; idx < sprites.Length; idx++)
-            {
-                var color = sprites[idx].material.color;
-                color.a = 0.4f;
-                sprites[idx].material.color = color;
-            }
         }
 
         public static IEnumerator FollowTargetCoroutine(
