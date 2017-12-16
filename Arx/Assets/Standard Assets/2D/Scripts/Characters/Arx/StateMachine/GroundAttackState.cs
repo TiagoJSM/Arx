@@ -9,6 +9,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 {
     public class GroundAttackState : BasePlatformerCharacterState
     {
+        public override void OnStateEnter(PlatformerCharacterAction action)
+        {
+            base.OnStateEnter(action);
+        }
         public override void Perform(PlatformerCharacterAction action)
         {
             base.Perform(action);

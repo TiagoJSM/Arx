@@ -1,5 +1,5 @@
 ﻿using ArxGame.Components.Weapons;
-using GenericComponentsCharacters = GenericComponents.Controllers.Characters;
+using GenericComponentsCharacters = Assets.Standard_Assets._2D.Scripts.Controllers;
 using MathHelper.Extensions;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Wall_Shooter.Scripts
 {
-    public class WallShooterCharacterController : GenericComponentsCharacters.CharacterController
+    public class WallShooterCharacterController : GenericComponentsCharacters.BasePlatformerController
     {
         [SerializeField]
         private Projectile _projectilePrefab;

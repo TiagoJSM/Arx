@@ -142,7 +142,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                 .From<RollState>()
                     .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
-                    .To<DuckState>((c, a, t) => c.IsGrounded && (/*a.Vertical < 0 ||*/ !c.CanStand) && t > rollingDuration)
+                    .To<DuckState>((c, a, t) => c.IsGrounded && !c.CanStand && t > rollingDuration)
                     .To<FallingState>((c, a, t) => !c.IsGrounded && t > rollingDuration)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll && t > rollingDuration)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration && c.CanStand)
@@ -151,6 +151,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             this
                 .From<GroundAttackState>()
                     .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
+                    .To<RollState>((c, a, t) => c.IsGrounded && a.Roll && !c.Attacking)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && !c.Attacking)
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && !c.Attacking);
 

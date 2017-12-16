@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using GC = GenericComponents.Controllers.Characters;
+using GC = Assets.Standard_Assets._2D.Scripts.Controllers;
 
 namespace Assets.Standard_Assets.Extensions
 {
@@ -24,14 +24,14 @@ namespace Assets.Standard_Assets.Extensions
                     .Where(t => t.Item2 != null);
         }
 
-        public static GC.CharacterController[] GetCharacters(this Collider2D[] colliders)
+        public static GC.BasePlatformerController[] GetCharacters(this Collider2D[] colliders)
         {
-            return colliders.GetComponents<GC.CharacterController>().ToArray();
+            return colliders.GetComponents<GC.BasePlatformerController>().ToArray();
         }
 
-        public static Tuple<RaycastHit2D, GC.CharacterController>[] GetCharacters(this RaycastHit2D[] hits)
+        public static Tuple<RaycastHit2D, GC.BasePlatformerController>[] GetCharacters(this RaycastHit2D[] hits)
         {
-            return hits.GetComponents<GC.CharacterController>().ToArray();
+            return hits.GetComponents<GC.BasePlatformerController>().ToArray();
         }
     }
 }

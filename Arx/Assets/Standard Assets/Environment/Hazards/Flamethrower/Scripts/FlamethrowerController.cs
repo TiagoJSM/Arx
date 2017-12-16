@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Extensions;
-using GC = GenericComponents.Controllers.Characters;
+using GC = Assets.Standard_Assets._2D.Scripts.Controllers;
 
 namespace Assets.Standard_Assets.Environment.Hazards.Flamethrower.Scripts
 {
@@ -43,7 +43,7 @@ namespace Assets.Standard_Assets.Environment.Hazards.Flamethrower.Scripts
             var hit = GetClosestHit(HitDetectionStart, HitDetectionEnd);
             if (hit)
             {
-                var character = hit.transform.GetComponent<GC.CharacterController>();
+                var character = hit.transform.GetComponent<GC.BasePlatformerController>();
                 if (character != null)
                 {
                     character.Attacked(gameObject, _damage, hit.point, DamageType.Environment);

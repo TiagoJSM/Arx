@@ -28,7 +28,7 @@ using Assets.Standard_Assets.Extensions;
 [RequireComponent(typeof(LadderMovement))]
 [RequireComponent(typeof(LadderFinder))]
 [RequireComponent(typeof(MainCharacterNotification))]
-public class MainPlatformerController : PlatformerCharacterController/*, IPlatformerCharacterController*/
+public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
     private LadderMovement _ladderMovement;
@@ -66,7 +66,7 @@ public class MainPlatformerController : PlatformerCharacterController/*, IPlatfo
     [SerializeField]
     private float _groundAttackVelocity = 0.75f;
     [SerializeField]
-    private GameObject[] _flashingObjects;
+    private Renderer[] _flashingObjects;
     [SerializeField]
     private AudioSource _slamAttackAir;
     [SerializeField]
@@ -189,9 +189,17 @@ public class MainPlatformerController : PlatformerCharacterController/*, IPlatfo
         _move = move;
         _vertical = vertical;
         _jump = jump;
-        _roll = roll;
         _releaseRope = releaseRope;
         _aiming = aiming;
+
+        if(Attacking)
+        {
+            _roll = roll || _roll;
+        }
+        else
+        {
+            _roll = roll;
+        }
     }
 
     public void RequestGrabLadder()
@@ -558,7 +566,6 @@ public class MainPlatformerController : PlatformerCharacterController/*, IPlatfo
         _move = 0;
         _vertical = 0;
         _jump = false;
-        _roll = false;
         _aiming = false;
         _shoot = false;
         _throw = false;
@@ -569,6 +576,10 @@ public class MainPlatformerController : PlatformerCharacterController/*, IPlatfo
         if (IsGrounded)
         {
             _canSlowGravityForAirAttack = true;
+        }
+        if (!Attacking)
+        {
+            _roll = false;
         }
     }
 
@@ -657,7 +668,7 @@ public class MainPlatformerController : PlatformerCharacterController/*, IPlatfo
 
     public void StartFlashing()
     {
-        if(_flashRoutine == null)
+        if (_flashRoutine == null)
         {
             _flashRoutine = StartCoroutine(CoroutineHelpers.Flash(() => StopFlashing(), _flashingObjects));
         }
@@ -670,7 +681,9 @@ public class MainPlatformerController : PlatformerCharacterController/*, IPlatfo
         _flashRoutine = null;
         for (var idx = 0; idx < _flashingObjects.Length; idx++)
         {
-            _flashingObjects[idx].SetActive(true);
+            var color = _flashingObjects[idx].material.color;
+            color.a = 0.4f;
+            _flashingObjects[idx].material.color = color;
         }
     }
 }
