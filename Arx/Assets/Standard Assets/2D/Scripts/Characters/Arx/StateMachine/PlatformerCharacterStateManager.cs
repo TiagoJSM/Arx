@@ -31,6 +31,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<LadderGrabState>((c, a, t) => c.LadderFound && a.GrabLadder);
 
             this
+                .FromAny()
+                    .To<DamagedAndMovedState>((c, a, t) => c.SafeSpot.HasValue && this.CurrentState.GetType() != typeof(DamagedAndMovedState));
+
+            this
                 .From<JumpingState>()
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
@@ -64,7 +68,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<FallingState>()
-                    .To<DamagedAndMovedState>((c, a, t) => c.SafeSpot.HasValue)
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .WhenTransitionTo<SlidingDownState>((c, a) => c.OnLanded())
@@ -101,11 +104,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<MovingState>()
-                    .To<DamagedAndMovedState>((c, a, t) => c.SafeSpot.HasValue)
                     .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<GhostJumpFallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
-                    //.To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<GroundAttackState>((c, a, t) => a.AttackType != AttackType.None && c.Attacking)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll)
                     .To<MovingAimState>((c, a, t) => a.Aiming && c.IsGrounded)
@@ -167,7 +168,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<StrongAirAttackState>()
-                    .To<DamagedAndMovedState>((c, a, t) => c.SafeSpot.HasValue)
                     .To<StrongAirAttackState>((c, a, t) =>
                         a.AttackType == AttackType.Secundary && !c.Attacking && c.WeaponType != null)
                     .To<IddleState>((c, a, t) =>

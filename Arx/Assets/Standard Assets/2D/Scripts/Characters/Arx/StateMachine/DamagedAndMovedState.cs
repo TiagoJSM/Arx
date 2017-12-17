@@ -6,18 +6,20 @@ using System.Text;
 
 namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 {
-    public class DamagedAndMovedState : BasePlatformerCharacterState
+    public class DamagedAndMovedState : AttackedState
     {
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
             base.OnStateEnter(action);
             StateController.StartMovingToSafeSpot();
+            StateController.TakingDamage = true;
         }
 
         public override void OnStateExit(PlatformerCharacterAction action)
         {
-            base.OnStateEnter(action);
+            base.OnStateExit(action);
             StateController.StopMovingToSafeSpot();
+            StateController.TakingDamage = false;
         }
     }
 }
