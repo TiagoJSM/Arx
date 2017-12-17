@@ -10,6 +10,7 @@ using UnityEngine;
 using GenericComponents.Controllers.Characters;
 using Assets.Standard_Assets.Extensions;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
+using System.Collections;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
 {
@@ -42,6 +43,18 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         private float _attackRange = 3f;
         [SerializeField]
         private GameObject _explosion;
+        [SerializeField]
+        private float _explosionRadius = 20.0f;
+        [SerializeField]
+        private int _explosionDamage = 2;
+        [SerializeField]
+        private LayerMask _enemiesLayer;
+        [SerializeField]
+        private SpriteRenderer _damageArea;
+        [SerializeField]
+        private SpriteRenderer _damageAreaSurround;
+        [SerializeField]
+        private float _countdownTime = 3.05f;  //taken from animation
 
         public GameObject Enemy { get; private set; }
         public bool IsCloseStillEnemy { get; private set; }
@@ -82,12 +95,45 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         public void BlowUp()
         {
             _explosion.SetActive(true);
+
+            var colliders = Physics2D.OverlapCircleAll(transform.position, _explosionRadius, _enemiesLayer);
+            for(var idx = 0; idx < colliders.Length; idx++)
+            {
+                if (colliders[idx].IsPlayer())
+                {
+                    var character = colliders[idx].GetComponent<BasePlatformerController>();
+                    character.Attacked(gameObject, _explosionDamage, null, CommonInterfaces.Controllers.DamageType.BodyAttack);
+                }
+            }
         }
 
         public void StartCountdown()
         {
             BlowUpCountdown = true;
             StopActiveCoroutine();
+            StartCoroutine(DisplayDamageAreaRoutine());
+        }
+
+        private IEnumerator DisplayDamageAreaRoutine()
+        {
+            _damageArea.gameObject.SetActive(true);
+            _damageAreaSurround.gameObject.SetActive(true);
+            var bounds = _damageArea.bounds;
+            var radiusTransform = _damageArea.transform;
+            var originalScale = _damageArea.transform.localScale;
+
+            var elapsed = 0.0f;
+            while(elapsed < _countdownTime)
+            {
+                var currentSize = Mathf.Lerp(0.1f, _explosionRadius, elapsed / _countdownTime);
+
+                radiusTransform.localScale = new Vector3(currentSize / bounds.extents.x, currentSize / bounds.extents.y, originalScale.z);
+
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            _damageArea.gameObject.SetActive(false);
+            _damageAreaSurround.gameObject.SetActive(false);
         }
 
         private void Start()
@@ -119,6 +165,12 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
             {
                 IsCloseStillEnemy = false;
             }
+        }
+
+        void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, _explosionRadius);
         }
     }
 }
