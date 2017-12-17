@@ -11,8 +11,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
 {
     public class CombatHitEffects : MonoBehaviour
     {
-        //private CloseCombatBehaviour _closeCombat;
-
         [SerializeField]
         private float _shakeAmount = 0.3f;
         [SerializeField]
@@ -38,6 +36,12 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
             StartCoroutine(SlowDownTime(_longSlowDownTime));
         }
 
+        public void HitByEnemy()
+        {
+            ShakeCamera(_strongShakeAmount, _strongShakeDuration);
+            StartCoroutine(SlowDownTime(_longSlowDownTime, 0.3f));
+        }
+
         private void ShakeCamera(float shakeAmount, float shakeDuration)
         {
             var camShake = Camera.main.GetComponent<CameraShake>();
@@ -47,9 +51,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
             }
         }
 
-        private IEnumerator SlowDownTime(float slowDownTime)
+        private IEnumerator SlowDownTime(float slowDownTime, float timeScale = 0.0f)
         {
-            Time.timeScale = 0;
+            Time.timeScale = timeScale;
             yield return new WaitForSecondsRealtime(slowDownTime);
             Time.timeScale = 1.0f;
         }

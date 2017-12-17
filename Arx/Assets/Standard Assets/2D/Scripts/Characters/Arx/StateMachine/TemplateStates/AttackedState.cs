@@ -17,8 +17,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.Templat
         {
             base.OnStateExit(action);
             StateController.StartFlashing();
-            //StateController.StopFlashing();
-            //StateController.CanBeAttacked = true;
         }
     }
 }

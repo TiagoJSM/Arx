@@ -28,11 +28,13 @@ using Assets.Standard_Assets.Extensions;
 [RequireComponent(typeof(LadderMovement))]
 [RequireComponent(typeof(LadderFinder))]
 [RequireComponent(typeof(MainCharacterNotification))]
+[RequireComponent(typeof(CombatHitEffects))]
 public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
     private LadderMovement _ladderMovement;
     private MainCharacterNotification _notifications;
+    private CombatHitEffects _hitEffects;
     private StateManager<MainPlatformerController, PlatformerCharacterAction> _stateManager;
 
     private Rope _rope;
@@ -41,7 +43,6 @@ public class MainPlatformerController : PlatformerCharacterController
     private Coroutine _moveInParabolaCoroutine;
     private Pushable _pushable;
     private Vector3? _safeSpot;
-    private Vector3? _hitPointThisFrame;
     private LadderFinder _ladderFinder;
     private Coroutine _flashRoutine;
     private float _defaultMinYVelocity;
@@ -77,6 +78,8 @@ public class MainPlatformerController : PlatformerCharacterController
     private AudioSource[] _attackShouts;
     [SerializeField]
     private AudioSource _rollSound;
+    [SerializeField]
+    private float _lightAirAttackGravitySlowDownTime = 4.0f;
 
     private float _move;
     private float _vertical;
@@ -189,6 +192,8 @@ public class MainPlatformerController : PlatformerCharacterController
     public bool CollidesAbove { get { return CharacterController2D.collisionState.above; } }
 
     public bool TakingDamage { get; set; }
+
+    public Vector3? HitPointThisFrame { get; private set; }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming, bool jumpOnLedge)
     {
@@ -485,24 +490,7 @@ public class MainPlatformerController : PlatformerCharacterController
     public void Hit(GameObject cause, Vector3 safeSpot, int damage, DamageType damageType)
     {
         _safeSpot = safeSpot;
-        base.Attacked(cause, damage, null, damageType);
-    }
-
-    public void LaunchCharacter()
-    {
-        float horizontalMovement = 0;
-        if (_hitPointThisFrame != null)
-        {
-            horizontalMovement = Math.Sign(transform.position.x - _hitPointThisFrame.Value.x);
-        }
-        DesiredMovementVelocity = Vector2.zero;
-        //ToDo: move this into globals?
-        Push(new Vector2(20 * horizontalMovement, 600));
-    }
-
-    public void AttackStateDone()
-    {
-        VelocityMultiplier = Vector2.one;
+        this.Attacked(cause, damage, null, damageType);
     }
 
     public override int Attacked(
@@ -516,11 +504,12 @@ public class MainPlatformerController : PlatformerCharacterController
         var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType, comboNumber);
         if(damageTaken > 0)
         {
+            _hitEffects.HitByEnemy();
             AttackedThisFrame = true;
-            _hitPointThisFrame = hitPoint;
-            if (_hitPointThisFrame == null)
+            HitPointThisFrame = hitPoint;
+            if (HitPointThisFrame == null)
             {
-                _hitPointThisFrame = attacker.transform.position;
+                HitPointThisFrame = attacker.transform.position;
             }
         }
         return damageTaken;
@@ -540,14 +529,15 @@ public class MainPlatformerController : PlatformerCharacterController
     {
         if (_canSlowGravityForAirAttack)
         {
-            VelocityMultiplier = new Vector2(VelocityMultiplier.x, 0.2f);
+            StartCoroutine(LightAirAttackGravitySlowDown());
+            //VelocityMultiplier = new Vector2(VelocityMultiplier.x, 0.2f);
             _canSlowGravityForAirAttack = false;
         }
     }
 
     public void EndLightAirAttack()
     {
-        VelocityMultiplier = Vector2.one;
+        //VelocityMultiplier = Vector2.one;
     }
 
     protected override void Awake()
@@ -557,6 +547,7 @@ public class MainPlatformerController : PlatformerCharacterController
         _ladderMovement = GetComponent<LadderMovement>();
         _ladderFinder = GetComponent<LadderFinder>();
         _notifications = GetComponent<MainCharacterNotification>();
+        _hitEffects = GetComponent<CombatHitEffects>();
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;
@@ -569,7 +560,6 @@ public class MainPlatformerController : PlatformerCharacterController
     protected override void Update()
     {
         base.Update();
-
         _pushable = FindPushables();
         _combatModule.AimAngle = AimAngle;
         var action = 
@@ -585,7 +575,7 @@ public class MainPlatformerController : PlatformerCharacterController
         _shoot = false;
         _throw = false;
         AttackedThisFrame = false;
-        _hitPointThisFrame = null;
+        HitPointThisFrame = null;
         _grabLadder = false;
         _jumpOnLedge = false;
 
@@ -637,7 +627,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     private void OnCombatFinishHandler()
     {
-        VelocityMultiplier = Vector2.one;
+        //VelocityMultiplier = Vector2.one;
         _attackAction = AttackType.None;
         Attacking = false;
     }
@@ -699,5 +689,12 @@ public class MainPlatformerController : PlatformerCharacterController
         {
             _flashingObjects[idx].SetActive(true);
         }
+    }
+
+    private IEnumerator LightAirAttackGravitySlowDown()
+    {
+        VelocityMultiplier = new Vector2(VelocityMultiplier.x, 0.35f);
+        yield return new WaitForSeconds(_lightAirAttackGravitySlowDownTime);
+        VelocityMultiplier = Vector2.one;
     }
 }
