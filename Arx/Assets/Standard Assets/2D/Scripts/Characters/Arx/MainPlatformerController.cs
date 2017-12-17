@@ -43,7 +43,6 @@ public class MainPlatformerController : PlatformerCharacterController
     private Coroutine _moveInParabolaCoroutine;
     private Pushable _pushable;
     private Vector3? _safeSpot;
-    private Vector3? _hitPointThisFrame;
     private LadderFinder _ladderFinder;
     private Coroutine _flashRoutine;
     private float _defaultMinYVelocity;
@@ -193,6 +192,8 @@ public class MainPlatformerController : PlatformerCharacterController
     public bool CollidesAbove { get { return CharacterController2D.collisionState.above; } }
 
     public bool TakingDamage { get; set; }
+
+    public Vector3? HitPointThisFrame { get; private set; }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming, bool jumpOnLedge)
     {
@@ -492,18 +493,6 @@ public class MainPlatformerController : PlatformerCharacterController
         this.Attacked(cause, damage, null, damageType);
     }
 
-    public void LaunchCharacter()
-    {
-        float horizontalMovement = 0;
-        if (_hitPointThisFrame != null)
-        {
-            horizontalMovement = Math.Sign(transform.position.x - _hitPointThisFrame.Value.x);
-        }
-        DesiredMovementVelocity = Vector2.zero;
-        //ToDo: move this into globals?
-        Push(new Vector2(20 * horizontalMovement, 600));
-    }
-
     public override int Attacked(
         GameObject attacker, 
         int damage, 
@@ -517,10 +506,10 @@ public class MainPlatformerController : PlatformerCharacterController
         {
             _hitEffects.HitByEnemy();
             AttackedThisFrame = true;
-            _hitPointThisFrame = hitPoint;
-            if (_hitPointThisFrame == null)
+            HitPointThisFrame = hitPoint;
+            if (HitPointThisFrame == null)
             {
-                _hitPointThisFrame = attacker.transform.position;
+                HitPointThisFrame = attacker.transform.position;
             }
         }
         return damageTaken;
@@ -586,7 +575,7 @@ public class MainPlatformerController : PlatformerCharacterController
         _shoot = false;
         _throw = false;
         AttackedThisFrame = false;
-        _hitPointThisFrame = null;
+        HitPointThisFrame = null;
         _grabLadder = false;
         _jumpOnLedge = false;
 

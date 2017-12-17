@@ -8,10 +8,31 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.Attacke
 {
     public class AttackedOnAirState : AttackedState
     {
+        private float _horizontalMovement;
+
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
             base.OnStateEnter(action);
-            StateController.LaunchCharacter();
+
+            _horizontalMovement = 0;
+            if (StateController.HitPointThisFrame != null)
+            {
+                _horizontalMovement = Math.Sign(StateController.transform.position.x - StateController.HitPointThisFrame.Value.x);
+            }
+
+            StateController.TakingDamage = true;
+        }
+
+        public override void Perform(PlatformerCharacterAction action)
+        {
+            base.Perform(action);
+            StateController.DoMove(_horizontalMovement, false);
+        }
+
+        public override void OnStateExit(PlatformerCharacterAction action)
+        {
+            base.OnStateExit(action);
+            StateController.TakingDamage = false;
         }
     }
 }
