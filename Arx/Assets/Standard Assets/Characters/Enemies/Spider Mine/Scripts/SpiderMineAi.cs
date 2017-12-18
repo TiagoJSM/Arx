@@ -36,6 +36,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         private SpiderMineAiStateManager _aiManager;
         private CharacterController2D _characterController;
         private CharacterFinder _charFinder;
+        private float _xMovementDirection;
 
         [SerializeField]
         private BoxCollider2D _collider;
@@ -55,6 +56,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         private SpriteRenderer _damageAreaSurround;
         [SerializeField]
         private float _countdownTime = 3.05f;  //taken from animation
+        [SerializeField]
+        private Vector2 speed = new Vector2(3, -10);
 
         public GameObject Enemy { get; private set; }
         public bool IsCloseStillEnemy { get; private set; }
@@ -84,7 +87,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
                     transform,
                     Enemy,
                     (movemement) =>
-                        _characterController.move(new Vector3(Mathf.Sign(movemement) * 3, -10, 0) * Time.deltaTime),
+                        _xMovementDirection = Mathf.Approximately(movemement, 0.0f) ? 0.0f : Mathf.Sign(movemement),
                     () => IsTargetInRange));
         }
 
@@ -147,6 +150,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         private void Update()
         {
             _aiManager.Perform(null);
+            _characterController.move(new Vector3(_xMovementDirection * speed.x, speed.y, 0) * Time.deltaTime);
+            _xMovementDirection = 0.0f;
         }
 
         private void OnCharacterFoundHandler(BasePlatformerController controller)
