@@ -10,6 +10,7 @@ using UnityEngine;
 using GenericComponents.Controllers.Characters;
 using Assets.Standard_Assets.Extensions;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
+using System.Collections;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
 {
@@ -35,6 +36,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         private SpiderMineAiStateManager _aiManager;
         private CharacterController2D _characterController;
         private CharacterFinder _charFinder;
+        private float _xMovementDirection;
 
         [SerializeField]
         private BoxCollider2D _collider;
@@ -42,6 +44,22 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         private float _attackRange = 3f;
         [SerializeField]
         private GameObject _explosion;
+        [SerializeField]
+        private float _explosionRadius = 20.0f;
+        [SerializeField]
+        private int _explosionDamage = 2;
+        [SerializeField]
+        private LayerMask _enemiesLayer;
+        [SerializeField]
+        private SpriteRenderer _damageArea;
+        [SerializeField]
+        private SpriteRenderer _damageAreaSurround;
+        [SerializeField]
+        private float _countdownTime = 3.05f;  //taken from animation
+        [SerializeField]
+        private Vector2 speed = new Vector2(3, -10);
+        [SerializeField]
+        private Rigidbody2D[] _explosiveParts;
 
         public GameObject Enemy { get; private set; }
         public bool IsCloseStillEnemy { get; private set; }
@@ -71,7 +89,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
                     transform,
                     Enemy,
                     (movemement) =>
-                        _characterController.move(new Vector3(Mathf.Sign(movemement) * 3, -10, 0) * Time.deltaTime),
+                        _xMovementDirection = Mathf.Approximately(movemement, 0.0f) ? 0.0f : Mathf.Sign(movemement),
                     () => IsTargetInRange));
         }
 
@@ -82,12 +100,64 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         public void BlowUp()
         {
             _explosion.SetActive(true);
+
+            DealDamage();
+            ExplodeParts();
+        }
+
+        private void ExplodeParts()
+        {
+            for(var idx = 0; idx < _explosiveParts.Length; idx++)
+            {
+                var part = _explosiveParts[idx];
+                var body = Instantiate(part, transform.position, Quaternion.identity);
+                var explosionDirection = new Vector2(body.position.x - transform.position.x, body.position.y - transform.position.y).normalized;
+                var torqueDirection = -Mathf.Sign(explosionDirection.x);
+                body.AddForce(explosionDirection * 50, ForceMode2D.Impulse);
+                body.AddTorque(torqueDirection * 15, ForceMode2D.Impulse);
+            }
         }
 
         public void StartCountdown()
         {
             BlowUpCountdown = true;
             StopActiveCoroutine();
+            StartCoroutine(DisplayDamageAreaRoutine());
+        }
+
+        private void DealDamage()
+        {
+            var colliders = Physics2D.OverlapCircleAll(transform.position, _explosionRadius, _enemiesLayer);
+            for (var idx = 0; idx < colliders.Length; idx++)
+            {
+                if (colliders[idx].IsPlayer())
+                {
+                    var character = colliders[idx].GetComponent<BasePlatformerController>();
+                    character.Attacked(gameObject, _explosionDamage, null, CommonInterfaces.Controllers.DamageType.BodyAttack);
+                }
+            }
+        }
+
+        private IEnumerator DisplayDamageAreaRoutine()
+        {
+            _damageArea.gameObject.SetActive(true);
+            _damageAreaSurround.gameObject.SetActive(true);
+            var bounds = _damageArea.bounds;
+            var radiusTransform = _damageArea.transform;
+            var originalScale = _damageArea.transform.localScale;
+
+            var elapsed = 0.0f;
+            while(elapsed < _countdownTime)
+            {
+                var currentSize = Mathf.Lerp(0.1f, _explosionRadius, elapsed / _countdownTime);
+
+                radiusTransform.localScale = new Vector3(currentSize / bounds.extents.x, currentSize / bounds.extents.y, originalScale.z);
+
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            _damageArea.gameObject.SetActive(false);
+            _damageAreaSurround.gameObject.SetActive(false);
         }
 
         private void Start()
@@ -101,6 +171,19 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         private void Update()
         {
             _aiManager.Perform(null);
+            _characterController.move(new Vector3(_xMovementDirection * speed.x, speed.y, 0) * Time.deltaTime);
+
+            var scale = transform.localScale;
+            var xMovementScaleSign = Mathf.Sign(_xMovementDirection);
+            var xScaleSign = Mathf.Sign(scale.x);
+
+            if (!Mathf.Approximately(_xMovementDirection, 0.0f) && xMovementScaleSign != xScaleSign)
+            {
+                scale.x *= -1.0f;
+                transform.localScale = scale;
+            }
+
+            _xMovementDirection = 0.0f;
         }
 
         private void OnCharacterFoundHandler(BasePlatformerController controller)
@@ -119,6 +202,12 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
             {
                 IsCloseStillEnemy = false;
             }
+        }
+
+        void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, _explosionRadius);
         }
     }
 }
