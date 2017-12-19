@@ -273,6 +273,7 @@
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Platform Patrol\Scripts\PlatformPatrol.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Sparring Dummy\Scripts\SparringDummyController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\ExplosionCountdownOverBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\ExplosivePart.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAi.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAiStates.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAnimationController.cs" />

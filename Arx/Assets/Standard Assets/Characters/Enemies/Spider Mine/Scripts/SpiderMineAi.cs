@@ -58,6 +58,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         private float _countdownTime = 3.05f;  //taken from animation
         [SerializeField]
         private Vector2 speed = new Vector2(3, -10);
+        [SerializeField]
+        private ExplosivePart[] _explosivePart;
 
         public GameObject Enemy { get; private set; }
         public bool IsCloseStillEnemy { get; private set; }
@@ -99,14 +101,15 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         {
             _explosion.SetActive(true);
 
-            var colliders = Physics2D.OverlapCircleAll(transform.position, _explosionRadius, _enemiesLayer);
-            for(var idx = 0; idx < colliders.Length; idx++)
+            DealDamage();
+            ExplodeParts();
+        }
+
+        private void ExplodeParts()
+        {
+            for(var idx = 0; idx < _explosivePart.Length; idx++)
             {
-                if (colliders[idx].IsPlayer())
-                {
-                    var character = colliders[idx].GetComponent<BasePlatformerController>();
-                    character.Attacked(gameObject, _explosionDamage, null, CommonInterfaces.Controllers.DamageType.BodyAttack);
-                }
+                _explosivePart[idx].Explode();
             }
         }
 
@@ -115,6 +118,19 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
             BlowUpCountdown = true;
             StopActiveCoroutine();
             StartCoroutine(DisplayDamageAreaRoutine());
+        }
+
+        private void DealDamage()
+        {
+            var colliders = Physics2D.OverlapCircleAll(transform.position, _explosionRadius, _enemiesLayer);
+            for (var idx = 0; idx < colliders.Length; idx++)
+            {
+                if (colliders[idx].IsPlayer())
+                {
+                    var character = colliders[idx].GetComponent<BasePlatformerController>();
+                    character.Attacked(gameObject, _explosionDamage, null, CommonInterfaces.Controllers.DamageType.BodyAttack);
+                }
+            }
         }
 
         private IEnumerator DisplayDamageAreaRoutine()
@@ -151,6 +167,17 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         {
             _aiManager.Perform(null);
             _characterController.move(new Vector3(_xMovementDirection * speed.x, speed.y, 0) * Time.deltaTime);
+
+            var scale = transform.localScale;
+            var xMovementScaleSign = Mathf.Sign(_xMovementDirection);
+            var xScaleSign = Mathf.Sign(scale.x);
+
+            if (!Mathf.Approximately(_xMovementDirection, 0.0f) && xMovementScaleSign != xScaleSign)
+            {
+                scale.x *= -1.0f;
+                transform.localScale = scale;
+            }
+
             _xMovementDirection = 0.0f;
         }
 
