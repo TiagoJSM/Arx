@@ -59,7 +59,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
         [SerializeField]
         private Vector2 speed = new Vector2(3, -10);
         [SerializeField]
-        private ExplosivePart[] _explosivePart;
+        private Rigidbody2D[] _explosiveParts;
 
         public GameObject Enemy { get; private set; }
         public bool IsCloseStillEnemy { get; private set; }
@@ -107,9 +107,14 @@ namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
 
         private void ExplodeParts()
         {
-            for(var idx = 0; idx < _explosivePart.Length; idx++)
+            for(var idx = 0; idx < _explosiveParts.Length; idx++)
             {
-                _explosivePart[idx].Explode();
+                var part = _explosiveParts[idx];
+                var body = Instantiate(part, transform.position, Quaternion.identity);
+                var explosionDirection = new Vector2(body.position.x - transform.position.x, body.position.y - transform.position.y).normalized;
+                var torqueDirection = -Mathf.Sign(explosionDirection.x);
+                body.AddForce(explosionDirection * 50, ForceMode2D.Impulse);
+                body.AddTorque(torqueDirection * 15, ForceMode2D.Impulse);
             }
         }
 
