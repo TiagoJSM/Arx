@@ -474,6 +474,7 @@
     <Compile Include="Assets\Standard Assets\Terrain\TerrainField.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Utils\TerrainFillingUtils.cs" />
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\CharacterStatusManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\HalfHeartController.cs" />
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\HudManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\QuestSectionManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\TaskItemManager.cs" />
