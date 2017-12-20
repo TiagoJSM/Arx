@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>EditorPlugins:7</UnityProjectType>
     <UnityBuildTarget>StandaloneOSXIntel:4</UnityBuildTarget>
     <UnityVersion>2017.1.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -230,6 +232,7 @@
     <Compile Include="Assets\Standard Assets\Terrain\Editor\TerrainFieldEditor.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Editor\TerrainMaterialEditor.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Editor\Utils\TerrainEditorUtils.cs" />
+    <Compile Include="Assets\Standard Assets\UI\HUD\Editor\CharacterStatusManagerEditor.cs" />
     <Compile Include="Assets\Standard Assets\Utility\Editor\ExposeFields.cs" />
     <Compile Include="Assets\Standard Assets\Utility\Editor\MarkeeSelection.cs" />
   </ItemGroup>
@@ -358,6 +361,7 @@
     <None Include="Assets\Universal Sound FX\%23Game Genre References\Shoot em Up.txt" />
     <None Include="Assets\Universal Sound FX\%23version_history.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>
