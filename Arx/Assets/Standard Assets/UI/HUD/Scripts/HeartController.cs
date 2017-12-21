@@ -21,26 +21,26 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
 
         public void Lose(HeartSide side)
         {
-            if (side == HeartSide.Left)
-            {
-                _leftHeartAnimator.SetTrigger("Lose");
-            }
-            else
-            {
-                _rightHeartAnimator.SetTrigger("Lose");
-            }
+            var animator = side == HeartSide.Left ? _leftHeartAnimator : _rightHeartAnimator;
+            animator.SetTrigger("Lose");
         }
 
         public void Gain(HeartSide side)
         {
-            if (side == HeartSide.Left)
-            {
-                _leftHeartAnimator.SetTrigger("Gain");
-            }
-            else
-            {
-                _rightHeartAnimator.SetTrigger("Gain");
-            }
+            var animator = side == HeartSide.Left ? _leftHeartAnimator : _rightHeartAnimator;
+            animator.SetTrigger("Gain");
+        }
+
+        public void SetFull(HeartSide side)
+        {
+            var animator = side == HeartSide.Left ? _leftHeartAnimator : _rightHeartAnimator;
+            animator.PlayInFixedTime("Gain", -1, 1.0f);
+        }
+
+        public void SetEmpty(HeartSide side)
+        {
+            var animator = side == HeartSide.Left ? _leftHeartAnimator : _rightHeartAnimator;
+            animator.PlayInFixedTime("Lose", -1, 1.0f);
         }
     }
 }
