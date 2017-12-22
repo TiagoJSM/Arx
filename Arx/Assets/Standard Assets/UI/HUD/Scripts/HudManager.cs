@@ -1,4 +1,5 @@
 ﻿using Assets.Standard_Assets.QuestSystem.QuestStructures;
+using GenericComponents.Behaviours;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
 
         [SerializeField]
         private QuestSectionManager _questSection;
+        [SerializeField]
+        private CharacterStatusManager _characterStatus;
 
         public GameObject toastPanel;
         public Text toastText;
@@ -51,6 +54,18 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
             set
             {
                 _questSection.ActiveQuest = value;
+            }
+        }
+
+        public CharacterStatus CharacterStatus
+        {
+            get
+            {
+                return _characterStatus.CharacterStatus;
+            }
+            set
+            {
+                _characterStatus.CharacterStatus = value;
             }
         }
 
