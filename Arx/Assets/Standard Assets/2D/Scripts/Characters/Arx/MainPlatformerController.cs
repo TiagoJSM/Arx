@@ -47,6 +47,7 @@ public class MainPlatformerController : PlatformerCharacterController
     private Coroutine _flashRoutine;
     private float _defaultMinYVelocity;
     private bool _canSlowGravityForAirAttack = true;
+    private bool _changeVelocityMultiplierOnCombatFinish = true;
 
     [SerializeField]
     private float _rollingDuration = 1;
@@ -627,7 +628,10 @@ public class MainPlatformerController : PlatformerCharacterController
 
     private void OnCombatFinishHandler()
     {
-        //VelocityMultiplier = Vector2.one;
+        if (_changeVelocityMultiplierOnCombatFinish)
+        {
+            VelocityMultiplier = Vector2.one;
+        }
         _attackAction = AttackType.None;
         Attacking = false;
     }
@@ -693,8 +697,10 @@ public class MainPlatformerController : PlatformerCharacterController
 
     private IEnumerator LightAirAttackGravitySlowDown()
     {
+        _changeVelocityMultiplierOnCombatFinish = false;
         VelocityMultiplier = new Vector2(VelocityMultiplier.x, 0.35f);
         yield return new WaitForSeconds(_lightAirAttackGravitySlowDownTime);
         VelocityMultiplier = Vector2.one;
+        _changeVelocityMultiplierOnCombatFinish = true;
     }
 }

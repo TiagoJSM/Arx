@@ -410,10 +410,12 @@
     <Compile Include="Assets\Standard Assets\InventorySystem\InventoryObjects\InventoryItem.cs" />
     <Compile Include="Assets\Standard Assets\InventorySystem\InventoryObjects\InventoryItems.cs" />
     <Compile Include="Assets\Standard Assets\InventorySystem\InventoryObjects\QuestInventoryItem.cs" />
+    <Compile Include="Assets\Standard Assets\InventorySystem\ItemGravity.cs" />
     <Compile Include="Assets\Standard Assets\InventorySystem\Triggers\ItemUseTrigger.cs" />
     <Compile Include="Assets\Standard Assets\JSON\JSONObject.cs" />
     <Compile Include="Assets\Standard Assets\JSON\JSONTemplates.cs" />
     <Compile Include="Assets\Standard Assets\JSON\VectorTemplates.cs" />
+    <Compile Include="Assets\Standard Assets\Loot\DropLootOnDeath.cs" />
     <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\AfterburnerPhysicsForce.cs" />
     <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\ExplosionFireAndDebris.cs" />
     <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\ExplosionPhysicsForce.cs" />
