@@ -291,8 +291,10 @@
     <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonCharacter.cs" />
     <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonUserControl.cs" />
     <Compile Include="Assets\Standard Assets\Common\Attributes\LayerAttribute.cs" />
+    <Compile Include="Assets\Standard Assets\Common\Attributes\ReadOnlyAttribute.cs" />
     <Compile Include="Assets\Standard Assets\Common\Attributes\SceneFieldAttribute.cs" />
     <Compile Include="Assets\Standard Assets\Common\CoroutineHelpers.cs" />
+    <Compile Include="Assets\Standard Assets\Common\IInteractionTriggerController.cs" />
     <Compile Include="Assets\Standard Assets\Common\SceneField.cs" />
     <Compile Include="Assets\Standard Assets\Common\StunDamage.cs" />
     <Compile Include="Assets\Standard Assets\Common\StunDamageFilter.cs" />
@@ -417,6 +419,7 @@
     <Compile Include="Assets\Standard Assets\JSON\JSONObject.cs" />
     <Compile Include="Assets\Standard Assets\JSON\JSONTemplates.cs" />
     <Compile Include="Assets\Standard Assets\JSON\VectorTemplates.cs" />
+    <Compile Include="Assets\Standard Assets\Loot\Chest.cs" />
     <Compile Include="Assets\Standard Assets\Loot\DropLootOnDeath.cs" />
     <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\AfterburnerPhysicsForce.cs" />
     <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\ExplosionFireAndDebris.cs" />

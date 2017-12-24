@@ -1,5 +1,4 @@
-﻿using CommonInterfaces.Controllers.Interaction;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ using UnityEngine;
 
 namespace AnimatorSequencer.Zones
 {
-    public class PlaySequenceOnInteraction : MonoBehaviour, IInteractionTriggerController
+    public class PlaySequenceOnInteraction : MonoBehaviour//, IInteractionTriggerController
     {
         public event OnInteract OnInteract;
         public event OnStopInteraction OnStopInteraction;

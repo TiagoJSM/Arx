@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="Controllers\IAnimationController.cs" />
     <Compile Include="Controllers\ICharacter.cs" />
-    <Compile Include="Controllers\Interaction\IInteractionTriggerController.cs" />
     <Compile Include="Controllers\IPlayerControl.cs" />
     <Compile Include="Controls\IPlatformerAICharacterControl.cs" />
     <Compile Include="Enums\Direction.cs" />

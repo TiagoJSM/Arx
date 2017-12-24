@@ -4,20 +4,18 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using CommonInterfaces;
+using Assets.Standard_Assets.InventorySystem.InventoryObjects;
+using Assets.Standard_Assets.InventorySystem.Controllers;
 using Assets.Standard_Assets.Common;
 
-namespace Assets.Standard_Assets.Environment.Platforms.Ladder.Scripts
+namespace Assets.Standard_Assets.Loot
 {
-    public class DropLadder : MonoBehaviour, IInteractionTriggerController
+    public class Chest : MonoBehaviour, IInteractionTriggerController
     {
-        private bool _drop;
+        private bool _open;
 
         [SerializeField]
-        private Animator _animator;
-        [SerializeField]
-        private Collider2D _ladderCollider;
-        [SerializeField]
-        private Collider2D _trigger;
+        private InventoryItem _item;
 
         public GameObject GameObject
         {
@@ -32,17 +30,24 @@ namespace Assets.Standard_Assets.Environment.Platforms.Ladder.Scripts
 
         public void Interact(GameObject interactor)
         {
-            if (!_drop)
+            if (_open)
             {
-                _drop = true;
-                _ladderCollider.enabled = true;
-                _trigger.enabled = false;
-                _animator.enabled = true;
+                return;
+            }
+
+            var itemFinder = interactor.GetComponent<ItemFinderController>();
+
+            if (itemFinder != null)
+            {
+                itemFinder.AssignItem(_item);
+                _open = true;
+                Destroy(this);
             }
         }
 
         public void StopInteraction()
         {
+            
         }
     }
 }

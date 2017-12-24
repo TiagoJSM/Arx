@@ -155,8 +155,9 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
             _currentHealthCounter = _health;
 
             var maxLifePoints = _heartControllers.Length * 2;
-            var state = _health > maxLifePoints ? "Hide Hearts" : "Show Hearts";
-            _animator.SetBool("Show Hearts", true);
+            var showHearts = _health <= maxLifePoints;
+            var state = showHearts  ? "Show Hearts" : "Hide Hearts";
+            _animator.SetBool("Show Hearts", showHearts);
             _animator.PlayInFixedTime(state, -1, 1.0f);
 
             for (var idx = 0; idx < _heartControllers.Length * 2; idx++)

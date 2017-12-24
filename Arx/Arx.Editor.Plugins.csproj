@@ -182,6 +182,7 @@
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Editor\SpeakersAttributeDrawer.cs" />
     <Compile Include="Assets\Standard Assets\Common\Editor\AttributeDrawers\LayerAttributeDrawer.cs" />
+    <Compile Include="Assets\Standard Assets\Common\Editor\AttributeDrawers\ReadOnlyDrawer.cs" />
     <Compile Include="Assets\Standard Assets\Common\Editor\AttributeDrawers\SelectedSceneAttributeDrawer.cs" />
     <Compile Include="Assets\Standard Assets\Common\Editor\PropertyDrawers\StunDamagePropertyDrawer.cs" />
     <Compile Include="Assets\Standard Assets\Decorators\NodeMeshDecoration\Editor\NodeMeshEditor.cs" />

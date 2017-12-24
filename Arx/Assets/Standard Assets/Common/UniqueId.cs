@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Standard_Assets.Common.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Assets.Standard_Assets.Common
     public class UniqueId : MonoBehaviour
     {
         [SerializeField]
-        //[HideInInspector]
+        [ReadOnly]
         private string _id;
 
         public string Id
