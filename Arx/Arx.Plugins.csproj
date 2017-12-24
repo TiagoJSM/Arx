@@ -273,6 +273,7 @@
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Platform Patrol\Scripts\PlatformPatrol.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Sparring Dummy\Scripts\SparringDummyController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\ExplosionCountdownOverBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\ExplosivePart.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAi.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAiStates.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAnimationController.cs" />
@@ -476,7 +477,9 @@
     <Compile Include="Assets\Standard Assets\Terrain\TerrainField.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Utils\TerrainFillingUtils.cs" />
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\CharacterStatusManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\HeartController.cs" />
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\HudManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\OverflowLifePointsContainer.cs" />
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\QuestSectionManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\HUD\Scripts\TaskItemManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\In Game Menu\Game Section\Scripts\GameSectionManager.cs" />

@@ -18,7 +18,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
     [RequireComponent(typeof(CharacterStatus))]
     public class BasePlatformerController : MonoBehaviour, CommonInterfaces.Controllers.ICharacter
     {
-        private CharacterStatus _status;
         private Direction _direction;
 
         [SerializeField]
@@ -58,7 +57,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         {
             get
             {
-                return _status.health.lifePoints;
+                return CharacterStatus.health.lifePoints;
             }
         }
 
@@ -66,7 +65,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         {
             get
             {
-                return _status.health.maxLifePoints;
+                return CharacterStatus.health.maxLifePoints;
             }
         }
 
@@ -77,6 +76,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
                 return gameObject;
             }
         }
+
+        public CharacterStatus CharacterStatus { get; private set; }
 
         public virtual int Attacked(
             GameObject attacker,
@@ -95,14 +96,14 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             {
                 damage = (int)Math.Ceiling(damage * _backAttackDamageMultiplier);
             }
-            _status.Damage(damage);
+            CharacterStatus.Damage(damage);
 
             if (OnAttacked != null)
             {
                 OnAttacked(this, attacker);
             }
 
-            if (_status.HealthDepleted)
+            if (CharacterStatus.HealthDepleted)
             {
                 Kill();
                 if (OnKilled != null)
@@ -136,7 +137,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
 
         protected virtual void Awake()
         {
-            _status = GetComponent<CharacterStatus>();
+            CharacterStatus = GetComponent<CharacterStatus>();
             _direction = DirectionOfMovement(transform.localScale.x, Direction.Left);
         }
 

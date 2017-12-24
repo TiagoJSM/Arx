@@ -128,6 +128,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     {
         _itemFinderController.OnInventoryItemFound += OnInventoryItemFoundHandler;
         _hud = Instantiate(HudPrefab).GetComponent<HudManager>();
+        _hud.CharacterStatus = _characterController.CharacterStatus;
         PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
         PlatformerCharacterController.ShooterWeapon = _equipmentController.EquippedShooterWeapon;
         PlatformerCharacterController.ChainThrowWeapon = _equipmentController.EquippedChainThrowWeapon;
