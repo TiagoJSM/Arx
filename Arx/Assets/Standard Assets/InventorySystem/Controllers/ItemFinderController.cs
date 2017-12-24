@@ -23,7 +23,7 @@ namespace Assets.Standard_Assets.InventorySystem.Controllers
             }
             if(OnInventoryItemFound != null)
             {
-                OnInventoryItemFound(itemPickable.item);
+                OnInventoryItemFound(itemPickable.Item);
                 itemPickable.PickUp();
                 _itemPickup.Play();
             }

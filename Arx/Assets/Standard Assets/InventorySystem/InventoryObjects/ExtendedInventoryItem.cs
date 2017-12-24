@@ -16,7 +16,6 @@ namespace Assets.Standard_Assets.InventorySystem.InventoryObjects
 
     public abstract class ExtendedInventoryItem : InventoryItem
     {
-        public Texture2D icon;
         public abstract InventoryItemType ItemType { get; }
     }
 }
