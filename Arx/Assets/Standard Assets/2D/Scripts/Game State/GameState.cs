@@ -10,6 +10,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Game_State
     {
         public QuestState[] QuestsStates { get; set; }
         public ItemState[] ItemsStates { get; set; }
+        public List<string> OpenChests { get; set; }
 
         public Watershed Watershed { get; set; }
 
@@ -18,6 +19,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Game_State
             QuestsStates = new QuestState[0];
             ItemsStates = new ItemState[0];
             Watershed = new Watershed();
+            OpenChests = new List<string>();
         }
     }
 }

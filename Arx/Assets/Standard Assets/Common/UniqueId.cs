@@ -22,7 +22,7 @@ namespace Assets.Standard_Assets.Common
 #if UNITY_EDITOR
         private void Awake()
         {
-            if(_id == null)
+            if(string.IsNullOrEmpty(_id))
             {
                 _id = GetUniqueId();
                 return;
@@ -83,6 +83,6 @@ namespace Assets.Standard_Assets.Common
             int idx = _id.LastIndexOf('_');
             return _id.Substring(0, idx);
         }
-    }
 #endif
+    }
 }

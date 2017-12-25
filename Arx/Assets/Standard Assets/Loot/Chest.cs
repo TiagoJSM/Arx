@@ -7,11 +7,14 @@ using CommonInterfaces;
 using Assets.Standard_Assets.InventorySystem.InventoryObjects;
 using Assets.Standard_Assets.InventorySystem.Controllers;
 using Assets.Standard_Assets.Common;
+using Assets.Standard_Assets._2D.Scripts.Game_State;
 
 namespace Assets.Standard_Assets.Loot
 {
+    [RequireComponent(typeof(UniqueId))]
     public class Chest : MonoBehaviour, IInteractionTriggerController
     {
+        private UniqueId _id;
         private bool _open;
 
         [SerializeField]
@@ -41,6 +44,8 @@ namespace Assets.Standard_Assets.Loot
             {
                 itemFinder.AssignItem(_item);
                 _open = true;
+                var openChests = ArxSaveData.Current.GameState.OpenChests;
+                openChests.Add(_id.Id);
                 Destroy(this);
             }
         }
@@ -48,6 +53,13 @@ namespace Assets.Standard_Assets.Loot
         public void StopInteraction()
         {
             
+        }
+
+        private void Awake()
+        {
+            _id = GetComponent<UniqueId>();
+            var openChests = ArxSaveData.Current.GameState.OpenChests;
+            _open = openChests.Contains(_id.Id);
         }
     }
 }
