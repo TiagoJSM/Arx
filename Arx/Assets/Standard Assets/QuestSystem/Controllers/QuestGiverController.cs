@@ -1,7 +1,6 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.Controllers;
 using Assets.Standard_Assets.Characters.Friendly.Quest_Giver.Scripts;
 using Assets.Standard_Assets.QuestSystem.QuestStructures;
-using CommonInterfaces.Controllers.Interaction;
 using GenericComponents.Controllers.Interaction;
 using System;
 using System.Collections.Generic;

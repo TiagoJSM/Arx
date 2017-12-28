@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using CommonInterfaces.Controllers.Interaction;
 using MathHelper;
 using MathHelper.Extensions;
 using CommonInterfaces.Weapons;
@@ -17,6 +16,7 @@ using Assets.Standard_Assets.UI.HUD.Scripts;
 using Assets.Standard_Assets.InventorySystem.Controllers;
 using Assets.Standard_Assets.InventorySystem;
 using Assets.Standard_Assets._2D.Scripts.Interaction;
+using Assets.Standard_Assets.Common;
 
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(ItemFinderController))]

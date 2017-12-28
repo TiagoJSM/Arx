@@ -21,6 +21,8 @@ namespace Assets.Standard_Assets.InventorySystem.InventoryObjects
         [TextArea(3, 20)]
         public string description;
         public bool removeOnUse;
+        public Texture2D icon;
+        public Sprite inGameImage;
 
         public string Id
         {

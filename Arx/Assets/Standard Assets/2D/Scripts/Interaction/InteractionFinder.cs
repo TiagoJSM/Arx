@@ -1,6 +1,6 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
-using CommonInterfaces.Controllers.Interaction;
+using Assets.Standard_Assets.Common;
 using Extensions;
 using System;
 using System.Collections.Generic;

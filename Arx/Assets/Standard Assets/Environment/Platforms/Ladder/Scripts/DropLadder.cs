@@ -1,10 +1,10 @@
-﻿using CommonInterfaces.Controllers.Interaction;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 using CommonInterfaces;
+using Assets.Standard_Assets.Common;
 
 namespace Assets.Standard_Assets.Environment.Platforms.Ladder.Scripts
 {

@@ -152,11 +152,15 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
         private void SetDisplayState()
         {
             _health = _characterStatus.health.lifePoints;
-            _currentHealthCounter = _health;
 
             var maxLifePoints = _heartControllers.Length * 2;
-            var state = _health > maxLifePoints ? "Hide Hearts" : "Show Hearts";
-            _animator.SetBool("Show Hearts", true);
+
+            _currentHealthCounter = Math.Min(_health, maxLifePoints);
+
+            var showHearts = _health <= maxLifePoints;
+            var state = showHearts  ? "Show Hearts" : "Hide Hearts";
+            _overflowLifePoints.LifePoints = _health;
+            _animator.SetBool("Show Hearts", showHearts);
             _animator.PlayInFixedTime(state, -1, 1.0f);
 
             for (var idx = 0; idx < _heartControllers.Length * 2; idx++)

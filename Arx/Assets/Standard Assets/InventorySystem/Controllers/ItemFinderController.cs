@@ -14,6 +14,15 @@ namespace Assets.Standard_Assets.InventorySystem.Controllers
 
         public OnInventoryItemFound OnInventoryItemFound;
 
+        public void AssignItem(IInventoryItem item)
+        {
+            if (OnInventoryItemFound != null)
+            {
+                OnInventoryItemFound(item);
+                _itemPickup.Play();
+            }
+        }
+
         void OnTriggerEnter2D(Collider2D other)
         {
             var itemPickable = other.gameObject.GetComponent<InventoryItemPickable>();
@@ -23,7 +32,7 @@ namespace Assets.Standard_Assets.InventorySystem.Controllers
             }
             if(OnInventoryItemFound != null)
             {
-                OnInventoryItemFound(itemPickable.item);
+                OnInventoryItemFound(itemPickable.Item);
                 itemPickable.PickUp();
                 _itemPickup.Play();
             }

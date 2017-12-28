@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
-using CommonInterfaces.Controllers.Interaction;
 using GenericComponents.Controllers.Interaction;
 using CommonInterfaces;
 using System;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
 using Assets.Standard_Assets.UI.Speech.Scripts;
+using Assets.Standard_Assets.Common;
 
 public class InteractibleCharacterController : MonoBehaviour, IInteractionTriggerController
 {

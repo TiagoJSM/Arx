@@ -1,5 +1,4 @@
-﻿using CommonInterfaces.Controllers.Interaction;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +8,7 @@ using Assets.Standard_Assets.InventorySystem;
 using Assets.Standard_Assets.InventorySystem.InventoryObjects;
 using GenericComponents.Controllers.Interaction;
 using Assets.Standard_Assets.UI.Speech.Scripts;
+using Assets.Standard_Assets.Common;
 
 namespace Assets.Standard_Assets._2D.Scripts.Interaction
 {
