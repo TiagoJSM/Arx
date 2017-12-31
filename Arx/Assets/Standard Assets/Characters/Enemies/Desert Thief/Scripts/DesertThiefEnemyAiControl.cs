@@ -1,64 +1,63 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using GenericComponents.StateMachine;
-using Extensions;
-using Assets.Standard_Assets._2D.Scripts.Characters;
-using CommonInterfaces.Enums;
-using GenericComponents.Controllers.Characters;
-using Assets.Standard_Assets.Extensions;
-using Assets.Standard_Assets.Common;
+﻿using Assets.Standard_Assets._2D.Scripts.Characters;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
+using Assets.Standard_Assets.Common;
+using Assets.Standard_Assets.Extensions;
+using CommonInterfaces.Enums;
+using Extensions;
+using GenericComponents.StateMachine;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
 
-namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
+namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
 {
-    public class EngineerEnemyAiStateManager : StateManager<EngineerEnemyAiControl, object>
+    public class DesertThiefEnemyAiStateManager : StateManager<DesertThiefEnemyAiControl, object>
     {
-        public EngineerEnemyAiStateManager(EngineerEnemyAiControl controller) : base(controller)
+        public DesertThiefEnemyAiStateManager(DesertThiefEnemyAiControl controller) : base(controller)
         {
-            this.SetInitialState<IddleState<EngineerEnemyAiControl>>()
-                .To<AttackedState<EngineerEnemyAiControl>>((c, a, t) => c.Attacked)
-                .To<SurprisedState>((c, a, t) => c.Target != null && c.CanBeSurprised)
-                .To<FollowState<EngineerEnemyAiControl>>((c, a, t) => c.Target != null);
+            this.SetInitialState<IddleState<DesertThiefEnemyAiControl>>()
+                .To<AttackedState<DesertThiefEnemyAiControl>>((c, a, t) => c.Attacked)
+                .To<ThrowDaggerState>((c, a, t) => c.Target != null && c.IsTargetInDaggerThrowReacheablePosiion())
+                .To<FollowState<DesertThiefEnemyAiControl>>((c, a, t) => c.Target != null);
 
-            this.From<FollowState<EngineerEnemyAiControl>>()
-                .To<AttackedState<EngineerEnemyAiControl>>((c, a, t) => c.Attacked)
-                .To<AttackTargetState<EngineerEnemyAiControl>>((c, a, t) => c.IsTargetInRange)
-                .To<IddleState<EngineerEnemyAiControl>>((c, a, t) => c.Target == null);
+            this.From<FollowState<DesertThiefEnemyAiControl>>()
+                .To<AttackedState<DesertThiefEnemyAiControl>>((c, a, t) => c.Attacked)
+                .To<ThrowDaggerState>((c, a, t) => c.Target != null && c.IsTargetInDaggerThrowReacheablePosiion())
+                .To<AttackTargetState<DesertThiefEnemyAiControl>>((c, a, t) => c.IsTargetInRange)
+                .To<IddleState<DesertThiefEnemyAiControl>>((c, a, t) => c.Target == null || !c.CanMoveToGroundAhead());
 
-            this.From<AttackTargetState<EngineerEnemyAiControl>>()
-                .To<AttackedState<EngineerEnemyAiControl>>((c, a, t) => c.Attacked)
-                .To<FollowState<EngineerEnemyAiControl>>((c, a, t) => !c.IsTargetInRange && !c.Attacking)
-                .To<AttackTargetState<EngineerEnemyAiControl>>((c, a, t) => c.IsTargetInRange && !c.Attacking);
+            this.From<AttackTargetState<DesertThiefEnemyAiControl>>()
+                .To<AttackedState<DesertThiefEnemyAiControl>>((c, a, t) => c.Attacked)
+                .To<FollowState<DesertThiefEnemyAiControl>>((c, a, t) => !c.IsTargetInRange && !c.Attacking)
+                .To<AttackTargetState<DesertThiefEnemyAiControl>>((c, a, t) => c.IsTargetInRange && !c.Attacking);
 
-            this.From<SurprisedState>()
-                .To<AttackedState<EngineerEnemyAiControl>>((c, a, t) => c.Attacked)
-                .To<FollowState<EngineerEnemyAiControl>>((c, a, t) => !c.IsSurprise);
-
-            this.From<AttackedState<EngineerEnemyAiControl>>()
-               .To<FollowState<EngineerEnemyAiControl>>((c, a, t) => !c.Attacked);
+            this.From<AttackedState<DesertThiefEnemyAiControl>>()
+               .To<FollowState<DesertThiefEnemyAiControl>>((c, a, t) => !c.Attacked);
 
             this.FromAny()
-                .To<DeadState<EngineerEnemyAiControl>>((c, a, t) => c.Dead);
+                .To<DeadState<DesertThiefEnemyAiControl>>((c, a, t) => c.Dead);
         }
     }
 
     [RequireComponent(typeof(MeleeEnemyController))]
-    public class EngineerEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI
+    public class DesertThiefEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI
     {
         [SerializeField]
         private CharacterFinder _characterFinder;
         [SerializeField]
         private float _attackRange = 1;
         [SerializeField]
-        private bool _canBeSurprised;
+        private Transform _daggerThrowPosition;
         [SerializeField]
-        private float _surprisedTime = 1f;
+        private float _daggerThrowRadius;
 
         private GameObject _target;
         private MeleeEnemyController _controller;
-        private EngineerEnemyAiStateManager _stateManager;
+        private DesertThiefEnemyAiStateManager _stateManager;
 
+        public bool ThrowDagger { get; set; }
         public bool Attacked { get { return _controller.InPain; } }
         public bool Dead { get { return _controller.Dead; } }
 
@@ -88,18 +87,6 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
             }
         }
 
-        public bool CanBeSurprised
-        {
-            get
-            {
-                return _canBeSurprised;
-            }
-        }
-
-        public bool IsSurprise { get; private set; }
-
-        public event Action OnSurprised;
-
         protected override Direction CurrentDirection
         {
             get
@@ -114,6 +101,11 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
             {
                 return _controller.Velocity;
             }
+        }
+
+        public void ThrowDaggerAtEnemy()
+        {
+            ThrowDagger = true;
         }
 
         public void MoveToTarget()
@@ -144,28 +136,12 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
             _controller.OrderAttack();
         }
 
-        public void ShowSurprise()
-        {
-            SetActiveCoroutine(ShowSurpriseRoutine());
-        }
-
-        private IEnumerator ShowSurpriseRoutine()
-        {
-            if(OnSurprised != null)
-            {
-                OnSurprised();
-            }
-            IsSurprise = true;
-            yield return new WaitForSeconds(_surprisedTime);
-            IsSurprise = false;
-        }
-
         // Use this for initialization
         protected override void Awake()
         {
             base.Awake();
             _controller = GetComponent<MeleeEnemyController>();
-            _stateManager = new EngineerEnemyAiStateManager(this);
+            _stateManager = new DesertThiefEnemyAiStateManager(this);
             _characterFinder.OnCharacterFound += OnCharacterFoundHandler;
             _controller.OnAttacked += OnAttackedHandler;
         }
@@ -183,6 +159,16 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
             _controller.Move(directionValue);
         }
 
+        public bool IsTargetInDaggerThrowReacheablePosiion()
+        {
+            if (Target != null)
+            {
+                var overlap = Physics2D.OverlapCircle(_daggerThrowPosition.position, _daggerThrowRadius, _characterFinder.CharacterLayer);
+                return overlap && Target == overlap.gameObject;
+            }
+            return false;
+        }
+
         void Update()
         {
             _stateManager.Perform(null);
@@ -192,6 +178,13 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         {
             _characterFinder.OnCharacterFound -= OnCharacterFoundHandler;
             _controller.OnAttacked -= OnAttackedHandler;
+        }
+
+        protected override void OnDrawGizmos()
+        {
+            base.OnDrawGizmos();
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(_daggerThrowPosition.position, _daggerThrowRadius);
         }
 
         private void FollowTarget()

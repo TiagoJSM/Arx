@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>2017.1.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -265,6 +267,9 @@
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Canyon Engineer\Scripts\EngineerAnimationController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Canyon Engineer\Scripts\EngineerEnemyAiControl.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Canyon Engineer\Scripts\SurprisedState.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Desert Thief\Scripts\DesertThiefAnimationController.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Desert Thief\Scripts\DesertThiefEnemyAiControl.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Desert Thief\Scripts\ThrowDaggerState.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEye.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeAI.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeRoom.cs" />
@@ -663,6 +668,7 @@
     <None Include="Assets\Universal Sound FX\%23Game Genre References\Shoot em Up.txt" />
     <None Include="Assets\Universal Sound FX\%23version_history.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

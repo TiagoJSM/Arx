@@ -13,6 +13,8 @@ using Character = Assets.Standard_Assets._2D.Scripts.Characters.Enemies.ICharact
 using Assets.Standard_Assets.Common;
 using Extensions;
 using Assets.Standard_Assets.Extensions;
+using CommonInterfaces.Weapons;
+using Assets.Standard_Assets.Common.Attributes;
 
 public class MeleeEnemyControllerStateManager : StateManager<Character, StateAction>
 {
@@ -48,7 +50,7 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
     private float _move;
     private bool _attack;
     private MeleeEnemyControllerStateManager _stateManager;
-    private GameObject _equippedWeapon;
+    private CommonVisualWeaponComponent _equippedWeapon;
 
     [SerializeField]
     private BaseCloseCombatWeapon _weaponPrefab;
@@ -62,6 +64,11 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
     private AudioSource _death;
     [SerializeField]
     private StunDamage _stunDamage;
+    [SerializeField]
+    [Layer]
+    private int _sortingLayer;
+    [SerializeField]
+    private int _orderInLayer;
 
     public bool Attacking { get; private set; }
     public bool HitLastTurn { get; private set; }
@@ -129,8 +136,10 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
         base.Start();
         if(_weaponPrefab.RightHandWeapon != null)
         {
-            _equippedWeapon = Instantiate(_weaponPrefab.RightHandWeapon.gameObject);
+            _equippedWeapon = Instantiate(_weaponPrefab.RightHandWeapon);
             _equippedWeapon.transform.SetParent(_weaponSocket.transform, false);
+            _equippedWeapon.SortingLayer = _sortingLayer;
+            _equippedWeapon.OrderInLayer = _orderInLayer;
         }
         _combatModule.CloseCombatWeapon = _weaponPrefab;
     }

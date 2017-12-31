@@ -16,6 +16,12 @@ public abstract class PlatformerCharacterAiControl : BaseCharacterAiController
     private float _maxDistanceFromStartingPoint = 10;
     [SerializeField]
     private float _maxStoppedIddleTime = 5;
+    [SerializeField]
+    private Transform _fallDetector;
+    [SerializeField]
+    private float _fallHeight = 7;
+    [SerializeField]
+    private LayerMask _groundMask = 0;
 
     protected abstract Direction CurrentDirection{ get; }
     protected abstract Vector2 Velocity { get; }
@@ -30,6 +36,15 @@ public abstract class PlatformerCharacterAiControl : BaseCharacterAiController
     protected void IddleMovement()
     {
         SetActiveCoroutine(IddleMovementCoroutine());
+    }
+
+    public bool CanMoveToGroundAhead()
+    {
+        if(_fallDetector == null)
+        {
+            return true;
+        }
+        return Physics2D.Raycast(_fallDetector.position, Vector2.down, _fallHeight, _groundMask);
     }
 
     private IEnumerator IddleMovementCoroutine()
@@ -58,11 +73,21 @@ public abstract class PlatformerCharacterAiControl : BaseCharacterAiController
     {
         var arrivedToDestination = distance >= _maxDistanceFromStartingPoint && directionOfStartingPoint == currentDirectionMovement;
 
-        if (arrivedToDestination)
+        if (arrivedToDestination || !CanMoveToGroundAhead())
         {
             return true;
         }
 
         return Mathf.Approximately(Velocity.x, 0);
+    }
+
+    protected virtual void OnDrawGizmos()
+    {
+        if(_fallDetector != null)
+        {
+            Gizmos.color = Color.green;
+            var direction = Vector2.down * _fallHeight;
+            Gizmos.DrawRay(_fallDetector.position, direction);
+        }
     }
 }
