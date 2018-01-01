@@ -6,10 +6,10 @@ using CommonInterfaces.Weapons;
 using UnityEngine;
 using CommonInterfaces.Controllers;
 
-namespace ArxGame.Components.Weapons
+namespace Assets.Standard_Assets.Weapons
 {
-    [CreateAssetMenu(fileName = "Sword", menuName = "Weapons/Create Sword Weapon", order = 1)]
-    public class Sword : BaseCloseCombatWeapon
+    [CreateAssetMenu(fileName = "Fists", menuName = "Weapons/Create Fist Weapon", order = 1)]
+    public class Fists : BaseCloseCombatWeapon
     {
         [SerializeField]
         private int _lightCombo1Damage;
@@ -22,25 +22,25 @@ namespace ArxGame.Components.Weapons
         [SerializeField]
         private int _diveDamage;
 
-        public Sword()
+        public Fists()
         {
-            WeaponType = WeaponType.Sword;
+            WeaponType = WeaponType.Fist;
         }
 
         public override void LightAttack(int comboCount, IEnumerable<ICharacter> targets, GameObject attacker)
         {
             var damage = GetLightAttackDamage(comboCount);
-            DealDamage(damage, targets, attacker, DamageType.Sword, AttackTypeDetail.GroundLight, comboCount);
+            DealDamage(damage, targets, attacker, DamageType.Fist, AttackTypeDetail.GroundLight, comboCount);
         }
 
         public override void StrongAttack(int comboCount, IEnumerable<ICharacter> targets, GameObject attacker)
         {
-            DealDamage(_strongComboDamage, targets, attacker, DamageType.Sword, AttackTypeDetail.GroundStrong, comboCount);
+            DealDamage(_strongComboDamage, targets, attacker, DamageType.Fist, AttackTypeDetail.GroundStrong, comboCount);
         }
 
         public override void DiveAttack(IEnumerable<ICharacter> targets, GameObject attacker)
         {
-            DealDamage(_diveDamage, targets, attacker, DamageType.Sword, AttackTypeDetail.AirStrong);
+            DealDamage(_diveDamage, targets, attacker, DamageType.Fist, AttackTypeDetail.AirStrong);
         }
 
         private int GetLightAttackDamage(int comboCount)

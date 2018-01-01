@@ -1,5 +1,5 @@
-﻿using ArxGame.Components.Weapons;
-using Assets.Standard_Assets.Common.Attributes;
+﻿using Assets.Standard_Assets.Common.Attributes;
+using Assets.Standard_Assets.Weapons;
 using CommonInterfaces.Weapons;
 using System;
 using System.Collections.Generic;

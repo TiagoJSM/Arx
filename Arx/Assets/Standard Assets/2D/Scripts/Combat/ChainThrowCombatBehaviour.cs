@@ -8,10 +8,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using GenericComponents.Enums;
-using ArxGame.Components.Weapons;
-using ArxGame.Components.Environment;
 using GenericComponents.Behaviours;
 using Extensions;
+using Assets.Standard_Assets.Weapons;
 
 public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
 {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace ArxGame.Components.Weapons
+namespace Assets.Standard_Assets.Weapons
 {
     [CreateAssetMenu(fileName = "Shooter", menuName = "Weapons/Create Shooter Weapon", order = 1)]
     public class Shooter : BaseWeapon, IShooterWeapon
@@ -58,7 +58,7 @@ namespace ArxGame.Components.Weapons
             var direction = angleInDegrees.GetDirectionVectorFromDegreeAngle();
             var projectile = Instantiate(projectilePrefab);
             projectile.transform.position = this.RightHandSocket.transform.position;
-            projectile.direction = direction;
+            projectile.Direction = direction;
             projectile.Attacker = attacker;
             projectile.EnemyLayer = enemyLayer;
             projectile.Damage = _damage;

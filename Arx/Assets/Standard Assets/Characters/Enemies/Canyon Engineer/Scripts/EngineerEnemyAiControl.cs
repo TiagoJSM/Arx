@@ -9,6 +9,7 @@ using GenericComponents.Controllers.Characters;
 using Assets.Standard_Assets.Extensions;
 using Assets.Standard_Assets.Common;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
+using Assets.Standard_Assets.Characters.CharacterBehaviour;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
 {
@@ -44,7 +45,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
     }
 
     [RequireComponent(typeof(MeleeEnemyController))]
-    public class EngineerEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI
+    [RequireComponent(typeof(CharacterAwarenessNotifier))]
+    public class EngineerEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI, ICharacterAware
     {
         [SerializeField]
         private CharacterFinder _characterFinder;
@@ -55,6 +57,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         [SerializeField]
         private float _surprisedTime = 1f;
 
+        private CharacterAwarenessNotifier _awarenessNotifier;
         private GameObject _target;
         private MeleeEnemyController _controller;
         private EngineerEnemyAiStateManager _stateManager;
@@ -165,6 +168,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         {
             base.Awake();
             _controller = GetComponent<MeleeEnemyController>();
+            _awarenessNotifier = GetComponent<CharacterAwarenessNotifier>();
             _stateManager = new EngineerEnemyAiStateManager(this);
             _characterFinder.OnCharacterFound += OnCharacterFoundHandler;
             _controller.OnAttacked += OnAttackedHandler;
@@ -181,6 +185,11 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         public override void Move(float directionValue)
         {
             _controller.Move(directionValue);
+        }
+
+        public void Aware(GameObject obj)
+        {
+            _target = obj;
         }
 
         void Update()
@@ -203,7 +212,6 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
                     _target,
                     movement => _controller.Move(movement),
                     () => IsTargetInRange));
-            //SetActiveCoroutine(FollowTargetCoroutine());
         }
 
         private void OnCharacterFoundHandler(BasePlatformerController controller)
@@ -211,27 +219,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
             if (_target == null)
             {
                 _target = controller.gameObject;
+                _awarenessNotifier.Notify(_target);
             }
         }
-
-        /*private IEnumerator FollowTargetCoroutine()
-        {
-            if (_target == null)
-            {
-                yield break;
-            }
-
-            while (true)
-            {
-                if (IsTargetInRange)
-                {
-                    yield break;
-                }
-                var currentPosition = this.transform.position;
-                var xDifference = _target.transform.position.x - currentPosition.x;
-                _controller.Move(xDifference);
-                yield return null;
-            }
-        }*/
     }
 }

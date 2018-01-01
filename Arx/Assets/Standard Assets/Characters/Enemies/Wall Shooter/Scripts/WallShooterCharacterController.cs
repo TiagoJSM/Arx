@@ -1,11 +1,11 @@
-﻿using ArxGame.Components.Weapons;
-using GenericComponentsCharacters = Assets.Standard_Assets._2D.Scripts.Controllers;
+﻿using GenericComponentsCharacters = Assets.Standard_Assets._2D.Scripts.Controllers;
 using MathHelper.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Assets.Standard_Assets.Weapons;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Wall_Shooter.Scripts
 {
@@ -28,7 +28,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Wall_Shooter.Scripts
             var direction = angle.GetDirectionVectorFromDegreeAngle();
             var position = _projectileSpawnPosition != null ? _projectileSpawnPosition.position : transform.position;
             var projectile = Instantiate(_projectilePrefab, position, Quaternion.identity);
-            projectile.direction = direction;
+            projectile.Direction = direction;
             projectile.Attacker = this.gameObject;
             projectile.EnemyLayer = _enemyLayer;
             projectile.Damage = 1;

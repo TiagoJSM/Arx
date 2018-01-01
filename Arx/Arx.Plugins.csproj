@@ -259,12 +259,18 @@
     <Compile Include="Assets\Standard Assets\Cameras\Scripts\PivotBasedCameraRig.cs" />
     <Compile Include="Assets\Standard Assets\Cameras\Scripts\ProtectCameraFromWallClip.cs" />
     <Compile Include="Assets\Standard Assets\Cameras\Scripts\TargetFieldOfView.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\CharacterAwarenessNotifier.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\ICharacterAware.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Bat\Scripts\BatCharacterAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Bat\Scripts\BatCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Bat\Scripts\MoveAwayFromTargetState.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Canyon Engineer\Scripts\EngineerAnimationController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Canyon Engineer\Scripts\EngineerEnemyAiControl.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Canyon Engineer\Scripts\SurprisedState.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Desert Thief\Scripts\DaggerThrownBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Desert Thief\Scripts\DesertThiefAnimationController.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Desert Thief\Scripts\DesertThiefEnemyAiControl.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Desert Thief\Scripts\ThrowDaggerState.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEye.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeAI.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeRoom.cs" />
@@ -537,6 +543,17 @@
     <Compile Include="Assets\Standard Assets\Vehicles\Car\Scripts\SkidTrail.cs" />
     <Compile Include="Assets\Standard Assets\Vehicles\Car\Scripts\Suspension.cs" />
     <Compile Include="Assets\Standard Assets\Vehicles\Car\Scripts\WheelEffects.cs" />
+    <Compile Include="Assets\Standard Assets\Weapons\BaseCloseCombatWeapon.cs" />
+    <Compile Include="Assets\Standard Assets\Weapons\BaseWeapon.cs" />
+    <Compile Include="Assets\Standard Assets\Weapons\ChainedProjectile.cs" />
+    <Compile Include="Assets\Standard Assets\Weapons\ChainThrow.cs" />
+    <Compile Include="Assets\Standard Assets\Weapons\EnemyDetection.cs" />
+    <Compile Include="Assets\Standard Assets\Weapons\Fists.cs" />
+    <Compile Include="Assets\Standard Assets\Weapons\Grapple.cs" />
+    <Compile Include="Assets\Standard Assets\Weapons\GrappleRope.cs" />
+    <Compile Include="Assets\Standard Assets\Weapons\Projectile.cs" />
+    <Compile Include="Assets\Standard Assets\Weapons\Shooter.cs" />
+    <Compile Include="Assets\Standard Assets\Weapons\Sword.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Anima2D\Examples\Shaders\Unlit-Alpha-Cull-off.shader" />

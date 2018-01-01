@@ -6,23 +6,60 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace ArxGame.Components.Weapons
+namespace Assets.Standard_Assets.Weapons
 {
     public class Projectile : MonoBehaviour
     {
-        public Vector3 direction;
+        private Vector3 _direction;
         public float speed;
         public float lifetime = 4;
         [SerializeField]
         private LayerMask _colliderLayer;
+        [SerializeField]
+        private LayerMask _enemyLayer;
+        [SerializeField]
+        private int _damage;
 
-        public LayerMask EnemyLayer { get; set; }
-        public int Damage { get; set; }
+        public LayerMask EnemyLayer
+        {
+            get
+            {
+                return _enemyLayer;
+            }
+            set
+            {
+                _enemyLayer = value;
+            }
+        }
+        public int Damage
+        {
+            get
+            {
+                return _damage;
+            }
+            set
+            {
+                _damage = value;
+            }
+        }
         public GameObject Attacker { get; set; }
+        public Vector3 Direction
+        {
+            get
+            {
+                return _direction;
+            }
+            set
+            {
+                _direction = value;
+                var localScale = transform.localScale;
+                transform.localScale = new Vector3(Mathf.Sign(_direction.x), localScale.y, localScale.z);
+            }
+        }
 
         void Update()
         {
-            this.transform.position += direction * (speed * Time.deltaTime);
+            this.transform.position += Direction * (speed * Time.deltaTime);
             lifetime -= Time.deltaTime;
             if(lifetime <= 0)
             {

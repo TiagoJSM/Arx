@@ -23,6 +23,11 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters
         [SerializeField]
         private LayerMask _characterLayer;
 
+        public LayerMask CharacterLayer
+        {
+            get { return _characterLayer; }
+        }
+
         void Update()
         {
             if (OnCharacterFound == null)
