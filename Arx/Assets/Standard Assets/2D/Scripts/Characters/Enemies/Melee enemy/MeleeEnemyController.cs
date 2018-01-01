@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using GenericComponents.Controllers.Characters;
-using ArxGame.Components;
 using GenericComponents.StateMachine;
 using System;
-using ArxGame.Components.Weapons;
 using System.Collections.Generic;
 using Assets.Standard_Assets._2D.Scripts.Characters.Enemies;
 using GenericComponents.Enums;
@@ -15,6 +13,7 @@ using Extensions;
 using Assets.Standard_Assets.Extensions;
 using CommonInterfaces.Weapons;
 using Assets.Standard_Assets.Common.Attributes;
+using Assets.Standard_Assets.Weapons;
 
 public class MeleeEnemyControllerStateManager : StateManager<Character, StateAction>
 {

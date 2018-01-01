@@ -1,4 +1,4 @@
-﻿using ArxGame.Components.Weapons;
+﻿using Assets.Standard_Assets.Weapons;
 using CommonInterfaces.Controllers;
 using System;
 using System.Collections;
@@ -232,7 +232,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
         {
             var position = _projectileSpawnPosition != null ? _projectileSpawnPosition.position : transform.position;
             var projectile = Instantiate(_projectilePrefab, position, Quaternion.identity);
-            projectile.direction = direction;
+            projectile.Direction = direction;
             projectile.Attacker = gameObject;
             projectile.EnemyLayer = _enemyLayer;
             projectile.Damage = 1;

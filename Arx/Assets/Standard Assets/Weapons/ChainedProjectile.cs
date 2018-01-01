@@ -1,5 +1,4 @@
-﻿using ArxGame.Components.Environment;
-using CommonInterfaces.Controllers;
+﻿using CommonInterfaces.Controllers;
 using CommonInterfaces.Enums;
 using Extensions;
 using GenericComponents.Behaviours;
@@ -11,7 +10,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace ArxGame.Components.Weapons
+namespace Assets.Standard_Assets.Weapons
 {
     public enum ProjectileStatus
     {
@@ -125,7 +124,10 @@ namespace ArxGame.Components.Weapons
                     _coroutine = null;
                     Status = ProjectileStatus.None;
                     _collider.enabled = false;
-                    OnAttackFinish?.Invoke();
+                    if(OnAttackFinish != null)
+                    {
+                        OnAttackFinish();
+                    }
                     yield break;
                 }
                 yield return new WaitForEndOfFrame();
@@ -140,7 +142,10 @@ namespace ArxGame.Components.Weapons
             {
                 return;
             }
-            OnTriggerEnter?.Invoke(other, this, this.transform.position);
+            if(OnTriggerEnter != null)
+            {
+                OnTriggerEnter(other, this, this.transform.position);
+            }
         }
 
         private void Awake()

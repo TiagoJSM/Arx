@@ -10,7 +10,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
         public override void OnStateEnter(object action)
         {
             base.OnStateEnter(action);
-            base.StateController.ThrowDaggerAtEnemy();
+            base.StateController.ThrowDagger = true;
         }
 
         public override void OnStateExit(object action)

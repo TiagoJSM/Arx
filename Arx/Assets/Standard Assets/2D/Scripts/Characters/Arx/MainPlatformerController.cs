@@ -14,8 +14,6 @@ using UnityEngine;
 using CommonInterfaces.Enums;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
-using ArxGame.Components.Weapons;
-using ArxGame.Components.Environment;
 using Assets.Standard_Assets._2D.Scripts.EnvironmentDetection;
 using Assets.Standard_Assets._2D.Scripts.Helpers;
 using System.Collections;
@@ -23,6 +21,7 @@ using Assets.Standard_Assets._2D.Scripts.Controllers;
 using Assets.Standard_Assets._2D.Scripts.Interaction;
 using Assets.Standard_Assets.Common;
 using Assets.Standard_Assets.Extensions;
+using Assets.Standard_Assets.Weapons;
 
 [RequireComponent(typeof(CombatModule))]
 [RequireComponent(typeof(LadderMovement))]

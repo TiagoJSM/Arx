@@ -1,5 +1,4 @@
-﻿using ArxGame.Components.Environment;
-using ArxGame.Components.Weapons;
+﻿using Assets.Standard_Assets.Weapons;
 using CommonInterfaces.Controllers;
 using CommonInterfaces.Weapons;
 using GenericComponents.Enums;

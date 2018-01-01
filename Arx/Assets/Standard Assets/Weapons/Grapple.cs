@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using CommonInterfaces.Enums;
-using ArxGame.Components.Environment;
 using GenericComponents.Behaviours;
 
-namespace ArxGame.Components.Weapons
+namespace Assets.Standard_Assets.Weapons
 {
     /*public class Grapple : MonoBehaviour, IGrapple
     {

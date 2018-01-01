@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace ArxGame.Components.Environment
+namespace Assets.Standard_Assets.Weapons
 {
     public class GrappleRope : BaseRope
     {
@@ -17,7 +17,11 @@ namespace ArxGame.Components.Environment
         {
             get
             {
-                var _bodies = _ropeEnd?.GetRigidBodies2DInJointSequence().ToArray();
+                if (_ropeEnd == null)
+                {
+                    return new Vector2[0];
+                }
+                var _bodies = _ropeEnd.GetRigidBodies2DInJointSequence().ToArray();
                 if (_bodies == null)
                 {
                     return new Vector2[0];

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace ArxGame.Components.Weapons
+namespace Assets.Standard_Assets.Weapons
 {
     public abstract class BaseWeapon : ScriptableObject, IWeapon
     {

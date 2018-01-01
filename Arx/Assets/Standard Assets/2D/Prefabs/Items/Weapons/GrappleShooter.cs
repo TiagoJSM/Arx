@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using ArxGame.Components.Weapons;
 using CommonInterfaces.Enums;
 
 [RequireComponent(typeof(HingeJoint2D))]

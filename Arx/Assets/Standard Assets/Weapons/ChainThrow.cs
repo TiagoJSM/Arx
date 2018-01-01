@@ -1,5 +1,4 @@
-﻿using ArxGame.Components.Environment;
-using CommonInterfaces.Controllers;
+﻿using CommonInterfaces.Controllers;
 using CommonInterfaces.Enums;
 using CommonInterfaces.Weapons;
 using Extensions;
@@ -11,7 +10,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace ArxGame.Components.Weapons
+namespace Assets.Standard_Assets.Weapons
 {
     [CreateAssetMenu(fileName = "ChainThrow", menuName = "Weapons/Create Chain Throw Weapon", order = 1)]
     public class ChainThrow : BaseWeapon, IChainThrowWeapon
@@ -114,7 +113,10 @@ namespace ArxGame.Components.Weapons
         private void AttackFinished()
         {
             _attackedEnemies.Clear();
-            OnAttackFinish?.Invoke();
+            if(OnAttackFinish != null)
+            {
+                OnAttackFinish();
+            }
             InstantiatedHeldProjectile.gameObject.SetActive(false);
         }        
 
