@@ -114,10 +114,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             return LifePoints;
         }
 
-        public virtual void Kill()
-        {
-            Destroy(this.gameObject);
-        }
+        public virtual void Kill() { }
 
         public virtual bool StartGrappled(GameObject grapple)
         {

@@ -35,20 +35,22 @@ namespace GenericComponentEditors.PropertyDrawers
             EditorGUI.DelayedIntField(lifePointsRect, lifeProp, GUIContent.none);
             EditorGUIUtility.labelWidth = 14f;
             EditorGUI.DelayedIntField(maxLifePointsRect, maxLifeProp, new GUIContent("/"));
-            
-            if(lifeProp.intValue <= 0)
-            {
-                lifeProp.intValue = 1;
-            }
-            if (maxLifeProp.intValue <= 0)
-            {
-                maxLifeProp.intValue = 1;
-            }
-            if (lifeProp.intValue > maxLifeProp.intValue)
-            {
-                maxLifeProp.intValue = lifeProp.intValue;
-            }
 
+            if (!EditorApplication.isPlaying)
+            {
+                if (lifeProp.intValue <= 0)
+                {
+                    lifeProp.intValue = 1;
+                }
+                if (maxLifeProp.intValue <= 0)
+                {
+                    maxLifeProp.intValue = 1;
+                }
+                if (lifeProp.intValue > maxLifeProp.intValue)
+                {
+                    maxLifeProp.intValue = lifeProp.intValue;
+                }
+            }
             // Set indent back to what it was
             EditorGUI.indentLevel = indent;
 
