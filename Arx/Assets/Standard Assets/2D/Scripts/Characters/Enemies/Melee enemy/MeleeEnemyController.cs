@@ -104,7 +104,7 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
         transform.rotation = Quaternion.Euler(euler.x, euler.y, -angle);
     }
 
-    public override int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1)
+    public override int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1, bool showDamaged = false)
     {
         var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType);
         var damageOriginPosition = hitPoint ?? attacker.transform.position;

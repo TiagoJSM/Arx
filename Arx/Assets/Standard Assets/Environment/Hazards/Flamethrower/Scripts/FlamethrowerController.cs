@@ -46,7 +46,7 @@ namespace Assets.Standard_Assets.Environment.Hazards.Flamethrower.Scripts
                 var character = hit.transform.GetComponent<GC.BasePlatformerController>();
                 if (character != null)
                 {
-                    character.Attacked(gameObject, _damage, hit.point, DamageType.Environment);
+                    character.Attacked(gameObject, _damage, hit.point, DamageType.Environment, showDamaged: true);
                 }
             }
         }

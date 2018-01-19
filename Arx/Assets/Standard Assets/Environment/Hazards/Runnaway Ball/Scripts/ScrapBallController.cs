@@ -14,7 +14,7 @@ namespace Assets.Standard_Assets.Environment.Hazards.Runnaway_Ball.Scripts
         {
             var movement = transform.position - _previousPosition;
             var distance = Vector3.Distance(_previousPosition, transform.position);
-            var speed = (-movement.x) * 10/** Time.deltaTime * 100*/;
+            var speed = (-movement.x) * 10;
 
             transform.rotation = Quaternion.Euler(0, 0, speed + transform.rotation.eulerAngles.z);
 

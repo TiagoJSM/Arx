@@ -16,6 +16,8 @@ namespace Assets.Standard_Assets.Environment.Platforms.PressurePlatform.Scripts
         [SerializeField]
         private float _delay;
         [SerializeField]
+        private float _holdTime = 1;
+        [SerializeField]
         private float _restTime = 1;
         [SerializeField]
         private float _timeToReachTarget = 1;
@@ -35,6 +37,7 @@ namespace Assets.Standard_Assets.Environment.Platforms.PressurePlatform.Scripts
             while (true)
             {
                 yield return MoveTo(_target.position, _timeToReachTarget);
+                yield return new WaitForSeconds(_holdTime);
                 yield return MoveTo(_startingPoint, _timeToReturn);
                 yield return new WaitForSeconds(_restTime);
             }

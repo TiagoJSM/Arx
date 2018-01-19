@@ -1,5 +1,6 @@
 ﻿using Assets.Standard_Assets.Extensions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ namespace Assets.Standard_Assets.Environment.Hazards.Runnaway_Ball.Scripts
 {
     public class RunnawayBallController : MonoBehaviour
     {
+        private Coroutine _routine;
+
         [SerializeField]
         private AudioSource _roll;
         [SerializeField]
@@ -16,17 +19,26 @@ namespace Assets.Standard_Assets.Environment.Hazards.Runnaway_Ball.Scripts
 
         public void StartPlatformRoll()
         {
-            _roll.Play();
+            StartNewRoutine(_roll.FadeIn(0.2f));
         }
 
         public void StopPlatformRoll()
         {
-            _roll.Stop();
+            StartNewRoutine(_roll.FadeOut(0.5f));
         }
 
         public void Impact()
         {
             _impact.PlayRandom();
+        }
+
+        private void StartNewRoutine(IEnumerator routine)
+        {
+            if (_routine != null)
+            {
+                StopCoroutine(_routine);
+            }
+            _routine = StartCoroutine(routine);
         }
     }
 }
