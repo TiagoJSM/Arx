@@ -6,8 +6,11 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets._2D.Scripts.Controllers
 {
+    [RequireComponent(typeof(CharacterController2D))]
     public class LadderMovement : MonoBehaviour
     {
+        private CharacterController2D _controller;
+
         [SerializeField]
         private float _verticalUpSpeed = 15;
         [SerializeField]
@@ -17,13 +20,13 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
 
         public void GrabLadder()
         {
-            _characterController.ApplyMovementAndGravity = false;
         }
 
         public void MoveOnLadder(float vertical)
         {
             if (Mathf.Abs(vertical) <= 0.01)
             {
+                _controller.move(Vector3.zero);
                 return;
             }
             var direction = Mathf.Sign(vertical);
@@ -32,12 +35,16 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
                     ? new Vector3(0, _verticalUpSpeed * Time.deltaTime * direction)
                     : new Vector3(0, _verticalDownSpeed * Time.deltaTime * direction);
 
-            this.transform.localPosition += move;
+            _controller.move(move);
         }
 
         public void LetGoLadder()
         {
-            _characterController.ApplyMovementAndGravity = true;
+        }
+
+        private void Awake()
+        {
+           _controller = GetComponent<CharacterController2D>();
         }
     }
 }

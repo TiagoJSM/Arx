@@ -251,7 +251,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             this
                 .From<LadderGrabState>()
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
-                    .To<FallingState>((c, a, t) => a.Jump)
+                    .To<JumpingState>((c, a, t) => a.Jump)
                     .To<FallingState>((c, a, t) => !c.LadderFound && !c.IsGrounded)
                     .To<IddleState>((c, a, t) => !c.LadderFound);
         }

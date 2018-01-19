@@ -452,6 +452,7 @@ public class MainPlatformerController : PlatformerCharacterController
     public void GrabLadder()
     {
         _notifications.HideInteraction();
+        ApplyMovementAndGravity = false;
         _ladderMovement.GrabLadder();
         GrabbingLadder = true;
     }
@@ -463,6 +464,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void LetGoLadder()
     {
+        ApplyMovementAndGravity = true;
         _ladderMovement.LetGoLadder();
         GrabbingLadder = false;
     }
