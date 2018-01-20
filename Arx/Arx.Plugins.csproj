@@ -511,6 +511,7 @@
     <Compile Include="Assets\Standard Assets\UI\In Game Menu\Quest Section\Scripts\QuestListManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\In Game Menu\Quest Section\Scripts\QuestSection.cs" />
     <Compile Include="Assets\Standard Assets\UI\In Game Menu\Scripts\UiMenuManager.cs" />
+    <Compile Include="Assets\Standard Assets\UI\Loading\Screen Transition\Scripts\ScreenTransitionController.cs" />
     <Compile Include="Assets\Standard Assets\UI\Main Menu\Scripts\MainMenuManager.cs" />
     <Compile Include="Assets\Standard Assets\UI\Speech\Scripts\SpeechBubleController.cs" />
     <Compile Include="Assets\Standard Assets\UI\Speech\Scripts\SpeechController.cs" />
