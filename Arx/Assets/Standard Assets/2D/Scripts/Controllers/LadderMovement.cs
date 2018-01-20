@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
     public class LadderMovement : MonoBehaviour
     {
         private CharacterController2D _controller;
+        private Coroutine _grabLadder;
 
+        [SerializeField]
+        private float _grabLadderTime = 0.2f;
         [SerializeField]
         private float _verticalUpSpeed = 15;
         [SerializeField]
@@ -18,8 +22,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         [SerializeField]
         private PlatformerCharacterController _characterController;
 
-        public void GrabLadder()
+        public void GrabLadder(GameObject ladder)
         {
+            StopCoroutine();
+            _grabLadder = StartCoroutine(GrabLadderRoutine(ladder.transform.position.x));
         }
 
         public void MoveOnLadder(float vertical)
@@ -40,11 +46,36 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
 
         public void LetGoLadder()
         {
+            StopCoroutine();
         }
 
         private void Awake()
         {
            _controller = GetComponent<CharacterController2D>();
+        }
+
+        private IEnumerator GrabLadderRoutine(float xGrab)
+        {
+            var elapsed = 0.0f;
+            var startX = transform.position.x;
+            while (elapsed < _grabLadderTime)
+            {
+                elapsed += Time.deltaTime;
+                var currentX = Mathf.Lerp(startX, xGrab, elapsed / _grabLadderTime);
+                var position = transform.position;
+                position.x = currentX;
+                transform.position = position;
+                yield return null;
+            }
+            _grabLadder = null;
+        }
+
+        private void StopCoroutine()
+        {
+            if(_grabLadder != null)
+            {
+                StopCoroutine(_grabLadder);
+            }
         }
     }
 }

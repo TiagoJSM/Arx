@@ -453,7 +453,7 @@ public class MainPlatformerController : PlatformerCharacterController
     {
         _notifications.HideInteraction();
         ApplyMovementAndGravity = false;
-        _ladderMovement.GrabLadder();
+        _ladderMovement.GrabLadder(_ladderFinder.LadderGameObject);
         GrabbingLadder = true;
     }
 

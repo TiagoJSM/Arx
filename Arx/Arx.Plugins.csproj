@@ -266,6 +266,7 @@
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\ICharacterAware.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Alarm Bot\Scripts\AlarmBotAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Alarm Bot\Scripts\AlarmBotAnimator.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Alarm Bot\Scripts\AlarmBotSounds.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Bat\Scripts\BatCharacterAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Bat\Scripts\BatCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Bat\Scripts\MoveAwayFromTargetState.cs" />

@@ -13,12 +13,14 @@ namespace Assets.Standard_Assets.Characters.Enemies.Alarm_Bot.Scripts
 {
 
     [RequireComponent(typeof(PlatformerCharacterController))]
+    [RequireComponent(typeof(AlarmBotSounds))]
     public class AlarmBotAiController : PlatformerCharacterAiControl
     {
         private PlatformerCharacterController _controller;
         private int _aliveEnemyCount;
         private BasePlatformerController _enemy;
         private CharacterAwarenessNotifier _awarenessNotifier;
+        private AlarmBotSounds _sounds;
 
         [SerializeField]
         private CharacterFinder _charFinder;
@@ -57,11 +59,13 @@ namespace Assets.Standard_Assets.Characters.Enemies.Alarm_Bot.Scripts
         {
             _controller = GetComponent<PlatformerCharacterController>();
             _awarenessNotifier = GetComponent<CharacterAwarenessNotifier>();
+            _sounds = GetComponent<AlarmBotSounds>();
             _controller.MovementType = MovementType.Walk;
             _controller.OnKilled += OnKilledHandler;
             Warning = false;
             _charFinder.OnCharacterFound += OnCharacterFoundHandler;
             IddleMovement();
+            _sounds.IddleMovement();
         }
 
         private void OnDestroy()
@@ -74,6 +78,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Alarm_Bot.Scripts
             StopActiveCoroutine();
             _controller.StayStill();
             _collider.enabled = false;
+            _sounds.Death();
             RemoveEventHandlers();
         }
 
@@ -84,6 +89,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Alarm_Bot.Scripts
                 _enemy = controller;
                 Warning = true;
                 _controller.MovementType = MovementType.Run;
+                _sounds.AlarmMovement();
                 SpawnEnemies();
                 _awarenessNotifier.Notify(controller.gameObject);
             }
