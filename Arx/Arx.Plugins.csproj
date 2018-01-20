@@ -234,6 +234,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\CheckpointManager.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\GameStateManager.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\LevelManager.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\ListenerLevelFadeManager.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Managers\Singleton.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\OnDamagedHandlers\PlayAnimatorOnDamaged.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Platformer2DUserControl.cs" />
