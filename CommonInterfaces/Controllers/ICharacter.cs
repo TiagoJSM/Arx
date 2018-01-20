@@ -38,7 +38,8 @@ namespace CommonInterfaces.Controllers
             Vector3? hitPoint, 
             DamageType damageType,
             AttackTypeDetail attackType = AttackTypeDetail.Generic,
-            int comboNumber = 1);
+            int comboNumber = 1,
+            bool showDamaged = false);
         bool StartGrappled(GameObject grapple);
         void EndGrappled();
         void Kill();

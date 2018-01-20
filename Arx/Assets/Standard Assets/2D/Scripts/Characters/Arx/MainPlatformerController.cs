@@ -195,6 +195,8 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public Vector3? HitPointThisFrame { get; private set; }
 
+    public bool GrabbingLadder { get; private set; }
+
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming, bool jumpOnLedge)
     {
         _move = move;
@@ -450,7 +452,9 @@ public class MainPlatformerController : PlatformerCharacterController
     public void GrabLadder()
     {
         _notifications.HideInteraction();
-        _ladderMovement.GrabLadder();
+        ApplyMovementAndGravity = false;
+        _ladderMovement.GrabLadder(_ladderFinder.LadderGameObject);
+        GrabbingLadder = true;
     }
 
     public void MoveOnLadder(float vertical)
@@ -460,7 +464,9 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void LetGoLadder()
     {
+        ApplyMovementAndGravity = true;
         _ladderMovement.LetGoLadder();
+        GrabbingLadder = false;
     }
 
     public void StartMovingToSafeSpot()
@@ -499,12 +505,22 @@ public class MainPlatformerController : PlatformerCharacterController
         Vector3? hitPoint,
         DamageType damageType,
         AttackTypeDetail attackType = AttackTypeDetail.Generic,
-        int comboNumber = 1)
+        int comboNumber = 1,
+        bool showDamaged = false)
     {
         var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType, comboNumber);
         if(damageTaken > 0)
         {
             _hitEffects.HitByEnemy();
+            AttackedThisFrame = true;
+            HitPointThisFrame = hitPoint;
+            if (HitPointThisFrame == null)
+            {
+                HitPointThisFrame = attacker.transform.position;
+            }
+        }
+        else if (showDamaged)
+        {
             AttackedThisFrame = true;
             HitPointThisFrame = hitPoint;
             if (HitPointThisFrame == null)

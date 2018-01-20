@@ -31,6 +31,7 @@ public class ArxAnimationController : MonoBehaviour
     private readonly int _VelocityGoingDown = Animator.StringToHash("Velocity Going Down");
     private readonly int _EnemyNearby = Animator.StringToHash("Enemy Nearby");
     private readonly int _TakingDamage = Animator.StringToHash("Taking Damage");
+    private readonly int _GrabbingLadder = Animator.StringToHash("Grabbing Ladder");
 
     private float _previousVerticalVelocity = 0;
 
@@ -192,6 +193,7 @@ public class ArxAnimationController : MonoBehaviour
         VelocityGoingDown = _platformerController.VerticalSpeed < _previousVerticalVelocity;
         EnemyNearby = _enemyProximityDetector.EnemyNearby;
         TakingDamage = _platformerController.TakingDamage;
+        _animator.SetBool(_GrabbingLadder, _platformerController.GrabbingLadder);
 
         var currentState = _animator.GetCurrentAnimatorStateInfo(0);
         if (_animator.GetCurrentAnimatorClipInfo(0).Length > 0)

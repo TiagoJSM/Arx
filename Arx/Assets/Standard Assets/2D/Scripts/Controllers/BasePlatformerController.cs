@@ -85,7 +85,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             Vector3? hitPoint,
             DamageType damageType,
             AttackTypeDetail attackType = AttackTypeDetail.Generic,
-            int comboNumber = 1)
+            int comboNumber = 1,
+            bool showDamaged = false)
         {
             if (!CanBeAttacked)
             {
@@ -114,10 +115,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             return LifePoints;
         }
 
-        public virtual void Kill()
-        {
-            Destroy(this.gameObject);
-        }
+        public virtual void Kill() { }
 
         public virtual bool StartGrappled(GameObject grapple)
         {

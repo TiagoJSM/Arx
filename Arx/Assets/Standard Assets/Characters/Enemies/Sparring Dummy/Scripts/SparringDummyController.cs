@@ -33,7 +33,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Sparring_Dummy.Scripts
             Vector3? hitPoint, 
             DamageType damageType, 
             AttackTypeDetail attackType = AttackTypeDetail.Generic, 
-            int comboNumber = 1)
+            int comboNumber = 1,
+            bool showDamaged = false)
         {
             var result = base.Attacked(attacker, damage, hitPoint, damageType, attackType, comboNumber);
 

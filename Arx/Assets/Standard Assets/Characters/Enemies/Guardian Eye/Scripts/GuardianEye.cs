@@ -131,7 +131,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
             }
         }
 
-        public int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1)
+        public int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1, bool showDamaged = false)
         {
             if (!CanBeAttacked)
             {

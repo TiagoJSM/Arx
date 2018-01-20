@@ -1,0 +1,217 @@
+fileFormatVersion: 2
+guid: e78346776f7de6149ba858060b61a51e
+timeCreated: 1514919974
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Alarm bot_0
+    21300002: Alarm bot_1
+    21300004: Alarm bot_2
+    21300006: Alarm bot_3
+    21300008: Alarm bot_4
+    21300010: Alarm bot_5
+    21300012: Alarm bot_6
+    21300014: Alarm bot_7
+    21300016: Alarm bot_8
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: -1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Alarm bot_0
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 450
+        width: 40
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Alarm bot_1
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 377
+        width: 100
+        height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Alarm bot_2
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 253
+        width: 161
+        height: 169
+      alignment: 9
+      pivot: {x: 0.41639358, y: 0.17721304}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Alarm bot_3
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 242
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Alarm bot_4
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 118
+        width: 39
+        height: 117
+      alignment: 9
+      pivot: {x: 0.5181652, y: 0.076138295}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Alarm bot_5
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 142
+        width: 5
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Alarm bot_6
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 136
+        width: 30
+        height: 72
+      alignment: 9
+      pivot: {x: 0.94868726, y: 0.44096246}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Alarm bot_7
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 139
+        width: 54
+        height: 78
+      alignment: 9
+      pivot: {x: 0.91982466, y: 0.38192436}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Alarm bot_8
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 125
+        width: 96
+        height: 83
+      alignment: 9
+      pivot: {x: 0.094114624, y: 0.42317954}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
