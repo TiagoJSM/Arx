@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Standard_Assets.UI.Loading.Screen_Transition.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
     {
         private string _location;
         private Vector3? _position;
+        private ScreenTransitionController _screenTransition;
 
         protected LevelManager()
         {
@@ -48,6 +50,13 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
             SceneManager.LoadScene(sceneName);
         }
 
+        private void Awake()
+        {
+            _screenTransition = Instantiate(Resources.Load<ScreenTransitionController>("Screen Transition/Screen Transition"));
+            DontDestroyOnLoad(_screenTransition);
+            _screenTransition.FadeIn();
+        }
+
         private void SceneLoadedHandler(Scene scene, LoadSceneMode loadMode)
         {
             if (!string.IsNullOrEmpty(_location))
@@ -72,6 +81,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
             {
                 OnSceneLoaded();
             }
+            _screenTransition.FadeIn();
         }
 
         private GameObject GetPlayer()
