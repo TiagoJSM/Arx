@@ -19,7 +19,6 @@ namespace Assets.Standard_Assets.Environment.Hazards.Runnaway_Ball.Scripts
             var distance = Vector3.Distance(_previousPosition, animator.transform.position);
             var speed = movement.x * Time.deltaTime;
             var absX = Math.Abs(movement.x);
-            Debug.Log(speed);
             animator.SetFloat(_rotation, speed);
             _previousPosition = animator.transform.position;
         }
