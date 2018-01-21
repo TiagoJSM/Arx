@@ -26,7 +26,11 @@ namespace Assets.Standard_Assets.GenericComponents.Waypoint
         }
 
         private int _pathIdx;
-        private Vector2 _overflow;
+        private float _elapsedTime;
+        private float _timeToPoint;
+        private Vector3 _origin;
+        private Vector3 _target;
+        private float _waitTime;
 
         [SerializeField]
         private bool _restartWhenFinish;
@@ -34,9 +38,11 @@ namespace Assets.Standard_Assets.GenericComponents.Waypoint
         private int _initialWaypointTarget;
         [SerializeField]
         private UpdateMode _updateMode = UpdateMode.Update;
+        [SerializeField]
+        private float _waitTimeBetweenPoints;
 
         public StartLocation startLocation = StartLocation.CurrentPosition;
-        public float waypointThreasholdRadius = 1.2f;
+        //public float waypointThreasholdRadius = 1.2f;
         public float velocity = 1;
         public WaypointPath waypointPath;
 
@@ -47,6 +53,7 @@ namespace Assets.Standard_Assets.GenericComponents.Waypoint
             if (startLocation == StartLocation.Start)
             {
                 this.transform.position = GetWaypoint().ToVector3();
+                _pathIdx = 1;
             }
             else if (startLocation == StartLocation.End)
             {
@@ -58,6 +65,7 @@ namespace Assets.Standard_Assets.GenericComponents.Waypoint
                 //check if _initialWaypointTarget is out of bounds
                 _pathIdx = Math.Min(PathNodes.Length - 1, _initialWaypointTarget);
             }
+            UpdateSegmentData();
         }
 
         void FixedUpdate()
@@ -78,27 +86,15 @@ namespace Assets.Standard_Assets.GenericComponents.Waypoint
 
         private void UpdateObject(float delta)
         {
+            if(_waitTime > 0)
+            {
+                _waitTime -= delta;
+                return;
+            }
             UpdateWaypointIndex();
-            if (_pathIdx == 0 && _restartWhenFinish)
-            {
-                transform.position = PathNodes.First();
-                _pathIdx++;
-            }
-            var waypoint = GetWaypoint();
-            var normalized = (waypoint - transform.position.ToVector2()).normalized;
-            var position = transform.position.ToVector2() + normalized * velocity * delta;
-            transform.position = position - _overflow;
-            _overflow = Vector2.zero;
+            transform.position = Vector3.Lerp(_origin, _target, _elapsedTime / _timeToPoint);
+            _elapsedTime += delta;
 
-            var distance =
-                Vector3
-                    .Distance(
-                        transform.position,
-                        waypoint.ToVector3());
-            if (distance <= waypointThreasholdRadius)
-            {
-                _overflow = transform.position.ToVector2() - waypoint;
-            }
         }
 
         private Vector2 GetWaypoint()
@@ -108,6 +104,42 @@ namespace Assets.Standard_Assets.GenericComponents.Waypoint
 
         private void UpdateWaypointIndex()
         {
+            var updateSegmentData = false;
+            if (_elapsedTime >= _timeToPoint)
+            {
+                _pathIdx++;
+                updateSegmentData = true;
+                _waitTime = _waitTimeBetweenPoints;
+            }
+
+            if (_pathIdx >= PathNodes.Length)
+            {
+                _pathIdx = 0;
+                updateSegmentData = true;
+
+                if (_pathIdx == 0 && _restartWhenFinish)
+                {
+                    transform.position = PathNodes.First();
+                    _pathIdx++;
+                }
+            }
+
+            if (updateSegmentData)
+            {
+                UpdateSegmentData();
+            }
+        }
+
+        private void UpdateSegmentData()
+        {
+            _elapsedTime = 0;
+            _timeToPoint = GetTimeToPoint();
+            _origin = transform.position;
+            _target = GetWaypoint();
+        }
+
+        private float GetTimeToPoint()
+        {
             var waypoint = GetWaypoint();
             var distance =
                 Vector3
@@ -115,15 +147,7 @@ namespace Assets.Standard_Assets.GenericComponents.Waypoint
                         transform.position,
                         waypoint.ToVector3());
 
-            if (distance <= waypointThreasholdRadius)
-            {
-                _pathIdx++;
-            }
-
-            if (_pathIdx >= PathNodes.Length)
-            {
-                _pathIdx = 0;
-            }
+            return distance / velocity;
         }
     }
 }
