@@ -239,7 +239,7 @@ public class PlatformerCharacterController : BasePlatformerController
         {
             return;
         }
-        //_grabHand.SetActive(true);
+
         _lastGrabbedLedge = _detectedLedge;
         transform.parent = _lastGrabbedLedge.gameObject.transform;
         DesiredMovementVelocity = Vector2.zero;
