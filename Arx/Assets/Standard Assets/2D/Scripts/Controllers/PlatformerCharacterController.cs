@@ -20,6 +20,25 @@ public enum MovementType
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlatformerCharacterController : BasePlatformerController
 {
+    private Vector3 _supportingPlatformPosition;
+    private Transform _supportingPlatform;
+
+    private Transform SupportingPlatform
+    {
+        get
+        {
+            return _supportingPlatform;
+        }
+        set
+        {
+            _supportingPlatform = value;
+            if(_supportingPlatform != null)
+            {
+                _supportingPlatformPosition = _supportingPlatform.position;
+            }
+        }
+    }
+
     private Collider2D _activePlatformCollider;
     private bool _grabbingLedge = false;
     private Vector3 _desiredMovementVelocity;
@@ -241,7 +260,8 @@ public class PlatformerCharacterController : BasePlatformerController
         }
 
         _lastGrabbedLedge = _detectedLedge;
-        transform.parent = _lastGrabbedLedge.gameObject.transform;
+        SupportingPlatform = _lastGrabbedLedge.gameObject.transform;
+        //transform.parent = _lastGrabbedLedge.gameObject.transform;
         DesiredMovementVelocity = Vector2.zero;
         gravity = 0;
         _grabbingLedge = true;
@@ -267,7 +287,8 @@ public class PlatformerCharacterController : BasePlatformerController
     public void DropLedge()
     {
         _grabbingLedge = false;
-        transform.parent = null;
+        SupportingPlatform = null;
+        //transform.parent = null;
         gravity = _defaultGravity;
     }
 
@@ -392,6 +413,8 @@ public class PlatformerCharacterController : BasePlatformerController
 
     protected virtual void Update()
     {
+        RepositionRelativeToParent();
+
         _impactMovement =
             new Vector2(
                 Mathf.Lerp(_pushImpact.x, 0, Mathf.Clamp01(Time.time - _pushStartTime)),
@@ -415,6 +438,17 @@ public class PlatformerCharacterController : BasePlatformerController
         }
 
         HandleMovementParticles();
+    }
+
+    private void RepositionRelativeToParent()
+    {
+        if (SupportingPlatform)
+        {
+            var movement = SupportingPlatform.position - _supportingPlatformPosition;
+            movement.z = 0;
+            _supportingPlatformPosition = SupportingPlatform.position;
+            transform.position = transform.position + movement;
+        }
     }
 
     protected virtual void FixedUpdate()
@@ -460,7 +494,8 @@ public class PlatformerCharacterController : BasePlatformerController
             {
                 return;
             }
-            transform.parent = null;
+            SupportingPlatform = null;
+            //transform.parent = null;
             _activePlatformCollider = null;
         }
 
@@ -468,12 +503,14 @@ public class PlatformerCharacterController : BasePlatformerController
         {
             if (hit.normal.y > GroundContactMaxNormal)
             {
-                if (transform.parent == hit.collider.transform)
+                //if (transform.parent == hit.collider.transform)
+                if(SupportingPlatform == hit.collider.transform)
                 {
                     return;
                 }
-                transform.SetParent(hit.collider.transform);
-                transform.rotation = Quaternion.identity;
+                SupportingPlatform = hit.collider.transform;
+                //transform.SetParent(hit.collider.transform);
+                //transform.rotation = Quaternion.identity;
                 _activePlatformCollider = hit.collider;
                 return;
             }

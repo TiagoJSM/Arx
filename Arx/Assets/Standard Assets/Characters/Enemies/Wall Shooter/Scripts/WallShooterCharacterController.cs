@@ -27,7 +27,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Wall_Shooter.Scripts
             angle = cross.z < 0 ? 360f - angle : angle;
             var direction = angle.GetDirectionVectorFromDegreeAngle();
             var position = _projectileSpawnPosition != null ? _projectileSpawnPosition.position : transform.position;
-            var projectile = Instantiate(_projectilePrefab, position, Quaternion.identity);
+            var projectile = Instantiate(_projectilePrefab, position, transform.rotation);
             projectile.Direction = direction;
             projectile.Attacker = this.gameObject;
             projectile.EnemyLayer = _enemyLayer;

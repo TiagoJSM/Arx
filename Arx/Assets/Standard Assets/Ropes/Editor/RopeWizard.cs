@@ -10,6 +10,8 @@ namespace Assets.Standard_Assets.Ropes.Editors
 {
     public class RopeWizard : ScriptableWizard
     {
+        private const string RopeLayer = "Rope";
+
         public float partsCount = 6;
         public GameObject ending1;
         public GameObject ending2;
@@ -58,6 +60,7 @@ namespace Assets.Standard_Assets.Ropes.Editors
             for (var idx = 0; idx <= partsCount; idx++)
             {
                 ropePart = new GameObject("Rope part " + idx);
+                ropePart.layer = LayerMask.NameToLayer(RopeLayer);
                 ropePart.transform.SetParent(ropeGO.transform, false);
                 ropePart.transform.localPosition = direction * idx * ropePartLength;
                 if(idx == 0)
