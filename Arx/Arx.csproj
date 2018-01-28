@@ -76,9 +76,6 @@
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
     </Reference>
-    <Reference Include="2DDynamicCamera">
-      <HintPath>Assets\2DDynamicCamera.dll</HintPath>
-    </Reference>
     <Reference Include="ArxGame">
       <HintPath>Assets\ArxGame.dll</HintPath>
     </Reference>
@@ -105,9 +102,6 @@
     </Reference>
     <Reference Include="Utils">
       <HintPath>Assets\Utils.dll</HintPath>
-    </Reference>
-    <Reference Include="AnimatorSequencer">
-      <HintPath>Assets\AnimatorSequencer\AnimatorSequencer.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

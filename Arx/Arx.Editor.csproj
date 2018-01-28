@@ -121,9 +121,6 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
-    <Reference Include="2DDynamicCamera">
-      <HintPath>Assets\2DDynamicCamera.dll</HintPath>
-    </Reference>
     <Reference Include="ArxGame">
       <HintPath>Assets\ArxGame.dll</HintPath>
     </Reference>
@@ -150,15 +147,6 @@
     </Reference>
     <Reference Include="Utils">
       <HintPath>Assets\Utils.dll</HintPath>
-    </Reference>
-    <Reference Include="AnimatorSequencer">
-      <HintPath>Assets\AnimatorSequencer\AnimatorSequencer.dll</HintPath>
-    </Reference>
-    <Reference Include="2DDynamicCameraEditors">
-      <HintPath>Assets\Editor\2DDynamicCameraEditors.dll</HintPath>
-    </Reference>
-    <Reference Include="AnimatorSequencerEditors">
-      <HintPath>Assets\Editor\AnimatorSequencerEditors.dll</HintPath>
     </Reference>
     <Reference Include="CommonEditors">
       <HintPath>Assets\Editor\CommonEditors.dll</HintPath>

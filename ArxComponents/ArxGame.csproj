@@ -54,10 +54,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AnimatorSequencer\AnimatorSequencer.csproj">
-      <Project>{5D0EC744-EA21-4B83-8576-CE7F86275DC8}</Project>
-      <Name>AnimatorSequencer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Arx\Arx.Plugins.csproj">
       <Project>{1ED791E0-EF06-576D-40DC-28E8874D619B}</Project>
       <Name>Arx.Plugins</Name>
