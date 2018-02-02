@@ -430,7 +430,7 @@ public class PlatformerCharacterController : BasePlatformerController
         var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
         LedgeDetected(ledgeDetected, collider);
 
-        IsGrounded = _characterController2D.isGrounded/* && CheckGrounded()*/;
+        IsGrounded = _characterController2D.isGrounded;
         CanStand = !_roofChecker.IsTouchingRoof;
         if (SteadyRotation)
         {
@@ -464,7 +464,6 @@ public class PlatformerCharacterController : BasePlatformerController
     private void ApplyMovement()
     {
         //var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
-        
         _desiredMovementVelocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
         var gravityForce = new Vector3(0, gravity * Time.deltaTime, 0);
 
@@ -475,6 +474,10 @@ public class PlatformerCharacterController : BasePlatformerController
             movement + new Vector3(_impactMovement.x, _impactMovement.y, 0));
 
         if(_characterController2D.velocity.y <= 0 && _desiredMovementVelocity.y > 0)
+        {
+            _desiredMovementVelocity.y = 0;
+        }
+        if (IsGrounded && !CharacterController2D.SlidingDown && _desiredMovementVelocity.y < 0)
         {
             _desiredMovementVelocity.y = 0;
         }

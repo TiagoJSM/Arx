@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>2017.1.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -389,6 +391,7 @@
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Ladder\Scripts\DropLadder.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Ladder\Scripts\LadderBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Ladder\Scripts\LadderDropOnGrab.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Platforms\Platform Spawn On Enemy Death\Scripts\PlatformSpawnOnEnemyDeathController.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\PressurePlatform\Scripts\PressurePlatform.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Raising Pillar\Scripts\PillarButtonController.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Raising Pillar\Scripts\RaisingPillar.cs" />
@@ -698,6 +701,7 @@
     <None Include="Assets\Universal Sound FX\%23Game Genre References\Shoot em Up.txt" />
     <None Include="Assets\Universal Sound FX\%23version_history.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>
