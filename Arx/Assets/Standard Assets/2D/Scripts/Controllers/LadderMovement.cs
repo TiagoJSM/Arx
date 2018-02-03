@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Standard_Assets.Environment.Platforms.Ladder.Scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,11 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         {
             StopCoroutine();
             _grabLadder = StartCoroutine(GrabLadderRoutine(ladder.transform.position.x));
+            var ladderBehaviour = ladder.GetComponent<LadderBehaviour>();
+            if(ladderBehaviour != null)
+            {
+                ladderBehaviour.OnLadderGrab();
+            }
         }
 
         public void MoveOnLadder(float vertical)

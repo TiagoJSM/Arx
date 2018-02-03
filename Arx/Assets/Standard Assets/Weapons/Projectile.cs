@@ -53,7 +53,7 @@ namespace Assets.Standard_Assets.Weapons
             {
                 _direction = value;
                 var localScale = transform.localScale;
-                transform.localScale = new Vector3(Mathf.Sign(_direction.x), localScale.y, localScale.z);
+                //transform.localScale = new Vector3(Mathf.Sign(_direction.x), localScale.y, localScale.z);
             }
         }
 

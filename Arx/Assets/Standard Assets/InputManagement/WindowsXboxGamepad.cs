@@ -18,7 +18,7 @@ public class WindowsXboxGamepad : IInputDevice
     {
         get
         {
-            return _sprites.FirstOrDefault(sprite => sprite.name == "B");
+            return _sprites.FirstOrDefault(sprite => sprite.name == "Y");
         }
     }
 
