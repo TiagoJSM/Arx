@@ -39,7 +39,7 @@ namespace Assets.Standard_Assets.Decorators.Builders
             nodeMesh.mesh.triangles = null;
             nodeMesh.mesh.vertices = null;
 
-            nodeMesh.mesh.vertices = context.Vertices.ToVector3s().ToArray();
+            nodeMesh.mesh.vertices = context.Vertices.ToArray();
             nodeMesh.mesh.triangles = context.Indices.ToArray();
             nodeMesh.mesh.uv = context.Uvs.ToArray();
 
