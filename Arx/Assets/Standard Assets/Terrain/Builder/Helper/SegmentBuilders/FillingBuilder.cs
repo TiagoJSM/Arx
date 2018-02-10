@@ -45,7 +45,7 @@ namespace Assets.Standard_Assets.Terrain.Builder.Helper.SegmentBuilders
                     }).ToArray();
             var currentIndice = _dataContext.CurrentIndice;
             var indices = Triangulator.TriangulatePolygon(polygonVertices.ToArray()).Select(i => i + currentIndice + 1).ToArray();
-            _dataContext.Vertices.AddRange(polygonVertices.Select(v => v.ToVector3() + new Vector3(0, 0, 0)));
+            _dataContext.Vertices.AddRange(polygonVertices.Select(v => v.ToVector3() + new Vector3(0, 0, 1)));
             _dataContext.Indices.AddRange(indices);
             _dataContext.Colors.AddRange(polygonColors);
             _dataContext.Uvs.AddRange(polygonUvs);
@@ -75,7 +75,7 @@ namespace Assets.Standard_Assets.Terrain.Builder.Helper.SegmentBuilders
                     }).ToArray();
             var currentIndice = _dataContext.CurrentIndice;
             var indices = Triangulator.TriangulatePolygon(polygonVertices.ToArray()).Select(i => i + currentIndice + 1).ToArray();
-            _dataContext.Vertices.AddRange(polygonVertices.Select(v => v.ToVector3() + new Vector3(0, 0, 0)));
+            _dataContext.Vertices.AddRange(polygonVertices.Select(v => v.ToVector3() + new Vector3(0, 0, 1)));
             _dataContext.Indices.AddRange(indices);
             _dataContext.Colors.AddRange(polygonColors);
             _dataContext.Uvs.AddRange(polygonUvs);
