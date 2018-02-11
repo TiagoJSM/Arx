@@ -261,7 +261,6 @@ public class PlatformerCharacterController : BasePlatformerController
 
         _lastGrabbedLedge = _detectedLedge;
         SupportingPlatform = _lastGrabbedLedge.gameObject.transform;
-        //transform.parent = _lastGrabbedLedge.gameObject.transform;
         DesiredMovementVelocity = Vector2.zero;
         gravity = 0;
         _grabbingLedge = true;
@@ -411,8 +410,9 @@ public class PlatformerCharacterController : BasePlatformerController
         _characterController2D.BoxCollider2D = standingCollider;
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
+        base.Update();
         RepositionRelativeToParent();
 
         _impactMovement =

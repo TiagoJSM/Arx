@@ -8,10 +8,12 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public abstract class PlatformerCharacterAiControl : BaseCharacterAiController
+public abstract class AbstractPlatformerCharacterAiController : BaseCharacterAiController
 {
     private Vector3 _startingPosition;
 
+    [SerializeField]
+    private float _targetRange = 1;
     [SerializeField]
     private float _maxDistanceFromStartingPoint = 10;
     [SerializeField]
@@ -25,6 +27,17 @@ public abstract class PlatformerCharacterAiControl : BaseCharacterAiController
 
     protected abstract Direction CurrentDirection{ get; }
     protected abstract Vector2 Velocity { get; }
+    public GameObject Target { get; protected set; }
+
+    public bool IsTargetInRange
+    {
+        get
+        {
+            var currentPosition = this.transform.position;
+            var distance = Vector2.Distance(currentPosition, Target.transform.position);
+            return distance < _targetRange;
+        }
+    }
 
     protected virtual void Awake()
     {

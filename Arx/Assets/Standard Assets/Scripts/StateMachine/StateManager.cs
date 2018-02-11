@@ -1,12 +1,11 @@
 ﻿using GenericComponents.Interfaces;
-using GenericComponents.Interfaces.States;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace GenericComponents.StateMachine
+namespace Assets.Standard_Assets.Scripts.StateMachine
 {
     public class StateManager<TController, TAction> : IStateFactory<TController, TAction>
     {
@@ -98,7 +97,6 @@ namespace GenericComponents.StateMachine
             var state = State<TState>();
             var container = _states[state.GetType()];
             _root = container;
-            //_currentStateContainer = _root;
             return new TransitionConfiguration<TController, TAction>(this, _root);
         }
 

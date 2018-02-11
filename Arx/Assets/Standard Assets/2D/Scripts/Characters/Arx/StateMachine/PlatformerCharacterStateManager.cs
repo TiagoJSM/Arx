@@ -1,7 +1,7 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.AttackedStates;
+using Assets.Standard_Assets.Scripts.StateMachine;
 using CommonInterfaces.Weapons;
 using GenericComponents.Enums;
-using GenericComponents.StateMachine;
 using System;
 using System.Collections.Generic;
 using System.Linq;

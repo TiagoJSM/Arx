@@ -6,7 +6,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace GenericComponentEditors.PropertyDrawers
+namespace Assets.Standard_Assets.Characters.CharacterBehaviour.Editor.PropertyDrawers
 {
     [CustomPropertyDrawer(typeof(Health))]
     public class HealthPropertyDrawer : PropertyDrawer

@@ -1,10 +1,9 @@
-﻿using GenericComponents.Interfaces.States;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GenericComponents.StateMachine
+namespace Assets.Standard_Assets.Scripts.StateMachine
 {
     public class StateContainer<TStateController, TAction>
     {
@@ -24,7 +23,7 @@ namespace GenericComponents.StateMachine
 
         public StateTransition<TStateController, TAction> GetTransition(TAction action, float timeInState)
         {
-            return Transitions.FirstOrDefault(t => t.Condition(_controller, action, /*State.TimeInState*/timeInState));
+            return Transitions.FirstOrDefault(t => t.Condition(_controller, action, timeInState));
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using GenericComponents.StateMachine;
 using Extensions;
 using Assets.Standard_Assets._2D.Scripts.Characters;
 using CommonInterfaces.Enums;
@@ -10,6 +9,7 @@ using Assets.Standard_Assets.Extensions;
 using Assets.Standard_Assets.Common;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
 using Assets.Standard_Assets.Characters.CharacterBehaviour;
+using Assets.Standard_Assets.Scripts.StateMachine;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
 {
@@ -46,7 +46,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
 
     [RequireComponent(typeof(MeleeEnemyController))]
     [RequireComponent(typeof(CharacterAwarenessNotifier))]
-    public class EngineerEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI, ICharacterAware
+    public class EngineerEnemyAiControl : AbstractPlatformerCharacterAiController, ICharacterAI, ICharacterAware
     {
         [SerializeField]
         private CharacterFinder _characterFinder;
@@ -58,36 +58,17 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         private float _surprisedTime = 1f;
 
         private CharacterAwarenessNotifier _awarenessNotifier;
-        private GameObject _target;
         private MeleeEnemyController _controller;
         private EngineerEnemyAiStateManager _stateManager;
 
         public bool Attacked { get { return _controller.InPain; } }
         public bool Dead { get { return _controller.Dead; } }
 
-        public GameObject Target
-        {
-            get
-            {
-                return _target;
-            }
-        }
-
         public bool Attacking
         {
             get
             {
                 return _controller.Attacking;
-            }
-        }
-
-        public bool IsTargetInRange
-        {
-            get
-            {
-                var currentPosition = this.transform.position;
-                var distance = Vector2.Distance(currentPosition, _target.transform.position);
-                return distance < _attackRange;
             }
         }
 
@@ -189,7 +170,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
 
         public void Aware(GameObject obj)
         {
-            _target = obj;
+            Target = obj;
         }
 
         void Update()
@@ -209,17 +190,17 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
             SetActiveCoroutine(
                 CoroutineHelpers.FollowTargetCoroutine(
                     transform,
-                    _target,
+                    Target,
                     movement => _controller.Move(movement),
                     () => IsTargetInRange));
         }
 
         private void OnCharacterFoundHandler(BasePlatformerController controller)
         {
-            if (_target == null)
+            if (Target == null)
             {
-                _target = controller.gameObject;
-                _awarenessNotifier.Notify(_target);
+                Target = controller.gameObject;
+                _awarenessNotifier.Notify(Target);
             }
         }
     }

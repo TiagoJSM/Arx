@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GenericComponents.Interfaces.States
+namespace Assets.Standard_Assets.Scripts.StateMachine
 {
     public interface IState<TStateContext, TAction>
     {

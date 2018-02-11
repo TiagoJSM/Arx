@@ -1,4 +1,5 @@
-﻿using Assets.Standard_Assets.QuestSystem.QuestStructures;
+﻿using Assets.Standard_Assets.Characters.CharacterBehaviour;
+using Assets.Standard_Assets.QuestSystem.QuestStructures;
 using GenericComponents.Behaviours;
 using System;
 using System.Collections;

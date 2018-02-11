@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GenericComponents.Containers
+namespace Assets.Standard_Assets.Characters.CharacterBehaviour
 {
     [Serializable]
     public class Health

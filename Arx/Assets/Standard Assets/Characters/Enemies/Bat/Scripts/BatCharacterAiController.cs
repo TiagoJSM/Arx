@@ -5,10 +5,10 @@ using System.Text;
 using CommonInterfaces.Enums;
 using Assets.Standard_Assets._2D.Scripts.Characters.CommonAiBehaviour;
 using UnityEngine;
-using GenericComponents.StateMachine;
 using Assets.Standard_Assets._2D.Scripts.Characters;
 using GenericComponents.Controllers.Characters;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
+using Assets.Standard_Assets.Scripts.StateMachine;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
 {

@@ -3,10 +3,10 @@ using Assets.Standard_Assets._2D.Scripts.Controllers;
 using Assets.Standard_Assets.Characters.CharacterBehaviour;
 using Assets.Standard_Assets.Common;
 using Assets.Standard_Assets.Extensions;
+using Assets.Standard_Assets.Scripts.StateMachine;
 using Assets.Standard_Assets.Weapons;
 using CommonInterfaces.Enums;
 using Extensions;
-using GenericComponents.StateMachine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +50,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
 
     [RequireComponent(typeof(MeleeEnemyController))]
     [RequireComponent(typeof(CharacterAwarenessNotifier))]
-    public class DesertThiefEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI, ICharacterAware
+    public class DesertThiefEnemyAiControl : AbstractPlatformerCharacterAiController, ICharacterAI, ICharacterAware
     {
         [SerializeField]
         private CharacterFinder _characterFinder;
@@ -68,7 +68,6 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
         private float _daggerCooldownTime = 4;
 
         private CharacterAwarenessNotifier _awarenessNotifier;
-        private GameObject _target;
         private MeleeEnemyController _controller;
         private DesertThiefEnemyAiStateManager _stateManager;
         private float _daggerElapsedCooldown;
@@ -84,29 +83,11 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
             }
         }
 
-        public GameObject Target
-        {
-            get
-            {
-                return _target;
-            }
-        }
-
         public bool Attacking
         {
             get
             {
                 return _controller.Attacking;
-            }
-        }
-
-        public bool IsTargetInRange
-        {
-            get
-            {
-                var currentPosition = this.transform.position;
-                var distance = Vector2.Distance(currentPosition, _target.transform.position);
-                return distance < _attackRange;
             }
         }
 
@@ -199,7 +180,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
 
         public void Aware(GameObject obj)
         {
-            _target = obj;
+            Target = obj;
         }
 
         void Update()
@@ -230,17 +211,17 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
             SetActiveCoroutine(
                 CoroutineHelpers.FollowTargetCoroutine(
                     transform,
-                    _target,
+                    Target,
                     movement => _controller.Move(movement),
                     () => IsTargetInRange));
         }
 
         private void OnCharacterFoundHandler(BasePlatformerController controller)
         {
-            if (_target == null)
+            if (Target == null)
             {
-                _target = controller.gameObject;
-                _awarenessNotifier.Notify(_target);
+                Target = controller.gameObject;
+                _awarenessNotifier.Notify(Target);
             }
         }
     }

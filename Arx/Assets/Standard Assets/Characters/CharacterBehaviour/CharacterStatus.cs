@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace GenericComponents.Behaviours
+namespace Assets.Standard_Assets.Characters.CharacterBehaviour
 {
     public class CharacterStatus : MonoBehaviour
     {
@@ -13,6 +13,12 @@ namespace GenericComponents.Behaviours
         private bool _immortal;
 
         public Health health;
+
+        public bool Immortal
+        {
+            get { return _immortal; }
+            set { _immortal = value; }
+        }
 
         public bool HealthDepleted
         {

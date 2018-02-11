@@ -10,7 +10,7 @@ using Assets.Standard_Assets.UI.Speech.Scripts;
 [RequireComponent(typeof(SpeechController))]
 [RequireComponent(typeof(InteractibleCharacterController))]
 [RequireComponent(typeof(CommonTalkingCharacterController))]
-public class CommonTalkingCharacterAi : PlatformerCharacterAiControl
+public class CommonTalkingCharacterAi : AbstractPlatformerCharacterAiController
 {
     private InteractibleCharacterController _interactiveCharacter;
     private CommonTalkingCharacterController _controller;

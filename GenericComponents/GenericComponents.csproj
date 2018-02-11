@@ -49,7 +49,6 @@
     <Compile Include="Behaviours\AnimationDelay.cs" />
     <Compile Include="Behaviours\BaseRope.cs" />
     <Compile Include="Behaviours\CharacterIdentity.cs" />
-    <Compile Include="Behaviours\CharacterStatus.cs" />
     <Compile Include="Behaviours\CloneSpriteMaterial.cs" />
     <Compile Include="Behaviours\EnableTrigger.cs" />
     <Compile Include="Behaviours\HighlightTrigger.cs" />
@@ -60,7 +59,6 @@
     <Compile Include="Behaviours\RopePart.cs" />
     <Compile Include="Behaviours\RopeRenderer.cs" />
     <Compile Include="Behaviours\SerializedScriptableObject.cs" />
-    <Compile Include="Containers\Health.cs" />
     <Compile Include="Containers\PlatformerCharacterAnimations.cs" />
     <Compile Include="Controllers\Characters\CharacterGrounding.cs" />
     <Compile Include="Controllers\Characters\PlatformerCharacterController.cs" />
@@ -71,14 +69,7 @@
     <Compile Include="Events.cs" />
     <Compile Include="Helpers\AttackHandlerHelper.cs" />
     <Compile Include="Interfaces\IPath.cs" />
-    <Compile Include="Interfaces\States\IState.cs" />
-    <Compile Include="Interfaces\IStateFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StateMachine\StateManager.cs" />
-    <Compile Include="StateMachine\StateContainer.cs" />
-    <Compile Include="StateMachine\StateTransition.cs" />
-    <Compile Include="StateMachine\TransitionConfiguration.cs" />
-    <Compile Include="StateMachine\WhenTransitionToConfig.cs" />
     <Compile Include="UI\CloneUiTextMaterial.cs" />
     <Compile Include="UserControls\PlatformerAICharacterControl.cs" />
   </ItemGroup>
@@ -102,7 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\Interaction\Environment\" />
-    <Folder Include="Interfaces\States\PlatformerCharacter\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

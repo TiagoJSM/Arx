@@ -3,7 +3,6 @@ using CommonInterfaces.Weapons;
 using Extensions;
 using GenericComponents.Containers;
 using GenericComponents.Enums;
-using GenericComponents.StateMachine;
 using System;
 using System.Collections.Generic;
 using System.Linq;

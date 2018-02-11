@@ -170,6 +170,7 @@
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\2DDynamicCamera\Editor\NewTargetZoneEditor.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Editor\SpeakersAttributeDrawer.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\Editor\PropertyDrawers\HealthPropertyDrawer.cs" />
     <Compile Include="Assets\Standard Assets\Common\Editor\AttributeDrawers\LayerAttributeDrawer.cs" />
     <Compile Include="Assets\Standard Assets\Common\Editor\AttributeDrawers\ReadOnlyDrawer.cs" />
     <Compile Include="Assets\Standard Assets\Common\Editor\AttributeDrawers\SelectedSceneAttributeDrawer.cs" />
@@ -282,7 +283,7 @@
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
-    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Decorators\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />

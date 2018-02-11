@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using GenericComponents.StateMachine;
 using Extensions;
 using Assets.Standard_Assets._2D.Scripts.Characters;
 using CommonInterfaces.Enums;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
+using Assets.Standard_Assets.Scripts.StateMachine;
 
 public class MeleeEnemyAiStateManager : StateManager<ICharacterAI, object>
 {
@@ -24,7 +24,7 @@ public class MeleeEnemyAiStateManager : StateManager<ICharacterAI, object>
 }
 
 [RequireComponent(typeof(MeleeEnemyController))]
-public class MeleeEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI
+public class MeleeEnemyAiControl : AbstractPlatformerCharacterAiController, ICharacterAI
 {
     [SerializeField]
     private CharacterFinder _characterFinder;
@@ -48,16 +48,6 @@ public class MeleeEnemyAiControl : PlatformerCharacterAiControl, ICharacterAI
         get
         {
             return _controller.Attacking;
-        }
-    }
-
-    public bool IsTargetInRange
-    {
-        get
-        {
-            var currentPosition = this.transform.position;
-            var distance = Vector2.Distance(currentPosition, _target.transform.position);
-            return distance < _attackRange;
         }
     }
 

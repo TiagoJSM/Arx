@@ -163,9 +163,9 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\UiController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterController2D.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterFinder.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\AbstractPlatformerCharacterAiController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\BaseCharacterAiController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\FlyingCharacterAiController.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\PlatformerCharacterAiControl.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonTalkingCharacter\CommonTalkingCharacterAi.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonTalkingCharacter\CommonTalkingCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\DemoScene.cs" />
@@ -266,6 +266,8 @@
     <Compile Include="Assets\Standard Assets\Cameras\Scripts\ProtectCameraFromWallClip.cs" />
     <Compile Include="Assets\Standard Assets\Cameras\Scripts\TargetFieldOfView.cs" />
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\CharacterAwarenessNotifier.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\CharacterStatus.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\Health.cs" />
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\ICharacterAware.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Alarm Bot\Scripts\AlarmBotAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Alarm Bot\Scripts\AlarmBotAnimator.cs" />
@@ -291,6 +293,10 @@
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAiStates.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAnimationController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\WakeUpBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Stone Goblin\Scripts\RollAttackState.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Stone Goblin\Scripts\StoneGoblinAiController.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Stone Goblin\Scripts\StoneGoblinAnimationController.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Stone Goblin\Scripts\StoneGoblinController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Wall Shooter\Scripts\WallShooterCharacterAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Wall Shooter\Scripts\WallShooterCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs" />
@@ -312,19 +318,19 @@
     <Compile Include="Assets\Standard Assets\Common\StunDamage.cs" />
     <Compile Include="Assets\Standard Assets\Common\StunDamageFilter.cs" />
     <Compile Include="Assets\Standard Assets\Common\UniqueId.cs" />
-    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\AxisTouchButton.cs" />
-    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\ButtonHandler.cs" />
-    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\CrossPlatformInputManager.cs" />
-    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\InputAxisScrollbar.cs" />
-    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\Joystick.cs" />
-    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\MobileControlRig.cs" />
-    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\PlatformSpecific\MobileInput.cs" />
-    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\PlatformSpecific\StandaloneInput.cs" />
-    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\TiltInput.cs" />
-    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\TouchPad.cs" />
-    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\VirtualInput.cs" />
     <Compile Include="Assets\Standard Assets\Decorators\Builders\NodeMeshBuilder.cs" />
     <Compile Include="Assets\Standard Assets\Decorators\Builders\NodeMeshSegmentBuilder.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\CrossPlatformInput\Scripts\AxisTouchButton.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\CrossPlatformInput\Scripts\ButtonHandler.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\CrossPlatformInput\Scripts\CrossPlatformInputManager.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\CrossPlatformInput\Scripts\InputAxisScrollbar.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\CrossPlatformInput\Scripts\Joystick.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\CrossPlatformInput\Scripts\MobileControlRig.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\CrossPlatformInput\Scripts\PlatformSpecific\MobileInput.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\CrossPlatformInput\Scripts\PlatformSpecific\StandaloneInput.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\CrossPlatformInput\Scripts\TiltInput.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\CrossPlatformInput\Scripts\TouchPad.cs" />
+    <Compile Include="Assets\Standard Assets\Decorators\CrossPlatformInput\Scripts\VirtualInput.cs" />
     <Compile Include="Assets\Standard Assets\Decorators\NodeMeshDecoration\NodeMesh.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\LocalizationConfig.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\LocalizedTexts.cs" />
@@ -477,6 +483,13 @@
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\BaseTask.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\ITask.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\SettableTask.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\StateMachine\IState.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\StateMachine\IStateFactory.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\StateMachine\StateContainer.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\StateMachine\StateManager.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\StateMachine\StateTransition.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\StateMachine\TransitionConfiguration.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\StateMachine\WhenTransitionToConfig.cs" />
     <Compile Include="Assets\Standard Assets\Sound\Scripts\DynamicAudioPlayer.cs" />
     <Compile Include="Assets\Standard Assets\Sound\Scripts\PlayRandomAudio.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Builder\ClosedTerrainBuilder.cs" />
@@ -632,7 +645,7 @@
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
-    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Decorators\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
@@ -742,7 +755,6 @@
     <None Include="Assets\Universal Sound FX\%23Game Genre References\Shoot em Up.txt" />
     <None Include="Assets\Universal Sound FX\%23version_history.txt" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

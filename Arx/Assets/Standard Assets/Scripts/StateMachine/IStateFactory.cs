@@ -1,11 +1,9 @@
-﻿using GenericComponents.Interfaces.States;
-using GenericComponents.StateMachine;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GenericComponents.Interfaces
+namespace Assets.Standard_Assets.Scripts.StateMachine
 {
     public interface IStateFactory<TController, TAction>
     {

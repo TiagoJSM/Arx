@@ -4,7 +4,6 @@ using Extensions;
 using GenericComponents.Behaviours;
 using GenericComponents.Controllers.Characters;
 using GenericComponents.Enums;
-using GenericComponents.StateMachine;
 using MathHelper;
 using System;
 using System.Collections.Generic;
@@ -22,6 +21,7 @@ using Assets.Standard_Assets._2D.Scripts.Interaction;
 using Assets.Standard_Assets.Common;
 using Assets.Standard_Assets.Extensions;
 using Assets.Standard_Assets.Weapons;
+using Assets.Standard_Assets.Scripts.StateMachine;
 
 [RequireComponent(typeof(CombatModule))]
 [RequireComponent(typeof(LadderMovement))]
