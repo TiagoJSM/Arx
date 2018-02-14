@@ -37,17 +37,13 @@ namespace Assets.Standard_Assets.Characters.Enemies.Stone_Goblin.Scripts
             StartCoroutine(RollAttackRoutine(direction));
         }
 
-        public void StopRollAttack()
-        {
-            _characterStatus.Immortal = false;
-        }
-
         private IEnumerator RollAttackRoutine(Direction direction)
         {
             GainingMomentum = true;
             Rolling = true;
+            _characterStatus.Immortal = true;
             yield return new WaitForSeconds(_gainRollMomentumDuration/2);
-            _damageOnTouch.enabled = true;
+            _damageOnTouch.Active = true;
             yield return new WaitForSeconds(_gainRollMomentumDuration/2);
             GainingMomentum = false;
 
@@ -63,7 +59,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Stone_Goblin.Scripts
             }
 
             Rolling = false;
-            _damageOnTouch.enabled = false;
+            _damageOnTouch.Active = false;
+            _characterStatus.Immortal = false;
         }
 
         private void Awake()
@@ -71,6 +68,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Stone_Goblin.Scripts
             _characterStatus = GetComponent<CharacterStatus>();
             _characterController2D = GetComponent<CharacterController2D>();
             _damageOnTouch = GetComponent<DamageOnTouch>();
+            _damageOnTouch.Active = false;
         }
     }
 }

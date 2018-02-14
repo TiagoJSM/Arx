@@ -40,7 +40,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Stone_Goblin.Scripts
                .To<FollowState<StoneGoblinAiController>>((c, a, t) => !c.Attacked);
 
             this.From<RollAttackState>()
-                .To<FollowState<StoneGoblinAiController>>((c, a, t) => true);
+                .To<FollowState<StoneGoblinAiController>>((c, a, t) => !c.Rolling);
 
             this.FromAny()
                 .To<DeadState<StoneGoblinAiController>>((c, a, t) => c.Dead);
@@ -71,6 +71,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Stone_Goblin.Scripts
 
         public bool Attacked { get { return _meleeEnemy.InPain; } }
         public bool Dead { get { return _meleeEnemy.Dead; } }
+        public bool Rolling { get { return _stoneGoblinController.Rolling; } }
 
         protected override Direction CurrentDirection { get { return _meleeEnemy.Direction; } }
 
@@ -127,6 +128,12 @@ namespace Assets.Standard_Assets.Characters.Enemies.Stone_Goblin.Scripts
             _stoneGoblinController.enabled = true;
 
             _stoneGoblinController.RollAttack(_meleeEnemy.Direction);
+        }
+
+        public void RollAttackOver()
+        {
+            _meleeEnemy.enabled = true;
+            _stoneGoblinController.enabled = false;
             StartCoroutine(RollAttackCooldown());
         }
 

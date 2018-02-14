@@ -55,8 +55,6 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
         [SerializeField]
         private CharacterFinder _characterFinder;
         [SerializeField]
-        private float _attackRange = 1;
-        [SerializeField]
         private Transform _daggerTargetPosition;
         [SerializeField]
         private float _daggerTargetRadius;

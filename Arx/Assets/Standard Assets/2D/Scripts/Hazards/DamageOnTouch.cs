@@ -17,6 +17,13 @@ namespace Assets.Standard_Assets._2D.Scripts.Hazards
         [SerializeField]
         private int _damage = 1;
 
+        public bool Active { get; set; }
+
+        public DamageOnTouch()
+        {
+            Active = true;
+        }
+
         private void OnTriggerEnter2D(Collider2D col)
         {
             DamageEnemy(col);
@@ -29,6 +36,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Hazards
 
         private void DamageEnemy(Collider2D col)
         {
+            if (!Active)
+            {
+                return;
+            }
             if (!_platformMask.IsInAnyLayer(col.gameObject))
             {
                 return;

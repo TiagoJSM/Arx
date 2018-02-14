@@ -51,8 +51,6 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
         [SerializeField]
         private CharacterFinder _characterFinder;
         [SerializeField]
-        private float _attackRange = 1;
-        [SerializeField]
         private bool _canBeSurprised;
         [SerializeField]
         private float _surprisedTime = 1f;

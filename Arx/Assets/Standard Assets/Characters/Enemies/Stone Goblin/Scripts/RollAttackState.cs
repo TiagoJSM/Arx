@@ -12,5 +12,11 @@ namespace Assets.Standard_Assets.Characters.Enemies.Stone_Goblin.Scripts
             base.OnStateEnter(action);
             StateController.RollAttack();
         }
+
+        public override void OnStateExit(object action)
+        {
+            base.OnStateExit(action);
+            StateController.RollAttackOver();
+        }
     }
 }
