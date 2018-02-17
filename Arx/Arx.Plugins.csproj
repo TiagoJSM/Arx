@@ -193,6 +193,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractiveDialogComponent.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\LadderMovement.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\RopeMovement.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\SpeakersAttribute.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\DebugTrigger.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\DummyCharacter.cs" />
@@ -205,6 +206,8 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\GroundComponent.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\GroundMaterial.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\MaterialFootstepPlayer.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\MaterialLadderMovementPlayer.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Footsteps\MaterialRopeMovementPlayer.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\ArxGameSaveHandler.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\ArxSaveData.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Game State\DreamingBeyondImaginationSaveData.cs" />
