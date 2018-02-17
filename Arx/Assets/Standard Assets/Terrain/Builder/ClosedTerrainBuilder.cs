@@ -34,9 +34,11 @@ namespace Assets.Standard_Assets.Terrain.Builder
                     field.fillingVFactor);
 
             helper = AddFilling(helper, field.NodePath.PathSegments);
-            helper = AddSlopeSegments(helper, terrainSegments);
+            //helper = AddSlopeSegments(helper, terrainSegments);
             helper = AddCeilingSegments(helper, terrainSegments);
             helper = AddFloorSegments(helper, terrainSegments);
+            helper = AddSlopeSegments(helper, terrainSegments);
+            //helper = AddFilling(helper, field.NodePath.PathSegments);
 
             field.mesh.vertices = helper.Vertices;
             field.mesh.triangles = helper.Indices;

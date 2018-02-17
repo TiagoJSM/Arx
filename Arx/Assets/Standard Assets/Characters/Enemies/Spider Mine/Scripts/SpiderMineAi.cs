@@ -1,7 +1,6 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.Characters;
 using Assets.Standard_Assets._2D.Scripts.Characters.CommonAiBehaviour;
 using Assets.Standard_Assets.Common;
-using GenericComponents.StateMachine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +10,7 @@ using GenericComponents.Controllers.Characters;
 using Assets.Standard_Assets.Extensions;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
 using System.Collections;
+using Assets.Standard_Assets.Scripts.StateMachine;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Spider_Mine.Scripts
 {

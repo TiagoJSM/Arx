@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using GenericComponents.Controllers.Characters;
-using GenericComponents.StateMachine;
 using System;
 using System.Collections.Generic;
 using Assets.Standard_Assets._2D.Scripts.Characters.Enemies;
@@ -14,6 +13,7 @@ using Assets.Standard_Assets.Extensions;
 using CommonInterfaces.Weapons;
 using Assets.Standard_Assets.Common.Attributes;
 using Assets.Standard_Assets.Weapons;
+using Assets.Standard_Assets.Scripts.StateMachine;
 
 public class MeleeEnemyControllerStateManager : StateManager<Character, StateAction>
 {
@@ -62,18 +62,13 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
     [SerializeField]
     private AudioSource _death;
     [SerializeField]
-    private StunDamage _stunDamage;
-    [SerializeField]
     [Layer]
     private int _sortingLayer;
     [SerializeField]
     private int _orderInLayer;
 
     public bool Attacking { get; private set; }
-    public bool HitLastTurn { get; private set; }
-    public float LastHitDirection { get; private set; }
     public bool Dead { get; private set; }
-    public bool InPain { get; set; }
     public float InPainTime { get { return _inPainTime; } }
 
     public void Move(float move)
@@ -107,17 +102,12 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
     public override int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1, bool showDamaged = false)
     {
         var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType);
-        var damageOriginPosition = hitPoint ?? attacker.transform.position;
-        LastHitDirection = Math.Sign(damageOriginPosition.x - transform.position.x);
-        HitLastTurn = true;
         if (_death != null)
         {
             _death.Play();
         }
 
-        InPain = _stunDamage.DoesStun(damageType, attackType, comboNumber);
-
-        return damage;
+        return damageTaken;
     }
 
     protected override void Awake()
@@ -149,7 +139,6 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
         base.Update();
         _move = 0;
         _attack = false;
-        HitLastTurn = false;
     }
 
     protected override void OnDestroy()

@@ -5,7 +5,6 @@ using System.Text;
 using CommonInterfaces.Enums;
 using UnityEngine;
 using Assets.Standard_Assets._2D.Scripts.Controllers;
-using GenericComponents.StateMachine;
 using Assets.Standard_Assets._2D.Scripts.Characters;
 using Assets.Standard_Assets.Characters.CharacterBehaviour;
 
@@ -14,7 +13,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Alarm_Bot.Scripts
 
     [RequireComponent(typeof(PlatformerCharacterController))]
     [RequireComponent(typeof(AlarmBotSounds))]
-    public class AlarmBotAiController : PlatformerCharacterAiControl
+    public class AlarmBotAiController : AbstractPlatformerCharacterAiController
     {
         private PlatformerCharacterController _controller;
         private int _aliveEnemyCount;

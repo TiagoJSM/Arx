@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using CommonInterfaces.Controls;
-using GenericComponents.Interfaces.States;
-using GenericComponents.StateMachine;
+using Assets.Standard_Assets.Scripts.StateMachine;
 
 public interface INightmareHunterGateLiftAiControl
 {

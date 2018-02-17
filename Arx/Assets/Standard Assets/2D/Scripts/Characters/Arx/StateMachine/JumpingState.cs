@@ -1,5 +1,4 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.TemplateStates;
-using GenericComponents.Interfaces.States;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,6 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.Characters.Enemies;
+using Assets.Standard_Assets.Characters.CharacterBehaviour;
+using Assets.Standard_Assets.Common;
 using CommonInterfaces.Controllers;
 using CommonInterfaces.Enums;
 using Extensions;
@@ -24,8 +26,12 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         private bool _takeExtraFromBackAttack = true;
         [SerializeField]
         private float _backAttackDamageMultiplier = 1.5f;
+        [SerializeField]
+        private StunDamage _stunDamage;
 
         public bool CanBeAttacked { get; set; }
+        public bool InPain { get; set; }
+
         public event OnKilled OnKilled;
         public event OnAttacked OnAttacked;
 
@@ -78,6 +84,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         }
 
         public CharacterStatus CharacterStatus { get; private set; }
+        public bool HitLastTurn { get; private set; }
+        public float LastHitDirection { get; private set; }
 
         public virtual int Attacked(
             GameObject attacker,
@@ -112,7 +120,12 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
                     OnKilled(this);
                 }
             }
-            return LifePoints;
+
+            LastHitDirection = Math.Sign(damageOriginPosition.x - transform.position.x);
+            HitLastTurn = true;
+            InPain = _stunDamage.DoesStun(damageType, attackType, comboNumber);
+
+            return damage;
         }
 
         public virtual void Kill() { }
@@ -137,6 +150,11 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         {
             CharacterStatus = GetComponent<CharacterStatus>();
             _direction = DirectionOfMovement(transform.localScale.x, Direction.Left);
+        }
+
+        protected virtual void Update()
+        {
+            HitLastTurn = false;
         }
 
         protected void Flip(Direction direction)

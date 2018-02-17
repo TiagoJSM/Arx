@@ -1,4 +1,5 @@
-﻿using GenericComponents.Behaviours;
+﻿using Assets.Standard_Assets.Characters.CharacterBehaviour;
+using GenericComponents.Behaviours;
 using System;
 using System.Collections;
 using System.Collections.Generic;

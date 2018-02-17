@@ -156,13 +156,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Arx.Plugins.csproj">
-      <Project>{1ED791E0-EF06-576D-40DC-28E8874D619B}</Project>
-      <Name>Arx.Plugins</Name>
-    </ProjectReference>
     <ProjectReference Include="Arx.csproj">
       <Project>{F044C09C-1088-9E33-3FC9-5F903059F8AC}</Project>
       <Name>Arx</Name>
+    </ProjectReference>
+    <ProjectReference Include="Arx.Plugins.csproj">
+      <Project>{1ED791E0-EF06-576D-40DC-28E8874D619B}</Project>
+      <Name>Arx.Plugins</Name>
     </ProjectReference>
     <ProjectReference Include="Arx.Editor.Plugins.csproj">
       <Project>{5DED49B3-E91E-B7F2-3AE1-8DEA01A1276E}</Project>
@@ -415,7 +415,7 @@
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
-    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Decorators\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />

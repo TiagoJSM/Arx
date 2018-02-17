@@ -9,15 +9,26 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.CommonAiBehaviour
 {
     public class BaseCharacterAiController : MonoBehaviour
     {
+        private Coroutine _active;
+
         protected void SetActiveCoroutine(IEnumerator coroutine)
         {
             StopActiveCoroutine();
-            StartCoroutine(coroutine);
+            _active = StartCoroutine(WrapperRoutine(coroutine));
         }
 
         protected void StopActiveCoroutine()
         {
-            StopAllCoroutines();
+            if(_active != null)
+            {
+                StopCoroutine(_active);
+            }
+        }
+
+        private IEnumerator WrapperRoutine(IEnumerator coroutine)
+        {
+            yield return coroutine;
+            _active = null;
         }
     }
 }

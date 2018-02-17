@@ -4,7 +4,6 @@ using Extensions;
 using GenericComponents.Behaviours;
 using GenericComponents.Controllers.Characters;
 using GenericComponents.Enums;
-using GenericComponents.StateMachine;
 using MathHelper;
 using System;
 using System.Collections.Generic;
@@ -22,23 +21,27 @@ using Assets.Standard_Assets._2D.Scripts.Interaction;
 using Assets.Standard_Assets.Common;
 using Assets.Standard_Assets.Extensions;
 using Assets.Standard_Assets.Weapons;
+using Assets.Standard_Assets.Scripts.StateMachine;
+using Assets.Standard_Assets._2D.Scripts.Footsteps;
 
 [RequireComponent(typeof(CombatModule))]
 [RequireComponent(typeof(LadderMovement))]
 [RequireComponent(typeof(LadderFinder))]
 [RequireComponent(typeof(MainCharacterNotification))]
 [RequireComponent(typeof(CombatHitEffects))]
+[RequireComponent(typeof(RopeMovement))]
+[RequireComponent(typeof(MaterialFootstepPlayer))]
 public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
     private LadderMovement _ladderMovement;
     private MainCharacterNotification _notifications;
     private CombatHitEffects _hitEffects;
+    private RopeMovement _ropeMovement;
+    private MaterialFootstepPlayer _footstepPlayer;
     private StateManager<MainPlatformerController, PlatformerCharacterAction> _stateManager;
 
     private Rope _rope;
-    private RopePart _currentRopePart;
-    private float _horizontalRopeMovement;
     private Coroutine _moveInParabolaCoroutine;
     private Pushable _pushable;
     private Vector3? _safeSpot;
@@ -55,8 +58,6 @@ public class MainPlatformerController : PlatformerCharacterController
     [SerializeField]
     private float _ropeVerticalSpeed = 4;
     [SerializeField]
-    private float _minimumDistanceFromRopeOrigin = 1;
-    [SerializeField]
     private float _grappleRopeGrabHeightOffset = -6;
     [SerializeField]
     private float _objectPushForce = 1;
@@ -72,8 +73,6 @@ public class MainPlatformerController : PlatformerCharacterController
     private AudioSource _slamAttackAir;
     [SerializeField]
     private AudioSource _slamAttackLand;
-    [SerializeField]
-    private AudioSource _landed;
     [SerializeField]
     private AudioSource[] _attackShouts;
     [SerializeField]
@@ -171,7 +170,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public bool RopeFound { get { return _rope != null; } }
 
-    public float RopeClimbDirection { get; private set; }
+    public float RopeClimbDirection { get { return _ropeMovement.RopeClimbDirection; } }
 
     public GrappleRope GrappleRope { get { return _combatModule.GrappleRope; } }
 
@@ -317,21 +316,16 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void GrabRope()
     {
-        if (_rope == null)
+        if(_ropeMovement.GrabRope(_rope))
         {
-            return;
+            ApplyMovementAndGravity = false;
+            SteadyRotation = false;
         }
-
-        ApplyMovementAndGravity = false;
-        SteadyRotation = false;
-        _currentRopePart = _rope.GetRopePartAt(this.transform.position);
-        this.gameObject.transform.parent = _currentRopePart.transform;
     }
 
     public void LetGoRope()
     {
-        this.gameObject.transform.parent = null;
-        _currentRopePart = null;
+        _ropeMovement.LetGoRope();
         _rope = null;
         ApplyMovementAndGravity = true;
         SteadyRotation = true;
@@ -339,31 +333,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void MoveOnRope(float horizontal, float vertical)
     {
-        RopeClimbDirection = 0;
-
-        var closestSegment = _rope.GetClosestRopeSegment(this.transform.position);
-        this.gameObject.transform.parent = _currentRopePart.transform;
-        this.gameObject.transform.position =
-            FloatUtils.ClosestPointOnLine(closestSegment.Value.P1, closestSegment.Value.P2, this.transform.position);
-        this.gameObject.transform.rotation = _currentRopePart.transform.rotation;
-
-        if (Mathf.Abs(vertical) > 0.01)
-        {
-            var move = new Vector3(0, _ropeVerticalSpeed * Time.deltaTime * Mathf.Sign(vertical));
-            var size = _rope.GetRopeSizeEndingIn(this.transform.position);
-            var sizeAfterMove = size - move.y;
-
-            if(CanClimpRope(sizeAfterMove, vertical))
-            {
-                this.transform.localPosition += move;
-                _currentRopePart = _rope.GetRopePartAt(this.transform.position);
-                this.gameObject.transform.parent = _currentRopePart.transform;
-                RopeClimbDirection = vertical > 0 ? 1 : -1;
-                return; //or we climb or we balance on the rope
-            }
-        }
-
-        _horizontalRopeMovement = Mathf.Abs(horizontal) > 0.01f ? _maxRopeHorizontalForce * Math.Sign(horizontal) : 0;
+        _ropeMovement.MoveOnRope(horizontal, vertical);
     }
 
     public void DoAimingMove(float move)
@@ -533,7 +503,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void OnLanded()
     {
-        _landed.Play();
+        _footstepPlayer.PlayLandingSound();
     }
 
     public void OnAirSlashLanded()
@@ -561,9 +531,11 @@ public class MainPlatformerController : PlatformerCharacterController
         base.Awake();
         _combatModule = GetComponent<CombatModule>();
         _ladderMovement = GetComponent<LadderMovement>();
+        _ropeMovement = GetComponent<RopeMovement>();
         _ladderFinder = GetComponent<LadderFinder>();
         _notifications = GetComponent<MainCharacterNotification>();
         _hitEffects = GetComponent<CombatHitEffects>();
+        _footstepPlayer = GetComponent<MaterialFootstepPlayer>();
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;
@@ -602,15 +574,6 @@ public class MainPlatformerController : PlatformerCharacterController
         if (!Attacking)
         {
             _roll = false;
-        }
-    }
-
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
-        if(_currentRopePart != null && _horizontalRopeMovement != 0)
-        {
-            _currentRopePart.PhysicsRopePart.AddForce(new Vector2(_horizontalRopeMovement, 0));
         }
     }
 
@@ -678,17 +641,6 @@ public class MainPlatformerController : PlatformerCharacterController
     private void ArrivedToSafeSpot()
     {
         _safeSpot = null;
-    }
-
-    private bool CanClimpRope(float ropeSizeAfterMove, float verticalMovement)
-    {
-        //if character is moving down movement is ok
-        if(verticalMovement < 0)
-        {
-            return true;
-        }
-        //character can only move up if its at a distance from the rope top
-        return _minimumDistanceFromRopeOrigin <= ropeSizeAfterMove;
     }
 
     public void StartFlashing()

@@ -42,6 +42,16 @@ namespace Assets.Standard_Assets._2D.Scripts.Footsteps
                     return _defaultFootsteps;
             }
         }
+
+        public AudioSource GetRandomFor(GroundMaterial? material)
+        {
+            var audioClips = GetFor(material);
+            if (audioClips == null || audioClips.Length == 0)
+            {
+                return null;
+            }
+            return audioClips.Random();
+        }
     }
 
     public class MaterialFootstepPlayer : MonoBehaviour
@@ -53,6 +63,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Footsteps
         public float groundCheckRadius = 0.2f;
 
         public AudioMaterialMap audioMaterial;
+        public AudioMaterialMap landingAudioMaterial;
 
         public MaterialFootstepPlayer()
         {
@@ -61,16 +72,23 @@ namespace Assets.Standard_Assets._2D.Scripts.Footsteps
 
         public void PlayFootsteps()
         {
-            var audioClips = audioMaterial.GetFor(_material);
-            if (audioClips == null || audioClips.Length == 0)
+            var audioClip = audioMaterial.GetRandomFor(_material);
+            if (audioClip != null)
             {
-                return;
+                audioClip.Play();
             }
-            var audio = audioClips.Random();
-            audio.Play();
         }
 
-        void Update()
+        public void PlayLandingSound()
+        {
+            var audioClip = landingAudioMaterial.GetRandomFor(_material);
+            if (audioClip != null)
+            {
+                audioClip.Play();
+            }
+        }
+
+        private void Update()
         {
             var groundComponent =
                 Physics2D
@@ -80,6 +98,12 @@ namespace Assets.Standard_Assets._2D.Scripts.Footsteps
                     .FirstOrDefault(c => c != null);
 
             _material = groundComponent == null ? default(GroundMaterial?) : groundComponent.groundMaterial;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
 }

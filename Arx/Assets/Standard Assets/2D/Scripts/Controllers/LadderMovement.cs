@@ -1,4 +1,5 @@
-﻿using Assets.Standard_Assets.Environment.Platforms.Ladder.Scripts;
+﻿using Assets.Standard_Assets._2D.Scripts.Footsteps;
+using Assets.Standard_Assets.Environment.Platforms.Ladder.Scripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,10 +9,12 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets._2D.Scripts.Controllers
 {
+    [RequireComponent(typeof(MaterialLadderMovementPlayer))]
     [RequireComponent(typeof(CharacterController2D))]
     public class LadderMovement : MonoBehaviour
     {
         private CharacterController2D _controller;
+        private MaterialLadderMovementPlayer _movementPlayer;
         private Coroutine _grabLadder;
 
         [SerializeField]
@@ -32,6 +35,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             {
                 ladderBehaviour.OnLadderGrab();
             }
+            _movementPlayer.GrabLadder(ladder);
         }
 
         public void MoveOnLadder(float vertical)
@@ -58,6 +62,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         private void Awake()
         {
            _controller = GetComponent<CharacterController2D>();
+            _movementPlayer = GetComponent<MaterialLadderMovementPlayer>();
         }
 
         private IEnumerator GrabLadderRoutine(float xGrab)

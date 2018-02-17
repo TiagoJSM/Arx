@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using GenericComponents.Interfaces.States;
 using System;
+using Assets.Standard_Assets.Scripts.StateMachine;
 
 public interface ICharacterAI
 {

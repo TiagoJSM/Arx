@@ -40,6 +40,7 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
         private Color _leftCornerColor;
         private Color _segmentColor;
         private Color _rightCornerColor;
+        private float _z;
 
         protected SegmentBuilder(
             BuilderDataContext dataContext,
@@ -47,7 +48,8 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
             float cornerWidth,
             Color segmentColor = new Color(),
             Color leftCornerColor = new Color(),
-            Color rightCornerColor = new Color())
+            Color rightCornerColor = new Color(),
+            float z = 0)
         {
             _dataContext = dataContext;
             _processedSegments = new List<LineSegment2D>();
@@ -56,6 +58,7 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
             _segmentColor = segmentColor;
             _leftCornerColor = leftCornerColor;
             _rightCornerColor = rightCornerColor;
+            _z = z;
         }
 
         public void AddSegmentStartingCorner(Vector2 origin, float rotationInRadians)
@@ -101,7 +104,7 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
 
         private void AddSegmentDataStart(Color color, params Vector2[] vertices)
         {
-            _dataContext.Vertices.AddRange(vertices);
+            _dataContext.Vertices.AddRange(vertices.Select(v => v.ToVector3() + new Vector3(0, 0, _z)));
 
             _dataContext.Indices.AddRange(GetSegmentDataStartIndices());
 
@@ -162,7 +165,8 @@ namespace Assets.Standard_Assets.GenericComponents.Builders
                 {
                     (segment.P2 - new Vector2(0, _segmentHeight/2)).RotateAround(segment.P2, radians),
                     (segment.P2 + new Vector2(0, _segmentHeight/2)).RotateAround(segment.P2, radians)
-                });
+                }
+                .Select(v => v.ToVector3() + new Vector3(0, 0, _z)));
 
             _dataContext.Indices.AddRange(GetNextSegmentData());
 

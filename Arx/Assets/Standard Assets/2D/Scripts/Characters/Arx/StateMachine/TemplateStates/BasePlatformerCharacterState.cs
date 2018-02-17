@@ -1,9 +1,9 @@
-﻿using GenericComponents.Interfaces.States;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GenericComponents.Interfaces;
+using Assets.Standard_Assets.Scripts.StateMachine;
 
 namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.TemplateStates
 {

@@ -30,7 +30,7 @@ namespace Assets.Standard_Assets.Terrain.Builder
 
         public Vector3[] Vertices
         {
-            get { return DataContext.Vertices.Select(v => v.ToVector3()).ToArray(); }
+            get { return DataContext.Vertices.ToArray(); }
         }
 
         public int[] Indices

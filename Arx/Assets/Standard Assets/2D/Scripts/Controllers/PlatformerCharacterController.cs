@@ -261,7 +261,6 @@ public class PlatformerCharacterController : BasePlatformerController
 
         _lastGrabbedLedge = _detectedLedge;
         SupportingPlatform = _lastGrabbedLedge.gameObject.transform;
-        //transform.parent = _lastGrabbedLedge.gameObject.transform;
         DesiredMovementVelocity = Vector2.zero;
         gravity = 0;
         _grabbingLedge = true;
@@ -288,7 +287,6 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         _grabbingLedge = false;
         SupportingPlatform = null;
-        //transform.parent = null;
         gravity = _defaultGravity;
     }
 
@@ -310,7 +308,6 @@ public class PlatformerCharacterController : BasePlatformerController
 
     public void StayStill()
     {
-        //_normalizedHorizontalSpeed = 0;
         _desiredMovementVelocity = new Vector2(0, _desiredMovementVelocity.y);
     }
 
@@ -411,8 +408,9 @@ public class PlatformerCharacterController : BasePlatformerController
         _characterController2D.BoxCollider2D = standingCollider;
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
+        base.Update();
         RepositionRelativeToParent();
 
         _impactMovement =
@@ -498,7 +496,6 @@ public class PlatformerCharacterController : BasePlatformerController
                 return;
             }
             SupportingPlatform = null;
-            //transform.parent = null;
             _activePlatformCollider = null;
         }
 
@@ -506,14 +503,11 @@ public class PlatformerCharacterController : BasePlatformerController
         {
             if (hit.normal.y > GroundContactMaxNormal)
             {
-                //if (transform.parent == hit.collider.transform)
                 if(SupportingPlatform == hit.collider.transform)
                 {
                     return;
                 }
                 SupportingPlatform = hit.collider.transform;
-                //transform.SetParent(hit.collider.transform);
-                //transform.rotation = Quaternion.identity;
                 _activePlatformCollider = hit.collider;
                 return;
             }
