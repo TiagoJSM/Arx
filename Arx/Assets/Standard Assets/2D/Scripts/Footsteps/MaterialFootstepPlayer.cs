@@ -88,7 +88,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Footsteps
             }
         }
 
-        void Update()
+        private void Update()
         {
             var groundComponent =
                 Physics2D
@@ -98,6 +98,12 @@ namespace Assets.Standard_Assets._2D.Scripts.Footsteps
                     .FirstOrDefault(c => c != null);
 
             _material = groundComponent == null ? default(GroundMaterial?) : groundComponent.groundMaterial;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
 }

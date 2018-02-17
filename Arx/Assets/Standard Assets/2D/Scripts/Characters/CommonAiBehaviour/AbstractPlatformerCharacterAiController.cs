@@ -33,6 +33,10 @@ public abstract class AbstractPlatformerCharacterAiController : BaseCharacterAiC
     {
         get
         {
+            if(Target == null)
+            {
+                return false;
+            }
             var currentPosition = this.transform.position;
             var distance = Vector2.Distance(currentPosition, Target.transform.position);
             return distance < _targetRange;
