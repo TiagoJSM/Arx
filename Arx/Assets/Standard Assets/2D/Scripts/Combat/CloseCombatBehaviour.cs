@@ -152,7 +152,8 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
         while (true)
         {
             var enemiesInRange = GetCharactersInRange(_diveAttackAreaP1.position, _diveAttackAreaP2.position, _enemyLayer);
-            if(enemiesInRange.Count() > 0)
+
+            if (enemiesInRange.Count() > 0)
             {
                 _combatHitEffects.EnemyStrongHit();
             }

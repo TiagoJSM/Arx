@@ -15,7 +15,7 @@ using UnityEngine;
 [RequireComponent(typeof(CloseCombatBehaviour))]
 [RequireComponent(typeof(ChainThrowCombatBehaviour))]
 [RequireComponent(typeof(ShooterCombatBehaviour))]
-public class CombatModule : MonoBehaviour//, ICombatComponent
+public class CombatModule : MonoBehaviour
 {
     private CloseCombatBehaviour _closeCombat;
     private ChainThrowCombatBehaviour _chainThrowCombat;
@@ -136,28 +136,13 @@ public class CombatModule : MonoBehaviour//, ICombatComponent
         return _closeCombat.SecundaryAttack();
     }
 
-    /*public bool PrimaryAirAttack()
-    {
-        return _closeCombat.PrimaryAirAttack();
-    }
-
-    public bool SecundaryAirAttack()
-    {
-        return _closeCombat.SecundaryAirAttack();
-    }*/
-
     public bool ChargeAttack()
     {
-        //return _closeCombat.ChargeAttack();
         return false;
     }
 
     public bool ReleaseChargeAttack()
     {
-        //if (_activeCombatBehaviour != null)
-        //{
-        //    return _activeCombatBehaviour.ReleaseChargeAttack();
-        //}
         return false;
     }
 
@@ -264,7 +249,7 @@ public class CombatModule : MonoBehaviour//, ICombatComponent
         }
         else
         {
-            rotation = (-AimAngle) + 180;
+            rotation = AimAngle - 180;
         }
         if (rotation > 180)
         {

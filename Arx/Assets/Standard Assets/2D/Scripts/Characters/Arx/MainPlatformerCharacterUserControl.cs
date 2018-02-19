@@ -356,7 +356,9 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         {
             var center = _aimingArm.transform.position;
             var aimPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var degrees = FloatUtils.AngleBetween(center, aimPosition).ReduceToSingleTurn();
+            //Debug.Log("aim: " + Vector2.Angle(Vector2.zero, new Vector2(0, 1)));
+            var pos = aimPosition - center;
+            var degrees = (Vector2.Angle(Vector2.right, pos) * Math.Sign(pos.y)).ReduceToSingleTurn();
             _characterController.AimAngle = degrees;
         }
         else
