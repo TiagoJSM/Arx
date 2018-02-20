@@ -16,7 +16,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
         protected override void PerformAttack()
         {
-            StateController.DoShoot();
+            StateController.PerformThrow();
+            //StateController.DoShoot();
         }
     }
 }

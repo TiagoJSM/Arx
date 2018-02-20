@@ -178,11 +178,14 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Nightmare Hunter\NightmareHunterGateLiftAiControl.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Nightmare Hunter\NightmareHunterGateLiftAnimationController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Shadow Hand\ShadowHandAnimationController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\AimBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\BaseCombatBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\ChainThrowCombatBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\CloseCombatBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\CombatModule.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\IThrowWeapon.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\ShooterCombatBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\ThrowCombatBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Constants\Tags.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Cutscene Controllers\MainPlatformerControllerCutsceneController.cs" />
@@ -582,6 +585,7 @@
     <Compile Include="Assets\Standard Assets\Vehicles\Car\Scripts\WheelEffects.cs" />
     <Compile Include="Assets\Standard Assets\Weapons\BaseCloseCombatWeapon.cs" />
     <Compile Include="Assets\Standard Assets\Weapons\BaseWeapon.cs" />
+    <Compile Include="Assets\Standard Assets\Weapons\Bomb.cs" />
     <Compile Include="Assets\Standard Assets\Weapons\ChainedProjectile.cs" />
     <Compile Include="Assets\Standard Assets\Weapons\ChainThrow.cs" />
     <Compile Include="Assets\Standard Assets\Weapons\EnemyDetection.cs" />

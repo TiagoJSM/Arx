@@ -23,6 +23,7 @@ using Assets.Standard_Assets.Extensions;
 using Assets.Standard_Assets.Weapons;
 using Assets.Standard_Assets.Scripts.StateMachine;
 using Assets.Standard_Assets._2D.Scripts.Footsteps;
+using Assets.Standard_Assets._2D.Scripts.Combat;
 
 [RequireComponent(typeof(CombatModule))]
 [RequireComponent(typeof(LadderMovement))]
@@ -31,6 +32,7 @@ using Assets.Standard_Assets._2D.Scripts.Footsteps;
 [RequireComponent(typeof(CombatHitEffects))]
 [RequireComponent(typeof(RopeMovement))]
 [RequireComponent(typeof(MaterialFootstepPlayer))]
+[RequireComponent(typeof(AimBehaviour))]
 public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
@@ -39,6 +41,7 @@ public class MainPlatformerController : PlatformerCharacterController
     private CombatHitEffects _hitEffects;
     private RopeMovement _ropeMovement;
     private MaterialFootstepPlayer _footstepPlayer;
+    private AimBehaviour _aimBehaviour;
     private StateManager<MainPlatformerController, PlatformerCharacterAction> _stateManager;
 
     private Rope _rope;
@@ -93,6 +96,8 @@ public class MainPlatformerController : PlatformerCharacterController
     private bool _jumpOnLedge;
 
     private AttackType _attackAction;
+
+    public event Action ThrowAction;
 
     public StateManager<MainPlatformerController, PlatformerCharacterAction> StateManager
     {
@@ -360,7 +365,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void Aim(bool aim)
     {
-        _combatModule.Aiming = aim;
+        _aimBehaviour.enabled = aim;
     }
 
     public void Throw()
@@ -526,6 +531,14 @@ public class MainPlatformerController : PlatformerCharacterController
         //VelocityMultiplier = Vector2.one;
     }
 
+    public void PerformThrow()
+    {
+        if(ThrowAction != null)
+        {
+            ThrowAction();
+        }
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -536,6 +549,8 @@ public class MainPlatformerController : PlatformerCharacterController
         _notifications = GetComponent<MainCharacterNotification>();
         _hitEffects = GetComponent<CombatHitEffects>();
         _footstepPlayer = GetComponent<MaterialFootstepPlayer>();
+        _aimBehaviour = GetComponent<AimBehaviour>();
+        _aimBehaviour.enabled = false;
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;
@@ -549,7 +564,7 @@ public class MainPlatformerController : PlatformerCharacterController
     {
         base.Update();
         _pushable = FindPushables();
-        _combatModule.AimAngle = AimAngle;
+        _aimBehaviour.AimAngle = AimAngle;
         var action = 
             new PlatformerCharacterAction(
                 _move, _vertical, _jump, _roll, _attackAction, 

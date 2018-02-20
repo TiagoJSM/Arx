@@ -6,11 +6,13 @@ using ArxGame.Components;
 using CommonInterfaces.Controllers;
 using System;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
+using Assets.Standard_Assets._2D.Scripts.Combat;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(CombatModule))]
 [RequireComponent(typeof(EnemyProximityDetector))]
+[RequireComponent(typeof(AimBehaviour))]
 public class ArxAnimationController : MonoBehaviour
 {
     private readonly int _HorizontalVelocity = Animator.StringToHash("Horizontal Velocity");
@@ -32,6 +34,8 @@ public class ArxAnimationController : MonoBehaviour
     private readonly int _EnemyNearby = Animator.StringToHash("Enemy Nearby");
     private readonly int _TakingDamage = Animator.StringToHash("Taking Damage");
     private readonly int _GrabbingLadder = Animator.StringToHash("Grabbing Ladder");
+    private readonly int Aiming = Animator.StringToHash("Aiming");
+    private readonly int Throw = Animator.StringToHash("Throw");
 
     private float _previousVerticalVelocity = 0;
 
@@ -39,6 +43,7 @@ public class ArxAnimationController : MonoBehaviour
     private MainPlatformerController _platformerController;
     private CombatModule _combatModule;
     private EnemyProximityDetector _enemyProximityDetector;
+    private AimBehaviour _aimBehaviour;
 
     public float HorizontalVelocity
     {
@@ -167,6 +172,14 @@ public class ArxAnimationController : MonoBehaviour
         _platformerController = GetComponent<MainPlatformerController>();
         _combatModule = GetComponent<CombatModule>();
         _enemyProximityDetector = GetComponent<EnemyProximityDetector>();
+        _aimBehaviour = GetComponent<AimBehaviour>();
+
+        _platformerController.ThrowAction += ThrowActionHandler;
+    }
+
+    private void ThrowActionHandler()
+    {
+        _animator.SetTrigger(Throw);
     }
 
     void Start()
@@ -194,6 +207,7 @@ public class ArxAnimationController : MonoBehaviour
         EnemyNearby = _enemyProximityDetector.EnemyNearby;
         TakingDamage = _platformerController.TakingDamage;
         _animator.SetBool(_GrabbingLadder, _platformerController.GrabbingLadder);
+        _animator.SetBool(Aiming, _aimBehaviour.enabled);
 
         var currentState = _animator.GetCurrentAnimatorStateInfo(0);
         if (_animator.GetCurrentAnimatorClipInfo(0).Length > 0)
