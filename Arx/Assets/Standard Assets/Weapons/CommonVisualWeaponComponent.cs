@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace CommonInterfaces.Weapons
+namespace Assets.Standard_Assets.Weapons
 {
     [RequireComponent(typeof(SortingGroup))]
     public class CommonVisualWeaponComponent : MonoBehaviour

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace CommonInterfaces.Weapons
+namespace Assets.Standard_Assets.Weapons
 {
     public interface IShooterWeapon : IWeapon
     {

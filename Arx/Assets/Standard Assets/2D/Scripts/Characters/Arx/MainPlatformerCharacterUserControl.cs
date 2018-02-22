@@ -8,7 +8,6 @@ using System.Text;
 using UnityEngine;
 using MathHelper;
 using MathHelper.Extensions;
-using CommonInterfaces.Weapons;
 using Assets.Standard_Assets.QuestSystem.QuestStructures;
 using Assets.Standard_Assets.QuestSystem;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
@@ -131,6 +130,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         _hud.CharacterStatus = _characterController.CharacterStatus;
         PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
         PlatformerCharacterController.ShooterWeapon = _equipmentController.EquippedShooterWeapon;
+        PlatformerCharacterController.ThrowCombatBehaviour.Weapon = _equipmentController.EquippedThrowWeapon;
         PlatformerCharacterController.ChainThrowWeapon = _equipmentController.EquippedChainThrowWeapon;
     }
 

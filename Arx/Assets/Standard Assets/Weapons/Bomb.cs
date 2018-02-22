@@ -1,4 +1,5 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.Combat;
+using MathHelper.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,20 @@ namespace Assets.Standard_Assets.Weapons
     public class Bomb : BaseWeapon, IThrowWeapon
     {
         [SerializeField]
-        private float _range = 1;
-        [SerializeField]
-        private int _maxRangeDamage = 6;
-        [SerializeField]
-        private int _minRangeDamage = 2;
+        private BombBehaviour _bombPrefab;
 
-        public bool Shoot(float angleInDegrees, LayerMask enemyLayer, GameObject attacker, float power)
+        public Bomb()
         {
-            throw new NotImplementedException();
+            WeaponType = WeaponType.Throw;
+        }
+
+        public bool Throw(Vector3 origin, float angleInDegrees, LayerMask enemyLayer, GameObject attacker, float power)
+        {
+            var direction = angleInDegrees.GetDirectionVectorFromDegreeAngle();
+            var bomb = Instantiate(_bombPrefab);
+            bomb.transform.position = origin;
+            bomb.Throw(direction * power, enemyLayer, attacker);
+            return true;
         }
     }
 }

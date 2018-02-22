@@ -1,6 +1,5 @@
 ﻿using Assets.Standard_Assets.Weapons;
 using CommonInterfaces.Controllers;
-using CommonInterfaces.Weapons;
 using GenericComponents.Enums;
 using GenericComponents.Helpers;
 using MathHelper;

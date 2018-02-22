@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 {
-    public class JumpingAimState : AimingState
+    public class JumpingAimShootState : AimingState
     {
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
@@ -16,7 +16,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
         protected override void PerformAttack()
         {
-            StateController.PerformThrow();
+            StateController.PerformShoot();
             //StateController.DoShoot();
         }
     }

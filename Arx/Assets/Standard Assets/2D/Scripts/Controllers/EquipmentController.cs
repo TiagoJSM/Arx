@@ -1,6 +1,6 @@
-﻿using Assets.Standard_Assets.Common.Attributes;
+﻿using Assets.Standard_Assets._2D.Scripts.Combat;
+using Assets.Standard_Assets.Common.Attributes;
 using Assets.Standard_Assets.Weapons;
-using CommonInterfaces.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +21,7 @@ public class EquipmentController : MonoBehaviour
 
     private ICloseCombatWeapon _equippedCloseCombatWeapon;
     private IShooterWeapon _equippedShooterWeapon;
+    private IThrowWeapon _equippedThrowWeapon;
     private ChainThrow _equippedChainThrowWeapon;
 
     [SerializeField]
@@ -37,6 +38,8 @@ public class EquipmentController : MonoBehaviour
     private Shooter _shooter;
     [SerializeField]
     private ChainThrow _chainThrow;
+    [SerializeField]
+    private Bomb _bomb;
     [SerializeField]
     private WeaponSocket _equippedWeaponIndex;
     [SerializeField]
@@ -75,6 +78,14 @@ public class EquipmentController : MonoBehaviour
         }
     }
 
+    public IThrowWeapon EquippedThrowWeapon
+    {
+        get
+        {
+            return _equippedThrowWeapon;
+        }
+    }
+
     public ChainThrow EquippedChainThrowWeapon
     {
         get
@@ -87,6 +98,7 @@ public class EquipmentController : MonoBehaviour
     {
         EquipCloseCombatWeapon();
         EquipShooterWeapon(_shooter);
+        EquipThrowWeapon(_bomb);
         EquipChainThrowWeapon(_chainThrow);
     }
 
@@ -98,6 +110,11 @@ public class EquipmentController : MonoBehaviour
     private void EquipShooterWeapon(IShooterWeapon weaponObject)
     {
         _equippedShooterWeapon = EquipWeapon(weaponObject, _equippedShooterWeapon, ref _equippedShooterWeaponVisual);
+    }
+
+    private void EquipThrowWeapon(IThrowWeapon weaponObject)
+    {
+        _equippedThrowWeapon = EquipWeapon(weaponObject, _equippedThrowWeapon, ref _equippedThrowWeaponVisual);
     }
 
     private void EquipChainThrowWeapon(ChainThrow weaponObject)

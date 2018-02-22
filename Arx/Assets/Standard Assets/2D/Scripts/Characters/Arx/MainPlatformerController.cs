@@ -1,5 +1,4 @@
 ﻿using CommonInterfaces.Controllers;
-using CommonInterfaces.Weapons;
 using Extensions;
 using GenericComponents.Behaviours;
 using GenericComponents.Controllers.Characters;
@@ -33,6 +32,7 @@ using Assets.Standard_Assets._2D.Scripts.Combat;
 [RequireComponent(typeof(RopeMovement))]
 [RequireComponent(typeof(MaterialFootstepPlayer))]
 [RequireComponent(typeof(AimBehaviour))]
+[RequireComponent(typeof(ThrowCombatBehaviour))]
 public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
@@ -97,6 +97,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     private AttackType _attackAction;
 
+    public event Action ShootAction;
     public event Action ThrowAction;
 
     public StateManager<MainPlatformerController, PlatformerCharacterAction> StateManager
@@ -130,6 +131,8 @@ public class MainPlatformerController : PlatformerCharacterController
             _combatModule.ShooterWeapon = value;
         }
     }
+
+    public ThrowCombatBehaviour ThrowCombatBehaviour { get; private set; }
 
     public ChainThrow ChainThrowWeapon
     {
@@ -200,6 +203,8 @@ public class MainPlatformerController : PlatformerCharacterController
     public Vector3? HitPointThisFrame { get; private set; }
 
     public bool GrabbingLadder { get; private set; }
+    public bool ShootWeaponEquipped { get; private set; }
+    public bool ThrowWeaponEquipped { get; private set; }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming, bool jumpOnLedge)
     {
@@ -363,6 +368,11 @@ public class MainPlatformerController : PlatformerCharacterController
         _combatModule.Shoot();
     }
 
+    public void DoThrow()
+    {
+        ThrowCombatBehaviour.Throw(_aimBehaviour.GetWeaponAimAngle());
+    }
+
     public void Aim(bool aim)
     {
         _aimBehaviour.enabled = aim;
@@ -373,11 +383,11 @@ public class MainPlatformerController : PlatformerCharacterController
         _throw = true;
     }
 
-    public void DoThrow()
-    {
-        _combatModule.Throw();
-        Attacking = true;
-    }
+    //public void DoThrow()
+    //{
+    //    _combatModule.Throw();
+    //    Attacking = true;
+    //}
 
     public void GrabGrapple()
     {
@@ -531,9 +541,17 @@ public class MainPlatformerController : PlatformerCharacterController
         //VelocityMultiplier = Vector2.one;
     }
 
+    public void PerformShoot()
+    {
+        if(ShootAction != null)
+        {
+            ShootAction();
+        }
+    }
+
     public void PerformThrow()
     {
-        if(ThrowAction != null)
+        if (ThrowAction != null)
         {
             ThrowAction();
         }
@@ -550,6 +568,7 @@ public class MainPlatformerController : PlatformerCharacterController
         _hitEffects = GetComponent<CombatHitEffects>();
         _footstepPlayer = GetComponent<MaterialFootstepPlayer>();
         _aimBehaviour = GetComponent<AimBehaviour>();
+        ThrowCombatBehaviour = GetComponent<ThrowCombatBehaviour>();
         _aimBehaviour.enabled = false;
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
@@ -558,6 +577,8 @@ public class MainPlatformerController : PlatformerCharacterController
         CharacterController2D.onTriggerEnterEvent += OnTriggerEnterEventHandler;
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
         _defaultMinYVelocity = CharacterController2D.MinYVelocity;
+
+        ThrowWeaponEquipped = true;
     }
 
     protected override void Update()

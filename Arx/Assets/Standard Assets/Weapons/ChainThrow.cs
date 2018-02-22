@@ -1,6 +1,5 @@
 ﻿using CommonInterfaces.Controllers;
 using CommonInterfaces.Enums;
-using CommonInterfaces.Weapons;
 using Extensions;
 using GenericComponents.Behaviours;
 using System;

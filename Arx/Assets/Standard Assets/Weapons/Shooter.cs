@@ -1,5 +1,4 @@
-﻿using CommonInterfaces.Weapons;
-using MathHelper;
+﻿using MathHelper;
 using MathHelper.Extensions;
 using System;
 using System.Collections.Generic;

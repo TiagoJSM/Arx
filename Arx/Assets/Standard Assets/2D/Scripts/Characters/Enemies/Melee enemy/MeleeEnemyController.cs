@@ -10,7 +10,6 @@ using Character = Assets.Standard_Assets._2D.Scripts.Characters.Enemies.ICharact
 using Assets.Standard_Assets.Common;
 using Extensions;
 using Assets.Standard_Assets.Extensions;
-using CommonInterfaces.Weapons;
 using Assets.Standard_Assets.Common.Attributes;
 using Assets.Standard_Assets.Weapons;
 using Assets.Standard_Assets.Scripts.StateMachine;

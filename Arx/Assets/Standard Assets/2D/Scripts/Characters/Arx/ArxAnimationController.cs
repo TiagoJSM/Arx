@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
-using CommonInterfaces.Weapons;
 using GenericComponents.Enums;
 using ArxGame.Components;
 using CommonInterfaces.Controllers;
 using System;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
 using Assets.Standard_Assets._2D.Scripts.Combat;
+using Assets.Standard_Assets.Weapons;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(MainPlatformerController))]
@@ -35,6 +35,7 @@ public class ArxAnimationController : MonoBehaviour
     private readonly int _TakingDamage = Animator.StringToHash("Taking Damage");
     private readonly int _GrabbingLadder = Animator.StringToHash("Grabbing Ladder");
     private readonly int Aiming = Animator.StringToHash("Aiming");
+    private readonly int Shoot = Animator.StringToHash("Shoot");
     private readonly int Throw = Animator.StringToHash("Throw");
 
     private float _previousVerticalVelocity = 0;
@@ -174,7 +175,13 @@ public class ArxAnimationController : MonoBehaviour
         _enemyProximityDetector = GetComponent<EnemyProximityDetector>();
         _aimBehaviour = GetComponent<AimBehaviour>();
 
+        _platformerController.ShootAction += ShootActionHandler;
         _platformerController.ThrowAction += ThrowActionHandler;
+    }
+
+    private void ShootActionHandler()
+    {
+        _animator.SetTrigger(Shoot);
     }
 
     private void ThrowActionHandler()

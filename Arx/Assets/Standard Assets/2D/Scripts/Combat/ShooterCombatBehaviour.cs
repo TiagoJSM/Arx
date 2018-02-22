@@ -1,4 +1,4 @@
-﻿using CommonInterfaces.Weapons;
+﻿using Assets.Standard_Assets.Weapons;
 using MathHelper;
 using MathHelper.Extensions;
 using System;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CommonInterfaces.Weapons
+namespace Assets.Standard_Assets.Weapons
 {
     public interface IGrapple : IChainThrowWeapon
     {

@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace CommonInterfaces.Weapons
+namespace Assets.Standard_Assets.Weapons
 {
     public enum WeaponType
     {
         Sword,
         Fist,
         Shoot,
-        ChainedProjectile
+        ChainedProjectile,
+        Throw
     }
 
     public interface IWeapon
