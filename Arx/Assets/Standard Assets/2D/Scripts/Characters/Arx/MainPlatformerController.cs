@@ -383,12 +383,6 @@ public class MainPlatformerController : PlatformerCharacterController
         _throw = true;
     }
 
-    //public void DoThrow()
-    //{
-    //    _combatModule.Throw();
-    //    Attacking = true;
-    //}
-
     public void GrabGrapple()
     {
         ApplyMovementAndGravity = false;
