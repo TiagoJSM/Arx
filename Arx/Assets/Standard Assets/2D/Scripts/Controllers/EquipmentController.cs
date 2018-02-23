@@ -18,6 +18,7 @@ public class EquipmentController : MonoBehaviour
     private GameObject _equippedCloseCombatWeaponVisual;
     private GameObject _equippedShooterWeaponVisual;
     private GameObject _equippedThrowWeaponVisual;
+    private GameObject _equippedChainThrowWeaponVisual;
 
     private ICloseCombatWeapon _equippedCloseCombatWeapon;
     private IShooterWeapon _equippedShooterWeapon;
@@ -119,7 +120,7 @@ public class EquipmentController : MonoBehaviour
 
     private void EquipChainThrowWeapon(ChainThrow weaponObject)
     {
-        _equippedChainThrowWeapon = EquipWeapon(weaponObject, _equippedChainThrowWeapon, ref _equippedThrowWeaponVisual);
+        _equippedChainThrowWeapon = EquipWeapon(weaponObject, _equippedChainThrowWeapon, ref _equippedChainThrowWeaponVisual);
     }
 
     private TWeapon EquipWeapon<TWeapon>(TWeapon weaponObject, TWeapon equipedWeapon, ref GameObject weaponVisualGO) 

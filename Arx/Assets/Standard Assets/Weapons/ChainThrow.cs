@@ -66,11 +66,16 @@ namespace Assets.Standard_Assets.Weapons
             InstantiatedHeldProjectile.Throw(degrees, _damage);
         }
 
+        public void Return()
+        {
+            InstantiatedHeldProjectile.Return();
+        }
+
         public void Reset()
         {
             if(_instantiatedHeldProjectile != null)
             {
-                _instantiatedHeldProjectile.Reset();
+                _instantiatedHeldProjectile.ResetProjectile();
                 _instantiatedHeldProjectile.gameObject.SetActive(false);
             }
         }
@@ -82,6 +87,11 @@ namespace Assets.Standard_Assets.Weapons
                 Destroy(_instantiatedHeldProjectile.gameObject);
                 _instantiatedHeldProjectile = null;
             }
+        }
+
+        public void StopProjectile()
+        {
+            _instantiatedHeldProjectile.Stop();
         }
 
         void Awake()
@@ -105,7 +115,7 @@ namespace Assets.Standard_Assets.Weapons
         private void StartAttack()
         {
             InstantiatedHeldProjectile.gameObject.SetActive(true);
-            InstantiatedHeldProjectile.Reset();
+            InstantiatedHeldProjectile.ResetProjectile();
             _focusTime = 0;
         }
 

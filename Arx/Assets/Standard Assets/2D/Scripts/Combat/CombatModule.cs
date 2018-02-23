@@ -123,7 +123,7 @@ public class CombatModule : MonoBehaviour
 
     public float AimAngle { get; set; }
     public bool Aiming { get; set; }
-    public GrappleRope GrappleRope { get { return _chainThrowCombat.GrappleRope; } }
+    public bool Grappled { get { return _chainThrowCombat.GrappledCharacter != null; } }
 
     public bool PrimaryAttack()
     {
@@ -167,14 +167,9 @@ public class CombatModule : MonoBehaviour
         _chainThrowCombat.ThrowChain(GetWeaponAimAngle());
     }
 
-    public void ClimbGrapple(float vertical, float speed)
+    public void ChainPull()
     {
-        _chainThrowCombat.ClimbGrapple(vertical, speed);
-    }
-
-    public void ReleaseGrapple()
-    {
-        _chainThrowCombat.ReleaseGrapple();
+        _chainThrowCombat.ChainPull();
     }
 
     public void NotifyOnEnterCombatState()

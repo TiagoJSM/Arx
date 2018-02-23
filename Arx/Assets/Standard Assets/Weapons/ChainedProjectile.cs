@@ -68,7 +68,7 @@ namespace Assets.Standard_Assets.Weapons
             }
         }
 
-        public void Reset()
+        public void ResetProjectile()
         {
             if (_coroutine != null)
             {

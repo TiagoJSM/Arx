@@ -1,4 +1,5 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.AttackedStates;
+using Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.ChainThrowStates;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.ThrowStates;
 using Assets.Standard_Assets.Scripts.StateMachine;
 using Assets.Standard_Assets.Weapons;
@@ -22,6 +23,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll)
                     .To<MovingAimShootState>((c, a, t) => c.IsGrounded && a.Aiming && c.ShootWeaponEquipped)
                     .To<MovingAimThrowState>((c, a, t) => c.IsGrounded && a.Aiming && c.ThrowWeaponEquipped)
+                    .To<MovingAimChainThrowState>((c, a, t) => c.IsGrounded && a.Aiming && c.ChainThrowWeaponEquipped)
                     .To<GroundAttackState>((c, a, t) => 
                         a.AttackType != AttackType.None && c.Attacking && c.WeaponType != null)
                     .To<ChargeAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null && c.IsCharging)
@@ -82,6 +84,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .WhenTransitionTo<IddleState>((c, a) => c.OnLanded())
                     .To<MovingAimShootState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ShootWeaponEquipped)
                     .To<MovingAimThrowState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ThrowWeaponEquipped)
+                    .To<MovingAimChainThrowState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ChainThrowWeaponEquipped)
                     .WhenTransitionTo<MovingAimShootState>((c, a) => c.OnLanded())
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0)
                     .WhenTransitionTo<MovingState>((c, a) => c.OnLanded())
@@ -218,14 +221,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             this.
                 From<ThrowState>()
                     .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
-                    .To<GrappledState>((c, a, t) => c.GrappleRope)
                     .To<FallingAimShootState>((c, a, t) => !c.Attacking && !c.IsGrounded)
                     .To<MovingAimShootState>((c, a, t) => !c.Attacking && c.IsGrounded);
-
-            this.
-                From<GrappledState>()
-                    .To<FallingState>((c, a, t) => a.ReleaseRope)
-                    .To<JumpingState>((c, a, t) => a.Jump);
 
             this
                 .From<PushState>()
@@ -258,6 +255,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<JumpingState>((c, a, t) => a.Jump)
                     .To<FallingState>((c, a, t) => !c.LadderFound && !c.IsGrounded)
                     .To<IddleState>((c, a, t) => !c.LadderFound);
+
+            this
+                .From<MovingAimChainThrowState>()
+                    .To<GrappledState>((c, a, t) => c.Grappled);
         }
     }
 }

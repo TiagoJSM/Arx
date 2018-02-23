@@ -180,8 +180,6 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public float RopeClimbDirection { get { return _ropeMovement.RopeClimbDirection; } }
 
-    public GrappleRope GrappleRope { get { return _combatModule.GrappleRope; } }
-
     public Pushable Pushable
     {
         get
@@ -205,6 +203,8 @@ public class MainPlatformerController : PlatformerCharacterController
     public bool GrabbingLadder { get; private set; }
     public bool ShootWeaponEquipped { get; private set; }
     public bool ThrowWeaponEquipped { get; private set; }
+    public bool ChainThrowWeaponEquipped { get; private set; }
+    public bool Grappled { get { return _combatModule.Grappled; } }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming, bool jumpOnLedge)
     {
@@ -302,8 +302,8 @@ public class MainPlatformerController : PlatformerCharacterController
         }
         Flip(
             Velocity.x > 0 
-            ? CommonInterfaces.Enums.Direction.Right 
-            : CommonInterfaces.Enums.Direction.Left);
+            ? Direction.Right 
+            : Direction.Left);
     }
 
     public void AirSlash()
@@ -381,41 +381,6 @@ public class MainPlatformerController : PlatformerCharacterController
     public void Throw()
     {
         _throw = true;
-    }
-
-    public void GrabGrapple()
-    {
-        ApplyMovementAndGravity = false;
-        SteadyRotation = false;
-        DetectPlatform = false;
-        // ChainThrowCombatBehaviour does the bellow line, 
-        //but we still need to do it here, since it may be invalided by hit detection parenting
-        this.transform.parent = _combatModule.GrappleRope.RopeEnd.gameObject.transform;
-        this.transform.localPosition = new Vector3(0, _grappleRopeGrabHeightOffset);
-    }
-
-    public void MoveOnGrapple(float horizontal, float vertical)
-    {
-        if (Mathf.Abs(horizontal) > 0.01)
-        {
-            var body = _combatModule.GrappleRope.RopeEnd.GetComponent<Rigidbody2D>();
-            body.AddForce(new Vector2(_maxRopeHorizontalForce * Math.Sign(horizontal), 0));
-        }
-        if (Mathf.Abs(vertical) > 0.01)
-        {
-            _combatModule.ClimbGrapple(vertical, _ropeVerticalSpeed);
-            //var move = new Vector3(0, _ropeVerticalSpeed * Time.deltaTime * Mathf.Sign(vertical));
-            //this.transform.localPosition += move;
-        }
-    }
-
-    public void ReleaseGrapple()
-    {
-        _combatModule.ReleaseGrapple();
-        this.transform.localRotation = Quaternion.identity;
-        ApplyMovementAndGravity = true;
-        SteadyRotation = true;
-        DetectPlatform = true;
     }
 
     public void PushObject()
@@ -551,6 +516,16 @@ public class MainPlatformerController : PlatformerCharacterController
         }
     }
 
+    public void ChainThrow()
+    {
+        _combatModule.Throw();
+    }
+
+    public void ChainPull()
+    {
+        _combatModule.ChainPull();
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -572,7 +547,7 @@ public class MainPlatformerController : PlatformerCharacterController
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
         _defaultMinYVelocity = CharacterController2D.MinYVelocity;
 
-        ThrowWeaponEquipped = true;
+        ChainThrowWeaponEquipped = true;
     }
 
     protected override void Update()
