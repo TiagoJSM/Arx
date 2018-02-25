@@ -13,38 +13,48 @@ using Assets.Standard_Assets.Extensions;
 using Assets.Standard_Assets.Common.Attributes;
 using Assets.Standard_Assets.Weapons;
 using Assets.Standard_Assets.Scripts.StateMachine;
+using Assets.Standard_Assets._2D.Scripts.Controllers;
 
 public class MeleeEnemyControllerStateManager : StateManager<Character, StateAction>
 {
     public MeleeEnemyControllerStateManager(Character controller) : base(controller)
     {
         this.SetInitialState<StandStillState>()
+            .To<GrappledState>((c, a, t) => c.Grappled)
             .To<TackingDamageState>((c, a, t) => c.InPain)
             .To<DeathState>((c, a, t) => c.Dead)
             .To<AttackState>((c, a, t) => a.Attack)
             .To<MoveState>((c, a, t) => a.Move != 0);
 
         this.From<AttackState>()
+            .To<GrappledState>((c, a, t) => c.Grappled)
             .To<TackingDamageState>((c, a, t) => c.InPain)
             .To<DeathState>((c, a, t) => c.Dead)
             .To<StandStillState>((c, a, t) => a.Move == 0)
             .To<MoveState>((c, a, t) => a.Move != 0);
 
         this.From<MoveState>()
+            .To<GrappledState>((c, a, t) => c.Grappled)
             .To<TackingDamageState>((c, a, t) => c.InPain)
             .To<DeathState>((c, a, t) => c.Dead)
             .To<AttackState>((c, a, t) => a.Attack)
             .To<StandStillState>((c, a, t) => a.Move == 0);
 
         this.From<TackingDamageState>()
+            .To<GrappledState>((c, a, t) => c.Grappled)
             .To<StandStillState>((c, a, t) => c.InPainTime < t);
+
+        this.From<GrappledState>()
+            .To<StandStillState>((c, a, t) => !c.Grappled);
     }
 }
 
 [RequireComponent(typeof(CombatModule))]
+[RequireComponent(typeof(GrappledCharacter))]
 public class MeleeEnemyController : PlatformerCharacterController, Character
 {
     private CombatModule _combatModule;
+    private GrappledCharacter _grappled;
     private float _move;
     private bool _attack;
     private MeleeEnemyControllerStateManager _stateManager;
@@ -69,6 +79,8 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
     public bool Attacking { get; private set; }
     public bool Dead { get; private set; }
     public float InPainTime { get { return _inPainTime; } }
+    public GrappledCharacter GrappledCharacter { get { return _grappled; } }
+    public bool Grappled { get { return _grappled.Grappled; } }
 
     public void Move(float move)
     {
@@ -113,10 +125,12 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
     {
         base.Awake();
         _combatModule = GetComponent<CombatModule>();
+        _grappled = GetComponent<GrappledCharacter>();
         _stateManager = new MeleeEnemyControllerStateManager(this);
         _combatModule.OnAttackStart += OnAttackStartHandler;
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnCombatFinish += OnCombatFinishHandler;
+        _grappled.OnGrappled += OnGrappledHandler;
     }
 
     protected override void Start()
@@ -159,6 +173,11 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
     private void OnCombatFinishHandler()
     {
         Attacking = false;
+    }
+
+    private void OnGrappledHandler()
+    {
+        RaiseOnAttacked(_grappled.Grappler);
     }
 
     public void Die()

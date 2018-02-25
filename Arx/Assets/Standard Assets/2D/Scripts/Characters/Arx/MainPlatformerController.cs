@@ -33,6 +33,7 @@ using Assets.Standard_Assets._2D.Scripts.Combat;
 [RequireComponent(typeof(MaterialFootstepPlayer))]
 [RequireComponent(typeof(AimBehaviour))]
 [RequireComponent(typeof(ThrowCombatBehaviour))]
+[RequireComponent(typeof(ChainThrowCombatBehaviour))]
 public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
@@ -133,18 +134,7 @@ public class MainPlatformerController : PlatformerCharacterController
     }
 
     public ThrowCombatBehaviour ThrowCombatBehaviour { get; private set; }
-
-    public ChainThrow ChainThrowWeapon
-    {
-        get
-        {
-            return _combatModule.ChainThrowWeapon;
-        }
-        set
-        {
-            _combatModule.ChainThrowWeapon = value;
-        }
-    }
+    public ChainThrowCombatBehaviour ChainThrowCombat { get; private set; }
 
     public bool Attacking { get; private set; }
 
@@ -204,7 +194,7 @@ public class MainPlatformerController : PlatformerCharacterController
     public bool ShootWeaponEquipped { get; private set; }
     public bool ThrowWeaponEquipped { get; private set; }
     public bool ChainThrowWeaponEquipped { get; private set; }
-    public bool Grappled { get { return _combatModule.Grappled; } }
+    public bool Grappling { get { return ChainThrowCombat.GrappledCharacter != null; } }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming, bool jumpOnLedge)
     {
@@ -518,12 +508,19 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void ChainThrow()
     {
-        _combatModule.Throw();
+        ChainThrowCombat.ThrowChain(_aimBehaviour.GetWeaponAimAngle());
     }
 
     public void ChainPull()
     {
-        _combatModule.ChainPull();
+        ChainThrowCombat.ChainPull();
+    }
+
+    public void ChainThrust()
+    {
+        ApplyMovementAndGravity = false;
+        SteadyRotation = false;
+        ChainThrowCombat.ChainThrust();
     }
 
     protected override void Awake()
@@ -538,16 +535,25 @@ public class MainPlatformerController : PlatformerCharacterController
         _footstepPlayer = GetComponent<MaterialFootstepPlayer>();
         _aimBehaviour = GetComponent<AimBehaviour>();
         ThrowCombatBehaviour = GetComponent<ThrowCombatBehaviour>();
+        ChainThrowCombat = GetComponent<ChainThrowCombatBehaviour>();
         _aimBehaviour.enabled = false;
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;
         _combatModule.OnCombatFinish += OnCombatFinishHandler;
+        ChainThrowCombat.OnAttackFinish += OnCombatFinishHandler;
+
         CharacterController2D.onTriggerEnterEvent += OnTriggerEnterEventHandler;
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
         _defaultMinYVelocity = CharacterController2D.MinYVelocity;
 
         ChainThrowWeaponEquipped = true;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        ChainThrowCombat.ChainThrustComplete += ChainThrustCompleteHandler;
     }
 
     protected override void Update()
@@ -674,5 +680,11 @@ public class MainPlatformerController : PlatformerCharacterController
         yield return new WaitForSeconds(_lightAirAttackGravitySlowDownTime);
         VelocityMultiplier = Vector2.one;
         _changeVelocityMultiplierOnCombatFinish = true;
+    }
+
+    private void ChainThrustCompleteHandler()
+    {
+        ApplyMovementAndGravity = true;
+        SteadyRotation = true;
     }
 }

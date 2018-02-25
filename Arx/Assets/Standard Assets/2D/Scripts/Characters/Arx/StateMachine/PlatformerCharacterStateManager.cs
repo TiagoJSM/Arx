@@ -115,7 +115,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<GhostJumpFallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<GroundAttackState>((c, a, t) => a.AttackType != AttackType.None && c.Attacking)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll)
-                    .To<MovingAimShootState>((c, a, t) => a.Aiming && c.IsGrounded)
+                    .To<MovingAimShootState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ShootWeaponEquipped)
+                    .To<MovingAimThrowState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ThrowWeaponEquipped)
+                    .To<MovingAimChainThrowState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ChainThrowWeaponEquipped)
                     .To<ChargeAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null && c.IsCharging)
                     .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
@@ -128,8 +130,12 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<JumpingState>((c, a, t) => a.Jump)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
                     .WhenTransitionTo<IddleState>((c, a) => c.OnLanded())
-                    .To<MovingAimShootState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming)
-                    .WhenTransitionTo<MovingAimShootState>((c, a) => c.OnLanded());
+                    .To<MovingAimShootState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ShootWeaponEquipped)
+                    .WhenTransitionTo<MovingAimShootState>((c, a) => c.OnLanded())
+                    .To<MovingAimThrowState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ThrowWeaponEquipped)
+                    .WhenTransitionTo<MovingAimThrowState>((c, a) => c.OnLanded())
+                    .To<MovingAimChainThrowState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ChainThrowWeaponEquipped)
+                    .WhenTransitionTo<MovingAimChainThrowState>((c, a) => c.OnLanded());
 
             this
                 .From<GrabbingLedgeState>()
@@ -207,6 +213,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             this.
                 From<MovingAimShootState>()
                 .And<MovingAimThrowState>()
+                .And<MovingAimChainThrowState>()
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
@@ -258,7 +265,24 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<MovingAimChainThrowState>()
-                    .To<GrappledState>((c, a, t) => c.Grappled);
+                    .To<GrapplingState>((c, a, t) => c.Grappling);
+
+            this
+                .From<GrapplingState>()
+                    .To<PullingEnemyState>((c, a, t) => c.ChainThrowCombat.ChainPulling)
+                    .To<ChainThrustingState>((c, a, t) => c.ChainThrowCombat.ChainThrusting)
+                    .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && (t > 2 || !c.Grappling))
+                    .To<IddleState>((c, a, t) => c.IsGrounded && (t > 2 || !c.Grappling));
+
+            this
+                .From<PullingEnemyState>()
+                    .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && !c.ChainThrowCombat.ChainPulling)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && !c.ChainThrowCombat.ChainPulling);
+
+            this
+                .From<ChainThrustingState>()
+                    .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && !c.ChainThrowCombat.ChainThrusting)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && !c.ChainThrowCombat.ChainThrusting);
         }
     }
 }

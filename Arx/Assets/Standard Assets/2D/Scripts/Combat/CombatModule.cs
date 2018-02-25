@@ -10,14 +10,11 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-
 [RequireComponent(typeof(CloseCombatBehaviour))]
-[RequireComponent(typeof(ChainThrowCombatBehaviour))]
 [RequireComponent(typeof(ShooterCombatBehaviour))]
 public class CombatModule : MonoBehaviour
 {
     private CloseCombatBehaviour _closeCombat;
-    private ChainThrowCombatBehaviour _chainThrowCombat;
     private ShooterCombatBehaviour _shooterCombat;
 
     private bool _over = false;
@@ -58,18 +55,6 @@ public class CombatModule : MonoBehaviour
         set
         {
             _shooterCombat.Weapon = value;
-        }
-    }
-
-    public ChainThrow ChainThrowWeapon
-    {
-        get
-        {
-            return _chainThrowCombat.Weapon;
-        }
-        set
-        {
-            _chainThrowCombat.Weapon = value;
         }
     }
 
@@ -123,7 +108,6 @@ public class CombatModule : MonoBehaviour
 
     public float AimAngle { get; set; }
     public bool Aiming { get; set; }
-    public bool Grappled { get { return _chainThrowCombat.GrappledCharacter != null; } }
 
     public bool PrimaryAttack()
     {
@@ -161,17 +145,6 @@ public class CombatModule : MonoBehaviour
         return _shooterCombat.Shoot(GetWeaponAimAngle());
     }
 
-    public void Throw()
-    {
-        AimAtTarget(_aimingArm, _aimArmLimit);
-        _chainThrowCombat.ThrowChain(GetWeaponAimAngle());
-    }
-
-    public void ChainPull()
-    {
-        _chainThrowCombat.ChainPull();
-    }
-
     public void NotifyOnEnterCombatState()
     {
         if (OnEnterCombatState != null)
@@ -202,19 +175,16 @@ public class CombatModule : MonoBehaviour
     {
         _closeCombat = GetComponent<CloseCombatBehaviour>();
         _shooterCombat = GetComponent<ShooterCombatBehaviour>();
-        _chainThrowCombat = GetComponent<ChainThrowCombatBehaviour>();
 
         _closeCombat.OnEnterCombatState += NotifyOnEnterCombatState;
         _closeCombat.OnAttackStart += NotifyOnAttackStart;
         _closeCombat.OnCombatFinish += NotifyOnCombatFinish;
-        _chainThrowCombat.OnAttackFinish += NotifyOnCombatFinish;
     }
 
     private void Update()
     {
         _over = false;
         _shooterCombat.AimAngle = AimAngle;
-        _chainThrowCombat.AimAngle = AimAngle;
     }
 
     private void LateUpdate()

@@ -30,18 +30,27 @@ namespace Assets.Standard_Assets.Weapons
         private Collider2D _collider;
 
         public float threshold;
-        public float duration = 10;
-        public float distance = 20;
-        
+        [SerializeField]
+        private float _throwDuration = 1;
+        [SerializeField]
+        private float _returnDuration = 1;
+        public float distance = 80;
 
         public GameObject Origin { get; set; }
         public ProjectileStatus Status { get; private set; }
 
-        private float MovementPerSeconds
+        private float ThrowMovementPerSeconds
         {
             get
             {
-                return distance / duration / 2;
+                return distance / _throwDuration;
+            }
+        }
+        private float ReturnMovementPerSeconds
+        {
+            get
+            {
+                return distance / _returnDuration;
             }
         }
 
@@ -91,7 +100,7 @@ namespace Assets.Standard_Assets.Weapons
 
         private IEnumerator ThrowCoroutine(float degrees)
         {
-            var throwDuration = duration / 2;
+            var throwDuration = this._throwDuration / 2;
             var elapsedTime = 0f;
             var direction = degrees.GetDirectionVectorFromDegreeAngle();
 
@@ -106,7 +115,7 @@ namespace Assets.Standard_Assets.Weapons
                     Return();
                     yield break;
                 }
-                this.transform.position = this.transform.position + (direction * MovementPerSeconds * Time.deltaTime);
+                this.transform.position = this.transform.position + (direction * ThrowMovementPerSeconds * Time.deltaTime);
                 yield return null;
             }
         }
@@ -118,7 +127,7 @@ namespace Assets.Standard_Assets.Weapons
             while (true)
             {
                 var direction = (Origin.transform.position - this.transform.localPosition).normalized;
-                this.transform.position = this.transform.position + direction * MovementPerSeconds * Time.deltaTime;
+                this.transform.position = this.transform.position + direction * ReturnMovementPerSeconds * Time.deltaTime;
                 if (Vector3.Distance(this.transform.localPosition, Origin.transform.position) < threshold)
                 {
                     _coroutine = null;

@@ -131,7 +131,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
         PlatformerCharacterController.ShooterWeapon = _equipmentController.EquippedShooterWeapon;
         PlatformerCharacterController.ThrowCombatBehaviour.Weapon = _equipmentController.EquippedThrowWeapon;
-        PlatformerCharacterController.ChainThrowWeapon = _equipmentController.EquippedChainThrowWeapon;
+        PlatformerCharacterController.ChainThrowCombat.Weapon = _equipmentController.EquippedChainThrowWeapon;
     }
 
     private void Update()

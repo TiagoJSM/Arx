@@ -107,10 +107,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             }
             CharacterStatus.Damage(damage);
 
-            if (OnAttacked != null)
-            {
-                OnAttacked(this, attacker);
-            }
+            RaiseOnAttacked(attacker);
 
             if (CharacterStatus.HealthDepleted)
             {
@@ -187,6 +184,14 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
                 Direction == Direction.Right
                     ? position.x < currentPosition.x
                     : position.x > currentPosition.x;
+        }
+
+        protected void RaiseOnAttacked(GameObject attacker)
+        {
+            if (OnAttacked != null)
+            {
+                OnAttacked(this, attacker);
+            }
         }
     }
 }

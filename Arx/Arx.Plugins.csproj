@@ -128,8 +128,10 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\AttackedStates\AttackedOnAirState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\AttackedStates\AttackedOnGrabbingState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\AttackedStates\AttackedOnGroundState.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ChainThrowStates\GrappledState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ChainThrowStates\ChainThrustingState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ChainThrowStates\GrapplingState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ChainThrowStates\MovingAimChainThrowState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ChainThrowStates\PullingEnemyState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ChargeAttackState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\DamagedAndMovedState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\DuckState.cs" />
@@ -192,6 +194,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Cutscene Controllers\MainPlatformerControllerCutsceneController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\EquipmentController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\GrappledCharacter.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractibleCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractionNotification.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractiveDialog.cs" />

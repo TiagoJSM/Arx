@@ -10,27 +10,22 @@ using GenericComponents.Enums;
 using GenericComponents.Behaviours;
 using Extensions;
 using Assets.Standard_Assets.Weapons;
+using Assets.Standard_Assets._2D.Scripts.Controllers;
+using System.Collections;
 
+[RequireComponent(typeof(CharacterController2D))]
 public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
 {
     private RaycastHit2D[] _results = new RaycastHit2D[10];
+    private CharacterController2D _characterController;
 
     private ChainThrow _weapon;
-    private CommonInterfaces.Controllers.ICharacter _grappledCharacter;
-    private bool _attached;
+    private GrappledCharacter _grappledCharacter;
 
-    [SerializeField]
-    private float _minGrappleDistance = 5;
-    [SerializeField]
-    private float _ropePartLength = 6;
     [SerializeField]
     private LayerMask _wallLayer;
     [SerializeField]
     private LayerMask _enemyLayer;
-    [SerializeField]
-    private GameObject _raycastStart;
-    [SerializeField]
-    private GameObject _raycastEnd;
 
     public override ChainThrow Weapon
     {
@@ -58,17 +53,13 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
         }
     }
 
-    public bool Attached
-    {
-        get
-        {
-            return _attached;
-        }
-    }
-    public CommonInterfaces.Controllers.ICharacter GrappledCharacter { get { return _grappledCharacter; } }
+    public GrappledCharacter GrappledCharacter { get { return _grappledCharacter; } }
+    public bool ChainPulling { get; private set; }
+    public bool ChainThrusting { get; private set; }
 
     public event Action OnAttackFinish;
     public event Action OnWallHit;
+    public event Action ChainThrustComplete;
 
     public void ThrowChain(float degrees)
     {
@@ -77,7 +68,19 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
 
     public void ChainPull()
     {
+        ChainPulling = true;
         Weapon.Return();
+        GrappledCharacter.Pull();
+    }
+
+    public void ChainThrust()
+    {
+        StartCoroutine(ChainThrustRoutine());
+    }
+
+    private void Awake()
+    {
+        _characterController = GetComponent<CharacterController2D>();
     }
 
     private void OnAttackFinishHandler()
@@ -87,41 +90,24 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
             OnAttackFinish();
         }
 
+        ChainPulling = false;
+
         if (_grappledCharacter == null)
         {
             return;
         }
 
-        _grappledCharacter.EndGrappled();
-        _attached = false;
-
-        var hitCount = Physics2D
-            .RaycastNonAlloc(
-                _raycastStart.transform.position, 
-                Vector2.down, 
-                _results,
-                _raycastStart.transform.position.y - _raycastEnd.transform.position.y);
-        for(var idx = 0; idx < hitCount; idx++)
-        {
-            if (!_results[idx].collider.isTrigger)
-            {
-                _grappledCharacter.CharacterGameObject.transform.position = _results[idx].point;
-                return;
-            }
-        }
-        _grappledCharacter.CharacterGameObject.transform.position = 
-            new Vector3(_raycastStart.transform.position.x, _raycastEnd.transform.position.y);
-
+        _grappledCharacter.EndGrapple();
         _grappledCharacter = null;
     }
 
     private void OnTriggerEnterHandler(Collider2D other, ChainedProjectile projectile, Vector3 position)
     {
-        if (_attached)
+        if (_grappledCharacter != null)
         {
             return;
         }
-        if (_wallLayer.IsInAnyLayer(other.gameObject) && CanAttachGrapple(other, position))
+        if (_wallLayer.IsInAnyLayer(other.gameObject))
         {
             projectile.Return();
             return;
@@ -134,7 +120,7 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
         {
             return;
         }
-        var character = other.gameObject.GetComponent<CommonInterfaces.Controllers.ICharacter>();
+        var character = other.gameObject.GetComponent<GrappledCharacter>();
         if (character == null)
         {
             return;
@@ -143,24 +129,36 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
         GrappleCharacter(character, projectile);
     }
 
-    private bool CanAttachGrapple(Collider2D other, Vector3 position)
-    {
-        var distance = Vector3.Distance(position, this.transform.position);
-        if(_minGrappleDistance > distance)
-        {
-            return false;
-        }
-
-        var hit = Physics2D.Linecast(_weapon.RightHandSocket.transform.position, position, _wallLayer);
-
-        return hit && hit.normal.y <= 0;
-    }
-
-    private void GrappleCharacter(CommonInterfaces.Controllers.ICharacter character, ChainedProjectile projectile)
+    private void GrappleCharacter(GrappledCharacter character, ChainedProjectile projectile)
     {
         _grappledCharacter = character;
-        _grappledCharacter.StartGrappled(projectile.gameObject);
+        _grappledCharacter.StartGrapple(projectile.gameObject, gameObject);
         Weapon.StopProjectile();
-        //projectile.Return();
+    }
+
+    private IEnumerator ChainThrustRoutine()
+    {
+        ChainThrusting = true;
+        var elapsed = 0.0f;
+        var start = transform.position;
+        var grappleOffset = _weapon.InstantiatedHeldProjectile.Origin.transform.position - transform.position;
+        var totalTime = 0.5f;
+        while(elapsed < totalTime)
+        {
+            var target = _weapon.InstantiatedHeldProjectile.transform.position - grappleOffset;
+            var position = Vector3.Lerp(start, target, elapsed / totalTime);
+            var distance = position - transform.position;
+            _characterController.move(distance);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        ChainThrusting = false;
+        Weapon.InstantiatedHeldProjectile.ResetProjectile();
+
+        if (ChainThrustComplete != null)
+        {
+            ChainThrustComplete();
+        }
     }
 }

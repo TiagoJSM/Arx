@@ -23,7 +23,7 @@ namespace Assets.Standard_Assets.Weapons
         [SerializeField]
         private int _damage;
 
-        private ChainedProjectile InstantiatedHeldProjectile
+        public ChainedProjectile InstantiatedHeldProjectile
         {
             get
             {
