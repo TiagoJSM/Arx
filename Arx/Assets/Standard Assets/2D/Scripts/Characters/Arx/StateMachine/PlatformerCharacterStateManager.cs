@@ -265,7 +265,14 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<MovingAimChainThrowState>()
+                    .To<ThrowChainState>((c, a, t) => c.ChainThrowCombat.Weapon.Throwing)
                     .To<GrapplingState>((c, a, t) => c.Grappling);
+
+            this
+                .From<ThrowChainState>()
+                    .To<GrapplingState>((c, a, t) => c.Grappling)
+                    .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && c.ChainThrowCombat.Weapon.ReadyToThrow)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && c.ChainThrowCombat.Weapon.ReadyToThrow);
 
             this
                 .From<GrapplingState>()

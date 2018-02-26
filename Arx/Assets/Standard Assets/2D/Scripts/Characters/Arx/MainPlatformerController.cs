@@ -547,7 +547,8 @@ public class MainPlatformerController : PlatformerCharacterController
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
         _defaultMinYVelocity = CharacterController2D.MinYVelocity;
 
-        ChainThrowWeaponEquipped = true;
+        ShootWeaponEquipped = true;
+        //ChainThrowWeaponEquipped = true;
     }
 
     protected override void Start()

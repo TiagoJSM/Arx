@@ -45,6 +45,7 @@ namespace Assets.Standard_Assets.Weapons
         public ChainedProjectile projectile;
 
         public bool ReadyToThrow { get { return InstantiatedHeldProjectile.Status == ProjectileStatus.None; } }
+        public bool Throwing { get { return InstantiatedHeldProjectile.Status == ProjectileStatus.Throw; } }
 
         public ChainThrow()
         {

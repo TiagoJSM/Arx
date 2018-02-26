@@ -149,17 +149,35 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
 
     private IEnumerator DiveAttackDetector()
     {
+        _charactersAttackedOnDive.Clear();
         while (true)
         {
-            var enemiesInRange = GetCharactersInRange(_diveAttackAreaP1.position, _diveAttackAreaP2.position, _enemyLayer);
+            var enemiesInRange = DetectNewEnemies();
 
             if (enemiesInRange.Count() > 0)
             {
                 _combatHitEffects.EnemyStrongHit();
-            }
-            Weapon.DiveAttack(enemiesInRange, this.gameObject);
+                Weapon.DiveAttack(enemiesInRange, this.gameObject);
+            }            
             yield return null;
         }
+    }
+
+    private List<ICharacter> DetectNewEnemies()
+    {
+        var enemiesInRange = GetCharactersInRange(_diveAttackAreaP1.position, _diveAttackAreaP2.position, _enemyLayer);
+        var newCharacters = new List<ICharacter>();
+
+        for(var idx = 0; idx < enemiesInRange.Length; idx++)
+        {
+            var enemy = enemiesInRange[idx];
+            if (!_charactersAttackedOnDive.Contains(enemy))
+            {
+                newCharacters.Add(enemy);
+            }
+        }
+        _charactersAttackedOnDive.AddRange(newCharacters);
+        return newCharacters;
     }
 
     private void RaiseOnHit()

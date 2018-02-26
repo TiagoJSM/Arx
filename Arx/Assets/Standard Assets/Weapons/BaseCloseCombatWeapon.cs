@@ -21,8 +21,9 @@ namespace Assets.Standard_Assets.Weapons
             AttackTypeDetail attackType,
             int comboNumber = 1)
         {
-            foreach (var enemy in targets)
+            for(var idx = 0; idx < targets.Count(); idx++)
             {
+                var enemy = targets.ElementAt(idx);
                 enemy.Attacked(attacker, damage, null, damageType, attackType, comboNumber);
             }
         }

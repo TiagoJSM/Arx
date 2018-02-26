@@ -32,8 +32,11 @@ namespace Assets.Standard_Assets.Loot
 
         private void OnKilledHandler(BasePlatformerController character)
         {
-            var pickable = Instantiate(_pickablePrefab, transform.position, Quaternion.identity);
-            pickable.Item = _item;
+            if (_item != null)
+            {
+                var pickable = Instantiate(_pickablePrefab, transform.position, Quaternion.identity);
+                pickable.Item = _item;
+            }
         }
     }
 }
