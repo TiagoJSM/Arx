@@ -12,10 +12,12 @@ public class ShooterCombatBehaviour : BaseGenericCombatBehaviour<IShooterWeapon>
 {
     [SerializeField]
     private LayerMask _enemyLayer;
+    [SerializeField]
+    private Transform _origin;
 
     public bool Shoot(float aimAngle)
     {
-        return Weapon.Shoot(aimAngle, _enemyLayer, this.gameObject);
+        return Weapon.Shoot(aimAngle, _enemyLayer, this.gameObject, _origin.position);
     }
 }
 

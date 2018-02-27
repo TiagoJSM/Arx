@@ -355,7 +355,8 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void DoShoot()
     {
-        _combatModule.Shoot();
+        _combatModule.ShooterCombat.Shoot(_aimBehaviour.GetWeaponAimAngle());
+        //_combatModule.Shoot();
     }
 
     public void DoThrow()

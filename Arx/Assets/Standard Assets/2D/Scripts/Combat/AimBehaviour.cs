@@ -20,6 +20,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Combat
         [SerializeField]
         [Range(0, 90)]
         private float _headLookLimit = 90;
+        [SerializeField]
+        private GameObject _launchCenter;
 
         public float AimAngle { get; set; }
 
@@ -47,6 +49,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Combat
         {
             AimAtTarget(_head, _headLookLimit);
             AimAtTarget(_aimingArm, _aimArmLimit);
+            AimAtTarget(_launchCenter, _aimArmLimit);
         }
 
         private void AimAtTarget(GameObject obj, float limit)

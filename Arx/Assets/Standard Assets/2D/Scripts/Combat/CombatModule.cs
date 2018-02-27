@@ -58,6 +58,11 @@ public class CombatModule : MonoBehaviour
         }
     }
 
+    public ShooterCombatBehaviour ShooterCombat
+    {
+        get { return _shooterCombat; }
+    }
+
     public int ComboNumber
     {
         get

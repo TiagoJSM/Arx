@@ -48,7 +48,7 @@ namespace Assets.Standard_Assets.Weapons
             WeaponType = WeaponType.Shoot;
         }
 
-        public bool Shoot(float angleInDegrees, LayerMask enemyLayer, GameObject attacker)
+        public bool Shoot(float angleInDegrees, LayerMask enemyLayer, GameObject attacker, Vector3 origin)
         {
             if(InCooldown)
             {
@@ -56,7 +56,7 @@ namespace Assets.Standard_Assets.Weapons
             }
             var direction = angleInDegrees.GetDirectionVectorFromDegreeAngle();
             var projectile = Instantiate(projectilePrefab);
-            projectile.transform.position = this.RightHandSocket.transform.position;
+            projectile.transform.position = origin;
             projectile.Direction = direction;
             projectile.Attacker = attacker;
             projectile.EnemyLayer = enemyLayer;

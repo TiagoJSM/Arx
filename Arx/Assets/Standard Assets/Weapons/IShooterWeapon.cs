@@ -12,6 +12,6 @@ namespace Assets.Standard_Assets.Weapons
         bool InCooldown { get; }
         float RemainingCooldownTime { get; }
 
-        bool Shoot(float angleInDegrees, LayerMask enemyLayer, GameObject attacker);
+        bool Shoot(float angleInDegrees, LayerMask enemyLayer, GameObject attacker, Vector3 position);
     }
 }
