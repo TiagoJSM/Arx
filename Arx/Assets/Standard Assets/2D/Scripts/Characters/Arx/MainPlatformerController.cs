@@ -135,6 +135,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public ThrowCombatBehaviour ThrowCombatBehaviour { get; private set; }
     public ChainThrowCombatBehaviour ChainThrowCombat { get; private set; }
+    public ShooterCombatBehaviour ShooterCombat { get; private set; }
 
     public bool Attacking { get; private set; }
 
@@ -355,8 +356,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void DoShoot()
     {
-        _combatModule.ShooterCombat.Shoot(_aimBehaviour.GetWeaponAimAngle());
-        //_combatModule.Shoot();
+        ShooterCombat.Shoot(_aimBehaviour.GetWeaponAimAngle());
     }
 
     public void DoThrow()
@@ -537,6 +537,7 @@ public class MainPlatformerController : PlatformerCharacterController
         _aimBehaviour = GetComponent<AimBehaviour>();
         ThrowCombatBehaviour = GetComponent<ThrowCombatBehaviour>();
         ChainThrowCombat = GetComponent<ChainThrowCombatBehaviour>();
+        ShooterCombat = GetComponent<ShooterCombatBehaviour>();
         _aimBehaviour.enabled = false;
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
@@ -548,7 +549,8 @@ public class MainPlatformerController : PlatformerCharacterController
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
         _defaultMinYVelocity = CharacterController2D.MinYVelocity;
 
-        ShootWeaponEquipped = true;
+        //ShootWeaponEquipped = true;
+        ThrowWeaponEquipped = true;
         //ChainThrowWeaponEquipped = true;
     }
 

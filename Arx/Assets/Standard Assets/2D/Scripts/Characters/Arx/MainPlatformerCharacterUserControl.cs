@@ -293,6 +293,8 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         {
             var shoot = inputDevice.GetButtonDown(DeviceButton.ShootWeapon);
             var @throw = inputDevice.GetButtonDown(DeviceButton.Throw);
+            var bd = inputDevice.GetButton(DeviceButton.Throw);
+            Debug.Log(bd);
             if (shoot)
             {
                 _characterController.Shoot();

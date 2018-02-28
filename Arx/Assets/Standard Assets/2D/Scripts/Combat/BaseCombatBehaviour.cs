@@ -11,7 +11,6 @@ public abstract class BaseCombatBehaviour : MonoBehaviour
     public AttackType AttackType { get; protected set; }
     public int ComboNumber { get; set; }
     public AttackStyle AttackStyle { get; protected set; }
-    public float AimAngle { get; set; }
 
     protected CommonInterfaces.Controllers.ICharacter[] GetCharactersInRange(Vector3 attackAreaP1, Vector3 attackAreaP2, LayerMask enemyLayer)
     {

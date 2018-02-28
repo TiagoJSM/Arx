@@ -189,7 +189,7 @@ public class CombatModule : MonoBehaviour
     private void Update()
     {
         _over = false;
-        _shooterCombat.AimAngle = AimAngle;
+        //_shooterCombat.AimAngle = AimAngle;
     }
 
     private void LateUpdate()

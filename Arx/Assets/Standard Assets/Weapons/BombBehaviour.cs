@@ -1,4 +1,5 @@
 ﻿using CommonInterfaces.Controllers;
+using Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,9 @@ namespace Assets.Standard_Assets.Weapons
     {
         private Rigidbody2D _body;
         private Collider2D[] _targets;
+        private LayerMask _enemyLayer;
+        private GameObject _attacker;
+        private Coroutine _countdownRoutine;
 
         [SerializeField]
         private GameObject _explosion;
@@ -32,8 +36,10 @@ namespace Assets.Standard_Assets.Weapons
 
         public void Throw(Vector3 force, LayerMask layerMask, GameObject attacker)
         {
+            _enemyLayer = layerMask;
+            _attacker = attacker;
             _body.AddForce(force, ForceMode2D.Impulse);
-            StartCoroutine(ThrowRoutine(layerMask, attacker));
+            _countdownRoutine = StartCoroutine(ThrowRoutine());
         }
 
         private void Awake()
@@ -41,14 +47,34 @@ namespace Assets.Standard_Assets.Weapons
             _body = GetComponent<Rigidbody2D>();
         }
 
-        private IEnumerator ThrowRoutine(LayerMask layerMask, GameObject attacker)
+        private IEnumerator ThrowRoutine()
         {
             yield return new WaitForSeconds(_detonationTime);
+            _countdownRoutine = null;
+            yield return ExplosionRoutine(_enemyLayer, _attacker);
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            var isEnemy = _enemyLayer.IsInAnyLayer(collision.gameObject);
+            if(isEnemy)
+            {
+                if(_countdownRoutine != null)
+                {
+                    StopCoroutine(_countdownRoutine);
+                    StartCoroutine(ExplosionRoutine(_enemyLayer, _attacker));
+                    _countdownRoutine = null;
+                }
+            }
+        }
+
+        private void Explode(LayerMask layerMask, GameObject attacker)
+        {
             var count = Physics2D.OverlapCircleNonAlloc(transform.position, _radius, _targets, layerMask);
-            for(var idx = 0; idx < count; idx++)
+            for (var idx = 0; idx < count; idx++)
             {
                 var character = _targets[idx].GetComponent<ICharacter>();
-                if(character != null)
+                if (character != null)
                 {
                     var distance = Vector2.Distance(character.CharacterGameObject.transform.position, transform.position);
                     character.Attacked(
@@ -58,9 +84,14 @@ namespace Assets.Standard_Assets.Weapons
                         DamageType.Environment,
                         showDamaged: true);
                 }
-                
+
             }
             _explosion.SetActive(true);
+        }
+
+        private IEnumerator ExplosionRoutine(LayerMask layerMask, GameObject attacker)
+        {
+            Explode(layerMask, attacker);
             yield return new WaitForSeconds(5);
             Destroy(this.gameObject);
         }
