@@ -83,6 +83,10 @@ public class MainPlatformerController : PlatformerCharacterController
     private AudioSource _rollSound;
     [SerializeField]
     private float _lightAirAttackGravitySlowDownTime = 4.0f;
+    [SerializeField]
+    private float _minThrowForce = 20.0f;
+    [SerializeField]
+    private float _maxThrowForce = 60.0f;
 
     private float _move;
     private float _vertical;
@@ -196,6 +200,9 @@ public class MainPlatformerController : PlatformerCharacterController
     public bool ThrowWeaponEquipped { get; private set; }
     public bool ChainThrowWeaponEquipped { get; private set; }
     public bool Grappling { get { return ChainThrowCombat.GrappledCharacter != null; } }
+
+    public float MinThrowForce { get { return _minThrowForce; } }
+    public float MaxThrowForce { get { return _maxThrowForce; } }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming, bool jumpOnLedge)
     {

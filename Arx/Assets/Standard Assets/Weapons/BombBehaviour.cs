@@ -28,6 +28,8 @@ namespace Assets.Standard_Assets.Weapons
         private int _maxRangeDamage = 6;
         [SerializeField]
         private int _minRangeDamage = 2;
+        [SerializeField]
+        private GameObject _visual;
 
         public BombBehaviour()
         {
@@ -86,6 +88,7 @@ namespace Assets.Standard_Assets.Weapons
                 }
 
             }
+            _visual.SetActive(false);
             _explosion.SetActive(true);
         }
 

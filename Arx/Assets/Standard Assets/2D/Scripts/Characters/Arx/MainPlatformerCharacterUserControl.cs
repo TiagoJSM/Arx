@@ -41,6 +41,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     private InputAction _currentInputAction = InputAction.None;
     private float _attackButtonDownTime;
     private bool _waitForJumpButtonUp = false;
+    private float _throwElapsed;
 
     private MainPlatformerController _characterController;
     private ItemFinderController _itemFinderController;
@@ -63,6 +64,8 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     private float _stopInteractionDistance = 3f;
     [SerializeField]
     private GameObject _aimingArm;
+    [SerializeField]
+    private GameObject _throwAim;
 
     public event OnInventoryAdd OnInventoryItemAdd;
     public event OnInventoryRemove OnInventoryItemRemove;
@@ -104,6 +107,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         _questLogComponent.OnQuestAssigned += SetActiveQuest;
         _characterController.OnGrounded += OnGroundedHandler;
         _characterController.OnJump += OnJumpHandler;
+        _throwAim.SetActive(false);
     }
 
     private void OnJumpHandler()
@@ -292,16 +296,38 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         if (aiming)
         {
             var shoot = inputDevice.GetButtonDown(DeviceButton.ShootWeapon);
-            var @throw = inputDevice.GetButtonDown(DeviceButton.Throw);
-            var bd = inputDevice.GetButton(DeviceButton.Throw);
-            Debug.Log(bd);
+            var @throwDown = inputDevice.GetButton(DeviceButton.ShootWeapon);
+            var @throwUp = inputDevice.GetButtonUp(DeviceButton.ShootWeapon);
+
+            if (@throwDown)
+            {
+                if(_throwElapsed > 0.5)
+                {
+                    _throwAim.SetActive(true);
+                    var force =
+                        Mathf.Lerp(_characterController.MinThrowForce, _characterController.MaxThrowForce, _throwElapsed / 4);
+                    var scale = Mathf.Min(_throwElapsed, 4.0f);
+                    _throwAim.transform.localScale = new Vector3(scale, scale, 1);
+                }
+                
+                _throwElapsed = _throwElapsed + Time.deltaTime;
+            }
+
             if (shoot)
             {
-                _characterController.Shoot();
+                //_characterController.Shoot();
             }
-            else if (@throw)
+            else if (@throwUp)
             {
-                _characterController.Throw();
+                if(_throwElapsed < 0.5f)
+                {
+                    _characterController.Throw();
+                }
+                else
+                {
+                    _throwAim.SetActive(false);
+                }
+                _throwElapsed = 0.0f;
             }
             return;
         }
