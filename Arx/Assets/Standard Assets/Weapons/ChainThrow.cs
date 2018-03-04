@@ -64,6 +64,7 @@ namespace Assets.Standard_Assets.Weapons
                 return;
             }
             StartAttack();
+            ShowProjectile(true);
             InstantiatedHeldProjectile.Throw(degrees, _damage);
         }
 
@@ -93,6 +94,11 @@ namespace Assets.Standard_Assets.Weapons
         public void StopProjectile()
         {
             _instantiatedHeldProjectile.Stop();
+        }
+
+        public void ShowProjectile(bool show)
+        {
+            InstantiatedHeldProjectile.gameObject.SetActive(show);
         }
 
         void Awake()

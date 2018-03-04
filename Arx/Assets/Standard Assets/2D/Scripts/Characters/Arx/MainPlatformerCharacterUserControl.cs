@@ -315,7 +315,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
             if (shoot)
             {
-                //_characterController.Shoot();
+                _characterController.Shoot();
             }
             else if (@throwUp)
             {

@@ -557,8 +557,8 @@ public class MainPlatformerController : PlatformerCharacterController
         _defaultMinYVelocity = CharacterController2D.MinYVelocity;
 
         //ShootWeaponEquipped = true;
-        ThrowWeaponEquipped = true;
-        //ChainThrowWeaponEquipped = true;
+        //ThrowWeaponEquipped = true;
+        ChainThrowWeaponEquipped = true;
     }
 
     protected override void Start()

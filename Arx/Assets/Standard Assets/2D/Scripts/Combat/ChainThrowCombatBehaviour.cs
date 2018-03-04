@@ -26,6 +26,10 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
     private LayerMask _wallLayer;
     [SerializeField]
     private LayerMask _enemyLayer;
+    [SerializeField]
+    private float _chainThrustDuration = 0.5f;
+    [SerializeField]
+    private float _thrustOffset = 0.5f;
 
     public override ChainThrow Weapon
     {
@@ -58,7 +62,6 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
     public bool ChainThrusting { get; private set; }
 
     public event Action OnAttackFinish;
-    public event Action OnWallHit;
     public event Action ChainThrustComplete;
 
     public void ThrowChain(float degrees)
@@ -91,6 +94,7 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
         }
 
         ChainPulling = false;
+        Weapon.ShowProjectile(false);
 
         if (_grappledCharacter == null)
         {
@@ -142,7 +146,7 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
         var elapsed = 0.0f;
         var start = transform.position;
         var grappleOffset = _weapon.InstantiatedHeldProjectile.Origin.transform.position - transform.position;
-        var totalTime = 0.5f;
+        var totalTime = _chainThrustDuration;
         while(elapsed < totalTime)
         {
             var target = _weapon.InstantiatedHeldProjectile.transform.position - grappleOffset;
@@ -160,5 +164,6 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
         {
             ChainThrustComplete();
         }
+        OnAttackFinishHandler();
     }
 }
