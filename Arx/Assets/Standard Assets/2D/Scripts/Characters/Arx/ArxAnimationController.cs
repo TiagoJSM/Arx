@@ -7,12 +7,14 @@ using System;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
 using Assets.Standard_Assets._2D.Scripts.Combat;
 using Assets.Standard_Assets.Weapons;
+using Assets.Standard_Assets._2D.Scripts.Controllers;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(CombatModule))]
 [RequireComponent(typeof(EnemyProximityDetector))]
 [RequireComponent(typeof(AimBehaviour))]
+[RequireComponent(typeof(ChainThrowCombatBehaviour))]
 public class ArxAnimationController : MonoBehaviour
 {
     private readonly int _HorizontalVelocity = Animator.StringToHash("Horizontal Velocity");
@@ -37,6 +39,7 @@ public class ArxAnimationController : MonoBehaviour
     private readonly int Aiming = Animator.StringToHash("Aiming");
     private readonly int Shoot = Animator.StringToHash("Shoot");
     private readonly int Throw = Animator.StringToHash("Throw");
+    private readonly int ChainThrustComplete = Animator.StringToHash("Chain Thrust Complete");
 
     private float _previousVerticalVelocity = 0;
 
@@ -45,6 +48,7 @@ public class ArxAnimationController : MonoBehaviour
     private CombatModule _combatModule;
     private EnemyProximityDetector _enemyProximityDetector;
     private AimBehaviour _aimBehaviour;
+    private ChainThrowCombatBehaviour _chainThrow;
 
     public float HorizontalVelocity
     {
@@ -174,9 +178,16 @@ public class ArxAnimationController : MonoBehaviour
         _combatModule = GetComponent<CombatModule>();
         _enemyProximityDetector = GetComponent<EnemyProximityDetector>();
         _aimBehaviour = GetComponent<AimBehaviour>();
+        _chainThrow = GetComponent<ChainThrowCombatBehaviour>();
 
         _platformerController.ShootAction += ShootActionHandler;
         _platformerController.ThrowAction += ThrowActionHandler;
+        _chainThrow.ChainThrustComplete += ChainThrustCompleteHandler;
+    }
+
+    private void ChainThrustCompleteHandler(GrappledCharacter obj)
+    {
+        _animator.SetTrigger(ChainThrustComplete);
     }
 
     private void ShootActionHandler()
@@ -187,11 +198,6 @@ public class ArxAnimationController : MonoBehaviour
     private void ThrowActionHandler()
     {
         _animator.SetTrigger(Throw);
-    }
-
-    void Start()
-    {
-        //_animator.GetCurrentAnimatorClipInfo(_RollingState)[0].clip. = _platformerController.RollingDuration;
     }
 	
     void Update()

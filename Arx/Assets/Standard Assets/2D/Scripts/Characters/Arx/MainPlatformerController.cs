@@ -54,6 +54,7 @@ public class MainPlatformerController : PlatformerCharacterController
     private float _defaultMinYVelocity;
     private bool _canSlowGravityForAirAttack = true;
     private bool _changeVelocityMultiplierOnCombatFinish = true;
+    private GrappledCharacter _previouslyGrappledCharacter;
 
     [SerializeField]
     private float _rollingDuration = 1;
@@ -294,13 +295,13 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void FlipToSlideDownDirection()
     {
-        if(Velocity.x == 0)
+        if (Velocity.x == 0)
         {
             return;
         }
         Flip(
-            Velocity.x > 0 
-            ? Direction.Right 
+            Velocity.x > 0
+            ? Direction.Right
             : Direction.Left);
     }
 
@@ -324,7 +325,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void GrabRope()
     {
-        if(_ropeMovement.GrabRope(_rope))
+        if (_ropeMovement.GrabRope(_rope))
         {
             ApplyMovementAndGravity = false;
             SteadyRotation = false;
@@ -351,7 +352,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void SetDirectionToAimDirection()
     {
-        if((AimAngle >= 0 && AimAngle <= 90) || (AimAngle <= 360 && AimAngle >= 270))
+        if ((AimAngle >= 0 && AimAngle <= 90) || (AimAngle <= 360 && AimAngle >= 270))
         {
             Flip(Direction.Right);
         }
@@ -383,7 +384,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void PushObject()
     {
-        if(Mathf.Abs(HorizontalSpeed) < 0.01)
+        if (Mathf.Abs(HorizontalSpeed) < 0.01)
         {
             return;
         }
@@ -418,7 +419,7 @@ public class MainPlatformerController : PlatformerCharacterController
         var x = (_safeSpot.Value.x + this.transform.position.x) / 2;
         var distance = Vector2.Distance(this.transform.position, _safeSpot.Value);
         var distancePerSeconds = 40; // ToDo: move to inspector variable
-        _moveInParabolaCoroutine = 
+        _moveInParabolaCoroutine =
             StartCoroutine(
                 MoveInParabola(
                     this.transform.position,
@@ -442,8 +443,8 @@ public class MainPlatformerController : PlatformerCharacterController
     }
 
     public override int Attacked(
-        GameObject attacker, 
-        int damage, 
+        GameObject attacker,
+        int damage,
         Vector3? hitPoint,
         DamageType damageType,
         AttackTypeDetail attackType = AttackTypeDetail.Generic,
@@ -451,7 +452,7 @@ public class MainPlatformerController : PlatformerCharacterController
         bool showDamaged = false)
     {
         var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType, comboNumber);
-        if(damageTaken > 0)
+        if (damageTaken > 0)
         {
             _hitEffects.HitByEnemy();
             AttackedThisFrame = true;
@@ -500,7 +501,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void PerformShoot()
     {
-        if(ShootAction != null)
+        if (ShootAction != null)
         {
             ShootAction();
         }
@@ -529,6 +530,34 @@ public class MainPlatformerController : PlatformerCharacterController
         ApplyMovementAndGravity = false;
         SteadyRotation = false;
         ChainThrowCombat.ChainThrust();
+    }
+
+    public void StartFlashing()
+    {
+        if (_flashRoutine == null)
+        {
+            _flashRoutine = StartCoroutine(CoroutineHelpers.Flash(() => StopFlashing(), _flashingObjects));
+        }
+    }
+
+    public void StopFlashing()
+    {
+        CanBeAttacked = true;
+        StopCoroutine(_flashRoutine);
+        _flashRoutine = null;
+        for (var idx = 0; idx < _flashingObjects.Length; idx++)
+        {
+            _flashingObjects[idx].SetActive(true);
+        }
+    }
+
+    public void FlipKickAttack()
+    {
+        if (_previouslyGrappledCharacter != null)
+        {
+            var character = _previouslyGrappledCharacter.GetComponent<ICharacter>();
+            character.Attacked(this.gameObject, 1, null, DamageType.BodyAttack);
+        }
     }
 
     protected override void Awake()
@@ -572,10 +601,10 @@ public class MainPlatformerController : PlatformerCharacterController
         base.Update();
         _pushable = FindPushables();
         _aimBehaviour.AimAngle = AimAngle;
-        var action = 
+        var action =
             new PlatformerCharacterAction(
-                _move, _vertical, _jump, _roll, _attackAction, 
-                _releaseRope, _aiming, _shoot, _throw, _grabLadder, 
+                _move, _vertical, _jump, _roll, _attackAction,
+                _releaseRope, _aiming, _shoot, _throw, _grabLadder,
                 _jumpOnLedge, _rollAfterAttack);
         _stateManager.Perform(action);
         _move = 0;
@@ -601,11 +630,11 @@ public class MainPlatformerController : PlatformerCharacterController
 
     private Pushable FindPushables()
     {
-        if(_pushableAreaP1 == null || _pushableAreaP2 == null)
+        if (_pushableAreaP1 == null || _pushableAreaP2 == null)
         {
             return null;
         }
-        return 
+        return
             Physics2DHelpers
                 .OverlapAreaAll<Pushable>(_pushableAreaP1.position, _pushableAreaP2.position)
                 .FirstOrDefault();
@@ -665,25 +694,6 @@ public class MainPlatformerController : PlatformerCharacterController
         _safeSpot = null;
     }
 
-    public void StartFlashing()
-    {
-        if (_flashRoutine == null)
-        {
-            _flashRoutine = StartCoroutine(CoroutineHelpers.Flash(() => StopFlashing(), _flashingObjects));
-        }
-    }
-
-    public void StopFlashing()
-    {
-        CanBeAttacked = true;
-        StopCoroutine(_flashRoutine);
-        _flashRoutine = null;
-        for (var idx = 0; idx < _flashingObjects.Length; idx++)
-        {
-            _flashingObjects[idx].SetActive(true);
-        }
-    }
-
     private IEnumerator LightAirAttackGravitySlowDown()
     {
         _changeVelocityMultiplierOnCombatFinish = false;
@@ -693,9 +703,10 @@ public class MainPlatformerController : PlatformerCharacterController
         _changeVelocityMultiplierOnCombatFinish = true;
     }
 
-    private void ChainThrustCompleteHandler()
+    private void ChainThrustCompleteHandler(GrappledCharacter grappledCharacter)
     {
         ApplyMovementAndGravity = true;
         SteadyRotation = true;
+        _previouslyGrappledCharacter = grappledCharacter;
     }
 }

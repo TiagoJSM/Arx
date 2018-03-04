@@ -27,9 +27,9 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
     [SerializeField]
     private LayerMask _enemyLayer;
     [SerializeField]
-    private float _chainThrustDuration = 0.5f;
+    private float _chainThrustSpeed = 60f;
     [SerializeField]
-    private float _thrustOffset = 0.5f;
+    private float _thrustTreshold = 0.5f;
 
     public override ChainThrow Weapon
     {
@@ -62,7 +62,7 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
     public bool ChainThrusting { get; private set; }
 
     public event Action OnAttackFinish;
-    public event Action ChainThrustComplete;
+    public event Action<GrappledCharacter> ChainThrustComplete;
 
     public void ThrowChain(float degrees)
     {
@@ -143,17 +143,16 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
     private IEnumerator ChainThrustRoutine()
     {
         ChainThrusting = true;
-        var elapsed = 0.0f;
-        var start = transform.position;
         var grappleOffset = _weapon.InstantiatedHeldProjectile.Origin.transform.position - transform.position;
-        var totalTime = _chainThrustDuration;
-        while(elapsed < totalTime)
+        while (true)
         {
             var target = _weapon.InstantiatedHeldProjectile.transform.position - grappleOffset;
-            var position = Vector3.Lerp(start, target, elapsed / totalTime);
-            var distance = position - transform.position;
-            _characterController.move(distance);
-            elapsed += Time.deltaTime;
+            var direction = (target - this.transform.localPosition).normalized;
+            _characterController.move(direction * _chainThrustSpeed * Time.deltaTime);
+            if (Vector3.Distance(this.transform.localPosition, target) < _thrustTreshold)
+            {
+                break;
+            }
             yield return null;
         }
 
@@ -162,7 +161,7 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
 
         if (ChainThrustComplete != null)
         {
-            ChainThrustComplete();
+            ChainThrustComplete(_grappledCharacter);
         }
         OnAttackFinishHandler();
     }
