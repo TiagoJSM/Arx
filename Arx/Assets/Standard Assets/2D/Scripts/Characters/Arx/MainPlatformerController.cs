@@ -24,6 +24,13 @@ using Assets.Standard_Assets.Scripts.StateMachine;
 using Assets.Standard_Assets._2D.Scripts.Footsteps;
 using Assets.Standard_Assets._2D.Scripts.Combat;
 
+public enum LaunchWeaponType
+{
+    Shoot,
+    Throw,
+    ChainThrow
+}
+
 [RequireComponent(typeof(CombatModule))]
 [RequireComponent(typeof(LadderMovement))]
 [RequireComponent(typeof(LadderFinder))]
@@ -197,13 +204,15 @@ public class MainPlatformerController : PlatformerCharacterController
     public Vector3? HitPointThisFrame { get; private set; }
 
     public bool GrabbingLadder { get; private set; }
-    public bool ShootWeaponEquipped { get; private set; }
-    public bool ThrowWeaponEquipped { get; private set; }
-    public bool ChainThrowWeaponEquipped { get; private set; }
+    public LaunchWeaponType LaunchWeaponEquipped { get; set; }
     public bool Grappling { get { return ChainThrowCombat.GrappledCharacter != null; } }
 
     public float MinThrowForce { get { return _minThrowForce; } }
     public float MaxThrowForce { get { return _maxThrowForce; } }
+
+    public bool ShootWeaponEquipped { get { return LaunchWeaponEquipped == LaunchWeaponType.Shoot; } }
+    public bool ThrowWeaponEquipped { get { return LaunchWeaponEquipped == LaunchWeaponType.Throw; } }
+    public bool ChainThrowWeaponEquipped { get { return LaunchWeaponEquipped == LaunchWeaponType.ChainThrow; } }
 
     public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming, bool jumpOnLedge)
     {
@@ -585,9 +594,7 @@ public class MainPlatformerController : PlatformerCharacterController
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
         _defaultMinYVelocity = CharacterController2D.MinYVelocity;
 
-        //ShootWeaponEquipped = true;
-        //ThrowWeaponEquipped = true;
-        ChainThrowWeaponEquipped = true;
+        LaunchWeaponEquipped = LaunchWeaponType.ChainThrow;
     }
 
     protected override void Start()

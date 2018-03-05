@@ -112,7 +112,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     private void OnJumpHandler()
     {
-        
+
     }
 
     private void OnGroundedHandler()
@@ -124,7 +124,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         {
             _waitForJumpButtonUp = true;
         }
-        
+
     }
 
     private void Start()
@@ -157,7 +157,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         SetAimAngle(inputDevice);
         HandleLadderGrab(grabLadder);
         HandleInteraction();
-        
+
         _characterController.Move(horizontal, vertical, jump, roll, releaseRope, aiming, jumpOnLedge);
 
         HandleAttack(inputDevice);
@@ -232,7 +232,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     {
         _inventoryComponent.Inventory.AddItem(item);
         _hud.Toast("Item found: " + item.Name, _hud.Short);
-        if(OnInventoryItemAdd != null)
+        if (OnInventoryItemAdd != null)
         {
             OnInventoryItemAdd.Invoke(item);
         }
@@ -240,12 +240,12 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     private ITeleporter FindTeleporter()
     {
-        var collider = 
+        var collider =
             Physics2D
                 .OverlapPointAll(this.transform.position)
                 .FirstOrDefault(c => c.GetComponent<ITeleporter>() != null);
 
-        if(collider == null)
+        if (collider == null)
         {
             return null;
         }
@@ -255,7 +255,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     private void HandleAttack(IInputDevice inputDevice)
     {
-        if(_characterController.WeaponType == null)
+        if (_characterController.WeaponType == null)
         {
             return;
         }
@@ -276,16 +276,23 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         }
         var setWeapon1 = inputDevice.GetButtonDown(DeviceButton.SetWeaponSocket1);
         var setWeapon2 = inputDevice.GetButtonDown(DeviceButton.SetWeaponSocket2);
+        var setWeapon3 = inputDevice.GetButtonDown(DeviceButton.SetWeaponSocket3);
 
         if (setWeapon1)
         {
-            _equipmentController.ActiveCloseCombatSocket = WeaponSocket.ClosedCombarWeapon1;
-            PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
+            _characterController.LaunchWeaponEquipped = LaunchWeaponType.Shoot;
+            //_equipmentController.ActiveCloseCombatSocket = WeaponSocket.ClosedCombarWeapon1;
+            //PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
         }
         else if (setWeapon2)
         {
-            _equipmentController.ActiveCloseCombatSocket = WeaponSocket.ClosedCombatWeapon2;
-            PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
+            _characterController.LaunchWeaponEquipped = LaunchWeaponType.Throw;
+            //_equipmentController.ActiveCloseCombatSocket = WeaponSocket.ClosedCombatWeapon2;
+            //PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
+        }
+        else if (setWeapon3)
+        {
+            _characterController.LaunchWeaponEquipped = LaunchWeaponType.ChainThrow;
         }
     }
 
