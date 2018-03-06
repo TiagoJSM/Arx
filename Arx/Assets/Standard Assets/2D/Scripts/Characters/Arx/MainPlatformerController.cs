@@ -97,6 +97,10 @@ public class MainPlatformerController : PlatformerCharacterController
     private float _minThrowForce = 20.0f;
     [SerializeField]
     private float _maxThrowForce = 60.0f;
+    [SerializeField]
+    private float _lowKickDuration = 1;
+    [SerializeField]
+    private float _lowKickSpeed = 30;
 
     private float _move;
     private float _vertical;
@@ -218,6 +222,7 @@ public class MainPlatformerController : PlatformerCharacterController
     public bool ThrowWeaponEquipped { get { return LaunchWeaponEquipped == LaunchWeaponType.Throw; } }
     public bool ChainThrowWeaponEquipped { get { return LaunchWeaponEquipped == LaunchWeaponType.ChainThrow; } }
     public CharacterStamina CharacterStamina { get; private set; }
+    public bool LowKicking { get; private set; }
 
     public void Move(
         float move, 
@@ -598,6 +603,22 @@ public class MainPlatformerController : PlatformerCharacterController
         CharacterStamina.RegenerateStamina();
     }
 
+    public void StartLowKick()
+    {
+        LowKicking = true;
+    }
+
+    public void StopLowKick()
+    {
+        LowKicking = false;
+        CharacterStamina.ConsumeAllStamina();
+    }
+
+    public void LowKickMovement(float move)
+    {
+        DoMove(move, _lowKickSpeed, true);
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -614,7 +635,7 @@ public class MainPlatformerController : PlatformerCharacterController
         ShooterCombat = GetComponent<ShooterCombatBehaviour>();
         CharacterStamina = GetComponent<CharacterStamina>();
         _aimBehaviour.enabled = false;
-        _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
+        _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration, _lowKickDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;
         _combatModule.OnCombatFinish += OnCombatFinishHandler;

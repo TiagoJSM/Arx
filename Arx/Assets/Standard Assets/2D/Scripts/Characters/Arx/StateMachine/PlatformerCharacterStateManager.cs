@@ -14,8 +14,11 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 {
     public class PlatformerCharacterStateManager : StateManager<MainPlatformerController, PlatformerCharacterAction>
     {
-        public PlatformerCharacterStateManager(MainPlatformerController context, float rollingDuration)
-            : base(context)
+        public PlatformerCharacterStateManager(
+            MainPlatformerController context, 
+            float rollingDuration,
+            float lowKickDuration)
+                : base(context)
         {
             this
                 .SetInitialState<IddleState>()
@@ -114,6 +117,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<GhostJumpFallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<GroundAttackState>((c, a, t) => a.AttackType != AttackType.None && c.Attacking)
+                    .To<LowKickState>((c, a, t) => c.IsGrounded && c.MovementType == MovementType.Sprint && a.Roll)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll)
                     .To<MovingAimShootState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ShootWeaponEquipped)
                     .To<MovingAimThrowState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ThrowWeaponEquipped)
@@ -290,6 +294,16 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                 .From<ChainThrustingState>()
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && !c.ChainThrowCombat.ChainThrusting)
                     .To<IddleState>((c, a, t) => c.IsGrounded && !c.ChainThrowCombat.ChainThrusting);
+
+            this
+                .From<LowKickState>()
+                    .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
+                    .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .To<DuckState>((c, a, t) => c.IsGrounded && !c.CanStand && t > rollingDuration)
+                    .To<FallingState>((c, a, t) => !c.IsGrounded && t > rollingDuration)
+                    .To<RollState>((c, a, t) => c.IsGrounded && a.Roll && t > rollingDuration)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration && c.CanStand)
+                    .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > rollingDuration && c.CanStand);
         }
     }
 }

@@ -40,6 +40,7 @@ public class ArxAnimationController : MonoBehaviour
     private readonly int Shoot = Animator.StringToHash("Shoot");
     private readonly int Throw = Animator.StringToHash("Throw");
     private readonly int ChainThrustComplete = Animator.StringToHash("Chain Thrust Complete");
+    private readonly int LowKicking = Animator.StringToHash("Low Kicking");
 
     private float _previousVerticalVelocity = 0;
 
@@ -221,6 +222,7 @@ public class ArxAnimationController : MonoBehaviour
         TakingDamage = _platformerController.TakingDamage;
         _animator.SetBool(_GrabbingLadder, _platformerController.GrabbingLadder);
         _animator.SetBool(Aiming, _aimBehaviour.enabled);
+        _animator.SetBool(LowKicking, _platformerController.LowKicking);
 
         var currentState = _animator.GetCurrentAnimatorStateInfo(0);
         if (_animator.GetCurrentAnimatorClipInfo(0).Length > 0)
