@@ -101,6 +101,10 @@ public class MainPlatformerController : PlatformerCharacterController
     private float _lowKickDuration = 1;
     [SerializeField]
     private float _lowKickSpeed = 30;
+    [SerializeField]
+    private float _stingDashDuration = 1;
+    [SerializeField]
+    private float _stingDashSpeed = 30;
 
     private float _move;
     private float _vertical;
@@ -114,6 +118,7 @@ public class MainPlatformerController : PlatformerCharacterController
     private bool _grabLadder;
     private bool _jumpOnLedge;
     private bool _sprint;
+    private bool _attack;
     private bool _sprintStop;
 
     private AttackType _attackAction;
@@ -223,6 +228,7 @@ public class MainPlatformerController : PlatformerCharacterController
     public bool ChainThrowWeaponEquipped { get { return LaunchWeaponEquipped == LaunchWeaponType.ChainThrow; } }
     public CharacterStamina CharacterStamina { get; private set; }
     public bool LowKicking { get; private set; }
+    public bool StingDash { get; private set; }
 
     public void Move(
         float move, 
@@ -232,7 +238,8 @@ public class MainPlatformerController : PlatformerCharacterController
         bool releaseRope, 
         bool aiming, 
         bool jumpOnLedge,
-        bool sprint)
+        bool sprint,
+        bool attack)
     {
         _move = move;
         _vertical = vertical;
@@ -241,6 +248,7 @@ public class MainPlatformerController : PlatformerCharacterController
         _aiming = aiming;
         _jumpOnLedge = jumpOnLedge;
         _sprint = sprint;
+        _attack = attack;
 
         if (Attacking)
         {
@@ -259,14 +267,20 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void LightAttack()
     {
-        _combatModule.PrimaryAttack();
-        _attackAction = AttackType.Primary;
+        if (MovementType != MovementType.Sprint)
+        {
+            _combatModule.PrimaryAttack();
+            _attackAction = AttackType.Primary;
+        }
     }
 
     public void StrongAttack()
     {
-        _combatModule.SecundaryAttack();
-        _attackAction = AttackType.Secundary;
+        if (MovementType != MovementType.Sprint)
+        {
+            _combatModule.SecundaryAttack();
+            _attackAction = AttackType.Secundary;
+        }
     }
 
     public void ChargeAttack()
@@ -619,6 +633,22 @@ public class MainPlatformerController : PlatformerCharacterController
         DoMove(move, _lowKickSpeed, true);
     }
 
+    public void StartStingDash()
+    {
+        StingDash = true;
+    }
+
+    public void StopStingDash()
+    {
+        StingDash = false;
+        CharacterStamina.ConsumeAllStamina();
+    }
+
+    public void StingDashMovement(float move)
+    {
+        DoMove(move, _stingDashSpeed, true);
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -635,7 +665,7 @@ public class MainPlatformerController : PlatformerCharacterController
         ShooterCombat = GetComponent<ShooterCombatBehaviour>();
         CharacterStamina = GetComponent<CharacterStamina>();
         _aimBehaviour.enabled = false;
-        _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration, _lowKickDuration);
+        _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration, _lowKickDuration, _stingDashDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;
         _combatModule.OnCombatFinish += OnCombatFinishHandler;
@@ -659,11 +689,12 @@ public class MainPlatformerController : PlatformerCharacterController
         base.Update();
         _pushable = FindPushables();
         _aimBehaviour.AimAngle = AimAngle;
+
         var action =
             new PlatformerCharacterAction(
                 _move, _vertical, _jump, _roll, _attackAction,
                 _releaseRope, _aiming, _shoot, _throw, _grabLadder,
-                _jumpOnLedge, _rollAfterAttack, _sprint);
+                _jumpOnLedge, _rollAfterAttack, _sprint, _attack);
         _stateManager.Perform(action);
         _move = 0;
         _vertical = 0;
@@ -676,6 +707,7 @@ public class MainPlatformerController : PlatformerCharacterController
         _grabLadder = false;
         _jumpOnLedge = false;
         _sprint = false;
+        _attack = false;
 
         if (IsGrounded)
         {

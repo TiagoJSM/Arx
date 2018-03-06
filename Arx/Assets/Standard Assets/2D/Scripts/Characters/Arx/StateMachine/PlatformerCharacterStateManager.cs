@@ -17,7 +17,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         public PlatformerCharacterStateManager(
             MainPlatformerController context, 
             float rollingDuration,
-            float lowKickDuration)
+            float lowKickDuration,
+            float stingDashDuration)
                 : base(context)
         {
             this
@@ -118,6 +119,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<GhostJumpFallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<GroundAttackState>((c, a, t) => a.AttackType != AttackType.None && c.Attacking)
                     .To<LowKickState>((c, a, t) => c.IsGrounded && c.MovementType == MovementType.Sprint && a.Roll)
+                    .To<StingDashState>((c, a, t) => c.IsGrounded && c.MovementType == MovementType.Sprint && a.Attack)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll)
                     .To<MovingAimShootState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ShootWeaponEquipped)
                     .To<MovingAimThrowState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ThrowWeaponEquipped)
@@ -299,11 +301,16 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                 .From<LowKickState>()
                     .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
-                    .To<DuckState>((c, a, t) => c.IsGrounded && !c.CanStand && t > rollingDuration)
-                    .To<FallingState>((c, a, t) => !c.IsGrounded && t > rollingDuration)
-                    .To<RollState>((c, a, t) => c.IsGrounded && a.Roll && t > rollingDuration)
-                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > rollingDuration && c.CanStand)
-                    .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > rollingDuration && c.CanStand);
+                    .To<DuckState>((c, a, t) => c.IsGrounded && !c.CanStand && t > lowKickDuration)
+                    .To<FallingState>((c, a, t) => !c.IsGrounded && t > lowKickDuration)
+                    .To<RollState>((c, a, t) => c.IsGrounded && a.Roll && t > lowKickDuration)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > lowKickDuration && c.CanStand)
+                    .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > lowKickDuration && c.CanStand);
+
+            this
+                .From<StingDashState>()
+                    .To<RollState>((c, a, t) => c.IsGrounded && t > stingDashDuration)
+                    .To<FallingState>((c, a, t) => t > stingDashDuration);
         }
     }
 }

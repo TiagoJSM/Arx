@@ -157,6 +157,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\RollState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\RopeGrabState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\SlidingDownState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\StingDashState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\StrongAirAttackState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\StrongGroundAttackState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\AimingState.cs" />
