@@ -193,7 +193,6 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\ThrowCombatBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Constants\Tags.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\Cutscene Controllers\MainPlatformerControllerCutsceneController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\EquipmentController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\GrappledCharacter.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractibleCharacterController.cs" />
@@ -278,6 +277,7 @@
     <Compile Include="Assets\Standard Assets\Cameras\Scripts\ProtectCameraFromWallClip.cs" />
     <Compile Include="Assets\Standard Assets\Cameras\Scripts\TargetFieldOfView.cs" />
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\CharacterAwarenessNotifier.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\CharacterStamina.cs" />
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\CharacterStatus.cs" />
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\Health.cs" />
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\ICharacterAware.cs" />

@@ -132,6 +132,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         _itemFinderController.OnInventoryItemFound += OnInventoryItemFoundHandler;
         _hud = Instantiate(HudPrefab).GetComponent<HudManager>();
         _hud.CharacterStatus = _characterController.CharacterStatus;
+        _hud.CharacterStamina = _characterController.CharacterStamina;
         PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
         PlatformerCharacterController.ShooterWeapon = _equipmentController.EquippedShooterWeapon;
         PlatformerCharacterController.ThrowCombatBehaviour.Weapon = _equipmentController.EquippedThrowWeapon;
@@ -151,14 +152,15 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         var teleport = inputDevice.GetButtonDown(DeviceButton.Vertical);
         var jump = HandleJump(inputDevice);
         var jumpOnLedge = inputDevice.GetButtonDown(DeviceButton.Jump);
+        var sprint = inputDevice.GetButton(DeviceButton.AimWeapon);
 
         HandleTeleporter(teleport);
 
-        SetAimAngle(inputDevice);
+        //SetAimAngle(inputDevice);
         HandleLadderGrab(grabLadder);
         HandleInteraction();
 
-        _characterController.Move(horizontal, vertical, jump, roll, releaseRope, aiming, jumpOnLedge);
+        _characterController.Move(horizontal, vertical, jump, roll, releaseRope, /*aiming*/ false, jumpOnLedge, sprint);
 
         HandleAttack(inputDevice);
         SwitchActiveWeapon(inputDevice);

@@ -70,6 +70,18 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
             }
         }
 
+        public CharacterStamina CharacterStamina
+        {
+            get
+            {
+                return _characterStatus.CharacterStamina;
+            }
+            set
+            {
+                _characterStatus.CharacterStamina = value;
+            }
+        }
+
         public void Awake()
         {
             _toastQueue = new Queue<IEnumerator>();

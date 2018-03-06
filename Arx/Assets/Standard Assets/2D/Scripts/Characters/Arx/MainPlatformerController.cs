@@ -23,6 +23,7 @@ using Assets.Standard_Assets.Weapons;
 using Assets.Standard_Assets.Scripts.StateMachine;
 using Assets.Standard_Assets._2D.Scripts.Footsteps;
 using Assets.Standard_Assets._2D.Scripts.Combat;
+using Assets.Standard_Assets.Characters.CharacterBehaviour;
 
 public enum LaunchWeaponType
 {
@@ -41,6 +42,7 @@ public enum LaunchWeaponType
 [RequireComponent(typeof(AimBehaviour))]
 [RequireComponent(typeof(ThrowCombatBehaviour))]
 [RequireComponent(typeof(ChainThrowCombatBehaviour))]
+[RequireComponent(typeof(CharacterStamina))]
 public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
@@ -107,6 +109,8 @@ public class MainPlatformerController : PlatformerCharacterController
     private bool _throw;
     private bool _grabLadder;
     private bool _jumpOnLedge;
+    private bool _sprint;
+    private bool _sprintStop;
 
     private AttackType _attackAction;
 
@@ -213,8 +217,17 @@ public class MainPlatformerController : PlatformerCharacterController
     public bool ShootWeaponEquipped { get { return LaunchWeaponEquipped == LaunchWeaponType.Shoot; } }
     public bool ThrowWeaponEquipped { get { return LaunchWeaponEquipped == LaunchWeaponType.Throw; } }
     public bool ChainThrowWeaponEquipped { get { return LaunchWeaponEquipped == LaunchWeaponType.ChainThrow; } }
+    public CharacterStamina CharacterStamina { get; private set; }
 
-    public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming, bool jumpOnLedge)
+    public void Move(
+        float move, 
+        float vertical, 
+        bool jump, 
+        bool roll, 
+        bool releaseRope, 
+        bool aiming, 
+        bool jumpOnLedge,
+        bool sprint)
     {
         _move = move;
         _vertical = vertical;
@@ -222,6 +235,7 @@ public class MainPlatformerController : PlatformerCharacterController
         _releaseRope = releaseRope;
         _aiming = aiming;
         _jumpOnLedge = jumpOnLedge;
+        _sprint = sprint;
 
         if (Attacking)
         {
@@ -569,6 +583,21 @@ public class MainPlatformerController : PlatformerCharacterController
         }
     }
 
+    public void StartSprinting()
+    {
+        if (!CharacterStamina.IsTired)
+        {
+            MovementType = MovementType.Sprint;
+            CharacterStamina.ConsumeStamina();
+        }
+    }
+
+    public void StopSprinting()
+    {
+        MovementType = MovementType.Run;
+        CharacterStamina.RegenerateStamina();
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -583,6 +612,7 @@ public class MainPlatformerController : PlatformerCharacterController
         ThrowCombatBehaviour = GetComponent<ThrowCombatBehaviour>();
         ChainThrowCombat = GetComponent<ChainThrowCombatBehaviour>();
         ShooterCombat = GetComponent<ShooterCombatBehaviour>();
+        CharacterStamina = GetComponent<CharacterStamina>();
         _aimBehaviour.enabled = false;
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
@@ -612,7 +642,7 @@ public class MainPlatformerController : PlatformerCharacterController
             new PlatformerCharacterAction(
                 _move, _vertical, _jump, _roll, _attackAction,
                 _releaseRope, _aiming, _shoot, _throw, _grabLadder,
-                _jumpOnLedge, _rollAfterAttack);
+                _jumpOnLedge, _rollAfterAttack, _sprint);
         _stateManager.Perform(action);
         _move = 0;
         _vertical = 0;
@@ -624,6 +654,7 @@ public class MainPlatformerController : PlatformerCharacterController
         HitPointThisFrame = null;
         _grabLadder = false;
         _jumpOnLedge = false;
+        _sprint = false;
 
         if (IsGrounded)
         {

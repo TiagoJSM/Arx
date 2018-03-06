@@ -30,6 +30,8 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
         private int _maxNumberOfHearts;
         [SerializeField]
         private float _delayBetweenHearts = 0.2f;
+        [SerializeField]
+        private Image _staminaBar;
 
         public CharacterStatus CharacterStatus
         {
@@ -45,6 +47,8 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
             }
         }
 
+        public CharacterStamina CharacterStamina { get; set; }
+
         public void Update()
         {
             if(CharacterStatus != null)
@@ -53,6 +57,21 @@ namespace Assets.Standard_Assets.UI.HUD.Scripts
                 {
                     Health = CharacterStatus.health.lifePoints;
                 }
+            }
+            if(CharacterStamina != null)
+            {
+                var ratio = CharacterStamina.StaminaRatio;
+                if(ratio == 0)
+                {
+                    _staminaBar.enabled = false;
+                }
+                else
+                {
+                    _staminaBar.enabled = true;
+                    var localScale = _staminaBar.transform.localScale;
+                    _staminaBar.transform.localScale = new Vector3(ratio, localScale.y, localScale.z);
+                }
+                _staminaBar.color = CharacterStamina.IsTired ? Color.red : Color.yellow;
             }
         }
 
