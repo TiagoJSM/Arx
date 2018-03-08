@@ -43,6 +43,7 @@ public enum LaunchWeaponType
 [RequireComponent(typeof(ThrowCombatBehaviour))]
 [RequireComponent(typeof(ChainThrowCombatBehaviour))]
 [RequireComponent(typeof(CharacterStamina))]
+[RequireComponent(typeof(SprintCombatBehaviour))]
 public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
@@ -52,6 +53,7 @@ public class MainPlatformerController : PlatformerCharacterController
     private RopeMovement _ropeMovement;
     private MaterialFootstepPlayer _footstepPlayer;
     private AimBehaviour _aimBehaviour;
+    private SprintCombatBehaviour _sprintCombat;
     private StateManager<MainPlatformerController, PlatformerCharacterAction> _stateManager;
 
     private Rope _rope;
@@ -105,6 +107,10 @@ public class MainPlatformerController : PlatformerCharacterController
     private float _stingDashDuration = 1;
     [SerializeField]
     private float _stingDashSpeed = 30;
+    [SerializeField]
+    private float _sprintJumpDuration = 1;
+    [SerializeField]
+    private float _sprintJumpSpeed = 30;
 
     private float _move;
     private float _vertical;
@@ -229,6 +235,7 @@ public class MainPlatformerController : PlatformerCharacterController
     public CharacterStamina CharacterStamina { get; private set; }
     public bool LowKicking { get; private set; }
     public bool StingDash { get; private set; }
+    public bool SprintJump { get; private set; }
 
     public void Move(
         float move, 
@@ -620,12 +627,14 @@ public class MainPlatformerController : PlatformerCharacterController
     public void StartLowKick()
     {
         LowKicking = true;
+        _sprintCombat.StartLowKick();
     }
 
     public void StopLowKick()
     {
         LowKicking = false;
         CharacterStamina.ConsumeAllStamina();
+        _sprintCombat.EndLowKick();
     }
 
     public void LowKickMovement(float move)
@@ -636,17 +645,35 @@ public class MainPlatformerController : PlatformerCharacterController
     public void StartStingDash()
     {
         StingDash = true;
+        _sprintCombat.StartStingDash();
     }
 
     public void StopStingDash()
     {
         StingDash = false;
         CharacterStamina.ConsumeAllStamina();
+        _sprintCombat.EndStingDash();
     }
 
     public void StingDashMovement(float move)
     {
         DoMove(move, _stingDashSpeed, true);
+    }
+
+    public void StartSprintJump()
+    {
+        SprintJump = true;
+        CharacterStamina.ConsumeAllStamina();
+    }
+
+    public void StopSprintJump()
+    {
+        SprintJump = false;
+    }
+
+    public void SprintJumpMovement(float move)
+    {
+        DoMove(move, _sprintJumpSpeed, true);
     }
 
     protected override void Awake()
@@ -664,8 +691,9 @@ public class MainPlatformerController : PlatformerCharacterController
         ChainThrowCombat = GetComponent<ChainThrowCombatBehaviour>();
         ShooterCombat = GetComponent<ShooterCombatBehaviour>();
         CharacterStamina = GetComponent<CharacterStamina>();
+        _sprintCombat = GetComponent<SprintCombatBehaviour>();
         _aimBehaviour.enabled = false;
-        _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration, _lowKickDuration, _stingDashDuration);
+        _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration, _lowKickDuration, _stingDashDuration, _sprintJumpDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;
         _combatModule.OnCombatFinish += OnCombatFinishHandler;
@@ -676,6 +704,8 @@ public class MainPlatformerController : PlatformerCharacterController
         _defaultMinYVelocity = CharacterController2D.MinYVelocity;
 
         LaunchWeaponEquipped = LaunchWeaponType.ChainThrow;
+
+        _sprintCombat.StartLowKick();
     }
 
     protected override void Start()

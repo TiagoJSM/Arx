@@ -272,7 +272,7 @@ public class PlatformerCharacterController : BasePlatformerController
     public void JumpUp(float jumpRatio)
     {
         jumpRatio = Mathf.Clamp01(jumpRatio);
-        _desiredMovementVelocity.y = jumpHeight;
+        _desiredMovementVelocity.y = jumpHeight * jumpRatio;
 
         if (!_jumpSound.isPlaying)
         {

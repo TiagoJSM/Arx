@@ -152,7 +152,11 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
         _charactersAttackedOnDive.Clear();
         while (true)
         {
-            var enemiesInRange = DetectNewEnemies();
+            var enemiesInRange = DetectNewEnemies(
+                _charactersAttackedOnDive, 
+                _diveAttackAreaP1.position, 
+                _diveAttackAreaP2.position, 
+                _enemyLayer);
 
             if (enemiesInRange.Count() > 0)
             {
@@ -161,23 +165,6 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
             }            
             yield return null;
         }
-    }
-
-    private List<ICharacter> DetectNewEnemies()
-    {
-        var enemiesInRange = GetCharactersInRange(_diveAttackAreaP1.position, _diveAttackAreaP2.position, _enemyLayer);
-        var newCharacters = new List<ICharacter>();
-
-        for(var idx = 0; idx < enemiesInRange.Length; idx++)
-        {
-            var enemy = enemiesInRange[idx];
-            if (!_charactersAttackedOnDive.Contains(enemy))
-            {
-                newCharacters.Add(enemy);
-            }
-        }
-        _charactersAttackedOnDive.AddRange(newCharacters);
-        return newCharacters;
     }
 
     private void RaiseOnHit()

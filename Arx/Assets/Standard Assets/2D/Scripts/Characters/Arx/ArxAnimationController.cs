@@ -42,6 +42,7 @@ public class ArxAnimationController : MonoBehaviour
     private readonly int ChainThrustComplete = Animator.StringToHash("Chain Thrust Complete");
     private readonly int LowKicking = Animator.StringToHash("Low Kicking");
     private readonly int StingDash = Animator.StringToHash("Sting Dash");
+    private readonly int SprintJump = Animator.StringToHash("Sprint Jump");
 
     private float _previousVerticalVelocity = 0;
 
@@ -225,6 +226,7 @@ public class ArxAnimationController : MonoBehaviour
         _animator.SetBool(Aiming, _aimBehaviour.enabled);
         _animator.SetBool(LowKicking, _platformerController.LowKicking);
         _animator.SetBool(StingDash, _platformerController.StingDash);
+        _animator.SetBool(SprintJump, _platformerController.SprintJump);
 
         var currentState = _animator.GetCurrentAnimatorStateInfo(0);
         if (_animator.GetCurrentAnimatorClipInfo(0).Length > 0)

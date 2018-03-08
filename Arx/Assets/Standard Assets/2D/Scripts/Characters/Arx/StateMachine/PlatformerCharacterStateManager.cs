@@ -18,7 +18,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             MainPlatformerController context, 
             float rollingDuration,
             float lowKickDuration,
-            float stingDashDuration)
+            float stingDashDuration,
+            float sprintJumpDuration)
                 : base(context)
         {
             this
@@ -120,6 +121,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<GroundAttackState>((c, a, t) => a.AttackType != AttackType.None && c.Attacking)
                     .To<LowKickState>((c, a, t) => c.IsGrounded && c.MovementType == MovementType.Sprint && a.Roll)
                     .To<StingDashState>((c, a, t) => c.IsGrounded && c.MovementType == MovementType.Sprint && a.Attack)
+                    .To<SprintJumpState>((c, a, t) => c.IsGrounded && c.MovementType == MovementType.Sprint && a.Jump)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll)
                     .To<MovingAimShootState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ShootWeaponEquipped)
                     .To<MovingAimThrowState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ThrowWeaponEquipped)
@@ -311,6 +313,16 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                 .From<StingDashState>()
                     .To<RollState>((c, a, t) => c.IsGrounded && t > stingDashDuration)
                     .To<FallingState>((c, a, t) => t > stingDashDuration);
+
+            this
+                .From<SprintJumpState>()
+                    .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
+                    .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .To<FallingState>((c, a, t) => (!c.IsGrounded && t > sprintJumpDuration) || c.CollidesAbove)
+                    .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
+                    .To<RollState>((c, a, t) => c.IsGrounded && t > sprintJumpDuration)
+                    .To<RopeGrabState>((c, a, t) => c.RopeFound)
+                    .To<LadderGrabState>((c, a, t) => c.LadderFound && a.GrabLadder);
         }
     }
 }

@@ -22,6 +22,23 @@ public abstract class BaseCombatBehaviour : MonoBehaviour
                 .Distinct()
                 .ToArray();
     }
+
+    protected List<ICharacter> DetectNewEnemies(List<ICharacter> attackedCharacters, Vector3 attackAreaP1, Vector3 attackAreaP2, LayerMask enemyLayer)
+    {
+        var enemiesInRange = GetCharactersInRange(attackAreaP1, attackAreaP2, enemyLayer);
+        var newCharacters = new List<ICharacter>();
+
+        for (var idx = 0; idx < enemiesInRange.Length; idx++)
+        {
+            var enemy = enemiesInRange[idx];
+            if (!attackedCharacters.Contains(enemy))
+            {
+                newCharacters.Add(enemy);
+            }
+        }
+        attackedCharacters.AddRange(newCharacters);
+        return newCharacters;
+    }
 }
 
 public abstract class BaseGenericCombatBehaviour<TWeapon> : BaseCombatBehaviour
