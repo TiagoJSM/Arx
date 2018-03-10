@@ -80,6 +80,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .WhenTransitionTo<SlidingDownState>((c, a) => c.OnLanded())
+                    .To<JumpingState>((c, a, t) => a.Jump && c.EnemyUnder != null)
                     .To<FallingAimShootState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && a.Aiming)
                     .To<LightAirAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.Attacking && c.WeaponType != null)
                     .To<StrongAirAttackState>((c, a, t) => 

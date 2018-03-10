@@ -29,12 +29,10 @@ namespace Assets.Standard_Assets._2D.Scripts
             }
         }
 
-        public bool IsEnemy
+        public bool InPain
         {
-            get
-            {
-                return true;
-            }
+            get { return false; }
+            set { }
         }
 
         public int LifePoints

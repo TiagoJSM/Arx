@@ -1,6 +1,5 @@
 ﻿using CommonInterfaces.Controllers;
 using CommonInterfaces.Enums;
-using CommonInterfaces.Weapons;
 using MathHelper;
 using MathHelper.Extensions;
 using System;

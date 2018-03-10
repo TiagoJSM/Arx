@@ -111,6 +111,12 @@ public class MainPlatformerController : PlatformerCharacterController
     private float _sprintJumpDuration = 1;
     [SerializeField]
     private float _sprintJumpSpeed = 30;
+    [SerializeField]
+    private float _enemyUnderDetectionSize = 2;
+    [SerializeField]
+    private float _enemyUnderOriginOffset = 1;
+    [SerializeField]
+    private LayerMask _enemyUnderLayer;
 
     private float _move;
     private float _vertical;
@@ -125,7 +131,6 @@ public class MainPlatformerController : PlatformerCharacterController
     private bool _jumpOnLedge;
     private bool _sprint;
     private bool _attack;
-    private bool _sprintStop;
 
     private AttackType _attackAction;
 
@@ -236,6 +241,7 @@ public class MainPlatformerController : PlatformerCharacterController
     public bool LowKicking { get; private set; }
     public bool StingDash { get; private set; }
     public bool SprintJump { get; private set; }
+    public ICharacter EnemyUnder { get; private set; }
 
     public void Move(
         float move, 
@@ -704,8 +710,6 @@ public class MainPlatformerController : PlatformerCharacterController
         _defaultMinYVelocity = CharacterController2D.MinYVelocity;
 
         LaunchWeaponEquipped = LaunchWeaponType.ChainThrow;
-
-        _sprintCombat.StartLowKick();
     }
 
     protected override void Start()
@@ -719,6 +723,7 @@ public class MainPlatformerController : PlatformerCharacterController
         base.Update();
         _pushable = FindPushables();
         _aimBehaviour.AimAngle = AimAngle;
+        CheckForEnemyUnderCharacter();
 
         var action =
             new PlatformerCharacterAction(
@@ -747,6 +752,28 @@ public class MainPlatformerController : PlatformerCharacterController
         {
             _roll = false;
         }
+    }
+
+    private void CheckForEnemyUnderCharacter()
+    {
+        var origin = transform.position;
+        origin.y += _enemyUnderOriginOffset;
+        var enemiesUnder = Physics2D.RaycastAll(origin, Vector2.down, _enemyUnderDetectionSize, _enemyUnderLayer);
+
+        for(var idx = 0; idx < enemiesUnder.Length; idx++)
+        {
+            var raycast = enemiesUnder[idx];
+            if (!raycast.collider.isTrigger && raycast.normal.y > 0.5f && raycast.distance > 0)
+            {
+                var character = raycast.collider.GetComponent<ICharacter>();
+                if(character != null)
+                {
+                    EnemyUnder = character;
+                    return;
+                }
+            }
+        }
+        EnemyUnder = null;
     }
 
     private Pushable FindPushables()
@@ -829,5 +856,15 @@ public class MainPlatformerController : PlatformerCharacterController
         ApplyMovementAndGravity = true;
         SteadyRotation = true;
         _previouslyGrappledCharacter = grappledCharacter;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        var origin = transform.position;
+        origin.y += _enemyUnderOriginOffset;
+        var target = origin;
+        target.y -= _enemyUnderDetectionSize;
+        Gizmos.DrawLine(origin, target);
     }
 }

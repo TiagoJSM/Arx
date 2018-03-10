@@ -1,5 +1,4 @@
 ﻿using CommonInterfaces.Enums;
-using CommonInterfaces.Weapons;
 using Extensions;
 using GenericComponents.Containers;
 using GenericComponents.Enums;
