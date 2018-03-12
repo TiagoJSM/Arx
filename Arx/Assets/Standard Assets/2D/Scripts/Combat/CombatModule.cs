@@ -124,6 +124,11 @@ public class CombatModule : MonoBehaviour
         return _closeCombat.SecundaryAttack();
     }
 
+    public void CancelAttack()
+    {
+        _closeCombat.CancelAttack();
+    }
+
     public bool ChargeAttack()
     {
         return false;

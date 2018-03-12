@@ -25,5 +25,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.ChainTh
                 StateController.ChainThrust();
             }
         }
+        public override void OnStateExit(PlatformerCharacterAction action)
+        {
+            base.OnStateExit(action);
+            StateController.CancelGrappling();
+        }
     }
 }

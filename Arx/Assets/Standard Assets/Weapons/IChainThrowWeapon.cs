@@ -13,6 +13,6 @@ namespace Assets.Standard_Assets.Weapons
         bool ReadyToThrow { get; }
 
         void FocusThrow();
-        void Throw(float degrees);
+        void Throw(float degrees, Transform origin);
     }
 }

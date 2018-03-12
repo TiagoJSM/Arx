@@ -30,6 +30,8 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
     private float _chainThrustSpeed = 60f;
     [SerializeField]
     private float _thrustTreshold = 0.5f;
+    [SerializeField]
+    private Transform _origin;
 
     public override ChainThrow Weapon
     {
@@ -66,7 +68,7 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
 
     public void ThrowChain(float degrees)
     {
-        Weapon.Throw(degrees);
+        Weapon.Throw(degrees, _origin);
     }
 
     public void ChainPull()
@@ -79,6 +81,15 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
     public void ChainThrust()
     {
         StartCoroutine(ChainThrustRoutine());
+    }
+
+    public void CancelGrapple()
+    {
+        Weapon.Return();
+        if(GrappledCharacter != null)
+        {
+            GrappledCharacter.EndGrapple();
+        }
     }
 
     private void Awake()
@@ -148,7 +159,14 @@ public class ChainThrowCombatBehaviour : BaseGenericCombatBehaviour<ChainThrow>
         {
             var target = _weapon.InstantiatedHeldProjectile.transform.position - grappleOffset;
             var direction = (target - this.transform.localPosition).normalized;
+            var beforeMove = transform.position;
             _characterController.move(direction * _chainThrustSpeed * Time.deltaTime);
+            var afterMove = transform.position;
+
+            if(beforeMove == afterMove)
+            {
+                break;
+            }
             if (Vector3.Distance(this.transform.localPosition, target) < _thrustTreshold)
             {
                 break;

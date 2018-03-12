@@ -25,7 +25,8 @@ public enum DeviceButton
     ShootWeapon,
     Throw,
     Vertical,
-    Roll
+    Roll,
+    Sprint
 }
 
 public enum DeviceAxis

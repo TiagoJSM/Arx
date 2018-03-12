@@ -30,7 +30,7 @@ namespace Assets.Standard_Assets.Weapons
                 if(_instantiatedHeldProjectile == null)
                 {
                     _instantiatedHeldProjectile = Instantiate(projectile);
-                    _instantiatedHeldProjectile.Origin = this.RightHandSocket;
+                    _instantiatedHeldProjectile.gameObject.SetActive(false);
                     _instantiatedHeldProjectile.transform.parent = null;
                     _instantiatedHeldProjectile.OnAttackFinish += OnAttackFinishHandler;
                     _instantiatedHeldProjectile.OnTriggerEnter += OnTriggerEnterHandler;
@@ -57,12 +57,13 @@ namespace Assets.Standard_Assets.Weapons
             _focusTime += Time.deltaTime;
         }
 
-        public void Throw(float degrees)
+        public void Throw(float degrees, Transform origin)
         {
             if (!ReadyToThrow)
             {
                 return;
             }
+            InstantiatedHeldProjectile.Origin = origin.gameObject;
             StartAttack();
             ShowProjectile(true);
             InstantiatedHeldProjectile.Throw(degrees, _damage);

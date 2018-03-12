@@ -69,7 +69,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<FallingAimShootState>((c, a, t) => !c.IsGrounded && a.Aiming)
                     .To<FallingState>((c, a, t) => !c.IsGrounded)
-                    //.To<ThrowState>((c, a, t) => a.Throw)
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<IddleState>((c, a, t) => c.IsGrounded && t > 0.5)
                     .To<RopeGrabState>((c, a, t) => c.RopeFound)
@@ -104,7 +103,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .WhenTransitionTo<SlidingDownState>((c, a) => c.OnLanded())
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && !a.Aiming)
-                    //.To<ThrowState>((c, a, t) => a.Throw)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
                     .WhenTransitionTo<IddleState>((c, a) => c.OnLanded())
                     .To<MovingAimShootState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming)
@@ -228,7 +226,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll)
                     .To<MovingState>((c, a, t) => !a.Aiming && c.IsGrounded)
-                    //.To<ThrowState>((c, a, t) => a.Throw)
                     .To<ChargeAttackState>((c, a, t) => a.Shoot && c.WeaponType != null && c.IsCharging)
                     .To<JumpingAimShootState>((c, a, t) => a.Jump && c.IsGrounded && a.Aiming)
                     .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)
@@ -285,6 +282,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 
             this
                 .From<GrapplingState>()
+                    .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
                     .To<PullingEnemyState>((c, a, t) => c.ChainThrowCombat.ChainPulling)
                     .To<ChainThrustingState>((c, a, t) => c.ChainThrowCombat.ChainThrusting)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && (t > 2 || !c.Grappling))

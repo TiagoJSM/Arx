@@ -280,7 +280,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void LightAttack()
     {
-        if (MovementType != MovementType.Sprint)
+        if (MovementType != MovementType.Sprint && !StingDash)
         {
             _combatModule.PrimaryAttack();
             _attackAction = AttackType.Primary;
@@ -652,6 +652,7 @@ public class MainPlatformerController : PlatformerCharacterController
     {
         StingDash = true;
         _sprintCombat.StartStingDash();
+        _combatModule.CancelAttack();
     }
 
     public void StopStingDash()
@@ -680,6 +681,11 @@ public class MainPlatformerController : PlatformerCharacterController
     public void SprintJumpMovement(float move)
     {
         DoMove(move, _sprintJumpSpeed, true);
+    }
+
+    public void CancelGrappling()
+    {
+        ChainThrowCombat.CancelGrapple();
     }
 
     protected override void Awake()

@@ -147,6 +147,11 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
         return true;
     }
 
+    public void CancelAttack()
+    {
+        AttackType = AttackType.None;
+    }
+
     private IEnumerator DiveAttackDetector()
     {
         _charactersAttackedOnDive.Clear();
