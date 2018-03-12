@@ -1,6 +1,5 @@
 ﻿using CommonInterfaces.Controllers;
 using CommonInterfaces.Enums;
-using CommonInterfaces.Weapons;
 using Extensions;
 using GenericComponents.Behaviours;
 using System;
@@ -24,14 +23,14 @@ namespace Assets.Standard_Assets.Weapons
         [SerializeField]
         private int _damage;
 
-        private ChainedProjectile InstantiatedHeldProjectile
+        public ChainedProjectile InstantiatedHeldProjectile
         {
             get
             {
                 if(_instantiatedHeldProjectile == null)
                 {
                     _instantiatedHeldProjectile = Instantiate(projectile);
-                    _instantiatedHeldProjectile.Origin = this.RightHandSocket;
+                    _instantiatedHeldProjectile.gameObject.SetActive(false);
                     _instantiatedHeldProjectile.transform.parent = null;
                     _instantiatedHeldProjectile.OnAttackFinish += OnAttackFinishHandler;
                     _instantiatedHeldProjectile.OnTriggerEnter += OnTriggerEnterHandler;
@@ -46,6 +45,7 @@ namespace Assets.Standard_Assets.Weapons
         public ChainedProjectile projectile;
 
         public bool ReadyToThrow { get { return InstantiatedHeldProjectile.Status == ProjectileStatus.None; } }
+        public bool Throwing { get { return InstantiatedHeldProjectile.Status == ProjectileStatus.Throw; } }
 
         public ChainThrow()
         {
@@ -57,21 +57,28 @@ namespace Assets.Standard_Assets.Weapons
             _focusTime += Time.deltaTime;
         }
 
-        public void Throw(float degrees)
+        public void Throw(float degrees, Transform origin)
         {
             if (!ReadyToThrow)
             {
                 return;
             }
+            InstantiatedHeldProjectile.Origin = origin.gameObject;
             StartAttack();
+            ShowProjectile(true);
             InstantiatedHeldProjectile.Throw(degrees, _damage);
+        }
+
+        public void Return()
+        {
+            InstantiatedHeldProjectile.Return();
         }
 
         public void Reset()
         {
             if(_instantiatedHeldProjectile != null)
             {
-                _instantiatedHeldProjectile.Reset();
+                _instantiatedHeldProjectile.ResetProjectile();
                 _instantiatedHeldProjectile.gameObject.SetActive(false);
             }
         }
@@ -83,6 +90,16 @@ namespace Assets.Standard_Assets.Weapons
                 Destroy(_instantiatedHeldProjectile.gameObject);
                 _instantiatedHeldProjectile = null;
             }
+        }
+
+        public void StopProjectile()
+        {
+            _instantiatedHeldProjectile.Stop();
+        }
+
+        public void ShowProjectile(bool show)
+        {
+            InstantiatedHeldProjectile.gameObject.SetActive(show);
         }
 
         void Awake()
@@ -106,7 +123,7 @@ namespace Assets.Standard_Assets.Weapons
         private void StartAttack()
         {
             InstantiatedHeldProjectile.gameObject.SetActive(true);
-            InstantiatedHeldProjectile.Reset();
+            InstantiatedHeldProjectile.ResetProjectile();
             _focusTime = 0;
         }
 

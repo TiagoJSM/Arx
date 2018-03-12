@@ -27,7 +27,7 @@ namespace CommonInterfaces.Controllers
     public interface ICharacter
     {
         bool CanBeAttacked { get; }
-        bool IsEnemy { get; }
+        bool InPain { get; set; }
         int MaxLifePoints { get; }
         int LifePoints { get; }
         GameObject CharacterGameObject { get; }

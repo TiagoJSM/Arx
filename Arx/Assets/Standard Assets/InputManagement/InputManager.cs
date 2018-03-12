@@ -20,11 +20,13 @@ public enum DeviceButton
     InGameMenu,
     SetWeaponSocket1,
     SetWeaponSocket2,
+    SetWeaponSocket3,
     AimWeapon,
     ShootWeapon,
     Throw,
     Vertical,
-    Roll
+    Roll,
+    Sprint
 }
 
 public enum DeviceAxis

@@ -1,6 +1,5 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.EnvironmentDetection;
 using Assets.Standard_Assets.Weapons;
-using CommonInterfaces.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;

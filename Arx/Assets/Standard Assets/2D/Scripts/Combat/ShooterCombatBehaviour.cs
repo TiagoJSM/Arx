@@ -1,4 +1,4 @@
-﻿using CommonInterfaces.Weapons;
+﻿using Assets.Standard_Assets.Weapons;
 using MathHelper;
 using MathHelper.Extensions;
 using System;
@@ -12,17 +12,12 @@ public class ShooterCombatBehaviour : BaseGenericCombatBehaviour<IShooterWeapon>
 {
     [SerializeField]
     private LayerMask _enemyLayer;
-
-    public GameObject aimingArm;
-    public GameObject head;
-    [Range(0, 90)]
-    public float aimLimit = 90;
-    [Range(0, 90)]
-    public float headLookLimit = 90;
+    [SerializeField]
+    private Transform _origin;
 
     public bool Shoot(float aimAngle)
     {
-        return Weapon.Shoot(aimAngle, _enemyLayer, this.gameObject);
+        return Weapon.Shoot(aimAngle, _enemyLayer, this.gameObject, _origin.position);
     }
 }
 

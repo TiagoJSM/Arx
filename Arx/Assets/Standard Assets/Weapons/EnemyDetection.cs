@@ -1,5 +1,4 @@
 ﻿using CommonInterfaces.Controllers;
-using CommonInterfaces.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets.Weapons
 {
-    public abstract class EnemyDetection : MonoBehaviour//, ICloseCombatWeapon
+    public abstract class EnemyDetection : MonoBehaviour
     {
         private List<ICharacter> _attackedEnemies;
 

@@ -11,7 +11,8 @@ using UnityEngine;
 public enum MovementType
 {
     Walk,
-    Run
+    Run,
+    Sprint
 }
 
 [RequireComponent(typeof(CharacterController2D))]
@@ -74,6 +75,7 @@ public class PlatformerCharacterController : BasePlatformerController
     public float maxRollSpeed = 12.0f;
 
     public float gravity = -25f;
+    public float sprintSpeed = 10f;
     public float runSpeed = 8f;
     public float walkSpeed = 5f;
     public float airSpeed = 8f;
@@ -270,7 +272,7 @@ public class PlatformerCharacterController : BasePlatformerController
     public void JumpUp(float jumpRatio)
     {
         jumpRatio = Mathf.Clamp01(jumpRatio);
-        _desiredMovementVelocity.y = jumpHeight;
+        _desiredMovementVelocity.y = jumpHeight * jumpRatio;
 
         if (!_jumpSound.isPlaying)
         {
@@ -344,7 +346,13 @@ public class PlatformerCharacterController : BasePlatformerController
 
     public void DoMove(float move, bool setDirectionToMovement)
     {
-        var moveSpeed = MovementType == MovementType.Run ? runSpeed : walkSpeed;
+        var moveSpeed = walkSpeed;
+        switch (MovementType)
+        {
+            case MovementType.Run: moveSpeed = runSpeed; break;
+            case MovementType.Sprint: moveSpeed = sprintSpeed; break;
+        }
+
         if (!IsGrounded)
         {
             moveSpeed = airSpeed;

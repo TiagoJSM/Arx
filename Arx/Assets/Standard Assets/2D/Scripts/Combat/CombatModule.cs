@@ -1,6 +1,5 @@
 ﻿using Assets.Standard_Assets.Weapons;
 using CommonInterfaces.Controllers;
-using CommonInterfaces.Weapons;
 using GenericComponents.Enums;
 using GenericComponents.Helpers;
 using MathHelper;
@@ -11,14 +10,11 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-
 [RequireComponent(typeof(CloseCombatBehaviour))]
-[RequireComponent(typeof(ChainThrowCombatBehaviour))]
 [RequireComponent(typeof(ShooterCombatBehaviour))]
-public class CombatModule : MonoBehaviour//, ICombatComponent
+public class CombatModule : MonoBehaviour
 {
     private CloseCombatBehaviour _closeCombat;
-    private ChainThrowCombatBehaviour _chainThrowCombat;
     private ShooterCombatBehaviour _shooterCombat;
 
     private bool _over = false;
@@ -62,16 +58,9 @@ public class CombatModule : MonoBehaviour//, ICombatComponent
         }
     }
 
-    public ChainThrow ChainThrowWeapon
+    public ShooterCombatBehaviour ShooterCombat
     {
-        get
-        {
-            return _chainThrowCombat.Weapon;
-        }
-        set
-        {
-            _chainThrowCombat.Weapon = value;
-        }
+        get { return _shooterCombat; }
     }
 
     public int ComboNumber
@@ -124,7 +113,6 @@ public class CombatModule : MonoBehaviour//, ICombatComponent
 
     public float AimAngle { get; set; }
     public bool Aiming { get; set; }
-    public GrappleRope GrappleRope { get { return _chainThrowCombat.GrappleRope; } }
 
     public bool PrimaryAttack()
     {
@@ -136,28 +124,18 @@ public class CombatModule : MonoBehaviour//, ICombatComponent
         return _closeCombat.SecundaryAttack();
     }
 
-    /*public bool PrimaryAirAttack()
+    public void CancelAttack()
     {
-        return _closeCombat.PrimaryAirAttack();
+        _closeCombat.CancelAttack();
     }
-
-    public bool SecundaryAirAttack()
-    {
-        return _closeCombat.SecundaryAirAttack();
-    }*/
 
     public bool ChargeAttack()
     {
-        //return _closeCombat.ChargeAttack();
         return false;
     }
 
     public bool ReleaseChargeAttack()
     {
-        //if (_activeCombatBehaviour != null)
-        //{
-        //    return _activeCombatBehaviour.ReleaseChargeAttack();
-        //}
         return false;
     }
 
@@ -175,22 +153,6 @@ public class CombatModule : MonoBehaviour//, ICombatComponent
     {
         AimAtTarget(_aimingArm, _aimArmLimit);
         return _shooterCombat.Shoot(GetWeaponAimAngle());
-    }
-
-    public void Throw()
-    {
-        AimAtTarget(_aimingArm, _aimArmLimit);
-        _chainThrowCombat.ThrowChain(GetWeaponAimAngle());
-    }
-
-    public void ClimbGrapple(float vertical, float speed)
-    {
-        _chainThrowCombat.ClimbGrapple(vertical, speed);
-    }
-
-    public void ReleaseGrapple()
-    {
-        _chainThrowCombat.ReleaseGrapple();
     }
 
     public void NotifyOnEnterCombatState()
@@ -223,19 +185,16 @@ public class CombatModule : MonoBehaviour//, ICombatComponent
     {
         _closeCombat = GetComponent<CloseCombatBehaviour>();
         _shooterCombat = GetComponent<ShooterCombatBehaviour>();
-        _chainThrowCombat = GetComponent<ChainThrowCombatBehaviour>();
 
         _closeCombat.OnEnterCombatState += NotifyOnEnterCombatState;
         _closeCombat.OnAttackStart += NotifyOnAttackStart;
         _closeCombat.OnCombatFinish += NotifyOnCombatFinish;
-        _chainThrowCombat.OnAttackFinish += NotifyOnCombatFinish;
     }
 
     private void Update()
     {
         _over = false;
-        _shooterCombat.AimAngle = AimAngle;
-        _chainThrowCombat.AimAngle = AimAngle;
+        //_shooterCombat.AimAngle = AimAngle;
     }
 
     private void LateUpdate()
@@ -264,7 +223,7 @@ public class CombatModule : MonoBehaviour//, ICombatComponent
         }
         else
         {
-            rotation = (-AimAngle) + 180;
+            rotation = AimAngle - 180;
         }
         if (rotation > 180)
         {

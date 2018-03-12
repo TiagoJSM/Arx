@@ -67,7 +67,7 @@ namespace Assets.Standard_Assets.Common
 
         public static IEnumerator Flash(Action onEnd, params GameObject[] gos)
         {
-            return Flash(0.3f, 0.6f, 3f, onEnd, gos);
+            return Flash(0.15f, 0.6f, 3f, onEnd, gos);
         }
 
         public static IEnumerator Flash(float fadeOutPeriod, float fadeInPeriod, float duration, Action onEnd, params GameObject[] gos)

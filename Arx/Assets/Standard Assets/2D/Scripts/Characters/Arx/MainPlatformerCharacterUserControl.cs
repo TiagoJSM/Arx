@@ -8,7 +8,6 @@ using System.Text;
 using UnityEngine;
 using MathHelper;
 using MathHelper.Extensions;
-using CommonInterfaces.Weapons;
 using Assets.Standard_Assets.QuestSystem.QuestStructures;
 using Assets.Standard_Assets.QuestSystem;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
@@ -42,6 +41,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     private InputAction _currentInputAction = InputAction.None;
     private float _attackButtonDownTime;
     private bool _waitForJumpButtonUp = false;
+    private float _throwElapsed;
 
     private MainPlatformerController _characterController;
     private ItemFinderController _itemFinderController;
@@ -64,6 +64,8 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     private float _stopInteractionDistance = 3f;
     [SerializeField]
     private GameObject _aimingArm;
+    [SerializeField]
+    private GameObject _throwAim;
 
     public event OnInventoryAdd OnInventoryItemAdd;
     public event OnInventoryRemove OnInventoryItemRemove;
@@ -105,11 +107,12 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         _questLogComponent.OnQuestAssigned += SetActiveQuest;
         _characterController.OnGrounded += OnGroundedHandler;
         _characterController.OnJump += OnJumpHandler;
+        _throwAim.SetActive(false);
     }
 
     private void OnJumpHandler()
     {
-        
+
     }
 
     private void OnGroundedHandler()
@@ -121,7 +124,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         {
             _waitForJumpButtonUp = true;
         }
-        
+
     }
 
     private void Start()
@@ -129,9 +132,11 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         _itemFinderController.OnInventoryItemFound += OnInventoryItemFoundHandler;
         _hud = Instantiate(HudPrefab).GetComponent<HudManager>();
         _hud.CharacterStatus = _characterController.CharacterStatus;
+        _hud.CharacterStamina = _characterController.CharacterStamina;
         PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
         PlatformerCharacterController.ShooterWeapon = _equipmentController.EquippedShooterWeapon;
-        PlatformerCharacterController.ChainThrowWeapon = _equipmentController.EquippedChainThrowWeapon;
+        PlatformerCharacterController.ThrowCombatBehaviour.Weapon = _equipmentController.EquippedThrowWeapon;
+        PlatformerCharacterController.ChainThrowCombat.Weapon = _equipmentController.EquippedChainThrowWeapon;
     }
 
     private void Update()
@@ -147,14 +152,16 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         var teleport = inputDevice.GetButtonDown(DeviceButton.Vertical);
         var jump = HandleJump(inputDevice);
         var jumpOnLedge = inputDevice.GetButtonDown(DeviceButton.Jump);
+        var sprint = inputDevice.GetButton(DeviceButton.Sprint);
+        var attack = inputDevice.GetButtonDown(DeviceButton.PrimaryAttack);
 
         HandleTeleporter(teleport);
 
         SetAimAngle(inputDevice);
         HandleLadderGrab(grabLadder);
         HandleInteraction();
-        
-        _characterController.Move(horizontal, vertical, jump, roll, releaseRope, aiming, jumpOnLedge);
+
+        _characterController.Move(horizontal, vertical, jump, roll, releaseRope, aiming, jumpOnLedge, sprint, attack);
 
         HandleAttack(inputDevice);
         SwitchActiveWeapon(inputDevice);
@@ -228,7 +235,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
     {
         _inventoryComponent.Inventory.AddItem(item);
         _hud.Toast("Item found: " + item.Name, _hud.Short);
-        if(OnInventoryItemAdd != null)
+        if (OnInventoryItemAdd != null)
         {
             OnInventoryItemAdd.Invoke(item);
         }
@@ -236,12 +243,12 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     private ITeleporter FindTeleporter()
     {
-        var collider = 
+        var collider =
             Physics2D
                 .OverlapPointAll(this.transform.position)
                 .FirstOrDefault(c => c.GetComponent<ITeleporter>() != null);
 
-        if(collider == null)
+        if (collider == null)
         {
             return null;
         }
@@ -251,7 +258,7 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
 
     private void HandleAttack(IInputDevice inputDevice)
     {
-        if(_characterController.WeaponType == null)
+        if (_characterController.WeaponType == null)
         {
             return;
         }
@@ -272,16 +279,23 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         }
         var setWeapon1 = inputDevice.GetButtonDown(DeviceButton.SetWeaponSocket1);
         var setWeapon2 = inputDevice.GetButtonDown(DeviceButton.SetWeaponSocket2);
+        var setWeapon3 = inputDevice.GetButtonDown(DeviceButton.SetWeaponSocket3);
 
         if (setWeapon1)
         {
-            _equipmentController.ActiveCloseCombatSocket = WeaponSocket.ClosedCombarWeapon1;
-            PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
+            _characterController.LaunchWeaponEquipped = LaunchWeaponType.Shoot;
+            //_equipmentController.ActiveCloseCombatSocket = WeaponSocket.ClosedCombarWeapon1;
+            //PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
         }
         else if (setWeapon2)
         {
-            _equipmentController.ActiveCloseCombatSocket = WeaponSocket.ClosedCombatWeapon2;
-            PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
+            _characterController.LaunchWeaponEquipped = LaunchWeaponType.Throw;
+            //_equipmentController.ActiveCloseCombatSocket = WeaponSocket.ClosedCombatWeapon2;
+            //PlatformerCharacterController.CloseCombatWeapon = _equipmentController.EquippedCloseCombatWeapon;
+        }
+        else if (setWeapon3)
+        {
+            _characterController.LaunchWeaponEquipped = LaunchWeaponType.ChainThrow;
         }
     }
 
@@ -292,14 +306,38 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         if (aiming)
         {
             var shoot = inputDevice.GetButtonDown(DeviceButton.ShootWeapon);
-            var @throw = inputDevice.GetButtonDown(DeviceButton.Throw);
+            var @throwDown = inputDevice.GetButton(DeviceButton.ShootWeapon);
+            var @throwUp = inputDevice.GetButtonUp(DeviceButton.ShootWeapon);
+
+            if (@throwDown)
+            {
+                if(_throwElapsed > 0.5)
+                {
+                    _throwAim.SetActive(true);
+                    var force =
+                        Mathf.Lerp(_characterController.MinThrowForce, _characterController.MaxThrowForce, _throwElapsed / 4);
+                    var scale = Mathf.Min(_throwElapsed, 4.0f);
+                    _throwAim.transform.localScale = new Vector3(scale, scale, 1);
+                }
+                
+                _throwElapsed = _throwElapsed + Time.deltaTime;
+            }
+
             if (shoot)
             {
                 _characterController.Shoot();
             }
-            else if (@throw)
+            else if (@throwUp)
             {
-                _characterController.Throw();
+                if(_throwElapsed < 0.5f)
+                {
+                    _characterController.Throw();
+                }
+                else
+                {
+                    _throwAim.SetActive(false);
+                }
+                _throwElapsed = 0.0f;
             }
             return;
         }
@@ -356,7 +394,9 @@ public class MainPlatformerCharacterUserControl : MonoBehaviour, IQuestSubscribe
         {
             var center = _aimingArm.transform.position;
             var aimPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var degrees = FloatUtils.AngleBetween(center, aimPosition).ReduceToSingleTurn();
+            //Debug.Log("aim: " + Vector2.Angle(Vector2.zero, new Vector2(0, 1)));
+            var pos = aimPosition - center;
+            var degrees = (Vector2.Angle(Vector2.right, pos) * Math.Sign(pos.y)).ReduceToSingleTurn();
             _characterController.AimAngle = degrees;
         }
         else

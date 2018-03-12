@@ -12,6 +12,21 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         {
             base.Perform(action);
             StateController.DoMove(action.Move);
+
+            if (action.Sprint)
+            {
+                StateController.StartSprinting();
+            }
+            else
+            {
+                StateController.StopSprinting();
+            }
+        }
+
+        public override void OnStateExit(PlatformerCharacterAction action)
+        {
+            base.OnStateExit(action);
+            StateController.StopSprinting();
         }
     }
 }

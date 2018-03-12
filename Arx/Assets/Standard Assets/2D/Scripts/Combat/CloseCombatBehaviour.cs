@@ -1,8 +1,8 @@
 ﻿using Assets.Standard_Assets._2D.Cameras.Scripts;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
 using Assets.Standard_Assets.Extensions;
+using Assets.Standard_Assets.Weapons;
 using CommonInterfaces.Controllers;
-using CommonInterfaces.Weapons;
 using GenericComponents.Enums;
 using System;
 using System.Collections;
@@ -147,16 +147,27 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
         return true;
     }
 
+    public void CancelAttack()
+    {
+        AttackType = AttackType.None;
+    }
+
     private IEnumerator DiveAttackDetector()
     {
+        _charactersAttackedOnDive.Clear();
         while (true)
         {
-            var enemiesInRange = GetCharactersInRange(_diveAttackAreaP1.position, _diveAttackAreaP2.position, _enemyLayer);
-            if(enemiesInRange.Count() > 0)
+            var enemiesInRange = DetectNewEnemies(
+                _charactersAttackedOnDive, 
+                _diveAttackAreaP1.position, 
+                _diveAttackAreaP2.position, 
+                _enemyLayer);
+
+            if (enemiesInRange.Count() > 0)
             {
                 _combatHitEffects.EnemyStrongHit();
-            }
-            Weapon.DiveAttack(enemiesInRange, this.gameObject);
+                Weapon.DiveAttack(enemiesInRange, this.gameObject);
+            }            
             yield return null;
         }
     }

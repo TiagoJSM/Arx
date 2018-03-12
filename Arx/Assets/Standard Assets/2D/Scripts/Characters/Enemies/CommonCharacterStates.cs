@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
 {
@@ -13,6 +14,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
         float LastHitDirection { get; }
         float InPainTime { get; }
         bool InPain { get; set; }
+        bool Grappled { get; }
 
         void DoMove(float move);
         void DoMove(float move, bool setDirectionToMovement);
@@ -127,6 +129,26 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
         public void Perform(StateAction action)
         {
             StateController.DoMove(-StateController.LastHitDirection, false);
+        }
+    }
+
+    public class GrappledState : IState<ICharacter, StateAction>
+    {
+        public ICharacter StateController { get; set; }
+
+        public float TimeInState { get; set; }
+
+        public void OnStateEnter(StateAction action)
+        {
+            StateController.StayStill();
+        }
+
+        public void OnStateExit(StateAction action)
+        {
+        }
+
+        public void Perform(StateAction action)
+        {
         }
     }
 }

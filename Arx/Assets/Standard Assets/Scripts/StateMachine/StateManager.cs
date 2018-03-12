@@ -60,16 +60,11 @@ namespace Assets.Standard_Assets.Scripts.StateMachine
             current.State.TimeInState += Time.deltaTime;
 
             var timeInState = current.State.TimeInState;
-            var child = current.GetTransition(action, timeInState);
+            var child = _anyState.GetTransition(action, timeInState);
 
-            if(child == null)
+            if (child == null)
             {
-                child = _anyState.GetTransition(action, timeInState);
-
-                if(child != null)
-                {
-
-                }
+                child = current.GetTransition(action, timeInState);
             }
 
             if(child != null)

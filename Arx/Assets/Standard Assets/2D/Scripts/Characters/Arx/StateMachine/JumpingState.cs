@@ -15,6 +15,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
             _canJump = true;
+            if (StateController.EnemyUnder != null)
+            {
+                StateController.EnemyUnder.InPain = true;
+            }
         }
 
         public override void Perform(PlatformerCharacterAction action)

@@ -1,16 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
-using CommonInterfaces.Weapons;
 using GenericComponents.Enums;
 using ArxGame.Components;
 using CommonInterfaces.Controllers;
 using System;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx;
+using Assets.Standard_Assets._2D.Scripts.Combat;
+using Assets.Standard_Assets.Weapons;
+using Assets.Standard_Assets._2D.Scripts.Controllers;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(MainPlatformerController))]
 [RequireComponent(typeof(CombatModule))]
 [RequireComponent(typeof(EnemyProximityDetector))]
+[RequireComponent(typeof(AimBehaviour))]
+[RequireComponent(typeof(ChainThrowCombatBehaviour))]
 public class ArxAnimationController : MonoBehaviour
 {
     private readonly int _HorizontalVelocity = Animator.StringToHash("Horizontal Velocity");
@@ -32,6 +36,13 @@ public class ArxAnimationController : MonoBehaviour
     private readonly int _EnemyNearby = Animator.StringToHash("Enemy Nearby");
     private readonly int _TakingDamage = Animator.StringToHash("Taking Damage");
     private readonly int _GrabbingLadder = Animator.StringToHash("Grabbing Ladder");
+    private readonly int Aiming = Animator.StringToHash("Aiming");
+    private readonly int Shoot = Animator.StringToHash("Shoot");
+    private readonly int Throw = Animator.StringToHash("Throw");
+    private readonly int ChainThrustComplete = Animator.StringToHash("Chain Thrust Complete");
+    private readonly int LowKicking = Animator.StringToHash("Low Kicking");
+    private readonly int StingDash = Animator.StringToHash("Sting Dash");
+    private readonly int SprintJump = Animator.StringToHash("Sprint Jump");
 
     private float _previousVerticalVelocity = 0;
 
@@ -39,6 +50,8 @@ public class ArxAnimationController : MonoBehaviour
     private MainPlatformerController _platformerController;
     private CombatModule _combatModule;
     private EnemyProximityDetector _enemyProximityDetector;
+    private AimBehaviour _aimBehaviour;
+    private ChainThrowCombatBehaviour _chainThrow;
 
     public float HorizontalVelocity
     {
@@ -167,11 +180,27 @@ public class ArxAnimationController : MonoBehaviour
         _platformerController = GetComponent<MainPlatformerController>();
         _combatModule = GetComponent<CombatModule>();
         _enemyProximityDetector = GetComponent<EnemyProximityDetector>();
+        _aimBehaviour = GetComponent<AimBehaviour>();
+        _chainThrow = GetComponent<ChainThrowCombatBehaviour>();
+
+        _platformerController.ShootAction += ShootActionHandler;
+        _platformerController.ThrowAction += ThrowActionHandler;
+        _chainThrow.ChainThrustComplete += ChainThrustCompleteHandler;
     }
 
-    void Start()
+    private void ChainThrustCompleteHandler(GrappledCharacter obj)
     {
-        //_animator.GetCurrentAnimatorClipInfo(_RollingState)[0].clip. = _platformerController.RollingDuration;
+        _animator.SetTrigger(ChainThrustComplete);
+    }
+
+    private void ShootActionHandler()
+    {
+        _animator.SetTrigger(Shoot);
+    }
+
+    private void ThrowActionHandler()
+    {
+        _animator.SetTrigger(Throw);
     }
 	
     void Update()
@@ -194,6 +223,10 @@ public class ArxAnimationController : MonoBehaviour
         EnemyNearby = _enemyProximityDetector.EnemyNearby;
         TakingDamage = _platformerController.TakingDamage;
         _animator.SetBool(_GrabbingLadder, _platformerController.GrabbingLadder);
+        _animator.SetBool(Aiming, _aimBehaviour.enabled);
+        _animator.SetBool(LowKicking, _platformerController.LowKicking);
+        _animator.SetBool(StingDash, _platformerController.StingDash);
+        _animator.SetBool(SprintJump, _platformerController.SprintJump);
 
         var currentState = _animator.GetCurrentAnimatorStateInfo(0);
         if (_animator.GetCurrentAnimatorClipInfo(0).Length > 0)

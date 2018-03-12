@@ -1,5 +1,4 @@
 ﻿using CommonInterfaces.Controllers;
-using CommonInterfaces.Weapons;
 using Extensions;
 using GenericComponents.Behaviours;
 using GenericComponents.Controllers.Characters;
@@ -23,6 +22,15 @@ using Assets.Standard_Assets.Extensions;
 using Assets.Standard_Assets.Weapons;
 using Assets.Standard_Assets.Scripts.StateMachine;
 using Assets.Standard_Assets._2D.Scripts.Footsteps;
+using Assets.Standard_Assets._2D.Scripts.Combat;
+using Assets.Standard_Assets.Characters.CharacterBehaviour;
+
+public enum LaunchWeaponType
+{
+    Shoot,
+    Throw,
+    ChainThrow
+}
 
 [RequireComponent(typeof(CombatModule))]
 [RequireComponent(typeof(LadderMovement))]
@@ -31,6 +39,11 @@ using Assets.Standard_Assets._2D.Scripts.Footsteps;
 [RequireComponent(typeof(CombatHitEffects))]
 [RequireComponent(typeof(RopeMovement))]
 [RequireComponent(typeof(MaterialFootstepPlayer))]
+[RequireComponent(typeof(AimBehaviour))]
+[RequireComponent(typeof(ThrowCombatBehaviour))]
+[RequireComponent(typeof(ChainThrowCombatBehaviour))]
+[RequireComponent(typeof(CharacterStamina))]
+[RequireComponent(typeof(SprintCombatBehaviour))]
 public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
@@ -39,6 +52,8 @@ public class MainPlatformerController : PlatformerCharacterController
     private CombatHitEffects _hitEffects;
     private RopeMovement _ropeMovement;
     private MaterialFootstepPlayer _footstepPlayer;
+    private AimBehaviour _aimBehaviour;
+    private SprintCombatBehaviour _sprintCombat;
     private StateManager<MainPlatformerController, PlatformerCharacterAction> _stateManager;
 
     private Rope _rope;
@@ -50,6 +65,7 @@ public class MainPlatformerController : PlatformerCharacterController
     private float _defaultMinYVelocity;
     private bool _canSlowGravityForAirAttack = true;
     private bool _changeVelocityMultiplierOnCombatFinish = true;
+    private GrappledCharacter _previouslyGrappledCharacter;
 
     [SerializeField]
     private float _rollingDuration = 1;
@@ -79,6 +95,28 @@ public class MainPlatformerController : PlatformerCharacterController
     private AudioSource _rollSound;
     [SerializeField]
     private float _lightAirAttackGravitySlowDownTime = 4.0f;
+    [SerializeField]
+    private float _minThrowForce = 20.0f;
+    [SerializeField]
+    private float _maxThrowForce = 60.0f;
+    [SerializeField]
+    private float _lowKickDuration = 1;
+    [SerializeField]
+    private float _lowKickSpeed = 30;
+    [SerializeField]
+    private float _stingDashDuration = 1;
+    [SerializeField]
+    private float _stingDashSpeed = 30;
+    [SerializeField]
+    private float _sprintJumpDuration = 1;
+    [SerializeField]
+    private float _sprintJumpSpeed = 30;
+    [SerializeField]
+    private float _enemyUnderDetectionSize = 2;
+    [SerializeField]
+    private float _enemyUnderOriginOffset = 1;
+    [SerializeField]
+    private LayerMask _enemyUnderLayer;
 
     private float _move;
     private float _vertical;
@@ -91,8 +129,13 @@ public class MainPlatformerController : PlatformerCharacterController
     private bool _throw;
     private bool _grabLadder;
     private bool _jumpOnLedge;
+    private bool _sprint;
+    private bool _attack;
 
     private AttackType _attackAction;
+
+    public event Action ShootAction;
+    public event Action ThrowAction;
 
     public StateManager<MainPlatformerController, PlatformerCharacterAction> StateManager
     {
@@ -126,17 +169,9 @@ public class MainPlatformerController : PlatformerCharacterController
         }
     }
 
-    public ChainThrow ChainThrowWeapon
-    {
-        get
-        {
-            return _combatModule.ChainThrowWeapon;
-        }
-        set
-        {
-            _combatModule.ChainThrowWeapon = value;
-        }
-    }
+    public ThrowCombatBehaviour ThrowCombatBehaviour { get; private set; }
+    public ChainThrowCombatBehaviour ChainThrowCombat { get; private set; }
+    public ShooterCombatBehaviour ShooterCombat { get; private set; }
 
     public bool Attacking { get; private set; }
 
@@ -172,8 +207,6 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public float RopeClimbDirection { get { return _ropeMovement.RopeClimbDirection; } }
 
-    public GrappleRope GrappleRope { get { return _combatModule.GrappleRope; } }
-
     public Pushable Pushable
     {
         get
@@ -195,8 +228,31 @@ public class MainPlatformerController : PlatformerCharacterController
     public Vector3? HitPointThisFrame { get; private set; }
 
     public bool GrabbingLadder { get; private set; }
+    public LaunchWeaponType LaunchWeaponEquipped { get; set; }
+    public bool Grappling { get { return ChainThrowCombat.GrappledCharacter != null; } }
 
-    public void Move(float move, float vertical, bool jump, bool roll, bool releaseRope, bool aiming, bool jumpOnLedge)
+    public float MinThrowForce { get { return _minThrowForce; } }
+    public float MaxThrowForce { get { return _maxThrowForce; } }
+
+    public bool ShootWeaponEquipped { get { return LaunchWeaponEquipped == LaunchWeaponType.Shoot; } }
+    public bool ThrowWeaponEquipped { get { return LaunchWeaponEquipped == LaunchWeaponType.Throw; } }
+    public bool ChainThrowWeaponEquipped { get { return LaunchWeaponEquipped == LaunchWeaponType.ChainThrow; } }
+    public CharacterStamina CharacterStamina { get; private set; }
+    public bool LowKicking { get; private set; }
+    public bool StingDash { get; private set; }
+    public bool SprintJump { get; private set; }
+    public ICharacter EnemyUnder { get; private set; }
+
+    public void Move(
+        float move, 
+        float vertical, 
+        bool jump, 
+        bool roll, 
+        bool releaseRope, 
+        bool aiming, 
+        bool jumpOnLedge,
+        bool sprint,
+        bool attack)
     {
         _move = move;
         _vertical = vertical;
@@ -204,6 +260,8 @@ public class MainPlatformerController : PlatformerCharacterController
         _releaseRope = releaseRope;
         _aiming = aiming;
         _jumpOnLedge = jumpOnLedge;
+        _sprint = sprint;
+        _attack = attack;
 
         if (Attacking)
         {
@@ -222,14 +280,20 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void LightAttack()
     {
-        _combatModule.PrimaryAttack();
-        _attackAction = AttackType.Primary;
+        if (MovementType != MovementType.Sprint && !StingDash)
+        {
+            _combatModule.PrimaryAttack();
+            _attackAction = AttackType.Primary;
+        }
     }
 
     public void StrongAttack()
     {
-        _combatModule.SecundaryAttack();
-        _attackAction = AttackType.Secundary;
+        if (MovementType != MovementType.Sprint)
+        {
+            _combatModule.SecundaryAttack();
+            _attackAction = AttackType.Secundary;
+        }
     }
 
     public void ChargeAttack()
@@ -286,14 +350,14 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void FlipToSlideDownDirection()
     {
-        if(Velocity.x == 0)
+        if (Velocity.x == 0)
         {
             return;
         }
         Flip(
-            Velocity.x > 0 
-            ? CommonInterfaces.Enums.Direction.Right 
-            : CommonInterfaces.Enums.Direction.Left);
+            Velocity.x > 0
+            ? Direction.Right
+            : Direction.Left);
     }
 
     public void AirSlash()
@@ -316,7 +380,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void GrabRope()
     {
-        if(_ropeMovement.GrabRope(_rope))
+        if (_ropeMovement.GrabRope(_rope))
         {
             ApplyMovementAndGravity = false;
             SteadyRotation = false;
@@ -343,7 +407,7 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void SetDirectionToAimDirection()
     {
-        if((AimAngle >= 0 && AimAngle <= 90) || (AimAngle <= 360 && AimAngle >= 270))
+        if ((AimAngle >= 0 && AimAngle <= 90) || (AimAngle <= 360 && AimAngle >= 270))
         {
             Flip(Direction.Right);
         }
@@ -355,12 +419,17 @@ public class MainPlatformerController : PlatformerCharacterController
 
     public void DoShoot()
     {
-        _combatModule.Shoot();
+        ShooterCombat.Shoot(_aimBehaviour.GetWeaponAimAngle());
+    }
+
+    public void DoThrow()
+    {
+        ThrowCombatBehaviour.Throw(_aimBehaviour.GetWeaponAimAngle());
     }
 
     public void Aim(bool aim)
     {
-        _combatModule.Aiming = aim;
+        _aimBehaviour.enabled = aim;
     }
 
     public void Throw()
@@ -368,50 +437,9 @@ public class MainPlatformerController : PlatformerCharacterController
         _throw = true;
     }
 
-    public void DoThrow()
-    {
-        _combatModule.Throw();
-        Attacking = true;
-    }
-
-    public void GrabGrapple()
-    {
-        ApplyMovementAndGravity = false;
-        SteadyRotation = false;
-        DetectPlatform = false;
-        // ChainThrowCombatBehaviour does the bellow line, 
-        //but we still need to do it here, since it may be invalided by hit detection parenting
-        this.transform.parent = _combatModule.GrappleRope.RopeEnd.gameObject.transform;
-        this.transform.localPosition = new Vector3(0, _grappleRopeGrabHeightOffset);
-    }
-
-    public void MoveOnGrapple(float horizontal, float vertical)
-    {
-        if (Mathf.Abs(horizontal) > 0.01)
-        {
-            var body = _combatModule.GrappleRope.RopeEnd.GetComponent<Rigidbody2D>();
-            body.AddForce(new Vector2(_maxRopeHorizontalForce * Math.Sign(horizontal), 0));
-        }
-        if (Mathf.Abs(vertical) > 0.01)
-        {
-            _combatModule.ClimbGrapple(vertical, _ropeVerticalSpeed);
-            //var move = new Vector3(0, _ropeVerticalSpeed * Time.deltaTime * Mathf.Sign(vertical));
-            //this.transform.localPosition += move;
-        }
-    }
-
-    public void ReleaseGrapple()
-    {
-        _combatModule.ReleaseGrapple();
-        this.transform.localRotation = Quaternion.identity;
-        ApplyMovementAndGravity = true;
-        SteadyRotation = true;
-        DetectPlatform = true;
-    }
-
     public void PushObject()
     {
-        if(Mathf.Abs(HorizontalSpeed) < 0.01)
+        if (Mathf.Abs(HorizontalSpeed) < 0.01)
         {
             return;
         }
@@ -446,7 +474,7 @@ public class MainPlatformerController : PlatformerCharacterController
         var x = (_safeSpot.Value.x + this.transform.position.x) / 2;
         var distance = Vector2.Distance(this.transform.position, _safeSpot.Value);
         var distancePerSeconds = 40; // ToDo: move to inspector variable
-        _moveInParabolaCoroutine = 
+        _moveInParabolaCoroutine =
             StartCoroutine(
                 MoveInParabola(
                     this.transform.position,
@@ -470,8 +498,8 @@ public class MainPlatformerController : PlatformerCharacterController
     }
 
     public override int Attacked(
-        GameObject attacker, 
-        int damage, 
+        GameObject attacker,
+        int damage,
         Vector3? hitPoint,
         DamageType damageType,
         AttackTypeDetail attackType = AttackTypeDetail.Generic,
@@ -479,7 +507,7 @@ public class MainPlatformerController : PlatformerCharacterController
         bool showDamaged = false)
     {
         var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType, comboNumber);
-        if(damageTaken > 0)
+        if (damageTaken > 0)
         {
             _hitEffects.HitByEnemy();
             AttackedThisFrame = true;
@@ -526,6 +554,140 @@ public class MainPlatformerController : PlatformerCharacterController
         //VelocityMultiplier = Vector2.one;
     }
 
+    public void PerformShoot()
+    {
+        if (ShootAction != null)
+        {
+            ShootAction();
+        }
+    }
+
+    public void PerformThrow()
+    {
+        if (ThrowAction != null)
+        {
+            ThrowAction();
+        }
+    }
+
+    public void ChainThrow()
+    {
+        ChainThrowCombat.ThrowChain(_aimBehaviour.GetWeaponAimAngle());
+    }
+
+    public void ChainPull()
+    {
+        ChainThrowCombat.ChainPull();
+    }
+
+    public void ChainThrust()
+    {
+        ApplyMovementAndGravity = false;
+        SteadyRotation = false;
+        ChainThrowCombat.ChainThrust();
+    }
+
+    public void StartFlashing()
+    {
+        if (_flashRoutine == null)
+        {
+            _flashRoutine = StartCoroutine(CoroutineHelpers.Flash(() => StopFlashing(), _flashingObjects));
+        }
+    }
+
+    public void StopFlashing()
+    {
+        CanBeAttacked = true;
+        StopCoroutine(_flashRoutine);
+        _flashRoutine = null;
+        for (var idx = 0; idx < _flashingObjects.Length; idx++)
+        {
+            _flashingObjects[idx].SetActive(true);
+        }
+    }
+
+    public void FlipKickAttack()
+    {
+        if (_previouslyGrappledCharacter != null)
+        {
+            var character = _previouslyGrappledCharacter.GetComponent<ICharacter>();
+            character.Attacked(this.gameObject, 1, null, DamageType.BodyAttack);
+        }
+    }
+
+    public void StartSprinting()
+    {
+        if (!CharacterStamina.IsTired)
+        {
+            MovementType = MovementType.Sprint;
+            CharacterStamina.ConsumeStamina();
+        }
+    }
+
+    public void StopSprinting()
+    {
+        MovementType = MovementType.Run;
+        CharacterStamina.RegenerateStamina();
+    }
+
+    public void StartLowKick()
+    {
+        LowKicking = true;
+        _sprintCombat.StartLowKick();
+    }
+
+    public void StopLowKick()
+    {
+        LowKicking = false;
+        CharacterStamina.ConsumeAllStamina();
+        _sprintCombat.EndLowKick();
+    }
+
+    public void LowKickMovement(float move)
+    {
+        DoMove(move, _lowKickSpeed, true);
+    }
+
+    public void StartStingDash()
+    {
+        StingDash = true;
+        _sprintCombat.StartStingDash();
+        _combatModule.CancelAttack();
+    }
+
+    public void StopStingDash()
+    {
+        StingDash = false;
+        CharacterStamina.ConsumeAllStamina();
+        _sprintCombat.EndStingDash();
+    }
+
+    public void StingDashMovement(float move)
+    {
+        DoMove(move, _stingDashSpeed, true);
+    }
+
+    public void StartSprintJump()
+    {
+        SprintJump = true;
+        CharacterStamina.ConsumeAllStamina();
+    }
+
+    public void StopSprintJump()
+    {
+        SprintJump = false;
+    }
+
+    public void SprintJumpMovement(float move)
+    {
+        DoMove(move, _sprintJumpSpeed, true);
+    }
+
+    public void CancelGrappling()
+    {
+        ChainThrowCombat.CancelGrapple();
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -536,25 +698,44 @@ public class MainPlatformerController : PlatformerCharacterController
         _notifications = GetComponent<MainCharacterNotification>();
         _hitEffects = GetComponent<CombatHitEffects>();
         _footstepPlayer = GetComponent<MaterialFootstepPlayer>();
-        _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration);
+        _aimBehaviour = GetComponent<AimBehaviour>();
+        ThrowCombatBehaviour = GetComponent<ThrowCombatBehaviour>();
+        ChainThrowCombat = GetComponent<ChainThrowCombatBehaviour>();
+        ShooterCombat = GetComponent<ShooterCombatBehaviour>();
+        CharacterStamina = GetComponent<CharacterStamina>();
+        _sprintCombat = GetComponent<SprintCombatBehaviour>();
+        _aimBehaviour.enabled = false;
+        _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration, _lowKickDuration, _stingDashDuration, _sprintJumpDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;
         _combatModule.OnCombatFinish += OnCombatFinishHandler;
+        ChainThrowCombat.OnAttackFinish += OnCombatFinishHandler;
+
         CharacterController2D.onTriggerEnterEvent += OnTriggerEnterEventHandler;
         CharacterController2D.onTriggerExitEvent += OnTriggerExitEventHandler;
         _defaultMinYVelocity = CharacterController2D.MinYVelocity;
+
+        LaunchWeaponEquipped = LaunchWeaponType.ChainThrow;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        ChainThrowCombat.ChainThrustComplete += ChainThrustCompleteHandler;
     }
 
     protected override void Update()
     {
         base.Update();
         _pushable = FindPushables();
-        _combatModule.AimAngle = AimAngle;
-        var action = 
+        _aimBehaviour.AimAngle = AimAngle;
+        CheckForEnemyUnderCharacter();
+
+        var action =
             new PlatformerCharacterAction(
-                _move, _vertical, _jump, _roll, _attackAction, 
-                _releaseRope, _aiming, _shoot, _throw, _grabLadder, 
-                _jumpOnLedge, _rollAfterAttack);
+                _move, _vertical, _jump, _roll, _attackAction,
+                _releaseRope, _aiming, _shoot, _throw, _grabLadder,
+                _jumpOnLedge, _rollAfterAttack, _sprint, _attack);
         _stateManager.Perform(action);
         _move = 0;
         _vertical = 0;
@@ -566,6 +747,8 @@ public class MainPlatformerController : PlatformerCharacterController
         HitPointThisFrame = null;
         _grabLadder = false;
         _jumpOnLedge = false;
+        _sprint = false;
+        _attack = false;
 
         if (IsGrounded)
         {
@@ -577,13 +760,35 @@ public class MainPlatformerController : PlatformerCharacterController
         }
     }
 
+    private void CheckForEnemyUnderCharacter()
+    {
+        var origin = transform.position;
+        origin.y += _enemyUnderOriginOffset;
+        var enemiesUnder = Physics2D.RaycastAll(origin, Vector2.down, _enemyUnderDetectionSize, _enemyUnderLayer);
+
+        for(var idx = 0; idx < enemiesUnder.Length; idx++)
+        {
+            var raycast = enemiesUnder[idx];
+            if (!raycast.collider.isTrigger && raycast.normal.y > 0.5f && raycast.distance > 0)
+            {
+                var character = raycast.collider.GetComponent<ICharacter>();
+                if(character != null)
+                {
+                    EnemyUnder = character;
+                    return;
+                }
+            }
+        }
+        EnemyUnder = null;
+    }
+
     private Pushable FindPushables()
     {
-        if(_pushableAreaP1 == null || _pushableAreaP2 == null)
+        if (_pushableAreaP1 == null || _pushableAreaP2 == null)
         {
             return null;
         }
-        return 
+        return
             Physics2DHelpers
                 .OverlapAreaAll<Pushable>(_pushableAreaP1.position, _pushableAreaP2.position)
                 .FirstOrDefault();
@@ -643,25 +848,6 @@ public class MainPlatformerController : PlatformerCharacterController
         _safeSpot = null;
     }
 
-    public void StartFlashing()
-    {
-        if (_flashRoutine == null)
-        {
-            _flashRoutine = StartCoroutine(CoroutineHelpers.Flash(() => StopFlashing(), _flashingObjects));
-        }
-    }
-
-    public void StopFlashing()
-    {
-        CanBeAttacked = true;
-        StopCoroutine(_flashRoutine);
-        _flashRoutine = null;
-        for (var idx = 0; idx < _flashingObjects.Length; idx++)
-        {
-            _flashingObjects[idx].SetActive(true);
-        }
-    }
-
     private IEnumerator LightAirAttackGravitySlowDown()
     {
         _changeVelocityMultiplierOnCombatFinish = false;
@@ -669,5 +855,22 @@ public class MainPlatformerController : PlatformerCharacterController
         yield return new WaitForSeconds(_lightAirAttackGravitySlowDownTime);
         VelocityMultiplier = Vector2.one;
         _changeVelocityMultiplierOnCombatFinish = true;
+    }
+
+    private void ChainThrustCompleteHandler(GrappledCharacter grappledCharacter)
+    {
+        ApplyMovementAndGravity = true;
+        SteadyRotation = true;
+        _previouslyGrappledCharacter = grappledCharacter;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        var origin = transform.position;
+        origin.y += _enemyUnderOriginOffset;
+        var target = origin;
+        target.y -= _enemyUnderDetectionSize;
+        Gizmos.DrawLine(origin, target);
     }
 }
