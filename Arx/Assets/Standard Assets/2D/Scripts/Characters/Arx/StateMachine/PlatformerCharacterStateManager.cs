@@ -33,6 +33,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                         a.AttackType != AttackType.None && c.Attacking && c.WeaponType != null)
                     .To<ChargeAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.WeaponType != null && c.IsCharging)
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
+                    //.To<PushState>((c, a, t) => c.IsGrounded && c.Pushable != null && a.Move != 0)
                     .To<MovingState>((c, a, t) => a.Move != 0 && c.IsGrounded)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
                     .To<JumpingState>((c, a, t) => a.Jump && c.IsGrounded)

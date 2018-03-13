@@ -437,13 +437,13 @@ public class MainPlatformerController : PlatformerCharacterController
         _throw = true;
     }
 
-    public void PushObject()
+    public void PushObject(float direction)
     {
-        if (Mathf.Abs(HorizontalSpeed) < 0.01)
+        if (Mathf.Abs(direction) < 0.01)
         {
             return;
         }
-        var sign = Math.Sign(HorizontalSpeed);
+        var sign = Math.Sign(direction);
         _pushable.Push(sign * _objectPushForce);
     }
 
