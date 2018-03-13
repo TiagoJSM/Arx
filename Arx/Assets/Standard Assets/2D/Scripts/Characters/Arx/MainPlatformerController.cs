@@ -688,6 +688,11 @@ public class MainPlatformerController : PlatformerCharacterController
         ChainThrowCombat.CancelGrapple();
     }
 
+    public void GroundAttackStateExit()
+    {
+        VelocityMultiplier = Vector2.one;
+    }
+
     protected override void Awake()
     {
         base.Awake();

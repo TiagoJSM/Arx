@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Assets.Standard_Assets.Weapons;
+using Assets.Standard_Assets.Extensions;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Wall_Shooter.Scripts
 {
@@ -17,6 +18,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Wall_Shooter.Scripts
         private LayerMask _enemyLayer;
         [SerializeField]
         private Transform _projectileSpawnPosition;
+        [SerializeField]
+        private AudioSource[] _shootSounds;
 
         public void Shoot()
         {
@@ -32,6 +35,12 @@ namespace Assets.Standard_Assets.Characters.Enemies.Wall_Shooter.Scripts
             projectile.Attacker = this.gameObject;
             projectile.EnemyLayer = _enemyLayer;
             projectile.Damage = 1;
+            PlayShootSound();
+        }
+
+        private void PlayShootSound()
+        {
+            _shootSounds.PlayRandom();
         }
     }
 }

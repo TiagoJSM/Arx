@@ -1,4 +1,5 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.Footsteps;
+using Extensions;
 using GenericComponents.Behaviours;
 using MathHelper;
 using System;
@@ -13,6 +14,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
     [RequireComponent(typeof(MaterialRopeMovementPlayer))]
     public class RopeMovement : MonoBehaviour
     {
+        private AudioSource _currentAudio;
         private float _horizontalRopeMovement;
         private MaterialRopeMovementPlayer _ropeMovementPlayer;
         private Coroutine _grabRope;
@@ -25,6 +27,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         private float _ropeVerticalSpeed = 4;
         [SerializeField]
         private float _minimumDistanceFromRopeOrigin = 1;
+        [SerializeField]
+        private AudioSource[] _ropeMovement;
 
         public float RopeClimbDirection { get; private set; }
         public Rope Rope { get; private set; }

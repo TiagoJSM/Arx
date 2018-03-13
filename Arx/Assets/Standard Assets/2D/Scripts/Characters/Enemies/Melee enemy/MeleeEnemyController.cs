@@ -112,7 +112,7 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
 
     public override int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1, bool showDamaged = false)
     {
-        var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType);
+        var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType, comboNumber, showDamaged);
         if (_death != null)
         {
             _death.Play();

@@ -21,12 +21,12 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
         {
             this.SetInitialState<IddleState<DesertThiefEnemyAiControl>>()
                 .To<AttackedState<DesertThiefEnemyAiControl>>((c, a, t) => c.Attacked)
-                .To<ThrowDaggerState>((c, a, t) => c.Target != null && c.IsTargetInDaggerThrowReacheablePosiion() && !c.IsDaggerInCooldown)
+                .To<ThrowDaggerState>((c, a, t) => c.Target != null && c.IsTargetInDaggerThrowReacheablePosition() && !c.IsDaggerInCooldown)
                 .To<FollowState<DesertThiefEnemyAiControl>>((c, a, t) => c.Target != null);
 
             this.From<FollowState<DesertThiefEnemyAiControl>>()
                 .To<AttackedState<DesertThiefEnemyAiControl>>((c, a, t) => c.Attacked)
-                .To<ThrowDaggerState>((c, a, t) => c.Target != null && c.IsTargetInDaggerThrowReacheablePosiion() && !c.IsDaggerInCooldown)
+                .To<ThrowDaggerState>((c, a, t) => c.Target != null && c.IsTargetInDaggerThrowReacheablePosition() && !c.IsDaggerInCooldown)
                 .To<AttackTargetState<DesertThiefEnemyAiControl>>((c, a, t) => c.IsTargetInRange)
                 .To<IddleState<DesertThiefEnemyAiControl>>((c, a, t) => c.Target == null || !c.CanMoveToGroundAhead());
 
@@ -40,7 +40,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
 
             this.From<ThrowDaggerState>()
                 .To<AttackedState<DesertThiefEnemyAiControl>>((c, a, t) => c.Attacked)
-                .To<ThrowDaggerState>((c, a, t) => c.Target != null && c.IsTargetInDaggerThrowReacheablePosiion() && !c.IsDaggerInCooldown)
+                .To<ThrowDaggerState>((c, a, t) => c.Target != null && c.IsTargetInDaggerThrowReacheablePosition() && !c.IsDaggerInCooldown && !c.ThrowDagger)
                 .To<FollowState<DesertThiefEnemyAiControl>>((c, a, t) => !c.ThrowDagger);
 
             this.FromAny()
@@ -52,6 +52,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
     [RequireComponent(typeof(CharacterAwarenessNotifier))]
     public class DesertThiefEnemyAiControl : AbstractPlatformerCharacterAiController, ICharacterAI, ICharacterAware
     {
+        private AudioSource _currentDaggerThrowSound;
+
         [SerializeField]
         private CharacterFinder _characterFinder;
         [SerializeField]
@@ -64,6 +66,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
         private Transform _daggerThrowOrigin;
         [SerializeField]
         private float _daggerCooldownTime = 4;
+        [SerializeField]
+        private AudioSource[] _throwDaggerSounds;
 
         private CharacterAwarenessNotifier _awarenessNotifier;
         private MeleeEnemyController _controller;
@@ -141,6 +145,22 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
             _controller.OrderAttack();
         }
 
+        public void StartDaggerThrow()
+        {
+            ThrowDagger = true;
+            _currentDaggerThrowSound = _throwDaggerSounds.Random();
+            _currentDaggerThrowSound.Play();
+        }
+
+        public void StopDaggerThrow()
+        {
+            ThrowDagger = false;
+            if (_currentDaggerThrowSound != null)
+            {
+                _currentDaggerThrowSound.Stop();
+            }
+        }
+
         // Use this for initialization
         protected override void Awake()
         {
@@ -166,7 +186,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
             _controller.Move(directionValue);
         }
 
-        public bool IsTargetInDaggerThrowReacheablePosiion()
+        public bool IsTargetInDaggerThrowReacheablePosition()
         {
             if (Target != null)
             {
