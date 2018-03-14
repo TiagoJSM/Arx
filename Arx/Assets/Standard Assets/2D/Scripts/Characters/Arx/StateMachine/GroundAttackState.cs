@@ -18,5 +18,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             base.Perform(action);
             StateController.DoMove(action.Move);
         }
+        public override void OnStateExit(PlatformerCharacterAction action)
+        {
+            base.OnStateExit(action);
+            StateController.GroundAttackStateExit();
+        }
     }
 }

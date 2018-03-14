@@ -19,6 +19,8 @@ namespace Assets.Standard_Assets.Weapons
         private LayerMask _enemyLayer;
         [SerializeField]
         private int _damage;
+        [SerializeField]
+        private AudioSource _hitSound;
 
         public LayerMask EnemyLayer
         {
@@ -88,7 +90,11 @@ namespace Assets.Standard_Assets.Weapons
                 return;
             }
             character.Attacked(Attacker, Damage, this.transform.position, DamageType.Shoot);
-            Destroy(this.gameObject);
+            if(_hitSound != null)
+            {
+                _hitSound.Play();
+            }
+            Destroy(this.gameObject, 1);
         }
     }
 }
