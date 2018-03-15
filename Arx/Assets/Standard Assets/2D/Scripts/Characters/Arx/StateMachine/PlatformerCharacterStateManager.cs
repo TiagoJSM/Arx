@@ -19,12 +19,14 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             float rollingDuration,
             float lowKickDuration,
             float stingDashDuration,
-            float sprintJumpDuration)
+            float sprintJumpDuration,
+            float dashDuration)
                 : base(context)
         {
             this
                 .SetInitialState<IddleState>()
                     .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
+                    .To<DashState>((c, a, t) => c.IsGrounded && a.Roll && !c.CharacterStamina.IsTired)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll)
                     .To<MovingAimShootState>((c, a, t) => c.IsGrounded && a.Aiming && c.ShootWeaponEquipped)
                     .To<MovingAimThrowState>((c, a, t) => c.IsGrounded && a.Aiming && c.ThrowWeaponEquipped)
@@ -122,6 +124,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<LowKickState>((c, a, t) => c.IsGrounded && c.MovementType == MovementType.Sprint && a.Roll)
                     .To<StingDashState>((c, a, t) => c.IsGrounded && c.MovementType == MovementType.Sprint && a.Attack)
                     .To<SprintJumpState>((c, a, t) => c.IsGrounded && c.MovementType == MovementType.Sprint && a.Jump)
+                    .To<DashState>((c, a, t) => c.IsGrounded && a.Roll && !c.CharacterStamina.IsTired)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll)
                     .To<MovingAimShootState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ShootWeaponEquipped)
                     .To<MovingAimThrowState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ThrowWeaponEquipped)
@@ -170,8 +173,19 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > rollingDuration && c.CanStand);
 
             this
+                .From<DashState>()
+                    .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
+                    .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .To<DuckState>((c, a, t) => c.IsGrounded && !c.CanStand && t > dashDuration)
+                    .To<FallingState>((c, a, t) => !c.IsGrounded && t > dashDuration)
+                    .To<RollState>((c, a, t) => c.IsGrounded && a.Roll && t > dashDuration)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > dashDuration && c.CanStand)
+                    .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > dashDuration && c.CanStand);
+
+            this
                 .From<GroundAttackState>()
                     .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
+                    .To<DashState>((c, a, t) => c.IsGrounded && a.Roll && !c.Attacking && !c.CharacterStamina.IsTired)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.RollAfterAttack && !c.Attacking)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && !c.Attacking)
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && !c.Attacking);
@@ -225,6 +239,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<AttackedOnGroundState>((c, a, t) => c.AttackedThisFrame)
                     .To<FallingState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded)
+                    .To<DashState>((c, a, t) => c.IsGrounded && a.Roll && !c.CharacterStamina.IsTired)
                     .To<RollState>((c, a, t) => c.IsGrounded && a.Roll)
                     .To<MovingState>((c, a, t) => !a.Aiming && c.IsGrounded)
                     .To<ChargeAttackState>((c, a, t) => a.Shoot && c.WeaponType != null && c.IsCharging)

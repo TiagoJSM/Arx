@@ -117,6 +117,12 @@ public class MainPlatformerController : PlatformerCharacterController
     private float _enemyUnderOriginOffset = 1;
     [SerializeField]
     private LayerMask _enemyUnderLayer;
+    [SerializeField]
+    private float _dashDuration = 1;
+    [SerializeField]
+    private float _dashSpeed = 36;
+    [SerializeField]
+    private float _dashStaminaConsumption = 3;
 
     private float _move;
     private float _vertical;
@@ -242,6 +248,7 @@ public class MainPlatformerController : PlatformerCharacterController
     public bool StingDash { get; private set; }
     public bool SprintJump { get; private set; }
     public ICharacter EnemyUnder { get; private set; }
+    public bool Dashing { get; private set; }
 
     public void Move(
         float move, 
@@ -693,6 +700,23 @@ public class MainPlatformerController : PlatformerCharacterController
         VelocityMultiplier = Vector2.one;
     }
 
+    public void StartDash()
+    {
+        Dashing = true;
+        CharacterStamina.ConsumeStaminaInstant(_dashStaminaConsumption);
+    }
+
+    public void Dash(float move)
+    {
+        var direction = DirectionOfMovement(move, Direction);
+        DoMove(DirectionValue(direction), _stingDashSpeed, true);
+    }
+
+    public void EndDash()
+    {
+        Dashing = false;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -710,7 +734,7 @@ public class MainPlatformerController : PlatformerCharacterController
         CharacterStamina = GetComponent<CharacterStamina>();
         _sprintCombat = GetComponent<SprintCombatBehaviour>();
         _aimBehaviour.enabled = false;
-        _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration, _lowKickDuration, _stingDashDuration, _sprintJumpDuration);
+        _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration, _lowKickDuration, _stingDashDuration, _sprintJumpDuration, _dashDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;
         _combatModule.OnCombatFinish += OnCombatFinishHandler;

@@ -35,6 +35,8 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     private LayerMask _enemyLayer;
     [SerializeField]
     private AudioSource[] _hitSounds;
+    [SerializeField]
+    private Animator _hitEffect;
 
     public event Action OnEnterCombatState;
     public event Action<AttackType, AttackStyle, int> OnAttackStart;
@@ -65,6 +67,11 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
         if(enemiesInRange.Length == 0)
         {
             return;
+        }
+
+        if (_hitEffect != null)
+        {
+            _hitEffect.SetTrigger("Show");
         }
 
         if (_executedAttackType == AttackType.Primary)

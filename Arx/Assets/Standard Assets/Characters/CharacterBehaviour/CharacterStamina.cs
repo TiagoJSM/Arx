@@ -51,6 +51,16 @@ namespace Assets.Standard_Assets.Characters.CharacterBehaviour
             }
         }
 
+        public void ConsumeStaminaInstant(float value)
+        {
+            _currentStamina -= value;
+            if (_currentStamina < 0)
+            {
+                _currentStamina = 0;
+            }
+            ActivateCoroutine(RegenerateStaminaRoutine());
+        }
+
         public void RegenerateStamina()
         {
             if (_staminaStatus != StaminaStatus.Regenerating)
