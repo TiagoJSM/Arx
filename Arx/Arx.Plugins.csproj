@@ -286,6 +286,7 @@
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\CharacterStatus.cs" />
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\Health.cs" />
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\ICharacterAware.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\LowLife.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Alarm Bot\Scripts\AlarmBotAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Alarm Bot\Scripts\AlarmBotAnimator.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Alarm Bot\Scripts\AlarmBotSounds.cs" />

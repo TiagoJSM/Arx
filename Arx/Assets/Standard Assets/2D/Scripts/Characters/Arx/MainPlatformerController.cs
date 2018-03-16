@@ -49,7 +49,6 @@ public class MainPlatformerController : PlatformerCharacterController
     private CombatModule _combatModule;
     private LadderMovement _ladderMovement;
     private MainCharacterNotification _notifications;
-    private CombatHitEffects _hitEffects;
     private RopeMovement _ropeMovement;
     private MaterialFootstepPlayer _footstepPlayer;
     private AimBehaviour _aimBehaviour;
@@ -247,8 +246,8 @@ public class MainPlatformerController : PlatformerCharacterController
     public bool LowKicking { get; private set; }
     public bool StingDash { get; private set; }
     public bool SprintJump { get; private set; }
-    public ICharacter EnemyUnder { get; private set; }
     public bool Dashing { get; private set; }
+    public CombatHitEffects HitEffects { get; private set; }
 
     public void Move(
         float move, 
@@ -516,7 +515,7 @@ public class MainPlatformerController : PlatformerCharacterController
         var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType, comboNumber);
         if (damageTaken > 0)
         {
-            _hitEffects.HitByEnemy();
+            HitEffects.HitByEnemy();
             AttackedThisFrame = true;
             HitPointThisFrame = hitPoint;
             if (HitPointThisFrame == null)
@@ -725,7 +724,7 @@ public class MainPlatformerController : PlatformerCharacterController
         _ropeMovement = GetComponent<RopeMovement>();
         _ladderFinder = GetComponent<LadderFinder>();
         _notifications = GetComponent<MainCharacterNotification>();
-        _hitEffects = GetComponent<CombatHitEffects>();
+        HitEffects = GetComponent<CombatHitEffects>();
         _footstepPlayer = GetComponent<MaterialFootstepPlayer>();
         _aimBehaviour = GetComponent<AimBehaviour>();
         ThrowCombatBehaviour = GetComponent<ThrowCombatBehaviour>();
@@ -758,7 +757,6 @@ public class MainPlatformerController : PlatformerCharacterController
         base.Update();
         _pushable = FindPushables();
         _aimBehaviour.AimAngle = AimAngle;
-        CheckForEnemyUnderCharacter();
 
         var action =
             new PlatformerCharacterAction(
@@ -787,28 +785,6 @@ public class MainPlatformerController : PlatformerCharacterController
         {
             _roll = false;
         }
-    }
-
-    private void CheckForEnemyUnderCharacter()
-    {
-        var origin = transform.position;
-        origin.y += _enemyUnderOriginOffset;
-        var enemiesUnder = Physics2D.RaycastAll(origin, Vector2.down, _enemyUnderDetectionSize, _enemyUnderLayer);
-
-        for(var idx = 0; idx < enemiesUnder.Length; idx++)
-        {
-            var raycast = enemiesUnder[idx];
-            if (!raycast.collider.isTrigger && raycast.normal.y > 0.5f && raycast.distance > 0)
-            {
-                var character = raycast.collider.GetComponent<ICharacter>();
-                if(character != null)
-                {
-                    EnemyUnder = character;
-                    return;
-                }
-            }
-        }
-        EnemyUnder = null;
     }
 
     private Pushable FindPushables()
