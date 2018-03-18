@@ -1,4 +1,6 @@
-﻿using Assets.Standard_Assets._2D.Scripts.Controllers;
+﻿using Assets.Standard_Assets._2D.Scripts.Characters.Enemies;
+using Assets.Standard_Assets._2D.Scripts.Controllers;
+using Assets.Standard_Assets.Extensions;
 using GenericComponents.Controllers.Characters;
 using MathHelper;
 using System;
@@ -19,18 +21,21 @@ public enum MovementType
 [RequireComponent(typeof(LedgeChecker))]
 [RequireComponent(typeof(RoofChecker))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CharacterSpread))]
 public class PlatformerCharacterController : BasePlatformerController
 {
     private Vector3 _supportingPlatformPosition;
     private Transform _supportingPlatform;
+    private int EnemyLayer;
+    private int PlayerLayer;
 
-    private Transform SupportingPlatform
+    public Transform SupportingPlatform
     {
         get
         {
             return _supportingPlatform;
         }
-        set
+        private set
         {
             _supportingPlatform = value;
             if(_supportingPlatform != null)
@@ -110,7 +115,7 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         get
         {
-            return _isGrounded;
+            return _isGrounded && _supportingPlatform;
         }
         private set
         {
@@ -215,7 +220,7 @@ public class PlatformerCharacterController : BasePlatformerController
         }
     }
 
-    protected Vector2 DesiredMovementVelocity
+    public Vector2 DesiredMovementVelocity
     {
         get { return _desiredMovementVelocity; }
         set { _desiredMovementVelocity = value; }
@@ -226,6 +231,7 @@ public class PlatformerCharacterController : BasePlatformerController
 
     public CharacterController2D CharacterController2D { get { return _characterController2D; } }
     public MovementType MovementType { get; set; }
+    public CharacterSpread CharacterSpread { get; private set; }
 
     public PlatformerCharacterController()
     {
@@ -408,8 +414,11 @@ public class PlatformerCharacterController : BasePlatformerController
         _characterController2D = GetComponent<CharacterController2D>();
         _defaultGravity = gravity;
         _characterController2D.OnFrameAllControllerCollidedEvent += OnAllControllerCollidedEventHandler;
+        CharacterSpread = GetComponent<CharacterSpread>();
         VelocityMultiplier = Vector2.one;
-    }
+        EnemyLayer = LayerMask.NameToLayer(GameObjectExtensions.EnemyTag);
+        PlayerLayer = LayerMask.NameToLayer(GameObjectExtensions.PlayerTag);
+}
 
     protected virtual void Start()
     {
@@ -462,6 +471,29 @@ public class PlatformerCharacterController : BasePlatformerController
 
     }
 
+    //protected virtual void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (Velocity.y < 0)
+    //    {
+    //        var character = collision.gameObject.GetComponent<ICharacter>();
+    //        if (character != null)
+    //        {
+    //            var otherTransform = collision.gameObject.transform;
+    //            if(otherTransform.position.y < transform.position.y)
+    //            {
+    //                Debug.Log("enter");
+    //                var sign = Math.Sign(otherTransform.position.x - transform.position.x);
+    //                character.Push(new Vector2(sign * 120, 0.0f));
+    //            }
+    //        }
+    //    }
+    //}
+
+    //protected virtual void OnCollisionExit2D(Collision2D collision)
+    //{
+        
+    //}
+
     protected virtual void OnDestroy()
     {
         _characterController2D.OnFrameAllControllerCollidedEvent -= OnAllControllerCollidedEventHandler;
@@ -469,12 +501,18 @@ public class PlatformerCharacterController : BasePlatformerController
 
     private void ApplyMovement()
     {
-        //var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
+        var smoothedMovementFactor = _characterController2D.isGrounded ? groundDamping : inAirDamping; // how fast do we change direction?
         _desiredMovementVelocity.y += gravity * Time.deltaTime * VelocityMultiplier.y;
         var gravityForce = new Vector3(0, gravity * Time.deltaTime, 0);
 
-        var movement = _desiredMovementVelocity * Time.deltaTime;
-        movement = new Vector3(movement.x * VelocityMultiplier.x, movement.y * VelocityMultiplier.y, 0);
+        var targetMovement = _desiredMovementVelocity * Time.deltaTime;
+
+        if (!_characterController2D.isGrounded)
+        {
+            targetMovement.x = Mathf.Lerp(Velocity.x * Time.deltaTime, targetMovement.x, Time.deltaTime * smoothedMovementFactor);
+        }
+
+        var movement = new Vector3(targetMovement.x * VelocityMultiplier.x, targetMovement.y * VelocityMultiplier.y, 0);
 
         _characterController2D.move(
             movement + new Vector3(_impactMovement.x, _impactMovement.y, 0));
@@ -509,6 +547,11 @@ public class PlatformerCharacterController : BasePlatformerController
 
         foreach (var hit in hits)
         {
+            var hitLayer = hit.collider.gameObject.layer;
+            if(hitLayer == EnemyLayer || hitLayer == PlayerLayer)
+            {
+                continue;
+            }
             if (hit.normal.y > GroundContactMaxNormal)
             {
                 if(SupportingPlatform == hit.collider.transform)

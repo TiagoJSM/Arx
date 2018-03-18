@@ -11,6 +11,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         public float Move { get; private set; }
         public float Vertical { get; private set; }
         public bool Jump { get; private set; }
+        public bool JumpPress { get; private set; }
         public bool JumpOnLedge { get; private set; }
         public bool Roll { get; private set; }
         public AttackType AttackType { get; private set; }
@@ -27,6 +28,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             float move,
             float vertical,
             bool jump,
+            bool jumpPress,
             bool roll,
             AttackType attackType,
             bool releaseRope,
@@ -42,6 +44,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             Move = move;
             Vertical = vertical;
             Jump = jump;
+            JumpPress = jumpPress;
             Roll = roll;
             AttackType = attackType;
             ReleaseRope = releaseRope;

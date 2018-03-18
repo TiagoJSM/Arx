@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
+namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.EnemyOverlapStates
 {
-    public class LowKickState : BasePlatformerCharacterState
+    public class DashState : EnemyOverlapState
     {
         private float _move;
 
@@ -14,19 +14,19 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         {
             base.OnStateEnter(action);
             _move = action.Move;
-            StateController.StartLowKick();
+            StateController.StartDash();
         }
 
         public override void Perform(PlatformerCharacterAction action)
         {
             base.Perform(action);
-            StateController.LowKickMovement(_move);
+            StateController.Dash(_move);
         }
 
         public override void OnStateExit(PlatformerCharacterAction action)
         {
             base.OnStateExit(action);
-            StateController.StopLowKick();
+            StateController.EndDash();
         }
     }
 }

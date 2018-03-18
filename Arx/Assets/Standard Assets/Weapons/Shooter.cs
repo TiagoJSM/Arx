@@ -15,8 +15,6 @@ namespace Assets.Standard_Assets.Weapons
 
         [SerializeField]
         private float _cooldown = 1;
-        [SerializeField]
-        private int _damage = 10;
 
         public Projectile projectilePrefab;
 
@@ -60,7 +58,6 @@ namespace Assets.Standard_Assets.Weapons
             projectile.Direction = direction;
             projectile.Attacker = attacker;
             projectile.EnemyLayer = enemyLayer;
-            projectile.Damage = _damage;
             _lastShotTime = Time.time;
 
             return true;

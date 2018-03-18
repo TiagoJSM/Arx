@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
+namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.EnemyOverlapStates
 {
-    public class StingDashState : BasePlatformerCharacterState
+    public class StingDashState : EnemyOverlapState
     {
         private float _move;
 

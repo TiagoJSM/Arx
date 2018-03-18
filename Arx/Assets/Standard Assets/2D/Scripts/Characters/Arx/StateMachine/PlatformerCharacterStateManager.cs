@@ -1,5 +1,6 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.AttackedStates;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.ChainThrowStates;
+using Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.EnemyOverlapStates;
 using Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine.ThrowStates;
 using Assets.Standard_Assets.Scripts.StateMachine;
 using Assets.Standard_Assets.Weapons;
@@ -51,6 +52,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<FallingAimShootState>((c, a, t) => !c.IsGrounded && a.Aiming)
+                    .To<AirDashState>((c, a, t) => !c.IsGrounded && a.Roll && !c.CharacterStamina.IsTired)
                     .To<LightAirAttackState>((c, a, t) =>
                         a.AttackType == AttackType.Primary &&
                         c.WeaponType != null &&
@@ -60,6 +62,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                         a.AttackType == AttackType.Secundary &&
                         c.Attacking &&
                         c.WeaponType != null)
+                    .To<WallJumpState>((c, a, t) => !c.IsGrounded && c.WallJumpSide != 0.0f && a.JumpPress)
                     .To<FallingState>((c, a, t) => (c.VerticalSpeed < 0 && !c.IsGrounded) || c.CollidesAbove)
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<IddleState>((c, a, t) => c.IsGrounded && t > 0.5)
@@ -82,11 +85,13 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .WhenTransitionTo<SlidingDownState>((c, a) => c.OnLanded())
+                    .To<AirDashState>((c, a, t) => !c.IsGrounded && a.Roll && !c.CharacterStamina.IsTired)
                     .To<FallingAimShootState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && a.Aiming)
                     .To<LightAirAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.Attacking && c.WeaponType != null)
                     .To<StrongAirAttackState>((c, a, t) => 
                         a.AttackType == AttackType.Secundary && c.Attacking && c.WeaponType != null)
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
+                    .To<WallJumpState>((c, a, t) => !c.IsGrounded && c.WallJumpSide != 0.0f && a.JumpPress)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
                     .WhenTransitionTo<IddleState>((c, a) => c.OnLanded())
                     .To<MovingAimShootState>((c, a, t) => c.IsGrounded && a.Move != 0 && a.Aiming && c.ShootWeaponEquipped)
@@ -177,9 +182,13 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<DuckState>((c, a, t) => c.IsGrounded && !c.CanStand && t > dashDuration)
                     .To<FallingState>((c, a, t) => !c.IsGrounded && t > dashDuration)
-                    //.To<RollState>((c, a, t) => c.IsGrounded && a.Roll && t > dashDuration)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0 && t > dashDuration && c.CanStand)
                     .To<MovingState>((c, a, t) => c.IsGrounded && a.Move != 0 && t > dashDuration && c.CanStand);
+
+            this
+                .From<AirDashState>()
+                    .To<FallingState>((c, a, t) => !c.IsGrounded && t > dashDuration)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && t > dashDuration);
 
             this
                 .From<GroundAttackState>()
@@ -337,6 +346,11 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<RollState>((c, a, t) => c.IsGrounded && t > sprintJumpDuration)
                     .To<RopeGrabState>((c, a, t) => c.RopeFound)
                     .To<LadderGrabState>((c, a, t) => c.LadderFound && a.GrabLadder);
+
+            this
+                .From<WallJumpState>()
+                    .To<FallingState>((c, a, t) => !c.IsGrounded && t > 0.25f)
+                    .To<IddleState>((c, a, t) => c.IsGrounded && t > 0.25f);
         }
     }
 }

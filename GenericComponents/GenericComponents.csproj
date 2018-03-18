@@ -60,8 +60,6 @@
     <Compile Include="Behaviours\RopeRenderer.cs" />
     <Compile Include="Behaviours\SerializedScriptableObject.cs" />
     <Compile Include="Containers\PlatformerCharacterAnimations.cs" />
-    <Compile Include="Controllers\Characters\CharacterGrounding.cs" />
-    <Compile Include="Controllers\Characters\PlatformerCharacterController.cs" />
     <Compile Include="Controllers\Interaction\TemplateSpeechController.cs" />
     <Compile Include="Enums\AttackStyle.cs" />
     <Compile Include="Enums\AttackType.cs" />

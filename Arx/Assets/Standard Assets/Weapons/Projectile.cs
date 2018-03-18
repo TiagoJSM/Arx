@@ -85,15 +85,20 @@ namespace Assets.Standard_Assets.Weapons
                 return;
             }
             var character = other.gameObject.GetComponent<ICharacter>();
-            if(character == null)
+            if(character == null || character.InPain)
             {
                 return;
             }
-            character.Attacked(Attacker, Damage, this.transform.position, DamageType.Shoot);
-            if(_hitSound != null)
+            var damage = character.Attacked(Attacker, Damage, this.transform.position, DamageType.Shoot);
+            if(damage > 0)
             {
-                _hitSound.Play();
+                character.InPain = true;
+                if (_hitSound != null)
+                {
+                    _hitSound.Play();
+                }
             }
+            
             Destroy(this.gameObject, 1);
         }
     }
