@@ -12,7 +12,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
             StateController.StayStill();
-            StateController.DoGrabLedge();
+            StateController.LedgeGrab.DoGrabLedge();
+            //StateController.DoGrabLedge();
         }
 
         public override void Perform(PlatformerCharacterAction action)
@@ -21,13 +22,15 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             var drop = action.Vertical < 0;
             if (drop)
             {
-                StateController.DropLedge();
+                StateController.LedgeGrab.DropLedge();
+                //StateController.DropLedge();
             }
         }
 
         public override void OnStateExit(PlatformerCharacterAction action)
         {
-            StateController.DropLedge();
+            StateController.LedgeGrab.DropLedge();
+            //StateController.DropLedge();
         }
     }
 }

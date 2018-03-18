@@ -210,7 +210,7 @@ public class ArxAnimationController : MonoBehaviour
         HorizontalVelocity = _platformerController.HorizontalSpeed;
         VerticalVelocity = _platformerController.VerticalSpeed;
         Grounded = _platformerController.IsGrounded;
-        LedgeGrabbing = _platformerController.GrabbingLedge;
+        LedgeGrabbing = _platformerController.LedgeGrab.GrabbingLedge;
         ComboCount = _combatModule.ComboNumber;
         WeaponType = _combatModule.WeaponType;
         AttackType = _combatModule.AttackType;

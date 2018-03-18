@@ -18,7 +18,6 @@ public enum MovementType
 }
 
 [RequireComponent(typeof(CharacterController2D))]
-[RequireComponent(typeof(LedgeChecker))]
 [RequireComponent(typeof(RoofChecker))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CharacterSpread))]
@@ -35,7 +34,7 @@ public class PlatformerCharacterController : BasePlatformerController
         {
             return _supportingPlatform;
         }
-        private set
+        set
         {
             _supportingPlatform = value;
             if(_supportingPlatform != null)
@@ -46,7 +45,6 @@ public class PlatformerCharacterController : BasePlatformerController
     }
 
     private Collider2D _activePlatformCollider;
-    private bool _grabbingLedge = false;
     private Vector3 _desiredMovementVelocity;
     private float _defaultGravity;
     private bool _detectPlatform = true;
@@ -57,21 +55,15 @@ public class PlatformerCharacterController : BasePlatformerController
     private Vector2 _impactMovement;
     private float _pushStartTime;
 
-    private LedgeChecker _ledgeChecker;
     private RoofChecker _roofChecker;
     private Rigidbody2D _rigidBody;
     private CharacterController2D _characterController2D;
-    private Collider2D _detectedLedge;
-    private Collider2D _lastGrabbedLedge;
-    private bool _ledgeDetected;
     private bool _ducking;
 
     [SerializeField]
     private bool _constantVelocity = false;
     [SerializeField]
     private AudioSource _jumpSound;
-    [SerializeField]
-    private AudioSource _grabLedgeSound;
     [SerializeField]
     private ParticleSystem _runningParticles;
 
@@ -90,26 +82,6 @@ public class PlatformerCharacterController : BasePlatformerController
 
     public event Action OnGrounded;
     public event Action OnJump;
-
-    private bool DetectingPreviousGrabbedLedge
-    {
-        get
-        {
-            if (_lastGrabbedLedge == null)
-            {
-                return false;
-            }
-            return _lastGrabbedLedge == _detectedLedge;
-        }
-    }
-
-    public bool CanGrabLedge
-    {
-        get
-        {
-            return _ledgeDetected && !IsGrounded && !DetectingPreviousGrabbedLedge && !_grabbingLedge;
-        }
-    }
 
     public bool IsGrounded
     {
@@ -156,27 +128,11 @@ public class PlatformerCharacterController : BasePlatformerController
         }
     }
 
-    protected Rigidbody2D Body
-    {
-        get
-        {
-            return _rigidBody;
-        }
-    }
-
     public bool Ducking
     {
         get
         {
             return _ducking;
-        }
-    }
-
-    public bool GrabbingLedge
-    {
-        get
-        {
-            return _grabbingLedge;
         }
     }
 
@@ -239,40 +195,10 @@ public class PlatformerCharacterController : BasePlatformerController
         SteadyRotation = true;
         MovementType = MovementType.Run;
     }
-
-    public void LedgeDetected(bool detected, Collider2D ledgeCollider)
-    {
-        _ledgeDetected = detected;
-        if (!detected)
-        {
-            if (_grabbingLedge)
-            {
-                DropLedge();
-            }
-            _lastGrabbedLedge = null;
-            return;
-        }
-        _detectedLedge = ledgeCollider;
-    }
-
+    
     public void DoMove(float move)
     {
         DoMove(move, true);
-    }
-
-    public void DoGrabLedge()
-    {
-        if (_detectedLedge == null)
-        {
-            return;
-        }
-
-        _lastGrabbedLedge = _detectedLedge;
-        SupportingPlatform = _lastGrabbedLedge.gameObject.transform;
-        DesiredMovementVelocity = Vector2.zero;
-        gravity = 0;
-        _grabbingLedge = true;
-        _grabLedgeSound.Play();
     }
 
     public void JumpUp(float jumpRatio)
@@ -290,14 +216,7 @@ public class PlatformerCharacterController : BasePlatformerController
             OnJump();
         }
     }
-
-    public void DropLedge()
-    {
-        _grabbingLedge = false;
-        SupportingPlatform = null;
-        gravity = _defaultGravity;
-    }
-
+    
     public virtual void Duck()
     {
         _ducking = true;
@@ -409,7 +328,6 @@ public class PlatformerCharacterController : BasePlatformerController
     {
         base.Awake();
         _rigidBody = GetComponent<Rigidbody2D>();
-        _ledgeChecker = GetComponent<LedgeChecker>();
         _roofChecker = GetComponent<RoofChecker>();
         _characterController2D = GetComponent<CharacterController2D>();
         _defaultGravity = gravity;
@@ -441,9 +359,6 @@ public class PlatformerCharacterController : BasePlatformerController
         {
             ApplyMovement();
         }
-        Collider2D collider;
-        var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
-        LedgeDetected(ledgeDetected, collider);
 
         IsGrounded = _characterController2D.isGrounded;
         CanStand = !_roofChecker.IsTouchingRoof;
@@ -470,30 +385,7 @@ public class PlatformerCharacterController : BasePlatformerController
     {
 
     }
-
-    //protected virtual void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (Velocity.y < 0)
-    //    {
-    //        var character = collision.gameObject.GetComponent<ICharacter>();
-    //        if (character != null)
-    //        {
-    //            var otherTransform = collision.gameObject.transform;
-    //            if(otherTransform.position.y < transform.position.y)
-    //            {
-    //                Debug.Log("enter");
-    //                var sign = Math.Sign(otherTransform.position.x - transform.position.x);
-    //                character.Push(new Vector2(sign * 120, 0.0f));
-    //            }
-    //        }
-    //    }
-    //}
-
-    //protected virtual void OnCollisionExit2D(Collision2D collision)
-    //{
-        
-    //}
-
+    
     protected virtual void OnDestroy()
     {
         _characterController2D.OnFrameAllControllerCollidedEvent -= OnAllControllerCollidedEventHandler;

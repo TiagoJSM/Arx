@@ -209,6 +209,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractiveDialog.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractiveDialogComponent.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\LadderMovement.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\LedgeGrab.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\RopeMovement.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\SpeakersAttribute.cs" />

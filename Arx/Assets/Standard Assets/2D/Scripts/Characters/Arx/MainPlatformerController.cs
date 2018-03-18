@@ -44,6 +44,7 @@ public enum LaunchWeaponType
 [RequireComponent(typeof(ChainThrowCombatBehaviour))]
 [RequireComponent(typeof(CharacterStamina))]
 [RequireComponent(typeof(SprintCombatBehaviour))]
+[RequireComponent(typeof(LedgeGrab))]
 public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
@@ -278,6 +279,9 @@ public class MainPlatformerController : PlatformerCharacterController
             return !CharacterController2D.SlidingDown ? WallCollisionSide : 0.0f;
         }
     }
+    public LedgeGrab LedgeGrab { get; private set; }
+    public bool GrabbingLedge { get { return LedgeGrab.GrabbingLedge; } }
+    public bool CanGrabLedge { get { return LedgeGrab.CanGrabLedge; } }
 
     public void Move(
         float move, 
@@ -782,6 +786,7 @@ public class MainPlatformerController : PlatformerCharacterController
         ShooterCombat = GetComponent<ShooterCombatBehaviour>();
         CharacterStamina = GetComponent<CharacterStamina>();
         _sprintCombat = GetComponent<SprintCombatBehaviour>();
+        LedgeGrab = GetComponent<LedgeGrab>();
         _aimBehaviour.enabled = false;
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration, _lowKickDuration, _stingDashDuration, _sprintJumpDuration, _dashDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
