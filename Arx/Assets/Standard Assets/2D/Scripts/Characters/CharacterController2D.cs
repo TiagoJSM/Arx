@@ -749,6 +749,10 @@ public class CharacterController2D : MonoBehaviour
             {
                 continue;
             }
+            if(_raycastHitBuffer[idx].collider.gameObject == this.gameObject)
+            {
+                continue;
+            }
 
             return _raycastHitBuffer[idx];
         }

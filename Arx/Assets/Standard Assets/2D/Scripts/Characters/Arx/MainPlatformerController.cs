@@ -44,12 +44,13 @@ public enum LaunchWeaponType
 [RequireComponent(typeof(ChainThrowCombatBehaviour))]
 [RequireComponent(typeof(CharacterStamina))]
 [RequireComponent(typeof(SprintCombatBehaviour))]
+[RequireComponent(typeof(LedgeGrab))]
+[RequireComponent(typeof(WallJumpDetector))]
 public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
     private LadderMovement _ladderMovement;
     private MainCharacterNotification _notifications;
-    private CombatHitEffects _hitEffects;
     private RopeMovement _ropeMovement;
     private MaterialFootstepPlayer _footstepPlayer;
     private AimBehaviour _aimBehaviour;
@@ -61,11 +62,14 @@ public class MainPlatformerController : PlatformerCharacterController
     private Pushable _pushable;
     private Vector3? _safeSpot;
     private LadderFinder _ladderFinder;
+    private WallJumpDetector _wallJumpDetector;
     private Coroutine _flashRoutine;
     private float _defaultMinYVelocity;
     private bool _canSlowGravityForAirAttack = true;
     private bool _changeVelocityMultiplierOnCombatFinish = true;
     private GrappledCharacter _previouslyGrappledCharacter;
+    private LayerMask _defaultLayerMask;
+    private bool _requiresLayerMaskUpdate;
 
     [SerializeField]
     private float _rollingDuration = 1;
@@ -76,15 +80,19 @@ public class MainPlatformerController : PlatformerCharacterController
     [SerializeField]
     private float _grappleRopeGrabHeightOffset = -6;
     [SerializeField]
+    private float _groundAttackVelocity = 0.75f;
+    [SerializeField]
+    private GameObject[] _flashingObjects;
+    [SerializeField]
+    private float _lightAirAttackGravitySlowDownTime = 4.0f;
+    [Header("Object push")]
+    [SerializeField]
     private float _objectPushForce = 1;
     [SerializeField]
     private Transform _pushableAreaP1;
     [SerializeField]
     private Transform _pushableAreaP2;
-    [SerializeField]
-    private float _groundAttackVelocity = 0.75f;
-    [SerializeField]
-    private GameObject[] _flashingObjects;
+    [Header("Audios")]
     [SerializeField]
     private AudioSource _slamAttackAir;
     [SerializeField]
@@ -94,11 +102,13 @@ public class MainPlatformerController : PlatformerCharacterController
     [SerializeField]
     private AudioSource _rollSound;
     [SerializeField]
-    private float _lightAirAttackGravitySlowDownTime = 4.0f;
+    private AudioSource _dashSound;
+    [Header("Throw")]
     [SerializeField]
     private float _minThrowForce = 20.0f;
     [SerializeField]
     private float _maxThrowForce = 60.0f;
+    [Header("Sprint")]
     [SerializeField]
     private float _lowKickDuration = 1;
     [SerializeField]
@@ -111,16 +121,24 @@ public class MainPlatformerController : PlatformerCharacterController
     private float _sprintJumpDuration = 1;
     [SerializeField]
     private float _sprintJumpSpeed = 30;
+    [Header("Dash")]
     [SerializeField]
-    private float _enemyUnderDetectionSize = 2;
+    private float _dashDuration = 1;
     [SerializeField]
-    private float _enemyUnderOriginOffset = 1;
+    private float _dashSpeed = 36;
     [SerializeField]
-    private LayerMask _enemyUnderLayer;
+    private float _dashStaminaConsumption = 3;
+    [Header("Layer masks")]
+    [SerializeField]
+    private LayerMask _enemyMask = 0;
+    [Header("Wall Jump")]
+    [SerializeField]
+    private float _wallJumpHorizontal = 80;
 
     private float _move;
     private float _vertical;
     private bool _jump;
+    private bool _jumpPress;
     private bool _roll;
     private bool _rollAfterAttack;
     private bool _releaseRope;
@@ -241,12 +259,38 @@ public class MainPlatformerController : PlatformerCharacterController
     public bool LowKicking { get; private set; }
     public bool StingDash { get; private set; }
     public bool SprintJump { get; private set; }
-    public ICharacter EnemyUnder { get; private set; }
+    public bool Dashing { get; private set; }
+    public CombatHitEffects HitEffects { get; private set; }
+    public bool ReadyToWallJump { get; private set; }
+    public float WallCollisionSide
+    {
+        get
+        {
+            var canWallJump = _wallJumpDetector.WallDetected();
+            if (canWallJump)
+            {
+                return Direction.DirectionValue();
+            }
+            return 0.0f;
+        }
+    }
+    public float WallJumpSide
+    {
+        get
+        {
+            return !CharacterController2D.SlidingDown ? WallCollisionSide : 0.0f;
+        }
+    }
+    public LedgeGrab LedgeGrab { get; private set; }
+    public bool GrabbingLedge { get { return LedgeGrab.GrabbingLedge; } }
+    public bool CanGrabLedge { get { return LedgeGrab.CanGrabLedge; } }
+    public bool WallDragging { get; private set; }
 
     public void Move(
         float move, 
         float vertical, 
         bool jump, 
+        bool jumpPress,
         bool roll, 
         bool releaseRope, 
         bool aiming, 
@@ -257,6 +301,7 @@ public class MainPlatformerController : PlatformerCharacterController
         _move = move;
         _vertical = vertical;
         _jump = jump;
+        _jumpPress = jumpPress;
         _releaseRope = releaseRope;
         _aiming = aiming;
         _jumpOnLedge = jumpOnLedge;
@@ -366,6 +411,7 @@ public class MainPlatformerController : PlatformerCharacterController
         VelocityMultiplier = new Vector3(VelocityMultiplier.x, VelocityMultiplier.y * 4f);
         _combatModule.StartDiveAttack();
         _slamAttackAir.Play();
+        CharacterSpread.enabled = false;
     }
 
     public void StopAirSlash()
@@ -376,6 +422,7 @@ public class MainPlatformerController : PlatformerCharacterController
         Attacking = false;
         _combatModule.EndDiveAttack();
         OnCombatFinishHandler();
+        CharacterSpread.enabled = false;
     }
 
     public void GrabRope()
@@ -509,7 +556,7 @@ public class MainPlatformerController : PlatformerCharacterController
         var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType, comboNumber);
         if (damageTaken > 0)
         {
-            _hitEffects.HitByEnemy();
+            HitEffects.HitByEnemy();
             AttackedThisFrame = true;
             HitPointThisFrame = hitPoint;
             if (HitPointThisFrame == null)
@@ -693,6 +740,53 @@ public class MainPlatformerController : PlatformerCharacterController
         VelocityMultiplier = Vector2.one;
     }
 
+    public void StartDash()
+    {
+        Dashing = true;
+        CharacterStamina.ConsumeStaminaInstant(_dashStaminaConsumption);
+        _dashSound.Play();
+    }
+
+    public void Dash(float move)
+    {
+        var direction = DirectionOfMovement(move, Direction);
+        DoMove(DirectionValue(direction), _stingDashSpeed, true);
+    }
+
+    public void EndDash()
+    {
+        Dashing = false;
+    }
+
+    public void WallJump(float move)
+    {
+        DoMove(move, _wallJumpHorizontal, true);
+    }
+
+    public void StartOverlapEnemies()
+    {
+        CharacterController2D.platformMask = _defaultLayerMask & ~_enemyMask;
+    }
+
+    public void EndOverlapEnemies()
+    {
+        _requiresLayerMaskUpdate = true;
+    }
+
+    public void StartWallDrag()
+    {
+        gravity = -20.0f;
+        CharacterController2D.MinYVelocity = -30f;
+        WallDragging = true;
+    }
+
+    public void EndWallDrag()
+    {
+        gravity = DefaultGravity;
+        CharacterController2D.MinYVelocity = _defaultMinYVelocity;
+        WallDragging = false;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -701,7 +795,7 @@ public class MainPlatformerController : PlatformerCharacterController
         _ropeMovement = GetComponent<RopeMovement>();
         _ladderFinder = GetComponent<LadderFinder>();
         _notifications = GetComponent<MainCharacterNotification>();
-        _hitEffects = GetComponent<CombatHitEffects>();
+        HitEffects = GetComponent<CombatHitEffects>();
         _footstepPlayer = GetComponent<MaterialFootstepPlayer>();
         _aimBehaviour = GetComponent<AimBehaviour>();
         ThrowCombatBehaviour = GetComponent<ThrowCombatBehaviour>();
@@ -709,8 +803,10 @@ public class MainPlatformerController : PlatformerCharacterController
         ShooterCombat = GetComponent<ShooterCombatBehaviour>();
         CharacterStamina = GetComponent<CharacterStamina>();
         _sprintCombat = GetComponent<SprintCombatBehaviour>();
+        LedgeGrab = GetComponent<LedgeGrab>();
+        _wallJumpDetector = GetComponent<WallJumpDetector>();
         _aimBehaviour.enabled = false;
-        _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration, _lowKickDuration, _stingDashDuration, _sprintJumpDuration);
+        _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration, _lowKickDuration, _stingDashDuration, _sprintJumpDuration, _dashDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
         _combatModule.OnAttackStart += OnAttackStartHandler;
         _combatModule.OnCombatFinish += OnCombatFinishHandler;
@@ -721,6 +817,8 @@ public class MainPlatformerController : PlatformerCharacterController
         _defaultMinYVelocity = CharacterController2D.MinYVelocity;
 
         LaunchWeaponEquipped = LaunchWeaponType.ChainThrow;
+        ReadyToWallJump = true;
+        _defaultLayerMask = CharacterController2D.platformMask;
     }
 
     protected override void Start()
@@ -732,19 +830,22 @@ public class MainPlatformerController : PlatformerCharacterController
     protected override void Update()
     {
         base.Update();
+
         _pushable = FindPushables();
         _aimBehaviour.AimAngle = AimAngle;
-        CheckForEnemyUnderCharacter();
+
+        LedgeGrab.DoUpdate();
 
         var action =
             new PlatformerCharacterAction(
-                _move, _vertical, _jump, _roll, _attackAction,
+                _move, _vertical, _jump, _jumpPress, _roll, _attackAction,
                 _releaseRope, _aiming, _shoot, _throw, _grabLadder,
                 _jumpOnLedge, _rollAfterAttack, _sprint, _attack);
         _stateManager.Perform(action);
         _move = 0;
         _vertical = 0;
         _jump = false;
+        _jumpPress = false;
         _aiming = false;
         _shoot = false;
         _throw = false;
@@ -763,28 +864,11 @@ public class MainPlatformerController : PlatformerCharacterController
         {
             _roll = false;
         }
-    }
-
-    private void CheckForEnemyUnderCharacter()
-    {
-        var origin = transform.position;
-        origin.y += _enemyUnderOriginOffset;
-        var enemiesUnder = Physics2D.RaycastAll(origin, Vector2.down, _enemyUnderDetectionSize, _enemyUnderLayer);
-
-        for(var idx = 0; idx < enemiesUnder.Length; idx++)
+        if (_requiresLayerMaskUpdate && _collidingWithEnemies == 0)
         {
-            var raycast = enemiesUnder[idx];
-            if (!raycast.collider.isTrigger && raycast.normal.y > 0.5f && raycast.distance > 0)
-            {
-                var character = raycast.collider.GetComponent<ICharacter>();
-                if(character != null)
-                {
-                    EnemyUnder = character;
-                    return;
-                }
-            }
+            CharacterController2D.platformMask = _defaultLayerMask;
+            _requiresLayerMaskUpdate = false;
         }
-        EnemyUnder = null;
     }
 
     private Pushable FindPushables()
@@ -806,7 +890,11 @@ public class MainPlatformerController : PlatformerCharacterController
 
     private void OnAttackStartHandler(AttackType attackType, AttackStyle attackStyle, int combo)
     {
-        _attackShouts.PlayRandom();
+        var random = UnityEngine.Random.value;
+        if (random > 0.5f)
+        {
+            _attackShouts.PlayRandom();
+        }
         if (attackStyle == AttackStyle.Ground)
         {
             var x = attackType == AttackType.Primary ? _groundAttackVelocity : 0;
@@ -869,13 +957,22 @@ public class MainPlatformerController : PlatformerCharacterController
         _previouslyGrappledCharacter = grappledCharacter;
     }
 
-    private void OnDrawGizmos()
+    private int _collidingWithEnemies;
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
-        Gizmos.color = Color.green;
-        var origin = transform.position;
-        origin.y += _enemyUnderOriginOffset;
-        var target = origin;
-        target.y -= _enemyUnderDetectionSize;
-        Gizmos.DrawLine(origin, target);
+        //base.OnCollisionEnter2D(collision);
+        if(collision.gameObject.GetLayerMask() == _enemyMask)
+        {
+            _collidingWithEnemies++;
+        }
+    }
+
+    protected void OnCollisionExit2D(Collision2D collision)
+    {
+        //base.OnCollisionExit2D(collision);
+        if (collision.gameObject.GetLayerMask() == _enemyMask)
+        {
+            _collidingWithEnemies--;
+        }
     }
 }

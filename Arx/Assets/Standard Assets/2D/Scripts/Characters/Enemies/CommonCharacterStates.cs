@@ -18,8 +18,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
 
         void DoMove(float move);
         void DoMove(float move, bool setDirectionToMovement);
+        void DoMove(float move, float speed, bool setDirectionToMovement);
         void StayStill();
         void Die();
+        void Push(Vector2 force);
     }
 
     public class StateAction

@@ -43,6 +43,9 @@ public class ArxAnimationController : MonoBehaviour
     private readonly int LowKicking = Animator.StringToHash("Low Kicking");
     private readonly int StingDash = Animator.StringToHash("Sting Dash");
     private readonly int SprintJump = Animator.StringToHash("Sprint Jump");
+    private readonly int Dash = Animator.StringToHash("Dash");
+    private readonly int Pushing = Animator.StringToHash("Pushing");
+    private readonly int WallDrag = Animator.StringToHash("Wall Drag");
 
     private float _previousVerticalVelocity = 0;
 
@@ -208,7 +211,7 @@ public class ArxAnimationController : MonoBehaviour
         HorizontalVelocity = _platformerController.HorizontalSpeed;
         VerticalVelocity = _platformerController.VerticalSpeed;
         Grounded = _platformerController.IsGrounded;
-        LedgeGrabbing = _platformerController.GrabbingLedge;
+        LedgeGrabbing = _platformerController.LedgeGrab.GrabbingLedge;
         ComboCount = _combatModule.ComboNumber;
         WeaponType = _combatModule.WeaponType;
         AttackType = _combatModule.AttackType;
@@ -227,6 +230,9 @@ public class ArxAnimationController : MonoBehaviour
         _animator.SetBool(LowKicking, _platformerController.LowKicking);
         _animator.SetBool(StingDash, _platformerController.StingDash);
         _animator.SetBool(SprintJump, _platformerController.SprintJump);
+        _animator.SetBool(Dash, _platformerController.Dashing);
+        _animator.SetBool(Pushing, _platformerController.Pushable != null);
+        _animator.SetBool(WallDrag, _platformerController.WallDragging);
 
         var currentState = _animator.GetCurrentAnimatorStateInfo(0);
         if (_animator.GetCurrentAnimatorClipInfo(0).Length > 0)

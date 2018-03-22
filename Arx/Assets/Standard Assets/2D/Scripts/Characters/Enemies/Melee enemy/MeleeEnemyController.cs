@@ -89,7 +89,11 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
 
     public void OrderAttack()
     {
-        _speakSounds.PlayRandom();
+        var random = UnityEngine.Random.value;
+        if (random > 0.8f)
+        {
+            _speakSounds.PlayRandom();
+        }
         _combatModule.PrimaryAttack();
     }
 
@@ -103,22 +107,11 @@ public class MeleeEnemyController : PlatformerCharacterController, Character
         {
             _death.Play();
         }
-        ;
+        
         var angle = Vector2.Angle(CharacterController2D.SlopeNormal, Vector2.up);
         var euler = transform.rotation.eulerAngles;
         SteadyRotation = false;
         transform.rotation = Quaternion.Euler(euler.x, euler.y, -angle);
-    }
-
-    public override int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1, bool showDamaged = false)
-    {
-        var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType, comboNumber, showDamaged);
-        if (_death != null)
-        {
-            _death.Play();
-        }
-
-        return damageTaken;
     }
 
     protected override void Awake()

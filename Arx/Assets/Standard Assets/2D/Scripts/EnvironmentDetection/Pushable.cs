@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Standard_Assets.Extensions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,9 +43,9 @@ namespace Assets.Standard_Assets._2D.Scripts.EnvironmentDetection
             {
                 if (_coroutinePaused)
                 {
-                    _dragSound.Pause();
+                    yield return _dragSound.FadeOut(0.2f);
                     yield return new WaitWhile(() => _coroutinePaused);
-                    _dragSound.UnPause();
+                    yield return _dragSound.FadeIn(0.2f);
                 }
                 yield return null;
             }

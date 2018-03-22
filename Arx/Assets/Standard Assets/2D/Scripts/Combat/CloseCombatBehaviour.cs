@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-[RequireComponent(typeof(CombatHitEffects))]
 public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapon>
 {
     private AttackType _executedAttackType;
@@ -19,6 +18,7 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
 
     private List<ICharacter> _charactersAttackedOnDive;
     private Coroutine _diveAttackDetector;
+    [SerializeField]
     private CombatHitEffects _combatHitEffects;
 
     [SerializeField]
@@ -35,6 +35,8 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     private LayerMask _enemyLayer;
     [SerializeField]
     private AudioSource[] _hitSounds;
+    [SerializeField]
+    private Transform _hitParticlePosition;
 
     public event Action OnEnterCombatState;
     public event Action<AttackType, AttackStyle, int> OnAttackStart;
@@ -48,7 +50,6 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
 
     void Awake()
     {
-        _combatHitEffects = GetComponent<CombatHitEffects>();
         this.enabled = false;
     }
 
@@ -71,13 +72,20 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
         {
             _hitSounds.PlayRandom();
             Weapon.LightAttack(ComboNumber, enemiesInRange, this.gameObject);
-            _combatHitEffects.EnemyHit();
+            if (_combatHitEffects != null)
+            {
+                _combatHitEffects.EnemyHit();
+                _combatHitEffects.ShowHitParticle(_hitParticlePosition.position);
+            }
             RaiseOnHit();
         }
         else if (_executedAttackType == AttackType.Secundary)
         {
             Weapon.StrongAttack(ComboNumber, enemiesInRange, this.gameObject);
-            _combatHitEffects.EnemyStrongHit();
+            if (_combatHitEffects != null)
+            {
+                _combatHitEffects.EnemyStrongHit();
+            }
             RaiseOnHit();
         }
     }

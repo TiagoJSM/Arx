@@ -125,6 +125,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\MainCharacterNotification.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\MainPlatformerCharacterUserControl.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\MainPlatformerController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\EnemyOverlapStates\AirDashState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\AttackedStates\AttackedOnAirState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\AttackedStates\AttackedOnGrabbingState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\AttackedStates\AttackedOnGroundState.cs" />
@@ -135,7 +136,9 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ChainThrowStates\ThrowChainState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ChargeAttackState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\DamagedAndMovedState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\EnemyOverlapStates\DashState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\DuckState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\EnemyOverlapStates\EnemyOverlapState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\FallingAimShootState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\FallingState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\GhostJumpFallingState.cs" />
@@ -147,7 +150,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\LadderGrabState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\LightAirAttackState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\LightGroundAttackState.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\LowKickState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\EnemyOverlapStates\LowKickState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\MovingAimShootState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\MovingState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\PlatformerCharacterAction.cs" />
@@ -158,7 +161,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\RopeGrabState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\SlidingDownState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\SprintJumpState.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\StingDashState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\EnemyOverlapStates\StingDashState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\StrongAirAttackState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\StrongGroundAttackState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\AimingState.cs" />
@@ -168,6 +171,8 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\StandingState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ThrowState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ThrowStates\MovingAimThrowState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\WallDragState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\WallJumpState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\UiController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterController2D.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterFinder.cs" />
@@ -197,6 +202,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\ThrowCombatBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Constants\Tags.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\CharacterSpread.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\EquipmentController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\GrappledCharacter.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractibleCharacterController.cs" />
@@ -204,9 +210,11 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractiveDialog.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\InteractiveDialogComponent.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\LadderMovement.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\LedgeGrab.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\RopeMovement.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\SpeakersAttribute.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WallJumpDetector.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\DebugTrigger.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\DummyCharacter.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\ContactDetector.cs" />
@@ -285,6 +293,7 @@
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\CharacterStatus.cs" />
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\Health.cs" />
     <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\ICharacterAware.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\CharacterBehaviour\LowLife.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Alarm Bot\Scripts\AlarmBotAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Alarm Bot\Scripts\AlarmBotAnimator.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Alarm Bot\Scripts\AlarmBotSounds.cs" />

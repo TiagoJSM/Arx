@@ -23,6 +23,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         private float _strongShakeDuration = 0.3f;
         [SerializeField]
         private float _longSlowDownTime = 0.2f;
+        [SerializeField]
+        private GameObject _hitParticle;
 
         public void EnemyHit()
         {
@@ -40,6 +42,13 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         {
             ShakeCamera(_strongShakeAmount, _strongShakeDuration);
             StartCoroutine(SlowDownTime(_longSlowDownTime, 0.3f));
+        }
+
+        public void ShowHitParticle(Vector3 position, float positionVariation = 2f)
+        {
+            Vector3 variation = UnityEngine.Random.insideUnitCircle* positionVariation;
+            var instantiated = Instantiate(_hitParticle, position + variation, Quaternion.identity);
+            Destroy(instantiated, 1.0f);
         }
 
         private void ShakeCamera(float shakeAmount, float shakeDuration)

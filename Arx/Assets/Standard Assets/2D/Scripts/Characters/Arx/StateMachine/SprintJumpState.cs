@@ -15,6 +15,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
             _move = action.Move;
+            StateController.MovementType = MovementType.Sprint;
             StateController.StartSprintJump();
         }
 
@@ -25,12 +26,14 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
             {
                 StateController.JumpUp(0.3f);
             }
+            StateController.DoMove(action.Move);
             StateController.SprintJumpMovement(_move);
         }
 
         public override void OnStateExit(PlatformerCharacterAction action)
         {
             base.OnStateExit(action);
+            StateController.MovementType = MovementType.Run;
             StateController.StopSprintJump();
         }
     }
