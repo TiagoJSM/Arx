@@ -45,6 +45,7 @@ public enum LaunchWeaponType
 [RequireComponent(typeof(CharacterStamina))]
 [RequireComponent(typeof(SprintCombatBehaviour))]
 [RequireComponent(typeof(LedgeGrab))]
+[RequireComponent(typeof(WallJumpDetector))]
 public class MainPlatformerController : PlatformerCharacterController
 {
     private CombatModule _combatModule;
@@ -61,6 +62,7 @@ public class MainPlatformerController : PlatformerCharacterController
     private Pushable _pushable;
     private Vector3? _safeSpot;
     private LadderFinder _ladderFinder;
+    private WallJumpDetector _wallJumpDetector;
     private Coroutine _flashRoutine;
     private float _defaultMinYVelocity;
     private bool _canSlowGravityForAirAttack = true;
@@ -264,12 +266,12 @@ public class MainPlatformerController : PlatformerCharacterController
     {
         get
         {
-            var collisionState = CharacterController2D.collisionState;
-            if (collisionState.right)
+            var canWallJump = _wallJumpDetector.WallDetected();
+            if (canWallJump)
             {
-                return 1.0f;
+                return Direction.DirectionValue();
             }
-            return collisionState.left ? -1.0f : 0.0f;
+            return 0.0f;
         }
     }
     public float WallJumpSide
@@ -282,6 +284,7 @@ public class MainPlatformerController : PlatformerCharacterController
     public LedgeGrab LedgeGrab { get; private set; }
     public bool GrabbingLedge { get { return LedgeGrab.GrabbingLedge; } }
     public bool CanGrabLedge { get { return LedgeGrab.CanGrabLedge; } }
+    public bool WallDragging { get; private set; }
 
     public void Move(
         float move, 
@@ -770,6 +773,20 @@ public class MainPlatformerController : PlatformerCharacterController
         _requiresLayerMaskUpdate = true;
     }
 
+    public void StartWallDrag()
+    {
+        gravity = -20.0f;
+        CharacterController2D.MinYVelocity = -30f;
+        WallDragging = true;
+    }
+
+    public void EndWallDrag()
+    {
+        gravity = DefaultGravity;
+        CharacterController2D.MinYVelocity = _defaultMinYVelocity;
+        WallDragging = false;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -787,6 +804,7 @@ public class MainPlatformerController : PlatformerCharacterController
         CharacterStamina = GetComponent<CharacterStamina>();
         _sprintCombat = GetComponent<SprintCombatBehaviour>();
         LedgeGrab = GetComponent<LedgeGrab>();
+        _wallJumpDetector = GetComponent<WallJumpDetector>();
         _aimBehaviour.enabled = false;
         _stateManager = new PlatformerCharacterStateManager(this, _rollingDuration, _lowKickDuration, _stingDashDuration, _sprintJumpDuration, _dashDuration);
         _combatModule.OnEnterCombatState += OnEnterCombatStateHandler;
@@ -815,6 +833,8 @@ public class MainPlatformerController : PlatformerCharacterController
 
         _pushable = FindPushables();
         _aimBehaviour.AimAngle = AimAngle;
+
+        LedgeGrab.DoUpdate();
 
         var action =
             new PlatformerCharacterAction(

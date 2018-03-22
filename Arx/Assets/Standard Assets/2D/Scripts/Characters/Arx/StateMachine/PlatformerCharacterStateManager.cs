@@ -85,6 +85,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .WhenTransitionTo<SlidingDownState>((c, a) => c.OnLanded())
+                    .To<WallDragState>((c, a, t) => c.WallJumpSide != 0.0f)
                     .To<AirDashState>((c, a, t) => !c.IsGrounded && a.Roll && !c.CharacterStamina.IsTired)
                     .To<FallingAimShootState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && a.Aiming)
                     .To<LightAirAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.Attacking && c.WeaponType != null)
@@ -341,6 +342,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                 .From<SprintJumpState>()
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .To<WallJumpState>((c, a, t) => !c.IsGrounded && c.WallJumpSide != 0.0f && a.JumpPress)
                     .To<FallingState>((c, a, t) => (!c.IsGrounded && t > sprintJumpDuration) || c.CollidesAbove)
                     .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<RollState>((c, a, t) => c.IsGrounded && t > sprintJumpDuration)
@@ -351,6 +353,14 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                 .From<WallJumpState>()
                     .To<FallingState>((c, a, t) => !c.IsGrounded && t > 0.25f)
                     .To<IddleState>((c, a, t) => c.IsGrounded && t > 0.25f);
+
+            this
+                .From<WallDragState>()
+                    .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
+                    .To<SlidingDownState>((c, a, t) => c.SlidingDown)
+                    .To<FallingState>((c, a, t) => !c.IsGrounded && c.WallJumpSide == 0.0f)
+                    .To<IddleState>((c, a, t) => c.IsGrounded)
+                    .To<WallJumpState>((c, a, t) => !c.IsGrounded && c.WallJumpSide != 0.0f && a.JumpPress);
         }
     }
 }

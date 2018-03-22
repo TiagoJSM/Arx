@@ -46,7 +46,6 @@ public class PlatformerCharacterController : BasePlatformerController
 
     private Collider2D _activePlatformCollider;
     private Vector3 _desiredMovementVelocity;
-    private float _defaultGravity;
     private bool _detectPlatform = true;
     private bool _applyMovementAndGravity;
     private bool _isGrounded;
@@ -188,6 +187,7 @@ public class PlatformerCharacterController : BasePlatformerController
     public CharacterController2D CharacterController2D { get { return _characterController2D; } }
     public MovementType MovementType { get; set; }
     public CharacterSpread CharacterSpread { get; private set; }
+    public float DefaultGravity { get; private set; }
 
     public PlatformerCharacterController()
     {
@@ -330,7 +330,7 @@ public class PlatformerCharacterController : BasePlatformerController
         _rigidBody = GetComponent<Rigidbody2D>();
         _roofChecker = GetComponent<RoofChecker>();
         _characterController2D = GetComponent<CharacterController2D>();
-        _defaultGravity = gravity;
+        DefaultGravity = gravity;
         _characterController2D.OnFrameAllControllerCollidedEvent += OnAllControllerCollidedEventHandler;
         CharacterSpread = GetComponent<CharacterSpread>();
         VelocityMultiplier = Vector2.one;

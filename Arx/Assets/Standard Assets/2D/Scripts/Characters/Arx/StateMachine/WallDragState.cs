@@ -3,38 +3,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
 {
-    public class SprintJumpState : StandingState
+    public class WallDragState : BasePlatformerCharacterState
     {
-        private const float MaxJumpTime = 0.2f;
-
-        private float _move;
+        private float _gravity;
+        private float _minYVelocity;
 
         public override void OnStateEnter(PlatformerCharacterAction action)
         {
-            _move = action.Move;
-            StateController.MovementType = MovementType.Sprint;
-            StateController.StartSprintJump();
+            base.OnStateEnter(action);
+            StateController.StartWallDrag();
         }
 
         public override void Perform(PlatformerCharacterAction action)
         {
             base.Perform(action);
-            if (TimeInState < 0.5)
-            {
-                StateController.JumpUp(0.3f);
-            }
             StateController.DoMove(action.Move);
-            StateController.SprintJumpMovement(_move);
         }
 
         public override void OnStateExit(PlatformerCharacterAction action)
         {
-            base.OnStateExit(action);
-            StateController.MovementType = MovementType.Run;
-            StateController.StopSprintJump();
+            base.OnStateEnter(action);
+            StateController.EndWallDrag();
         }
     }
 }

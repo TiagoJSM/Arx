@@ -16,6 +16,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         private Collider2D _detectedLedge;
         private Collider2D _lastGrabbedLedge;
         private bool _ledgeDetected;
+        private float _defaultGravity;
 
         [SerializeField]
         private AudioSource _grabLedgeSound;
@@ -57,6 +58,14 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             }
         }
 
+        public void DoUpdate()
+        {
+            Collider2D collider;
+            Vector3 pos;
+            var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider, out pos);
+            LedgeDetected(ledgeDetected, collider);
+        }
+
         public void DoGrabLedge()
         {
             if (_detectedLedge == null)
@@ -68,6 +77,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             _platformerCharacter.SupportingPlatform = _lastGrabbedLedge.gameObject.transform;
             _platformerCharacter.DesiredMovementVelocity = Vector2.zero;
             _platformerCharacter.ApplyMovementAndGravity = false;
+            _platformerCharacter.CharacterController2D.velocity = Vector2.zero;
+            //_platformerCharacter.gravity = 0;
             //gravity = 0;
             GrabbingLedge = true;
             _grabLedgeSound.Play();
@@ -78,6 +89,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             GrabbingLedge = false;
             _platformerCharacter.SupportingPlatform = null;
             _platformerCharacter.ApplyMovementAndGravity = true;
+            //_platformerCharacter.gravity = _defaultGravity;
             //gravity = _defaultGravity;
         }
 
@@ -85,13 +97,15 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         {
             _platformerCharacter = GetComponent<PlatformerCharacterController>();
             _ledgeChecker = GetComponent<LedgeChecker>();
+            _defaultGravity = _platformerCharacter.gravity;
         }
 
-        private void Update()
-        {
-            Collider2D collider;
-            var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
-            LedgeDetected(ledgeDetected, collider);
-        }
+        //private void LateUpdate()
+        //{
+        //    Collider2D collider;
+        //    Vector3 pos;
+        //    var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider, out pos);
+        //    LedgeDetected(ledgeDetected, collider);
+        //}
     }
 }

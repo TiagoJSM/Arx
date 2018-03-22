@@ -78,8 +78,9 @@ public class LedgeChecker : MonoBehaviour
         }
     }
 
-    public bool IsLedgeDetected(out Collider2D ledge)
+    public bool IsLedgeDetected(out Collider2D ledge, out Vector3 grabPosition)
     {
+        grabPosition = Vector3.zero;
         if (_detectionBoxP2 == null || _detectionBoxP1 == null)
         {
             ledge = null;
@@ -116,6 +117,10 @@ public class LedgeChecker : MonoBehaviour
             }
         }
 
+        grabPosition = new Vector3(
+            (freeSpaceLowerBound.x + _detectionBoxP2.transform.position.x) / 2,
+            (freeSpaceLowerBound.y + _detectionBoxP2.transform.position.y) / 2,
+            0.0f);
         return true;
     }
 
@@ -129,14 +134,11 @@ public class LedgeChecker : MonoBehaviour
         var freeSpaceLowerBound = FreeSpaceLowerBound;
 
         Gizmos.color = Color.red;
-        //var width = ledgeDetectorUpperBound.x - _detectionBoxP1.position.x;
-        //var height = LedgeDetectorUpperBound.y - _detectionBoxP1.position.y;
         Gizmos.DrawWireCube(
             new Vector2(_detectionBoxP1.position.x + LedgeDetectorWidth / 2, _detectionBoxP1.position.y + LedgeDetectorHeight / 2),
             new Vector2(LedgeDetectorWidth, LedgeDetectorHeight));
 
         Gizmos.color = Color.blue;
-        //var height = _detectionBoxP2.position.y - freeSpaceLowerBound.y;
         Gizmos.DrawWireCube(
             new Vector2(FreeSpaceLowerBound.x + FreeSpaceWidth / 2, FreeSpaceLowerBound.y + FreeSpaceHeight / 2),
             new Vector2(FreeSpaceWidth, FreeSpaceHeight));

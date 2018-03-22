@@ -171,6 +171,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\TemplateStates\StandingState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ThrowState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\ThrowStates\MovingAimThrowState.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\WallDragState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\StateMachine\WallJumpState.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\Arx\UiController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterController2D.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\PlatformerCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\RopeMovement.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\SpeakersAttribute.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\WallJumpDetector.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\DebugTrigger.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\DummyCharacter.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\EnvironmentDetection\ContactDetector.cs" />
