@@ -97,12 +97,6 @@ namespace Extensions
             return source.IndexOf(s => s.Equals(min));
         }
 
-        public static TData Random<TData>(this IEnumerable<TData> data)
-        {
-            var idx = UnityEngine.Random.Range(0, data.Count());
-            return data.ElementAt(idx);
-        }
-
         public static int[] IndicesWhere<TData>(this IEnumerable<TData> data, Func<TData, bool> predicate)
         {
             return data

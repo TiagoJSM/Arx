@@ -28,6 +28,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         private float _backAttackDamageMultiplier = 1.5f;
         [SerializeField]
         private StunDamage _stunDamage;
+        [SerializeField]
+        private AudioSource[] _attackedSounds;
 
         public bool CanBeAttacked { get; set; }
         public bool InPain { get; set; }
@@ -117,10 +119,19 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
                     OnKilled(this);
                 }
             }
+            else if(damage > 0)
+            {
+                var sound = _attackedSounds.Random();
+                if(sound != null)
+                {
+                    sound.Play();
+                }
+            }
 
             LastHitDirection = Math.Sign(damageOriginPosition.x - transform.position.x);
             HitLastTurn = true;
             InPain = _stunDamage.DoesStun(damageType, attackType, comboNumber);
+
 
             return damage;
         }

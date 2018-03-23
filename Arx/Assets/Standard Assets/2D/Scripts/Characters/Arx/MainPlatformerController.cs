@@ -134,6 +134,8 @@ public class MainPlatformerController : PlatformerCharacterController
     [Header("Wall Jump")]
     [SerializeField]
     private float _wallJumpHorizontal = 80;
+    [SerializeField]
+    private GameObject _root;
 
     private float _move;
     private float _vertical;
