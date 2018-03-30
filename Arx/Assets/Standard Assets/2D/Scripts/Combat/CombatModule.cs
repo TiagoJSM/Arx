@@ -103,6 +103,8 @@ public class CombatModule : MonoBehaviour
         }
     }
 
+    public int AttackIndex { get { return _closeCombat.AttackIndex; } }
+
     public bool IsCurrentAnimationOver
     {
         get

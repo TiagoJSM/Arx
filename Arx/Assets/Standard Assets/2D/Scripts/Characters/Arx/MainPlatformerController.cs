@@ -424,7 +424,7 @@ public class MainPlatformerController : PlatformerCharacterController
         Attacking = false;
         _combatModule.EndDiveAttack();
         OnCombatFinishHandler();
-        CharacterSpread.enabled = false;
+        CharacterSpread.enabled = true;
     }
 
     public void GrabRope()
