@@ -16,6 +16,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Hazards
         private Transform _safeSpot;
         [SerializeField]
         private int _damage = 1;
+        [SerializeField]
+        private AudioSource _hitSound;
 
         public bool Active { get; set; }
 
@@ -59,6 +61,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Hazards
             {
                 controller.Attacked(gameObject, _damage, transform.position, DamageType.Environment);
             }
+            _hitSound.Play();
         }
     }
 }

@@ -127,8 +127,6 @@ namespace Assets.Standard_Assets.Terrain.Editor
         {
             //Hack to make area size
             GUILayout.Label(texture, GUILayout.Width(texture.width), GUILayout.Height(texture.height));
-            //GUILayout.BeginArea(new Rect(Vector2.zero, new Vector2(texture.width, texture.height)), texture);
-            //GUILayout.EndArea();
         }
 
         private void Separator()

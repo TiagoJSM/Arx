@@ -43,6 +43,8 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
     public event Action OnCombatFinish;
     public event Action<AttackType> OnHit;
 
+    public int AttackIndex { get; set; }
+
     public CloseCombatBehaviour()
     {
         _charactersAttackedOnDive = new List<ICharacter>();
@@ -145,6 +147,7 @@ public class CloseCombatBehaviour : BaseGenericCombatBehaviour<ICloseCombatWeapo
 
     public bool PrimaryAttack()
     {
+        AttackIndex = UnityEngine.Random.Range(0, 3);
         AttackType = AttackType.Primary;
         return true;
     }
