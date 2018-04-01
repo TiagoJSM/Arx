@@ -132,6 +132,9 @@ namespace Assets.Standard_Assets.Terrain.Editor
             clone.mesh = new Mesh();
             clone.GetComponent<MeshRenderer>().material = new Material(TerrainMeshRenderer.sharedMaterial);
             clone.transform.parent = this.TerrainField.transform.parent;
+            clone.name = clone.name.Replace("(Clone)", string.Empty);
+
+            Selection.activeGameObject = clone.gameObject;
         }
 
         private void BuildTerrain()
