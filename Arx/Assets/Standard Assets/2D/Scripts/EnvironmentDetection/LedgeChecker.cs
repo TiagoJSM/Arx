@@ -78,9 +78,8 @@ public class LedgeChecker : MonoBehaviour
         }
     }
 
-    public bool IsLedgeDetected(out Collider2D ledge, out Vector3 grabPosition)
+    public bool IsLedgeDetected(out Collider2D ledge)
     {
-        grabPosition = Vector3.zero;
         if (_detectionBoxP2 == null || _detectionBoxP1 == null)
         {
             ledge = null;
@@ -117,10 +116,6 @@ public class LedgeChecker : MonoBehaviour
             }
         }
 
-        grabPosition = new Vector3(
-            (freeSpaceLowerBound.x + _detectionBoxP2.transform.position.x) / 2,
-            (freeSpaceLowerBound.y + _detectionBoxP2.transform.position.y) / 2,
-            0.0f);
         return true;
     }
 

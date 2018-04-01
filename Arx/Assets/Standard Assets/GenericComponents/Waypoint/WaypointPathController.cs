@@ -42,14 +42,12 @@ namespace Assets.Standard_Assets.GenericComponents.Waypoint
         private float _waitTimeBetweenPoints;
 
         public StartLocation startLocation = StartLocation.CurrentPosition;
-        //public float waypointThreasholdRadius = 1.2f;
         public float velocity = 1;
         public WaypointPath waypointPath;
 
         // Use this for initialization
         void Start()
         {
-            //PathNodes = waypointPath.PathNodes.ToArray();
             if (startLocation == StartLocation.Start)
             {
                 this.transform.position = GetWaypoint().ToVector3();
@@ -119,7 +117,7 @@ namespace Assets.Standard_Assets.GenericComponents.Waypoint
 
                 if (_pathIdx == 0 && _restartWhenFinish)
                 {
-                    transform.position = PathNodes.First();
+                    transform.position = PathNodes[0];
                     _pathIdx++;
                 }
             }

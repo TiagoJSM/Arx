@@ -61,8 +61,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
         public void DoUpdate()
         {
             Collider2D collider;
-            Vector3 pos;
-            var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider, out pos);
+            var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider);
             LedgeDetected(ledgeDetected, collider);
         }
 
@@ -72,14 +71,12 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             {
                 return;
             }
-
+            
             _lastGrabbedLedge = _detectedLedge;
             _platformerCharacter.SupportingPlatform = _lastGrabbedLedge.gameObject.transform;
             _platformerCharacter.DesiredMovementVelocity = Vector2.zero;
             _platformerCharacter.ApplyMovementAndGravity = false;
             _platformerCharacter.CharacterController2D.velocity = Vector2.zero;
-            //_platformerCharacter.gravity = 0;
-            //gravity = 0;
             GrabbingLedge = true;
             _grabLedgeSound.Play();
         }
@@ -89,8 +86,6 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             GrabbingLedge = false;
             _platformerCharacter.SupportingPlatform = null;
             _platformerCharacter.ApplyMovementAndGravity = true;
-            //_platformerCharacter.gravity = _defaultGravity;
-            //gravity = _defaultGravity;
         }
 
         private void Awake()
@@ -99,13 +94,5 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             _ledgeChecker = GetComponent<LedgeChecker>();
             _defaultGravity = _platformerCharacter.gravity;
         }
-
-        //private void LateUpdate()
-        //{
-        //    Collider2D collider;
-        //    Vector3 pos;
-        //    var ledgeDetected = _ledgeChecker.IsLedgeDetected(out collider, out pos);
-        //    LedgeDetected(ledgeDetected, collider);
-        //}
     }
 }
