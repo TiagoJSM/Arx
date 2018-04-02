@@ -62,9 +62,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                         a.AttackType == AttackType.Secundary &&
                         c.Attacking &&
                         c.WeaponType != null)
+                    .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge && !c.IsGrounded)
                     .To<WallJumpState>((c, a, t) => !c.IsGrounded && c.WallJumpSide != 0.0f && a.JumpPress)
                     .To<FallingState>((c, a, t) => (c.VerticalSpeed < 0 && !c.IsGrounded) || c.CollidesAbove)
-                    .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<IddleState>((c, a, t) => c.IsGrounded && t > 0.5)
                     .To<RopeGrabState>((c, a, t) => c.RopeFound)
                     .To<LadderGrabState>((c, a, t) => c.LadderFound && a.GrabLadder);
@@ -74,8 +74,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .To<FallingAimShootState>((c, a, t) => !c.IsGrounded && a.Aiming)
+                    .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge && !c.IsGrounded)
                     .To<FallingState>((c, a, t) => !c.IsGrounded)
-                    .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<IddleState>((c, a, t) => c.IsGrounded && t > 0.5)
                     .To<RopeGrabState>((c, a, t) => c.RopeFound)
                     .To<LadderGrabState>((c, a, t) => c.LadderFound && a.GrabLadder);
@@ -85,13 +85,13 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx.StateMachine
                     .To<AttackedOnAirState>((c, a, t) => c.AttackedThisFrame)
                     .To<SlidingDownState>((c, a, t) => c.SlidingDown)
                     .WhenTransitionTo<SlidingDownState>((c, a) => c.OnLanded())
+                    .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<WallDragState>((c, a, t) => c.WallJumpSide != 0.0f)
                     .To<AirDashState>((c, a, t) => !c.IsGrounded && a.Roll && !c.CharacterStamina.IsTired)
                     .To<FallingAimShootState>((c, a, t) => c.VerticalSpeed < 0 && !c.IsGrounded && a.Aiming)
                     .To<LightAirAttackState>((c, a, t) => a.AttackType == AttackType.Primary && c.Attacking && c.WeaponType != null)
                     .To<StrongAirAttackState>((c, a, t) => 
                         a.AttackType == AttackType.Secundary && c.Attacking && c.WeaponType != null)
-                    .To<GrabbingLedgeState>((c, a, t) => c.CanGrabLedge)
                     .To<WallJumpState>((c, a, t) => !c.IsGrounded && c.WallJumpSide != 0.0f && a.JumpPress)
                     .To<IddleState>((c, a, t) => c.IsGrounded && a.Move == 0)
                     .WhenTransitionTo<IddleState>((c, a) => c.OnLanded())
