@@ -16,6 +16,11 @@ public static class Vector3Extensions
     {
         return new Vector2(vec3.x, vec3.y);
     }
+
+    public static bool Approximately(this Vector2 vec2, Vector2 other)
+    {
+        return Mathf.Approximately(vec2.x, other.x) && Mathf.Approximately(vec2.y, other.y);
+    }
 }
 
 
