@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneOSXIntel:4</UnityBuildTarget>
     <UnityVersion>2017.1.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -402,6 +404,7 @@
     <Compile Include="Assets\Standard Assets\Environment\Factory\Scripts\ScrapBall.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Fire\Scripts\FireLightFlicker.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Enemy Activation Trigger\Scripts\EnemyActivationTrigger.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Hazards\Falling Rock\Scripts\FallingRockController.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Flamethrower\Scripts\FlamethrowerController.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Geyser\Scripts\GeyserController.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Patroling Lazer\Scripts\PatrolingLazer.cs" />
@@ -473,6 +476,7 @@
     <Compile Include="Assets\Standard Assets\JSON\VectorTemplates.cs" />
     <Compile Include="Assets\Standard Assets\Loot\Chest.cs" />
     <Compile Include="Assets\Standard Assets\Loot\DropLootOnDeath.cs" />
+    <Compile Include="Assets\Standard Assets\MathUtilities.cs" />
     <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\AfterburnerPhysicsForce.cs" />
     <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\ExplosionFireAndDebris.cs" />
     <Compile Include="Assets\Standard Assets\ParticleSystems\Scripts\ExplosionPhysicsForce.cs" />
@@ -786,6 +790,7 @@
     <None Include="Assets\Universal Sound FX\%23Game Genre References\Shoot em Up.txt" />
     <None Include="Assets\Universal Sound FX\%23version_history.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

@@ -61,7 +61,10 @@ namespace Assets.Standard_Assets._2D.Scripts.Hazards
             {
                 controller.Attacked(gameObject, _damage, transform.position, DamageType.Environment);
             }
-            _hitSound.Play();
+            if (_hitSound != null)
+            {
+                _hitSound.Play();
+            }
         }
     }
 }
