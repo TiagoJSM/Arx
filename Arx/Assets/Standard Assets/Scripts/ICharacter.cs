@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CommonInterfaces.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace CommonInterfaces.Controllers
+namespace Assets.Standard_Assets.Scripts
 {
     public enum DamageType
     {
@@ -27,21 +28,14 @@ namespace CommonInterfaces.Controllers
     public interface ICharacter
     {
         bool CanBeAttacked { get; }
-        bool InPain { get; set; }
-        int MaxLifePoints { get; }
-        int LifePoints { get; }
         GameObject CharacterGameObject { get; }
+        bool InPain { get; }
+        int LifePoints { get; }
+        int MaxLifePoints { get; }
 
-        int Attacked(
-            GameObject attacker, 
-            int damage, 
-            Vector3? hitPoint, 
-            DamageType damageType,
-            AttackTypeDetail attackType = AttackTypeDetail.Generic,
-            int comboNumber = 1,
-            bool showDamaged = false);
-        bool StartGrappled(GameObject grapple);
+        int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1, bool showDamaged = false);
         void EndGrappled();
         void Kill();
+        bool StartGrappled(GameObject grapple);
     }
 }

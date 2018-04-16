@@ -285,6 +285,11 @@ public class PlatformerCharacterController : BasePlatformerController
         DoMove(move, moveSpeed, setDirectionToMovement);       
     }
 
+    public void EmitDustParticle()
+    {
+        _runningParticles.Emit(1);
+    }
+
     protected IEnumerator MoveInParabola(
         Vector2 start, 
         Vector2 end, 
@@ -367,7 +372,7 @@ public class PlatformerCharacterController : BasePlatformerController
             transform.rotation = Quaternion.identity;
         }
 
-        HandleMovementParticles();
+        //HandleMovementParticles();
     }
 
     private void RepositionRelativeToParent()
@@ -484,7 +489,7 @@ public class PlatformerCharacterController : BasePlatformerController
             {
                 _runningParticles.Play();
             }
-            else if (!isMoving && _runningParticles.isPlaying || IsGrounded)
+            else if (!isMoving && _runningParticles.isPlaying || !IsGrounded)
             {
                 _runningParticles.Stop();
             }

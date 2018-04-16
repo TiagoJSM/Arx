@@ -1,6 +1,7 @@
 ﻿using Assets.Standard_Assets._2D.Scripts.Characters.Enemies;
 using Assets.Standard_Assets.Characters.CharacterBehaviour;
 using Assets.Standard_Assets.Common;
+using Assets.Standard_Assets.Scripts;
 using CommonInterfaces.Controllers;
 using CommonInterfaces.Enums;
 using Extensions;
@@ -18,7 +19,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
     public delegate void OnAttacked(BasePlatformerController character, GameObject attacker);
 
     [RequireComponent(typeof(CharacterStatus))]
-    public class BasePlatformerController : MonoBehaviour, CommonInterfaces.Controllers.ICharacter
+    public class BasePlatformerController : MonoBehaviour, ICharacter
     {
         private Direction _direction;
 
@@ -96,7 +97,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
             DamageType damageType,
             AttackTypeDetail attackType = AttackTypeDetail.Generic,
             int comboNumber = 1,
-            bool showDamaged = false)
+            bool showPain = false)
         {
             if (!CanBeAttacked)
             {
@@ -130,8 +131,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Controllers
 
             LastHitDirection = Math.Sign(damageOriginPosition.x - transform.position.x);
             HitLastTurn = true;
-            InPain = _stunDamage.DoesStun(damageType, attackType, comboNumber);
-
+            InPain = _stunDamage.DoesStun(damageType, attackType, comboNumber) || showPain;
 
             return damage;
         }

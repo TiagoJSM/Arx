@@ -1,4 +1,5 @@
-﻿using CommonInterfaces.Controllers;
+﻿using Assets.Standard_Assets.Scripts;
+using CommonInterfaces.Controllers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Bat.Scripts
             {
                 return;
             }
-            var character = collider.gameObject.GetComponent<CommonInterfaces.Controllers.ICharacter>();
+            var character = collider.gameObject.GetComponent<ICharacter>();
             if (character != null)
             {
                 character.Attacked(gameObject, _damage, transform.position, DamageType.BodyAttack);

@@ -1,4 +1,5 @@
-﻿using Assets.Standard_Assets.Weapons;
+﻿using Assets.Standard_Assets.Scripts;
+using Assets.Standard_Assets.Weapons;
 using CommonInterfaces.Controllers;
 using System;
 using System.Collections;
@@ -126,7 +127,6 @@ namespace Assets.Standard_Assets.Characters.Enemies.Guardian_Eye.Scripts
         public bool InPain
         {
             get { return false; }
-            set { }
         }
 
         public int Attacked(GameObject attacker, int damage, Vector3? hitPoint, DamageType damageType, AttackTypeDetail attackType = AttackTypeDetail.Generic, int comboNumber = 1, bool showDamaged = false)

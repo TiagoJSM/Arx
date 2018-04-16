@@ -1,4 +1,5 @@
-﻿using CommonInterfaces.Controllers;
+﻿using Assets.Standard_Assets.Scripts;
+using CommonInterfaces.Controllers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -73,8 +74,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Combat
                     for(var idx = 0; idx < enemiesInRange.Count; idx++)
                     {
                         var enemy = enemiesInRange[idx];
-                        enemy.Attacked(gameObject, 1, transform.position, DamageType.BodyAttack);
-                        enemy.InPain = true;
+                        enemy.Attacked(gameObject, 1, transform.position, DamageType.BodyAttack, AttackTypeDetail.Generic, 1, true);
                     }
                 }
                 yield return null;

@@ -94,7 +94,8 @@ namespace Assets.Standard_Assets.Common
             Transform self, 
             GameObject target, 
             Action<float> horizontalMove,
-            Func<bool> isTargetInRange)
+            Func<bool> isTargetInRange,
+            Action followEnd = null)
         {
             if (target == null)
             {
@@ -105,6 +106,10 @@ namespace Assets.Standard_Assets.Common
             {
                 if (isTargetInRange())
                 {
+                    if (followEnd != null)
+                    {
+                        followEnd();
+                    }
                     yield break;
                 }
                 var currentPosition = self.position;

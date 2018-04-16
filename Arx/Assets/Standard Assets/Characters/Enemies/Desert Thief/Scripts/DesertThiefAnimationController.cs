@@ -19,6 +19,8 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
         private readonly int _DeathBehind = Animator.StringToHash("Death behind");
         private readonly int _Attacked = Animator.StringToHash("Attacked");
         private readonly int _ThrowDagger = Animator.StringToHash("Throw Dagger");
+        private readonly int Roll = Animator.StringToHash("Roll");
+        private readonly int RollingState = Animator.StringToHash("Base Layer.Roll");
 
         private Animator _animator;
         private MeleeEnemyController _controller;
@@ -96,6 +98,26 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
             DeathBehind = _controller.Dead && !hitFromTheFront;
             Attacked = _aiController.Attacked;
             _animator.SetBool(_ThrowDagger, _aiController.ThrowDagger);
+            _animator.SetBool(Roll, _aiController.Dodging);
+
+            var currentState = _animator.GetCurrentAnimatorStateInfo(0);
+            if (_animator.GetCurrentAnimatorClipInfo(0).Length > 0)
+            {
+                var c = _animator.GetCurrentAnimatorClipInfo(0)[0];
+                if (currentState.fullPathHash == RollingState)
+                {
+                    _animator.speed = c.clip.length / _aiController.DodgeDuration;
+                }
+                else
+                {
+                    _animator.speed = 1;
+                }
+            }
+            else
+            {
+                _animator.speed = 1;
+            }
+
         }
 
         private void ThrowDaggerHandler()

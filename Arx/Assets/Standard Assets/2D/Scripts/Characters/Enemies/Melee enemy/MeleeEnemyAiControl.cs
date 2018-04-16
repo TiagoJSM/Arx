@@ -31,17 +31,8 @@ public class MeleeEnemyAiControl : AbstractPlatformerCharacterAiController, ICha
     [SerializeField]
     private float _attackRange = 1;
 
-    private GameObject _target;
     private MeleeEnemyController _controller;
     private MeleeEnemyAiStateManager _stateManager;
-
-    public GameObject Target
-    {
-        get
-        {
-            return _target;
-        }
-    }
 
     public bool Attacking
     {
@@ -51,7 +42,7 @@ public class MeleeEnemyAiControl : AbstractPlatformerCharacterAiController, ICha
         }
     }
 
-    protected override Direction CurrentDirection
+    public override Direction CurrentDirection
     {
         get
         {
@@ -126,15 +117,15 @@ public class MeleeEnemyAiControl : AbstractPlatformerCharacterAiController, ICha
 
     private void OnCharacterFoundHandler(BasePlatformerController controller)
     {
-        if(_target == null)
+        if(Target == null)
         {
-            _target = controller.gameObject;
+            Target = controller.gameObject;
         }
     }
 
     private IEnumerator FollowTargetCoroutine()
     {
-        if (_target == null)
+        if (Target == null)
         {
             yield break;
         }
@@ -146,7 +137,7 @@ public class MeleeEnemyAiControl : AbstractPlatformerCharacterAiController, ICha
                 yield break;
             }
             var currentPosition = this.transform.position;
-            var xDifference = _target.transform.position.x - currentPosition.x;
+            var xDifference = Target.transform.position.x - currentPosition.x;
             _controller.Move(xDifference);
             yield return null;
         }

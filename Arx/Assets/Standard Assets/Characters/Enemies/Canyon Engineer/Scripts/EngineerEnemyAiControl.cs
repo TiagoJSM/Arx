@@ -82,7 +82,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Canyon_Engineer.Scripts
 
         public event Action OnSurprised;
 
-        protected override Direction CurrentDirection
+        public override Direction CurrentDirection
         {
             get
             {
