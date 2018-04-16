@@ -8,6 +8,7 @@ using UnityEngine;
 using CommonInterfaces.Controllers;
 using Assets.Standard_Assets.QuestSystem.QuestStructures;
 using Assets.Standard_Assets.QuestSystem.Tasks;
+using Assets.Standard_Assets.Scripts;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Sparring_Dummy.Scripts
 {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Assets.Standard_Assets._2D.Scripts.Characters.Enemies;
 using GenericComponents.Enums;
 using CommonInterfaces.Controllers;
-using Character = Assets.Standard_Assets._2D.Scripts.Characters.Enemies.ICharacter;
+using Character = Assets.Standard_Assets._2D.Scripts.Characters.Enemies.ICharacterController;
 using Assets.Standard_Assets.Common;
 using Extensions;
 using Assets.Standard_Assets.Extensions;

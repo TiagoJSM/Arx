@@ -33,7 +33,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Alarm_Bot.Scripts
         public bool Warning { get; private set; }
         public bool Dead { get { return _controller.CharacterStatus.HealthDepleted; } }
 
-        protected override Direction CurrentDirection
+        public override Direction CurrentDirection
         {
             get
             {

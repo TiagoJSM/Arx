@@ -19,7 +19,7 @@ public class CommonTalkingCharacterAi : AbstractPlatformerCharacterAiController
     [SerializeField]
     private bool _moveInIddle = true;
 
-    protected override Direction CurrentDirection
+    public override Direction CurrentDirection
     {
         get
         {

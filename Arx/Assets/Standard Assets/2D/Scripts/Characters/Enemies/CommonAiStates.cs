@@ -36,16 +36,9 @@ public abstract class BaseAiState<TAi> : IState<TAi, object> where TAi : ICharac
 
 public class FollowState<TAi> : BaseAiState<TAi> where TAi : ICharacterAI
 {
-    public override void Perform(object action)
+    public override void OnStateEnter(object action)
     {
-        if (StateController.IsTargetInRange)
-        {
-            StateController.OrderAttack();
-        }
-        else
-        {
-            StateController.MoveToTarget();
-        }
+        StateController.MoveToTarget();
     }
 
     public override void OnStateExit(object action)

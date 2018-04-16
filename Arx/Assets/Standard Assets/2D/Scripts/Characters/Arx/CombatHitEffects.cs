@@ -29,7 +29,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Arx
         public void EnemyHit()
         {
             ShakeCamera(_shakeAmount, _shakeDuration);
-            StartCoroutine(SlowDownTime(_slowDownTime));
+            //StartCoroutine(SlowDownTime(_slowDownTime));
         }
 
         public void EnemyStrongHit()

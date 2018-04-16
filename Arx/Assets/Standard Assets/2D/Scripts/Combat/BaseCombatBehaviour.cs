@@ -1,4 +1,5 @@
-﻿using CommonInterfaces.Controllers;
+﻿using Assets.Standard_Assets.Scripts;
+using CommonInterfaces.Controllers;
 using GenericComponents.Enums;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,12 @@ public abstract class BaseCombatBehaviour : MonoBehaviour
     public int ComboNumber { get; set; }
     public AttackStyle AttackStyle { get; protected set; }
 
-    protected CommonInterfaces.Controllers.ICharacter[] GetCharactersInRange(Vector3 attackAreaP1, Vector3 attackAreaP2, LayerMask enemyLayer)
+    protected ICharacter[] GetCharactersInRange(Vector3 attackAreaP1, Vector3 attackAreaP2, LayerMask enemyLayer)
     {
         return 
             Physics2D
                 .OverlapAreaAll(attackAreaP1, attackAreaP2, enemyLayer)
-                .Select(c => c.GetComponent<CommonInterfaces.Controllers.ICharacter>())
+                .Select(c => c.GetComponent<ICharacter>())
                 .Where(c => c != null)
                 .Distinct()
                 .ToArray();

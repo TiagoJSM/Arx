@@ -8,10 +8,12 @@ using Assets.Standard_Assets.Weapons;
 using CommonInterfaces.Enums;
 using Extensions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Utils;
 
 namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
 {
@@ -26,12 +28,15 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
 
             this.From<FollowState<DesertThiefEnemyAiControl>>()
                 .To<AttackedState<DesertThiefEnemyAiControl>>((c, a, t) => c.Attacked)
-                .To<ThrowDaggerState>((c, a, t) => c.Target != null && c.IsTargetInDaggerThrowReacheablePosition() && !c.IsDaggerInCooldown)
+                .To<ThrowDaggerState>((c, a, t) => c.Target != null && c.IsTargetInDaggerThrowReacheablePosition() && !c.IsDaggerInCooldown || c.IsAnotherEnemyBetweenTarget)
                 .To<AttackTargetState<DesertThiefEnemyAiControl>>((c, a, t) => c.IsTargetInRange)
-                .To<IddleState<DesertThiefEnemyAiControl>>((c, a, t) => c.Target == null || !c.CanMoveToGroundAhead());
+                .To<DodgeAttackState>((c, a, t) => c.Dodge)
+                .To<IddleState<DesertThiefEnemyAiControl>>((c, a, t) => c.Target == null || !c.CanMoveToGroundAhead())
+                .To<FollowState<DesertThiefEnemyAiControl>>((c, a, t) => c.Target != null && !c.Following);
 
             this.From<AttackTargetState<DesertThiefEnemyAiControl>>()
                 .To<AttackedState<DesertThiefEnemyAiControl>>((c, a, t) => c.Attacked)
+                .To<DodgeAttackState>((c, a, t) => c.Dodge)
                 .To<FollowState<DesertThiefEnemyAiControl>>((c, a, t) => !c.IsTargetInRange && !c.Attacking)
                 .To<AttackTargetState<DesertThiefEnemyAiControl>>((c, a, t) => c.IsTargetInRange && !c.Attacking);
 
@@ -40,8 +45,11 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
 
             this.From<ThrowDaggerState>()
                 .To<AttackedState<DesertThiefEnemyAiControl>>((c, a, t) => c.Attacked)
-                .To<ThrowDaggerState>((c, a, t) => c.Target != null && c.IsTargetInDaggerThrowReacheablePosition() && !c.IsDaggerInCooldown && !c.ThrowDagger)
+                .To<ThrowDaggerState>((c, a, t) => c.Target != null && c.IsTargetInDaggerThrowReacheablePosition() && !c.IsDaggerInCooldown && !c.ThrowDagger || c.IsAnotherEnemyBetweenTarget)
                 .To<FollowState<DesertThiefEnemyAiControl>>((c, a, t) => !c.ThrowDagger);
+
+            this.From<DodgeAttackState>()
+                .To<FollowState<DesertThiefEnemyAiControl>>((c, a, t) => t > c.DodgeDuration);
 
             this.FromAny()
                 .To<DeadState<DesertThiefEnemyAiControl>>((c, a, t) => c.Dead);
@@ -53,6 +61,10 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
     public class DesertThiefEnemyAiControl : AbstractPlatformerCharacterAiController, ICharacterAI, ICharacterAware
     {
         private AudioSource _currentDaggerThrowSound;
+        private Collider2D[] _colliderBuffer;
+        private Coroutine _enemyProximityCoroutine;
+        private bool _targetWasntAttacking = true;
+        private bool _targetStartedAttack;
 
         [SerializeField]
         private CharacterFinder _characterFinder;
@@ -68,6 +80,13 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
         private float _daggerCooldownTime = 4;
         [SerializeField]
         private AudioSource[] _throwDaggerSounds;
+        [SerializeField]
+        [Range(0.0f, 1.0f)]
+        private float _dodgeRate = 0.2f;
+        [SerializeField]
+        private float _dodgeRange = 7.0f;
+        [SerializeField]
+        private float _dodgeDuration = 1.0f;
 
         private CharacterAwarenessNotifier _awarenessNotifier;
         private MeleeEnemyController _controller;
@@ -84,6 +103,10 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
                 return _daggerElapsedCooldown < _daggerCooldownTime;
             }
         }
+        public bool IsAnotherEnemyBetweenTarget { get; private set; }
+        public bool Dodge { get; private set; }
+        public bool Dodging { get; private set; }
+        public float DodgeDuration { get { return _dodgeDuration; } }
 
         public bool Attacking
         {
@@ -93,7 +116,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
             }
         }
 
-        protected override Direction CurrentDirection
+        public override Direction CurrentDirection
         {
             get
             {
@@ -108,12 +131,29 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
                 return _controller.Velocity;
             }
         }
+        public bool Following { get; private set; }
+
+        public DesertThiefEnemyAiControl()
+        {
+            _colliderBuffer = new Collider2D[10];
+        }
 
         public void ThrowDaggerAtEnemy()
         {
             _daggerElapsedCooldown = 0.0f;
             var projectile = Instantiate(_dagger, _daggerThrowOrigin.position, Quaternion.identity);
-            projectile.Direction = new Vector3(CurrentDirection.DirectionValue(), 0);
+
+            //throw the dagger at the character, but not at his feet
+            var daggerDirection = (Target.transform.position + new Vector3(0, _daggerThrowOrigin.position.y - transform.position.y)) - _daggerThrowOrigin.position;
+
+            //make sure the dagger is not thrown backwards when enemy moved behind this character
+            var throwDirection = MovementUtils.DirectionOfMovement(daggerDirection.x, _controller.Direction);
+            if (throwDirection != _controller.Direction)
+            {
+                daggerDirection.x *= -1;
+            }
+
+            projectile.Direction = daggerDirection.normalized;
             projectile.Attacker = gameObject;
         }
 
@@ -121,6 +161,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
         {
             _controller.MovementType = MovementType.Run;
             FollowTarget();
+            _enemyProximityCoroutine = StartCoroutine(EnemyToTargetProximityRoutine());
         }
 
         public void StartIddle()
@@ -137,6 +178,12 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
         public void StopMoving()
         {
             StopActiveCoroutine();
+            Following = false;
+            if (_enemyProximityCoroutine != null)
+            {
+                IsAnotherEnemyBetweenTarget = false;
+                StopCoroutine(_enemyProximityCoroutine);
+            }
         }
 
         public void OrderAttack()
@@ -201,8 +248,43 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
             Target = obj;
         }
 
+        public void StartDodge()
+        {
+            _controller.CanBeAttacked = false;
+            Dodging = true;
+        }
+
+        public void EndDodge()
+        {
+            _controller.CanBeAttacked = true;
+            Dodging = false;
+        }
+
         void Update()
         {
+            Dodge = false;
+            if (TargetController != null)
+            {
+                if (_targetWasntAttacking)
+                {
+                    if (TargetController.Attacking)
+                    {
+                        _targetWasntAttacking = false;
+                        var currentPosition = this.transform.position;
+                        var distance = Vector2.Distance(currentPosition, Target.transform.position);
+                        var rollChance = UnityEngine.Random.Range(0.0f, 1.0f) <= _dodgeRate;
+                        var rollDistance = distance < _dodgeRange;
+                        Dodge = rollChance && rollDistance;
+                    }
+                }
+                else
+                {
+                    if (!TargetController.Attacking)
+                    {
+                        _targetWasntAttacking = true;
+                    }
+                }
+            }
             _stateManager.Perform(null);
             if (IsDaggerInCooldown)
             {
@@ -226,12 +308,14 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
         private void FollowTarget()
         {
             _controller.MovementType = MovementType.Run;
+            Following = true;
             SetActiveCoroutine(
                 CoroutineHelpers.FollowTargetCoroutine(
                     transform,
                     Target,
                     movement => _controller.Move(movement),
-                    () => IsTargetInRange));
+                    () => IsTargetInRange,
+                    () => Following = false));
         }
 
         private void OnCharacterFoundHandler(BasePlatformerController controller)
@@ -241,6 +325,38 @@ namespace Assets.Standard_Assets.Characters.Enemies.Desert_Thief.Scripts
                 Target = controller.gameObject;
                 _awarenessNotifier.Notify(Target);
             }
+        }
+
+        private IEnumerator EnemyToTargetProximityRoutine()
+        {
+            while (true)
+            {
+                IsAnotherEnemyBetweenTarget = CheckIfAnotherEnemyBetweenTarget();
+                yield return new WaitForSeconds(1);
+            }
+        }
+
+        private bool CheckIfAnotherEnemyBetweenTarget()
+        {
+            if (Target == null)
+            {
+                return false;
+            }
+
+            var distance = Vector2.Distance(Target.transform.position, transform.position);
+
+            var count = Physics2D.OverlapCircleNonAlloc(Target.transform.position, distance, _colliderBuffer, gameObject.GetLayerMask());
+            for(var idx = 0; idx < count; idx++)
+            {
+                var collider = _colliderBuffer[idx];
+                var otherEnemyDistanceToTarget = Vector2.Distance(Target.transform.position, collider.transform.position);
+                var distanceToOtherEnemy = Vector2.Distance(collider.gameObject.transform.position, gameObject.transform.position);
+                if (collider.gameObject != gameObject && otherEnemyDistanceToTarget < distance && distanceToOtherEnemy < distance)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

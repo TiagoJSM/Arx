@@ -1,4 +1,5 @@
-﻿using CommonInterfaces.Controllers;
+﻿using Assets.Standard_Assets.Scripts;
+using CommonInterfaces.Controllers;
 using Extensions;
 using System;
 using System.Collections.Generic;
@@ -54,14 +55,19 @@ namespace Assets.Standard_Assets.Weapons
             set
             {
                 _direction = value;
-                var localScale = transform.localScale;
-                //transform.localScale = new Vector3(Mathf.Sign(_direction.x), localScale.y, localScale.z);
             }
         }
 
         void Update()
         {
             this.transform.position += Direction * (speed * Time.deltaTime);
+            var angle = Vector2.Angle(Vector2.right, Direction);
+            if (Direction.y < 0)
+            {
+                angle = -angle;
+            }
+
+            this.transform.rotation = Quaternion.Euler(0, 0, angle);
             lifetime -= Time.deltaTime;
             if(lifetime <= 0)
             {
@@ -85,14 +91,13 @@ namespace Assets.Standard_Assets.Weapons
                 return;
             }
             var character = other.gameObject.GetComponent<ICharacter>();
-            if(character == null || character.InPain)
+            if(character == null)
             {
                 return;
             }
-            var damage = character.Attacked(Attacker, Damage, this.transform.position, DamageType.Shoot);
+            var damage = character.Attacked(Attacker, Damage, this.transform.position, DamageType.Shoot, AttackTypeDetail.Generic, 1);
             if(damage > 0)
             {
-                character.InPain = true;
                 if (_hitSound != null)
                 {
                     _hitSound.Play();

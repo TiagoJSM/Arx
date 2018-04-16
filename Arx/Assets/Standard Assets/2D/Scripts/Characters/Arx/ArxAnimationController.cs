@@ -30,6 +30,7 @@ public class ArxAnimationController : MonoBehaviour
     private readonly int _SlidingDown = Animator.StringToHash("Sliding Down");
     private readonly int _ChargingAttack = Animator.StringToHash("Charging Attack");
     private readonly int _RollingState = Animator.StringToHash("Base Layer.Ducking locomotion.Roll");
+    private readonly int DashState = Animator.StringToHash("Base Layer.Grounded.Dash");
     private readonly int _GrabbingRope = Animator.StringToHash("Grabbing Rope"); 
     private readonly int _RopeClimbDirection = Animator.StringToHash("Rope Climb Direction");
     private readonly int _VelocityGoingDown = Animator.StringToHash("Velocity Going Down");
@@ -243,6 +244,10 @@ public class ArxAnimationController : MonoBehaviour
             if (currentState.fullPathHash == _RollingState)
             {
                 _animator.speed = c.clip.length / _platformerController.RollingDuration;
+            }
+            else if (currentState.fullPathHash == DashState)
+            {
+                _animator.speed = c.clip.length / _platformerController.DashDuration;
             }
             else
             {

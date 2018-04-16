@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
 {
-    public interface ICharacter
+    public interface ICharacterController
     {
         bool Dead { get; }
         bool HitLastTurn { get; }
@@ -36,9 +36,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
         }
     }
 
-    public class MoveState : IState<ICharacter, StateAction>
+    public class MoveState : IState<ICharacterController, StateAction>
     {
-        public ICharacter StateController { get; set; }
+        public ICharacterController StateController { get; set; }
         public float TimeInState { get; set; }
 
         public void OnStateEnter(StateAction action)
@@ -55,9 +55,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
         }
     }
 
-    public class StandStillState : IState<ICharacter, StateAction>
+    public class StandStillState : IState<ICharacterController, StateAction>
     {
-        public ICharacter StateController { get; set; }
+        public ICharacterController StateController { get; set; }
 
         public float TimeInState { get; set; }
 
@@ -74,9 +74,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
         }
     }
 
-    public class AttackState : IState<ICharacter, StateAction>
+    public class AttackState : IState<ICharacterController, StateAction>
     {
-        public ICharacter StateController { get; set; }
+        public ICharacterController StateController { get; set; }
 
         public float TimeInState { get; set; }
 
@@ -92,9 +92,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
         }
     }
 
-    public class DeathState : IState<ICharacter, StateAction>
+    public class DeathState : IState<ICharacterController, StateAction>
     {
-        public ICharacter StateController { get; set; }
+        public ICharacterController StateController { get; set; }
 
         public float TimeInState { get; set; }
 
@@ -113,9 +113,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
         }
     }
 
-    public class TackingDamageState : IState<ICharacter, StateAction>
+    public class TackingDamageState : IState<ICharacterController, StateAction>
     {
-        public ICharacter StateController { get; set; }
+        public ICharacterController StateController { get; set; }
 
         public float TimeInState { get; set; }
 
@@ -134,9 +134,9 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.Enemies
         }
     }
 
-    public class GrappledState : IState<ICharacter, StateAction>
+    public class GrappledState : IState<ICharacterController, StateAction>
     {
-        public ICharacter StateController { get; set; }
+        public ICharacterController StateController { get; set; }
 
         public float TimeInState { get; set; }
 

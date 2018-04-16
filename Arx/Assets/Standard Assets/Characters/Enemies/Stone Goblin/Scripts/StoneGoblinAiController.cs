@@ -73,7 +73,7 @@ namespace Assets.Standard_Assets.Characters.Enemies.Stone_Goblin.Scripts
         public bool Dead { get { return _meleeEnemy.Dead; } }
         public bool Rolling { get { return _stoneGoblinController.Rolling; } }
 
-        protected override Direction CurrentDirection { get { return _meleeEnemy.Direction; } }
+        public override Direction CurrentDirection { get { return _meleeEnemy.Direction; } }
 
         protected override Vector2 Velocity { get { return _meleeEnemy.Velocity; } }
 

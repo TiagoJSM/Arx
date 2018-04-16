@@ -11,6 +11,7 @@ using UnityEngine;
 public abstract class AbstractPlatformerCharacterAiController : BaseCharacterAiController
 {
     private Vector3 _startingPosition;
+    private GameObject _target;
 
     [SerializeField]
     private float _targetRange = 1;
@@ -25,9 +26,24 @@ public abstract class AbstractPlatformerCharacterAiController : BaseCharacterAiC
     [SerializeField]
     private LayerMask _groundMask = 0;
 
-    protected abstract Direction CurrentDirection{ get; }
+    public abstract Direction CurrentDirection{ get; }
     protected abstract Vector2 Velocity { get; }
-    public GameObject Target { get; protected set; }
+    public GameObject Target
+    {
+        get
+        {
+            return _target;
+        }
+        protected set
+        {
+            _target = value;
+            if(_target != null)
+            {
+                TargetController = _target.GetComponent<MainPlatformerController>();
+            }
+        }
+    }
+    public MainPlatformerController TargetController { get; private set; }
 
     public bool IsTargetInRange
     {

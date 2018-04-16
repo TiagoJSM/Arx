@@ -24,6 +24,7 @@ using Assets.Standard_Assets.Scripts.StateMachine;
 using Assets.Standard_Assets._2D.Scripts.Footsteps;
 using Assets.Standard_Assets._2D.Scripts.Combat;
 using Assets.Standard_Assets.Characters.CharacterBehaviour;
+using Assets.Standard_Assets.Scripts;
 
 public enum LaunchWeaponType
 {
@@ -216,6 +217,14 @@ public class MainPlatformerController : PlatformerCharacterController
         get
         {
             return _rollingDuration;
+        }
+    }
+
+    public float DashDuration
+    {
+        get
+        {
+            return _dashDuration;
         }
     }
 
@@ -553,7 +562,7 @@ public class MainPlatformerController : PlatformerCharacterController
         DamageType damageType,
         AttackTypeDetail attackType = AttackTypeDetail.Generic,
         int comboNumber = 1,
-        bool showDamaged = false)
+        bool showPain = false)
     {
         var damageTaken = base.Attacked(attacker, damage, hitPoint, damageType, attackType, comboNumber);
         if (damageTaken > 0)
@@ -566,7 +575,7 @@ public class MainPlatformerController : PlatformerCharacterController
                 HitPointThisFrame = attacker.transform.position;
             }
         }
-        else if (showDamaged)
+        else if (showPain)
         {
             AttackedThisFrame = true;
             HitPointThisFrame = hitPoint;
@@ -752,7 +761,7 @@ public class MainPlatformerController : PlatformerCharacterController
     public void Dash(float move)
     {
         var direction = DirectionOfMovement(move, Direction);
-        DoMove(DirectionValue(direction), _stingDashSpeed, true);
+        DoMove(DirectionValue(direction), _dashSpeed, true);
     }
 
     public void EndDash()
