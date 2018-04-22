@@ -26,6 +26,28 @@ namespace Assets.Standard_Assets.Common
             }
         }
 
+        public static IEnumerator MoveTo(CharacterController2D controller, Func<Vector2> targetPosition, float speed, float distanceFromPointThreshold = 0.5f, Action onComplete = null)
+        {
+            while (true)
+            {
+                var targetPos = targetPosition();
+                var direction = (targetPosition() - controller.transform.position.ToVector2()).normalized;
+                controller.move(direction * speed * Time.deltaTime);
+                yield return null;
+
+                targetPos = targetPosition();
+                var distance = Vector2.Distance(targetPosition(), controller.transform.position);
+                if (distance <= distanceFromPointThreshold)
+                {
+                    if (onComplete != null)
+                    {
+                        onComplete();
+                    }
+                    yield break;
+                }
+            }
+        }
+
         public static IEnumerator DeathMovement(
             GameObject go, 
             float horizontalDirection,

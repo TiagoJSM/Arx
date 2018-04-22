@@ -1,4 +1,4 @@
-﻿using GenericComponents.Controllers.Characters;
+﻿using Assets.Standard_Assets.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,8 +8,10 @@ using UnityEngine;
 
 namespace Assets.Standard_Assets._2D.Scripts.Characters.CommonAiBehaviour
 {
-    public abstract class FlyingCharacterAiController : BaseCharacterAiController
+    [RequireComponent(typeof(CharacterController2D))]
+    public class FlyingCharacterIddle : MonoBehaviour
     {
+        private CharacterController2D _controller;
         private Vector3 _startingPosition;
         private Vector3 _movementTarget;
 
@@ -21,6 +23,8 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.CommonAiBehaviour
         private float _distanceFromPointThreshold = 0.5f;
         [SerializeField]
         private float _maxStoppedIddleTime = 5;
+        [SerializeField]
+        private float _speed = 15.0f;
 
         public Vector2 StartingPosition
         {
@@ -30,67 +34,34 @@ namespace Assets.Standard_Assets._2D.Scripts.Characters.CommonAiBehaviour
             }
         }
 
-        protected virtual void Awake()
-        {
-            _startingPosition = this.transform.position;
-        }
-
-        protected abstract void Move(Vector2 direction);
-
-        protected void IddleMovement()
-        {
-            SetActiveCoroutine(IddleMovementCoroutine());
-        }
-
-        private IEnumerator IddleMovementCoroutine()
+        public IEnumerator IddleMovement()
         {
             while (true)
             {
                 _movementTarget = GetNewMovementPosition();
-                yield return MoveTo(() => _movementTarget);
+                yield return CoroutineHelpers.MoveTo(_controller, () => _movementTarget, _speed);
                 var stopTime = UnityEngine.Random.Range(0, _maxStoppedIddleTime);
                 yield return new WaitForSeconds(stopTime);
             }
+        }
+
+        private void Awake()
+        {
+            _startingPosition = this.transform.position;
+            _controller = GetComponent<CharacterController2D>();
         }
 
         private Vector2 GetNewMovementPosition()
         {
             var position =
                     new Vector2(
-                        UnityEngine.Random.Range(-(patrolAreaWidth/2), (patrolAreaWidth / 2)),
-                        UnityEngine.Random.Range(-(patrolAreaHeight/2), (patrolAreaHeight / 2)));
+                        UnityEngine.Random.Range(-(patrolAreaWidth / 2), (patrolAreaWidth / 2)),
+                        UnityEngine.Random.Range(-(patrolAreaHeight / 2), (patrolAreaHeight / 2)));
             position += _startingPosition.ToVector2();
             return position;
-        } 
-
-        protected Vector2 GetDirectionTo(Vector2 position)
-        {
-            var result = position - transform.position.ToVector2();
-            return result.normalized;
         }
 
-        protected IEnumerator MoveTo(Func<Vector2> targetPosition, Action onComplete = null)
-        {
-            while (true)
-            {
-                var direction = GetDirectionTo(targetPosition());
-                Move(direction);
-                yield return null;
-
-                var distance = Vector2.Distance(targetPosition(), this.transform.position);
-                if (distance <= _distanceFromPointThreshold)
-                {
-                    Move(Vector2.zero);
-                    if(onComplete != null)
-                    {
-                        onComplete();
-                    }
-                    yield break;
-                }
-            }
-        }
-
-        protected virtual void OnDrawGizmosSelected()
+        private void OnDrawGizmosSelected()
         {
             if (!Application.isPlaying)
             {

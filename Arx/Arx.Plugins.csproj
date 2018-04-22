@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>2017.1.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -176,7 +178,11 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CharacterFinder.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\AbstractPlatformerCharacterAiController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\BaseCharacterAiController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\DefensiveFlightAroundTarget.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\FlyBackToOrigin.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\FlyingCharacterAiController.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\FlyingCharacterIddle.cs" />
+    <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonAiBehaviour\RunAwayFromTarget.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonTalkingCharacter\CommonTalkingCharacterAi.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\CommonTalkingCharacter\CommonTalkingCharacterController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Characters\DemoScene.cs" />
@@ -317,6 +323,9 @@
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAiStates.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAnimationController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\WakeUpBehaviour.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Sting Bee\Scripts\StingThrow.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Sting Bee\Scripts\StingBeeAiController.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Sting Bee\Scripts\StingDashController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Stone Goblin\Scripts\RollAttackState.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Stone Goblin\Scripts\StoneGoblinAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Stone Goblin\Scripts\StoneGoblinAnimationController.cs" />
@@ -790,6 +799,7 @@
     <None Include="Assets\Universal Sound FX\%23Game Genre References\Shoot em Up.txt" />
     <None Include="Assets\Universal Sound FX\%23version_history.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

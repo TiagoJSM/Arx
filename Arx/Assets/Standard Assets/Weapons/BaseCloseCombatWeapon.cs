@@ -25,7 +25,10 @@ namespace Assets.Standard_Assets.Weapons
             for(var idx = 0; idx < targets.Count(); idx++)
             {
                 var enemy = targets.ElementAt(idx);
-                enemy.Attacked(attacker, damage, null, damageType, attackType, comboNumber);
+                if (enemy.CanBeAttacked)
+                {
+                    enemy.Attacked(attacker, damage, null, damageType, attackType, comboNumber);
+                }
             }
         }
     }
