@@ -323,9 +323,9 @@
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAiStates.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\SpiderMineAnimationController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\WakeUpBehaviour.cs" />
-    <Compile Include="Assets\Standard Assets\Characters\Enemies\Sting Bee\Scripts\StingThrow.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Sting Bee\Scripts\StingBeeAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Sting Bee\Scripts\StingDashController.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Sting Bee\Scripts\StingThrow.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Stone Goblin\Scripts\RollAttackState.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Stone Goblin\Scripts\StoneGoblinAiController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Stone Goblin\Scripts\StoneGoblinAnimationController.cs" />
@@ -411,6 +411,8 @@
     <Compile Include="Assets\Standard Assets\Environment\Enemy Secure Door\Scripts\EnemySecureDoor.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Factory\Scripts\ScrapBall.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Fire\Scripts\FireLightFlicker.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Hazards\Crusher\Scripts\CrusherController.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Hazards\Crusher\Scripts\SingleCrusher.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Enemy Activation Trigger\Scripts\EnemyActivationTrigger.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Falling Rock\Scripts\FallingRockController.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Flamethrower\Scripts\FlamethrowerController.cs" />

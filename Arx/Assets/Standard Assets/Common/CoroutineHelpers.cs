@@ -141,6 +141,21 @@ namespace Assets.Standard_Assets.Common
             }
         }
 
+        public static IEnumerator Vibrate(float vibrationDuration, float vibrationValue, float vibrationInterval, Transform obj)
+        {
+            var elapsed = 0.0f;
+            var offset = vibrationValue;
+            var spriteOriginPosition = obj.position;
+            while (elapsed < vibrationDuration)
+            {
+                obj.position = obj.position + new Vector3(0, offset);
+                offset = -offset;
+                yield return new WaitForSeconds(vibrationInterval);
+                elapsed += vibrationInterval;
+            }
+            obj.position = spriteOriginPosition;
+        }
+
         private static void SetActive(GameObject[] gos, bool active)
         {
             for(var idx = 0; idx < gos.Length; idx++)
