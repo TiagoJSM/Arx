@@ -8,15 +8,12 @@ using System.Text;
 using UnityEngine;
 using Assets.Standard_Assets.Extensions;
 using Assets.Standard_Assets.InventorySystem.InventoryObjects;
+using Assets.Standard_Assets.Scripts;
 
 namespace Assets.Standard_Assets._2D.Scripts.Managers
 {
     public class GameStateManager : Singleton<GameStateManager>
     {
-        private const string PLAYER_TAG = "Player";
-
-        //private GameState _state;
-
         [RuntimeInitializeOnLoadMethod]
         private static void OnRuntimeMethodLoad()
         {
@@ -64,7 +61,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
 
         private void StoreGameState()
         {
-            var playerGo = GameObject.FindGameObjectWithTag(PLAYER_TAG);
+            var playerGo = GameObject.FindGameObjectWithTag(Tags.PLAYER_TAG);
             if(playerGo == null)
             {
                 return;
@@ -75,7 +72,7 @@ namespace Assets.Standard_Assets._2D.Scripts.Managers
 
         private void AssignGameState()
         {
-            var playerGo = GameObject.FindGameObjectWithTag(PLAYER_TAG);
+            var playerGo = GameObject.FindGameObjectWithTag(Tags.PLAYER_TAG);
             if (playerGo == null)
             {
                 return;

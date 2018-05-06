@@ -22,6 +22,8 @@ namespace Assets.Standard_Assets.Weapons
         private int _damage;
         [SerializeField]
         private AudioSource _hitSound;
+        [SerializeField]
+        private float _delayDestroyAfterHittingEnemy = 1.0f;
 
         public LayerMask EnemyLayer
         {
@@ -104,7 +106,7 @@ namespace Assets.Standard_Assets.Weapons
                 }
             }
             
-            Destroy(this.gameObject, 1);
+            Destroy(this.gameObject, _delayDestroyAfterHittingEnemy);
         }
     }
 }

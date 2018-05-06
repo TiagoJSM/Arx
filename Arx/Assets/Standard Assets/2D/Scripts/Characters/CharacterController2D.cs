@@ -54,6 +54,7 @@ public class CharacterController2D : MonoBehaviour
     #region events, properties and fields
 
     private RaycastHit2D[] _raycastHitBuffer = new RaycastHit2D[10]; //10 should be enough
+    [SerializeField]
     private BoxCollider2D _boxCollider;
 
     public event Action<IEnumerable<RaycastHit2D>> OnFrameAllControllerCollidedEvent;
@@ -223,6 +224,7 @@ public class CharacterController2D : MonoBehaviour
         // here, we trigger our properties that have setters with bodies
         skinWidth = _skinWidth;
 
+        recalculateDistanceBetweenRays();
         // we want to set our CC2D to ignore all collision layers except what is in our triggerMask
         /*for (var i = 0; i < 32; i++)
         {
