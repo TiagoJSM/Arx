@@ -34,14 +34,14 @@ namespace Assets.Standard_Assets.Environment.Hazards.Falling_Rock.Scripts
 
         private IEnumerator FallingRoutine()
         {
-            var breakTargetPosition = _breakTarget.transform.position;
-            var fallingRockStartPosition = _fallingRock.transform.position;
+            var breakTargetTransform = _breakTarget.transform;
+            var fallingRockStartTransform = _fallingRock.transform;
             var fallingRockTransform = _fallingRock.transform;
             _rockBreaking.Play();
             var t = 0.0f;
-            while (!_fallingRock.transform.position.ToVector2().Approximately(breakTargetPosition))
+            while (!_fallingRock.transform.position.ToVector2().Approximately(breakTargetTransform.position))
             {
-                fallingRockTransform.position = MathUtilities.ExponentialInterpolation(fallingRockStartPosition, breakTargetPosition, _duration, ref t);
+                fallingRockTransform.position = MathUtilities.ExponentialInterpolation(fallingRockStartTransform.position, breakTargetTransform.position, _duration, ref t);
                 yield return null;
             }
             

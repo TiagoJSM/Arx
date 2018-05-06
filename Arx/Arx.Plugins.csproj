@@ -204,7 +204,6 @@
     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\ShooterCombatBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\SprintCombatBehaviour.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Combat\ThrowCombatBehaviour.cs" />
-    <Compile Include="Assets\Standard Assets\2D\Scripts\Constants\Tags.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\BasePlatformerController.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\CharacterSpread.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Controllers\EquipmentController.cs" />
@@ -315,6 +314,7 @@
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEye.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeAI.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Guardian Eye\Scripts\GuardianEyeRoom.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Enemies\Homing Bat\Scripts\HomingBatController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Platform Patrol\Scripts\PlatformPatrol.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Sparring Dummy\Scripts\SparringDummyController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Enemies\Spider Mine\Scripts\ExplosionCountdownOverBehaviour.cs" />
@@ -337,6 +337,9 @@
     <Compile Include="Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\MouseLook.cs" />
     <Compile Include="Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\RigidbodyFirstPersonController.cs" />
     <Compile Include="Assets\Standard Assets\Characters\Friendly\Quest Giver\Scripts\QuestMarkerNotification.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Mine Cart\Scripts\CartCannon.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Mine Cart\Scripts\CartCharacter.cs" />
+    <Compile Include="Assets\Standard Assets\Characters\Mine Cart\Scripts\CartMovement.cs" />
     <Compile Include="Assets\Standard Assets\Characters\RollerBall\Scripts\Ball.cs" />
     <Compile Include="Assets\Standard Assets\Characters\RollerBall\Scripts\BallUserControl.cs" />
     <Compile Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\AICharacterControl.cs" />
@@ -368,6 +371,7 @@
     <Compile Include="Assets\Standard Assets\Dialogs\LocalizationConfig.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\LocalizedTexts.cs" />
     <Compile Include="Assets\Standard Assets\Dialogs\LocalizedUiText.cs" />
+    <Compile Include="Assets\Standard Assets\Effects\DamageFlash\Scripts\DefaultColorFlash.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Antialiasing.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Bloom.cs" />
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\BloomAndFlares.cs" />
@@ -411,6 +415,7 @@
     <Compile Include="Assets\Standard Assets\Environment\Enemy Secure Door\Scripts\EnemySecureDoor.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Factory\Scripts\ScrapBall.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Fire\Scripts\FireLightFlicker.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Hazards\Blocking Wood\Scripts\BlockingWood.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Crusher\Scripts\CrusherController.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Crusher\Scripts\SingleCrusher.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Hazards\Enemy Activation Trigger\Scripts\EnemyActivationTrigger.cs" />
@@ -439,6 +444,7 @@
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Raising Pillar\Scripts\RaisingPillar.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Timed Collapsing\Scripts\CollapsingPlatformController.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Platforms\Timed Rotating\Scripts\TimedRotatingPlatform.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Railway\Scripts\RailThreadmill.cs" />
     <Compile Include="Assets\Standard Assets\Environment\SaveBoard\Scripts\SaveGameOnInteract.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Teleports\Teleport On Use\Scripts\TeleportOnUseNotification.cs" />
     <Compile Include="Assets\Standard Assets\Environment\Treadmill\Scripts\Treadmill.cs" />
@@ -521,6 +527,9 @@
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\ITask.cs" />
     <Compile Include="Assets\Standard Assets\QuestSystem\Tasks\SettableTask.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\ICharacter.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\RemoveOnBecameInvisible.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\RendererEffects\TextureOffsetOverTime.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\SetGameObjectActive.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\StateMachine\IState.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\StateMachine\IStateFactory.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\StateMachine\StateContainer.cs" />
@@ -528,6 +537,7 @@
     <Compile Include="Assets\Standard Assets\Scripts\StateMachine\StateTransition.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\StateMachine\TransitionConfiguration.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\StateMachine\WhenTransitionToConfig.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\Tags.cs" />
     <Compile Include="Assets\Standard Assets\Sound\Scripts\DynamicAudioPlayer.cs" />
     <Compile Include="Assets\Standard Assets\Sound\Scripts\PlayRandomAudio.cs" />
     <Compile Include="Assets\Standard Assets\Terrain\Builder\ClosedTerrainBuilder.cs" />
@@ -692,6 +702,7 @@
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\Decorators\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Effects\DamageFlash\Shaders\DefaultColorFlash.shader" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
@@ -801,7 +812,6 @@
     <None Include="Assets\Universal Sound FX\%23Game Genre References\Shoot em Up.txt" />
     <None Include="Assets\Universal Sound FX\%23version_history.txt" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

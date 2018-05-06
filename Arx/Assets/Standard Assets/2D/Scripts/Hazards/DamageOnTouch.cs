@@ -48,15 +48,16 @@ namespace Assets.Standard_Assets._2D.Scripts.Hazards
                 return;
             }
 
-            var controller = col.GetComponent<MainPlatformerController>();
+            var controller = col.GetComponent<ICharacter>();
             if (controller == null)
             {
                 return;
             }
 
-            if (_safeSpot != null)
+            if (_safeSpot != null && controller is MainPlatformerController)
             {
-                controller.Hit(gameObject, _safeSpot.position, _damage, DamageType.Environment);
+                var mainPlaformer = controller as MainPlatformerController;
+                mainPlaformer.Hit(gameObject, _safeSpot.position, _damage, DamageType.Environment);
             }
             else
             {

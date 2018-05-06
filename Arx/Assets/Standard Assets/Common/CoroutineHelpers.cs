@@ -11,16 +11,21 @@ namespace Assets.Standard_Assets.Common
     {
         public static IEnumerator MoveTo(Vector3 start, Vector3 end, float time, Transform obj, Action onEnd = null)
         {
+            return MoveTo(start, () => end, time, obj, onEnd);
+        }
+
+        public static IEnumerator MoveTo(Vector3 start, Func<Vector2> end, float time, Transform obj, Action onEnd = null)
+        {
             var elapsed = 0.0f;
 
             while (time > elapsed)
             {
-                obj.position = Vector3.Lerp(start, end, elapsed / time);
+                obj.position = Vector3.Lerp(start, end(), elapsed / time);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-            obj.position = end;
-            if(onEnd != null)
+            obj.position = end();
+            if (onEnd != null)
             {
                 onEnd();
             }

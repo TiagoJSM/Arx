@@ -39,7 +39,7 @@ namespace Assets.Standard_Assets._2D.Cameras.Scripts
             if (!isRunning) StartCoroutine(Shake());//Only call the coroutine if it isn't currently running. Otherwise, just set the variables.
         }
 
-        public void ShakeCamera(float amount, float duration)
+        public void ShakeCamera(float amount, float duration, Action onEnd = null)
         {
 
             shakeAmount += amount;//Add to the current amount.
@@ -47,11 +47,11 @@ namespace Assets.Standard_Assets._2D.Cameras.Scripts
             shakeDuration += duration;//Add to the current time.
             startDuration = shakeDuration;//Reset the start time.
 
-            if (!isRunning) StartCoroutine(Shake());//Only call the coroutine if it isn't currently running. Otherwise, just set the variables.
+            if (!isRunning) StartCoroutine(Shake(onEnd));//Only call the coroutine if it isn't currently running. Otherwise, just set the variables.
         }
 
 
-        private IEnumerator Shake()
+        private IEnumerator Shake(Action onEnd = null)
         {
             isRunning = true;
 
@@ -82,6 +82,7 @@ namespace Assets.Standard_Assets._2D.Cameras.Scripts
             }
             //transform.localRotation = Quaternion.identity;//Set the local rotation to 0 when done, just to get rid of any fudging stuff.
             isRunning = false;
+            onEnd();
         }
 
     }
